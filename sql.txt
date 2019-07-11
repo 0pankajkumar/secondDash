@@ -1,0 +1,9 @@
+
+Last fetch
+
+select distinct(`Stage - New applicant`), `Application ID`
+from antDB 
+where `Posting Department` = "Flock" and
+`Posting Title` = "Backend Engineer" and
+`Posting Team` = "Product Management" and
+`Posting Archive Status` = "True";

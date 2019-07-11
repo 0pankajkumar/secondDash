@@ -51,6 +51,7 @@ def getTable():
 	else:
 		postingArchiveStatus = request.form.get('postingTeam')
 
+	# Getting all related Posting IDs for respective posting title
 	pipeline = [
 	    {
 	        u"$match": {
@@ -91,13 +92,12 @@ def getTable():
 	uniquePostingIDs = []
 	try:
 	    for doc in cursor:
-	    	# print(doc['Posting ID'])
 	    	uniquePostingIDs.append(doc['Posting ID'])
 	finally:
 	    client.close()
 
 
-	#Getting related Origins
+	# Getting related Origins
 	pipeline = [
 	    {
 	        u"$match": {
@@ -138,7 +138,6 @@ def getTable():
 	relatedOrigins = []
 	try:
 	    for doc in cursor:
-	    	#print(doc)
 	    	relatedOrigins.append(doc['Origin'])
 	finally:
 	    client.close()
@@ -234,7 +233,8 @@ def countingMachine(results, postingDepartment, postingTeam, postingTitle, posti
 	# print(countingVariable)
 	# print(stage)
 	# print("\n")
-	#Counting values
+	
+	# Counting values
 	pipeline = [
 	    {
 	        u"$match": {
