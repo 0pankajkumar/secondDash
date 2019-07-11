@@ -1,0 +1,116 @@
+{% extends "cover.html" %}
+
+
+{% block main %}
+
+<h1 style="text-align: center">The Dashboard
+  <small>Beta</small>
+</h1>
+
+
+
+<form style="text-align: center" id="bigForm">
+
+
+  <label for="companyName">Company:</label>
+  <select name="companyName">
+    <option value="All" selected>All</option>
+    {% for p in postingDepartment %}
+    <option value="{{ p['Posting Department'] }}">{{ p['Posting Department'] }}</option>
+    {% endfor %}
+  </select>
+
+
+
+  <label for="postingTeam">Team:</label>
+  <select name="postingTeam">
+    <option value="All" selected>All</option>
+    {% for p in postingTeam %}
+    <option value="{{ p['Posting Team'] }}">{{ p['Posting Team'] }}</option>
+    {% endfor %}
+  </select>
+
+
+
+  <label for="postingTitle">Title:</label>
+  <select name="postingTitle">
+    <option value="All" selected>All</option>
+    {% for p in postingTitle %}
+    <option value="{{ p['Posting Title'] }}">{{ p['Posting Title'] }}</option>
+    {% endfor %}
+  </select>
+
+
+
+  <label for="  ">Posting Archived :</label>
+  <select name="postingArchiveStatus">
+    <option value="Both" selected>Both</option>
+    {% for p in postingArchiveStatus %}
+    {% if p['Posting Archive Status'] == 'false' %}
+    <option value="{{ p['Posting Archive Status'] }}">No</option>
+    {% elif p['Posting Archive Status'] == 'true' %}
+    <option value="{{ p['Posting Archive Status'] }}">Yes</option>
+    {% else %}
+    <option value="{{ p['Posting Archive Status'] }}">{{ p['Posting Archive Status'] }}</option>
+    {% endif %}
+    {% endfor %}
+  </select>
+
+  &nbsp &nbsp
+  <button id="send" class="btn btn-primary">Go</button>
+</form>
+
+
+
+<div id="example-table" style="margin: 20px"></div>
+
+<script type="text/javascript">
+
+  $('#send').on('click', function (e) {
+    e.preventDefault();
+    var x = getFormData($('#bigForm'));
+
+    var table = new Tabulator("#example-table", {
+      ajaxURL: "http://localhost:5000/getTable", //ajax URL
+      ajaxParams: { "companyName": x['companyName'], "postingTeam": x['postingTeam'], "postingTitle": x['postingTitle'], "postingArchiveStatus": x['postingArchiveStatus'] }, //ajax parameters
+      ajaxConfig: "POST", //ajax HTTP request type
+      // type:"GET", //set request type to Position
+      contentType: 'application/json; charset=utf-8',
+      height: "auto",
+      layout: "fitColumns",
+      placeholder: "No Data",
+      index: "id",
+      dataTree: true,
+      dataTreeStartExpanded: true,
+      columns: [
+        { title: "Posting ID", field: "Posting ID", width: 200, responsive: 0 }, //never hide this column
+        { title: "Origin", field: "origin", width: 150 },
+        { title: "New Lead", field: "newLeadCount", width: 150 }, //hide this column first
+        { title: "Reached Out", field: "reachedOutCount", width: 150 },
+        { title: "New applicant", field: "newApplicantCount", align: "center", width: 150 },
+        { title: "Recruiter Screen", field: "recruiterScreenCount", align: "center", width: 150 },
+        { title: "Phone Interview", field: "phoneInterviewCount", align: "center", width: 150 },
+        { title: "On-site", field: "onsiteInterviewCount", align: "center", width: 150 },
+        { title: "Offer", field: "offerCount", align: "center", width: 150 },
+      ],
+
+
+    });
+
+
+    function getFormData($form) {
+      var unindexed_array = $form.serializeArray();
+      var indexed_array = {};
+
+      $.map(unindexed_array, function (n, i) {
+        indexed_array[n['name']] = n['value'];
+      });
+
+      return indexed_array;
+    }
+  });
+
+</script>
+
+
+{% endblock %}
