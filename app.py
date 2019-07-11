@@ -139,12 +139,49 @@ def getTable():
 	try:
 	    for doc in cursor:
 	    	#print(doc)
-	    	relatedOrigins.append(doc)
+	    	relatedOrigins.append(doc['Origin'])
 	finally:
 	    client.close()
 
 	results = []
+	# results.append(uniquePostingIDs)
+	# results.append(relatedOrigins)
+	# print(results)
 
+	# temp = dict()
+	# temp['Posting ID'] = "ed7a6b28-f5f1-48d0-89bc-61d55bdb76fa"
+	# temp['_children'] = dict()
+	# results.append(temp)
+	# countingMachine(results, None, None, postingTitle, None, "ed7a6b28-f5f1-48d0-89bc-61d55bdb76fa", "agency", "newApplicantCount", "Stage - New applicant")
+	# countingMachine(results, None, None, "Product Manager", None, "1dac0efc-31ed-4948-94c9-751ea09778b9", "applied", "newApplicantCount2", "Stage - New applicant")
+	# print(results)
+
+	i = 0
+
+	for pos in uniquePostingIDs:
+		temp = dict()
+		temp['Posting ID'] = pos
+		temp['_children'] = []
+		results.append(temp)
+		for ori in relatedOrigins:
+			temp = dict()
+			temp['origin'] = ori
+			results[i]['_children'].append(temp)
+			pos = pos
+			countingMachine(results, postingDepartment, postingTeam, postingTitle, None, str(pos), ori, "newApplicantCount", "Stage - New applicant")
+			countingMachine(results, postingDepartment, postingTeam, postingTitle, None, str(pos), ori, "recruiterScreenCount", "Stage - Recruiter screen")
+			countingMachine(results, postingDepartment, postingTeam, postingTitle, None, str(pos), ori, "phoneInterviewCount", "Stage - Phone interview")
+			countingMachine(results, postingDepartment, postingTeam, postingTitle, None, str(pos), ori, "onsiteInterviewCount", "Stage - On-site interview")
+			countingMachine(results, postingDepartment, postingTeam, postingTitle, None, str(pos), ori, "offerCount", "Stage - Offer")
+			countingMachine(results, postingDepartment, postingTeam, postingTitle, None, str(pos), ori, "newLeadCount", "Stage - New lead")
+			countingMachine(results, postingDepartment, postingTeam, postingTitle, None, str(pos), ori, "reachedOutCount", "Stage - Reached out")
+			# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "ProfileReviewCount", "Stage - Profile Review")
+			# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "RecruiterScreenCount", "Stage - Recruiter screen")
+			# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "CaseStudyCount", "Stage - Case study")
+			# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "PhoneInterviewCount", "Stage - Phone interview")
+			# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "OnsiteInterviewCount", "Stage - On-site interview")
+			# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "OfferCount", "Stage - Offer")
+		i += 1
 
 
 	# print(f'postingDepartment : {postingDepartment}')
@@ -152,19 +189,19 @@ def getTable():
 	# print(f'postingTitle : {postingTitle}')
 	# print(f'postingArchiveStatus : {postingArchiveStatus}')
 
-	for pos in uniquePostingIDs:
-		temp = dict()
-		temp['Posting ID'] = pos
-		temp['_children'] = dict()
-		results.append(temp)
+	# for pos in uniquePostingIDs:
+	# 	temp = dict()
+	# 	temp['Posting ID'] = pos
+	# 	temp['_children'] = dict()
+	# 	results.append(temp)
 
-		for ori in relatedOrigins:
-			# print(f'{type(ori["Origin"])} : {ori["Origin"]}')
-			# print(f'{type(pos)} : {pos}')
-			#fetching all counts
-			print(f'{postingDepartment}\n {postingTeam}\n {postingTitle}\n {postingArchiveStatus}\n {pos}\n {ori["Origin"]}\n "NewApplicantCount"\n "Stage - New applicant"')
-			print("\n")
-			# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "NewApplicantCount", "Stage - New applicant")
+	# 	for ori in relatedOrigins:
+	# 		# print(f'{type(ori["Origin"])} : {ori["Origin"]}')
+	# 		# print(f'{type(pos)} : {pos}')
+	# 		#fetching all counts
+	# 		print(f'{postingDepartment}\n {postingTeam}\n {postingTitle}\n {postingArchiveStatus}\n {pos}\n {ori["Origin"]}\n "NewApplicantCount"\n "Stage - New applicant"')
+	# 		print("\n")
+	# 		# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "NewApplicantCount", "Stage - New applicant")
 			# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "ProfileReviewCount", "Stage - Profile Review")
 			# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "RecruiterScreenCount", "Stage - Recruiter screen")
 			# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "CaseStudyCount", "Stage - Case study")
@@ -173,7 +210,7 @@ def getTable():
 			# countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, pos, ori["Origin"], "OfferCount", "Stage - Offer")
 
 			# countingMachine(results, None, None, "Head- IT Infrastructure", None, "70ed7df5-faa0-4754-bcb3-a28cb0510b90", "applied", "recruiterScreenCount", "Stage - Phone interview")
-			countingMachine(results, None, None, "Strategic Partner Manager", None, "4cd7ba07-9cc4-49a9-b4bc-288a936cfb70", "applied", "recruiterScreenCount", "Stage - Recruiter screen")
+			# countingMachine(results, None, None, "Strategic Partner Manager", None, "4cd7ba07-9cc4-49a9-b4bc-288a936cfb70", "applied", "recruiterScreenCount", "Stage - Recruiter screen")
 
 
 	return jsonify(results)
@@ -206,12 +243,16 @@ def countingMachine(results, postingDepartment, postingTeam, postingTitle, posti
 	            u"Posting Title": postingTitle,
 	            u"Posting Archive Status": postingArchiveStatus,
 	            u"Posting ID": postingID,
-	            u"Origin": origin
+	            u"Origin": origin,
+	            stage: {
+                u"$ne": None
+            }
 	        }
 	    }, 
 	    {
 	        u"$project": {
 	            stage: f"${stage}",
+	            u"Application ID": u"$Application ID",
 	            u"_id": 0
 	        }
 	    }, 
@@ -244,19 +285,26 @@ def countingMachine(results, postingDepartment, postingTeam, postingTitle, posti
 	try:
 	    for doc in cursor:
 	    	count += 1
-	    	#print(doc)
-	    #print(count)
 	finally:
 	    client.close()
-	#print(count)
 	if(len(results) == 0):
 		results[0]['_children']['origin'] = origin
 		results[0]['_children'][countingVariable] = count
 	else:
 		for p in range(len(results)):
-			results[p]['_children']['origin'] = origin
-			results[p]['_children'][countingVariable] = count
-	#print(results)
+			if results[p]['Posting ID'] == postingID:
+				# notFound is a flag
+				notFound = True
+				for q in range(len(results[p]['_children'])):
+					if results[p]['_children'][q]['origin'] == origin:
+						# if count > 0:
+						# 	count -= 1
+						results[p]['_children'][q][countingVariable] = count
+					# 	notFound = False
+	# 			if notFound == True:
+	# 				results[p]['_children']['origin'] = origin
+	# 				results[p]['_children'][countingVariable] = count
+	# print(f"results[0]['_children'] : {len(results[0]['_children'])}")
 
 
 
