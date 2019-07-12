@@ -24,6 +24,7 @@ def test1():
 
 @app.route('/getTable', methods=['POST'])
 def getTable():
+	# collection.createIndex('Posting Department')
     postingTitle = request.form.get('postingTitle')
     companyName = request.form.get('companyName')
     postingTeam = request.form.get('postingTeam')
@@ -44,6 +45,10 @@ def getResults(title, companyName, team, archiveStatus):
             continue
         if item['Posting Department'] != companyName and companyName != 'All':
             continue
+        if item['Posting Team'] != team and team != 'All':
+            continue
+        if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All':
+            continue
 
         postId = item['Posting ID']
         origin = item['Origin']
@@ -52,12 +57,27 @@ def getResults(title, companyName, team, archiveStatus):
         if not origin in counts[postId]:
             counts[postId][origin] = dict()
             counts[postId][origin]['new_lead'] = 0
+            counts[postId][origin]['reached_out'] = 0
+            counts[postId][origin]['new_applicant'] = 0
             counts[postId][origin]['recruiter_screen'] = 0
+            counts[postId][origin]['phone_interview'] = 0
+            counts[postId][origin]['onsite_interview'] = 0
+            counts[postId][origin]['offer'] = 0
         originCounts = counts[postId][origin]
         if 'Stage - New lead' in item and item['Stage - New lead'] != None:
             originCounts['new_lead'] += 1
+        elif 'Stage - Reached out' in item and item['Stage - Reached out'] != None:
+            originCounts['reached_out'] += 1
+        elif 'Stage - New applicant' in item and item['Stage - New applicant'] != None:
+            originCounts['new_applicant'] += 1
         elif 'Stage - Recruiter screen' in item and item['Stage - Recruiter screen'] != None:
             originCounts['recruiter_screen'] += 1
+        elif 'Stage - Phone interview' in item and item['Stage - Phone interview'] != None:
+            originCounts['phone_interview'] += 1
+        elif 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
+            originCounts['onsite_interview'] += 1
+        elif 'Stage - Offer' in item and item['Stage - Offer'] != None:
+            originCounts['offer'] += 1
 
     for postId in counts:
         res.append(actualPostId(postId, counts[postId]))
@@ -88,13 +108,13 @@ def actualPostId(postId, postIdCounts):
 def actualResultForOrigin(origin, originCounts):
     return {
         'origin': origin,
-        # 'newApplicantCount': smallRandomNumber(),
+        'newApplicantCount': originCounts['new_applicant'],
         "newLeadCount": originCounts['new_lead'],
         "recruiterScreenCount": originCounts['recruiter_screen'],
-        # "phoneInterviewCount": smallRandomNumber(),
-        # "onsiteInterviewCount": smallRandomNumber(),
-        # "offerCount": smallRandomNumber(),
-        # "reachedOutCount": smallRandomNumber()
+        "phoneInterviewCount": originCounts['phone_interview'],
+        "onsiteInterviewCount": originCounts['onsite_interview'],
+        "offerCount": originCounts['offer'],
+        "reachedOutCount": originCounts['reached_out']
     }
 
 
