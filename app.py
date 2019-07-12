@@ -39,9 +39,9 @@ def getResults():
             counts[postId][origin]['new_lead'] = 0
             counts[postId][origin]['recruiter_screen'] = 0
         originCounts = counts[postId][origin]
-        if item['stage'] == 'new_lead':
+        if 'Stage - New Lead' in item and  item['Stage - New Lead'] != None:
             originCounts['new_lead'] += 1
-        elif item['stage'] == 'recruiter_screen':
+        elif 'Stage - Recruiter Screen' in item and item['Stage - Recruiter Screen'] != None:
             originCounts['recruiter_screen'] += 1
 
     for postId in counts:
@@ -51,8 +51,8 @@ def getResults():
 
 def getFromDB():
     # collection.drop()
-    # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'stage' : 'new_lead'})
-    # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'stage' : 'recruiter_screen'})
+    # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - New Lead' : '2019-01-01'})
+    # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
     return collection.find()
 
 def actualPostId(postId, postIdCounts):
