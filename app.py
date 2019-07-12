@@ -83,11 +83,17 @@ def smallRandomNumber():
 
 @app.route('/', methods=['GET'])
 def uidropdowns():
-    postingDepartment = []
-    postingTeam = []
-    postingTitle = []
-    postingArchiveStatus = []
+    postingDepartment = set()
+    postingTeam = set()
+    postingTitle = set()
+    postingArchiveStatus = set()
 
+    rows = collection.find()
+    for row in rows:
+        postingDepartment.add(row['Posting Department'])
+        postingDepartment.add(row['Posting Team'])
+        postingDepartment.add(row['Posting Title'])
+        postingDepartment.add(row['Posting Archive Status'])
     box = []
     box.append(postingDepartment)
     box.append(postingTeam)
