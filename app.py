@@ -108,12 +108,6 @@ def uidropdowns():
         postingDepartment.add(row['Posting Team'])
         postingDepartment.add(row['Posting Title'])
         postingDepartment.add(row['Posting Archive Status'])
-    box = []
-    box.append(postingDepartment)
-    box.append(postingTeam)
-    box.append(postingTitle)
-    box.append(postingArchiveStatus)
-
     return render_template('index.html', postingDepartment=postingDepartment, postingTeam=postingTeam,
                            postingTitle=postingTitle, postingArchiveStatus=postingArchiveStatus)
 

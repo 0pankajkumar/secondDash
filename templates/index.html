@@ -16,7 +16,7 @@
   <select name="companyName">
     <option value="All" selected>All</option>
     {% for p in postingDepartment %}
-    <option value="{{ p['Posting Department'] }}">{{ p['Posting Department'] }}</option>
+    <option value="{{ p }}">{{ p }}</option>
     {% endfor %}
   </select>
 
@@ -26,7 +26,7 @@
   <select name="postingTeam">
     <option value="All" selected>All</option>
     {% for p in postingTeam %}
-    <option value="{{ p['Posting Team'] }}">{{ p['Posting Team'] }}</option>
+    <option value="{{ p }}">{{ p }}</option>
     {% endfor %}
   </select>
 
@@ -36,7 +36,7 @@
   <select name="postingTitle">
     <option value="All" selected>All</option>
     {% for p in postingTitle %}
-    <option value="{{ p['Posting Title'] }}">{{ p['Posting Title'] }}</option>
+    <option value="{{ p }}">{{ p }}</option>
     {% endfor %}
   </select>
 
@@ -46,12 +46,12 @@
   <select name="postingArchiveStatus">
     <option value="Both" selected>Both</option>
     {% for p in postingArchiveStatus %}
-    {% if p['Posting Archive Status'] == 'false' %}
-    <option value="{{ p['Posting Archive Status'] }}">No</option>
-    {% elif p['Posting Archive Status'] == 'true' %}
-    <option value="{{ p['Posting Archive Status'] }}">Yes</option>
+    {% if p == 'false' %}
+    <option value="{{ p }}">No</option>
+    {% elif p == 'true' %}
+    <option value="{{ p }}">Yes</option>
     {% else %}
-    <option value="{{ p['Posting Archive Status'] }}">{{ p['Posting Archive Status'] }}</option>
+    <option value="{{ p }}">{{ p }}</option>
     {% endif %}
     {% endfor %}
   </select>
