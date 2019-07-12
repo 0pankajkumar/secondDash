@@ -4,7 +4,7 @@ from pymongo import MongoClient, CursorType
 import json
 from bson import json_util, ObjectId
 from bson.int64 import Int64
-import datetime
+import time
 from random import randint
 
 app = flask.Flask(__name__, static_url_path='',
@@ -32,9 +32,9 @@ def getTable():
     return jsonify(results)
 
 def getResults(title, companyName, team, archiveStatus):
-    ts = datetime.time.time()
+    ts = time.time()
     rows = getFromDB()
-    print (datetime.time.time() - ts)
+    print (time.time() - ts)
     res = []
     counts = dict()
     for item in rows:
