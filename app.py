@@ -22,14 +22,25 @@ def test1():
 
 @app.route('/getTable', methods=['POST'])
 def getTable():
-    results = getResults()
+
+    postingTitle = request.form.get('postingTitle')
+    postingDepartment = request.form.get('companyName')
+    postingTeam = request.form.get('postingTeam')
+    postingArchiveStatus = request.form.get('postingTeam')
+
+    results = getResults(postingTitle, postingDepartment, postingTeam, postingArchiveStatus)
     return jsonify(results)
 
-def getResults():
+def getResults(title, dept, team, archiveStatus):
     rows = getFromDB()
     res = []
     counts = dict()
     for item in rows:
+        if item['Posting Title'] != title and title != 'All':
+            continue
+        if item['Posting Department'] != dept and dept != 'All':
+            continue
+
         postId = item['Posting ID']
         origin = item['Origin']
         if not postId in counts:
