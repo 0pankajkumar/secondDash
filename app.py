@@ -16,13 +16,14 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 collection = database["antDB"]
 
+
 @app.route('/test1', methods=['GET'])
 def test1():
     return render_template('test1.html')
 
+
 @app.route('/getTable', methods=['POST'])
 def getTable():
-
     postingTitle = request.form.get('postingTitle')
     companyName = request.form.get('companyName')
     postingTeam = request.form.get('postingTeam')
@@ -31,10 +32,11 @@ def getTable():
     results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus)
     return jsonify(results)
 
+
 def getResults(title, companyName, team, archiveStatus):
     ts = time.time()
-    rows = getFromDB()
-    print ('db: ' + str(time.time() - ts))
+    rows = getFromDB(companyName)
+    print('db: ' + str(time.time() - ts))
     res = []
     counts = dict()
     for item in rows:
@@ -52,22 +54,26 @@ def getResults(title, companyName, team, archiveStatus):
             counts[postId][origin]['new_lead'] = 0
             counts[postId][origin]['recruiter_screen'] = 0
         originCounts = counts[postId][origin]
-        if 'Stage - New lead' in item and  item['Stage - New lead'] != None:
+        if 'Stage - New lead' in item and item['Stage - New lead'] != None:
             originCounts['new_lead'] += 1
         elif 'Stage - Recruiter screen' in item and item['Stage - Recruiter screen'] != None:
             originCounts['recruiter_screen'] += 1
 
     for postId in counts:
         res.append(actualPostId(postId, counts[postId]))
-    print ('total: ' + str(time.time() - ts))
+    print('total: ' + str(time.time() - ts))
     return res
 
 
-def getFromDB():
+def getFromDB(companyName):
     # collection.drop()
     # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - New Lead' : '2019-01-01'})
     # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
-    return list(collection.find(cursor_type=CursorType.EXHAUST))
+    query = dict()
+    if companyName != 'All':
+        query['Posting Department'] = companyName
+    return list(collection.find(query, cursor_type=CursorType.EXHAUST))
+
 
 def actualPostId(postId, postIdCounts):
     children = []
@@ -77,6 +83,7 @@ def actualPostId(postId, postIdCounts):
         'Posting ID': postId,
         '_children': children
     }
+
 
 def actualResultForOrigin(origin, originCounts):
     return {
