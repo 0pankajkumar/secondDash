@@ -26,10 +26,18 @@ def getTable():
     return jsonify(results)
 
 def getResults():
+    rows = getFromDB()
     res = []
-    for i in range(1, 10):
-        res.append(fakePostId('post-id' + str(i), randint(1,3)))
+    for item in rows:
+        print (item)
+        res.append(fakePostId(str(item['posting_id']), randint(1,3)))
     return res
+
+
+def getFromDB():
+    # collection.drop()
+    collection.insert_one({'posting_id' : randint(1,10)})
+    return collection.find()
 
 def fakePostId(postId, numChildren):
     children = []
