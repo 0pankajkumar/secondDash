@@ -32,7 +32,9 @@ def getTable():
     return jsonify(results)
 
 def getResults(title, companyName, team, archiveStatus):
+    ts = datetime.time.time()
     rows = getFromDB()
+    print (datetime.time.time() - ts)
     res = []
     counts = dict()
     for item in rows:
