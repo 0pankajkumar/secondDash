@@ -36,7 +36,7 @@ def getTable():
 
 def getResults(title, companyName, team, archiveStatus):
     ts = time.time()
-    rows = getFromDB(companyName)
+    rows = getFromDB(companyName) # title, companyName, team, archiveStatus
     print('db: ' + str(time.time() - ts))
     res = []
     counts = dict()
@@ -85,13 +85,16 @@ def getResults(title, companyName, team, archiveStatus):
     return res
 
 
-def getFromDB(companyName):
+def getFromDB(companyName): # title, companyName, team, archiveStatus):
     # collection.drop()
     # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - New Lead' : '2019-01-01'})
     # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
     query = dict()
     if companyName != 'All':
         query['Posting Department'] = companyName
+        # query['Posting Title'] = title
+        # query['Posting Team'] = team
+        # query['Posting Archive Status'] = archiveStatus
     return list(collection.find(query, cursor_type=CursorType.EXHAUST))
 
 
