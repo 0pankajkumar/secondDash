@@ -167,6 +167,19 @@ def getTable():
 
 	return jsonify(results)
 
+def getFromDB(companyName): # title, companyName, team, archiveStatus):
+    # collection.drop()
+    # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - New Lead' : '2019-01-01'})
+    # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
+    query = dict()
+    if companyName != 'All':
+        query['Posting Department'] = companyName
+        # query['Posting Title'] = title
+        # query['Posting Team'] = team
+        # query['Posting Archive Status'] = archiveStatus
+    return list(collection.find(query, cursor_type=CursorType.EXHAUST))
+
+
 def countingMachine(results, postingDepartment, postingTeam, postingTitle, postingArchiveStatus, postingID, origin, countingVariable, stage):
 	if postingDepartment is None:
 		postingDepartment = {'$regex':'.'}
