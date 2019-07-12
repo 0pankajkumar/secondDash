@@ -105,9 +105,9 @@ def uidropdowns():
     rows = collection.find(cursor_type=CursorType.EXHAUST)
     for row in rows:
         postingDepartment.add(row['Posting Department'])
-        postingDepartment.add(row['Posting Team'])
-        postingDepartment.add(row['Posting Title'])
-        postingDepartment.add(row['Posting Archive Status'])
+        postingTeam.add(row['Posting Team'])
+        postingTitle.add(row['Posting Title'])
+        postingArchiveStatus.add(row['Posting Archive Status'])
     return render_template('index.html', postingDepartment=postingDepartment, postingTeam=postingTeam,
                            postingTitle=postingTitle, postingArchiveStatus=postingArchiveStatus)
 
