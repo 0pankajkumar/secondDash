@@ -30,8 +30,8 @@ def getResults():
     res = []
     counts = dict()
     for item in rows:
-        postId = item['posting_id']
-        origin = item['origin']
+        postId = item['Posting ID']
+        origin = item['Origin']
         if not postId in counts:
             counts[postId] = dict()
         if not origin in counts[postId]:
@@ -39,9 +39,9 @@ def getResults():
             counts[postId][origin]['new_lead'] = 0
             counts[postId][origin]['recruiter_screen'] = 0
         originCounts = counts[postId][origin]
-        if 'Stage - New Lead' in item and  item['Stage - New Lead'] != None:
+        if 'Stage - New lead' in item and  item['Stage - New lead'] != None:
             originCounts['new_lead'] += 1
-        elif 'Stage - Recruiter Screen' in item and item['Stage - Recruiter Screen'] != None:
+        elif 'Stage - Recruiter screen' in item and item['Stage - Recruiter screen'] != None:
             originCounts['recruiter_screen'] += 1
 
     for postId in counts:
