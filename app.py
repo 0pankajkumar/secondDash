@@ -1,6 +1,6 @@
 import flask
 from flask import request, jsonify, render_template, url_for
-from pymongo import MongoClient
+from pymongo import MongoClient, CursorType
 import json
 from bson import json_util, ObjectId
 from bson.int64 import Int64
@@ -24,21 +24,21 @@ def test1():
 def getTable():
 
     postingTitle = request.form.get('postingTitle')
-    postingDepartment = request.form.get('companyName')
+    companyName = request.form.get('companyName')
     postingTeam = request.form.get('postingTeam')
     postingArchiveStatus = request.form.get('postingTeam')
 
-    results = getResults(postingTitle, postingDepartment, postingTeam, postingArchiveStatus)
+    results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus)
     return jsonify(results)
 
-def getResults(title, dept, team, archiveStatus):
+def getResults(title, companyName, team, archiveStatus):
     rows = getFromDB()
     res = []
     counts = dict()
     for item in rows:
         if item['Posting Title'] != title and title != 'All':
             continue
-        if item['Posting Department'] != dept and dept != 'All':
+        if item['Posting Department'] != companyName and companyName != 'All':
             continue
 
         postId = item['Posting ID']
@@ -64,7 +64,7 @@ def getFromDB():
     # collection.drop()
     # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - New Lead' : '2019-01-01'})
     # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
-    return collection.find()
+    return collection.find(cursor_type=CursorType.EXHAUST)
 
 def actualPostId(postId, postIdCounts):
     children = []
@@ -99,7 +99,7 @@ def uidropdowns():
     postingTitle = set()
     postingArchiveStatus = set()
 
-    rows = collection.find()
+    rows = collection.find(cursor_type=CursorType.EXHAUST)
     for row in rows:
         postingDepartment.add(row['Posting Department'])
         postingDepartment.add(row['Posting Team'])
