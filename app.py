@@ -34,7 +34,7 @@ def getTable():
 def getResults(title, companyName, team, archiveStatus):
     ts = time.time()
     rows = getFromDB()
-    print (time.time() - ts)
+    print ('db: ' + str(time.time() - ts))
     res = []
     counts = dict()
     for item in rows:
@@ -59,6 +59,7 @@ def getResults(title, companyName, team, archiveStatus):
 
     for postId in counts:
         res.append(actualPostId(postId, counts[postId]))
+    print ('total: ' + str(time.time() - ts))
     return res
 
 
