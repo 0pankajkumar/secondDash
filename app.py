@@ -28,36 +28,52 @@ def getTable():
 def getResults():
     rows = getFromDB()
     res = []
+    counts = dict()
     for item in rows:
-        print (item)
-        res.append(fakePostId(str(item['posting_id']), randint(1,3)))
+        postId = item['posting_id']
+        origin = item['origin']
+        if not postId in counts:
+            counts[postId] = dict()
+        if not origin in counts[postId]:
+            counts[postId][origin] = dict()
+            counts[postId][origin]['new_lead'] = 0
+            counts[postId][origin]['recruiter_screen'] = 0
+        originCounts = counts[postId][origin]
+        if item['stage'] == 'new_lead':
+            originCounts['new_lead'] += 1
+        elif item['stage'] == 'recruiter_screen':
+            originCounts['recruiter_screen'] += 1
+
+    for postId in counts:
+        res.append(actualPostId(postId, counts[postId]))
     return res
 
 
 def getFromDB():
     # collection.drop()
-    collection.insert_one({'posting_id' : randint(1,10)})
+    # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'stage' : 'new_lead'})
+    # collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'stage' : 'recruiter_screen'})
     return collection.find()
 
-def fakePostId(postId, numChildren):
+def actualPostId(postId, postIdCounts):
     children = []
-    for i in range(1, numChildren):
-        children.append(fakeResultForOrigin('origin-' + str(i)))
+    for origin in postIdCounts:
+        children.append(actualResultForOrigin(origin, postIdCounts[origin]))
     return {
         'Posting ID': postId,
         '_children': children
     }
 
-def fakeResultForOrigin(origin):
+def actualResultForOrigin(origin, originCounts):
     return {
         'origin': origin,
-        'newApplicantCount': smallRandomNumber(),
-        "recruiterScreenCount": smallRandomNumber(),
-        "phoneInterviewCount": smallRandomNumber(),
-        "onsiteInterviewCount": smallRandomNumber(),
-        "offerCount": smallRandomNumber(),
-        "newLeadCount": smallRandomNumber(),
-        "reachedOutCount": smallRandomNumber()
+        # 'newApplicantCount': smallRandomNumber(),
+        "newLeadCount": originCounts['new_lead'],
+        "recruiterScreenCount": originCounts['recruiter_screen'],
+        # "phoneInterviewCount": smallRandomNumber(),
+        # "onsiteInterviewCount": smallRandomNumber(),
+        # "offerCount": smallRandomNumber(),
+        # "reachedOutCount": smallRandomNumber()
     }
 
 
