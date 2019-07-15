@@ -21,6 +21,23 @@ collection = database["antDB"]
 def test1():
 	return render_template('test1.html')
 
+@app.route('/funnel', methods=['GET'])
+def funnel():
+	postingDepartment = set()
+	postingTeam = set()
+	postingTitle = set()
+	postingArchiveStatus = set()
+
+	rows = collection.find(cursor_type=CursorType.EXHAUST)
+	for row in rows:
+		postingDepartment.add(row['Posting Department'])
+		postingTeam.add(row['Posting Team'])
+		postingTitle.add(row['Posting Title'])
+		postingArchiveStatus.add(row['Posting Archive Status'])
+	return render_template('funnel.html', postingDepartment=postingDepartment, postingTeam=postingTeam,
+						   postingTitle=postingTitle, postingArchiveStatus=postingArchiveStatus)
+	#return render_template('funnel.html')
+
 
 @app.route('/getTable', methods=['POST'])
 def getTable():

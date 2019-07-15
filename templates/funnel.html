@@ -1,0 +1,126 @@
+{% extends "cover.html" %}
+
+
+{% block main %}
+
+<h1 style="text-align: center">The Dashboard
+    <small>Beta</small>
+</h1>
+
+
+
+<form style="text-align: center" id="bigForm">
+
+
+    <label for="companyName">Company:</label>
+    <select name="companyName">
+        <option value="All" selected>All</option>
+        {% for p in postingDepartment %}
+        <option value="{{ p }}">{{ p }}</option>
+        {% endfor %}
+    </select>
+
+
+
+    <label for="postingTeam">Team:</label>
+    <select name="postingTeam">
+        <option value="All" selected>All</option>
+        {% for p in postingTeam %}
+        <option value="{{ p }}">{{ p }}</option>
+        {% endfor %}
+    </select>
+
+
+
+    <label for="postingTitle">Title:</label>
+    <select name="postingTitle">
+        <option value="All" selected>All</option>
+        {% for p in postingTitle %}
+        <option value="{{ p }}">{{ p }}</option>
+        {% endfor %}
+    </select>
+
+
+
+    <label for="  ">Posting Archived :</label>
+    <select name="postingArchiveStatus">
+        <option value="Both" selected>Both</option>
+        {% for p in postingArchiveStatus %}
+        {% if p == 'false' %}
+        <option value="{{ p }}">No</option>
+        {% elif p == 'true' %}
+        <option value="{{ p }}">Yes</option>
+        {% else %}
+        <option value="{{ p }}">{{ p }}</option>
+        {% endif %}
+        {% endfor %}
+    </select>
+
+    &nbsp &nbsp
+    <button id="send" class="btn btn-primary">Go</button>
+</form>
+
+
+<div id="chartdivs"></div>
+<!-- <div id="example-table" style="margin: 20px"></div> -->
+
+<script type="text/javascript">
+    $('#send').on('click', function (e) {
+        e.preventDefault();
+        var x = getFormData($('#bigForm'));
+
+
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/getTable",
+            data: { "companyName": x['companyName'], "postingTeam": x['postingTeam'], "postingTitle": x['postingTitle'], "postingArchiveStatus": x['postingArchiveStatus'] }, //ajax parameters
+            success: function (result) {
+                chartVar = "chartdiv";
+                for (let i = 0; i < 6; i++) {
+                    chartVar += i.toString();
+                    $("#chartdivs").append(`<div id=${chartVar}></div>`);
+
+                    let var1 = 0, var2 = 0, var3 = 0, var4 = 0, var5 = 0, var6 = 0, var7 = 0;
+
+                    for (let j = 0; j < result[i]['_children'].length; j++) {
+                        var1 += result[i]['_children'][j]["newLeadCount"];
+                        var2 += result[i]['_children'][j]["reachedOutCount"];
+                        var3 += result[i]['_children'][j]["newApplicantCount"];
+                        var4 += result[i]['_children'][j]["recruiterScreenCount"];
+                        var5 += result[i]['_children'][j]["phoneInterviewCount"];
+                        var6 += result[i]['_children'][j]["onsiteInterviewCount"];
+                        var7 += result[i]['_children'][j]["offerCount"];
+                    }
+
+
+
+
+                    trigger(chartVar, var1, var2, var3, var4, var5, var6, var7);
+                    // trigger(chartVar, result[i]['_children'], 300, 200, 180, 50, 20, 10);
+                }
+
+
+            }
+        });
+
+
+
+
+
+        function getFormData($form) {
+            var unindexed_array = $form.serializeArray();
+            var indexed_array = {};
+
+            $.map(unindexed_array, function (n, i) {
+                indexed_array[n['name']] = n['value'];
+            });
+
+            return indexed_array;
+        }
+    });
+
+</script>
+
+
+{% endblock %}
