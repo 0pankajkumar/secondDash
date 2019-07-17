@@ -1,20 +1,44 @@
 import flask
 from flask import request, jsonify, render_template, url_for
+from werkzeug import secure_filename
+from flask_uploads import UploadSet, IMAGES, configure_uploads, UploadNotAllowed
 from pymongo import MongoClient, CursorType
 import json
 from bson import json_util, ObjectId
 from bson.int64 import Int64
 import time
 from random import randint
+import os
 
 app = flask.Flask(__name__, static_url_path='',
 				  static_folder='static',
 				  template_folder='templates')
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 collection = database["antDB"]
+
+
+# configure flask_upload API
+documents = UploadSet("documents", ('csv'))
+app.config["UPLOADED_DOCUMENTS_DEST"] = "uploaded_csv"
+configure_uploads(app, documents)
+
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+	if request.method == 'GET':
+		return render_template('uploader.html')
+	elif request.method == 'POST':
+		f = request.files['file']
+		# print(f.filename, secure_filename(f.filename))
+		file = documents.save(request.files['file'])
+		# f = request.files['file']
+		# f.save(secure_filename(f.filename))
+		# os.remove(app.config["UPLOADED_DOCUMENTS_DEST"] + "/" + str())
+		return 'file uploaded successfully'
+
 
 
 @app.route('/test1', methods=['GET'])
@@ -28,12 +52,14 @@ def funnel():
 	postingTitle = set()
 	postingArchiveStatus = set()
 
-	rows = collection.find(cursor_type=CursorType.EXHAUST)
+	query = {}
+	query['Posting Department'] = {'$regex':'.'}
+	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
 	for row in rows:
 		postingDepartment.add(row['Posting Department'])
-		postingTeam.add(row['Posting Team'])
-		postingTitle.add(row['Posting Title'])
-		postingArchiveStatus.add(row['Posting Archive Status'])
+		# postingTeam.add(row['Posting Team'])
+		# postingTitle.add(row['Posting Title'])
+		# postingArchiveStatus.add(row['Posting Archive Status'])
 	return render_template('funnel.html', postingDepartment=postingDepartment, postingTeam=postingTeam,
 						   postingTitle=postingTitle, postingArchiveStatus=postingArchiveStatus)
 	#return render_template('funnel.html')
