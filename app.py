@@ -168,21 +168,56 @@ def smallRandomNumber():
 	return randint(0, 10)
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 def uidropdowns():
-	postingDepartment = set()
-	postingTeam = set()
-	postingTitle = set()
-	postingArchiveStatus = set()
+	if request.method == "GET":
+		postingDepartment = set()
+		postingTeam = set()
+		postingTitle = set()
+		postingArchiveStatus = set()
 
-	rows = collection.find(cursor_type=CursorType.EXHAUST)
-	for row in rows:
-		postingDepartment.add(row['Posting Department'])
-		postingTeam.add(row['Posting Team'])
-		postingTitle.add(row['Posting Title'])
-		postingArchiveStatus.add(row['Posting Archive Status'])
-	return render_template('index.html', postingDepartment=postingDepartment, postingTeam=postingTeam,
+		rows = collection.find(cursor_type=CursorType.EXHAUST)
+		for row in rows:
+
+			if row['Posting Department'] == 'Kapow' or row['Posting Department'] == 'None' or row['Posting Department'] == 'Yikes! No Relevant Roles':
+				continue
+			else:
+				postingDepartment.add(row['Posting Department'])
+
+			postingTeam.add(row['Posting Team'])
+			postingTitle.add(row['Posting Title'])
+			postingArchiveStatus.add(row['Posting Archive Status'])
+		return render_template('index.html', postingDepartment=postingDepartment, postingTeam=postingTeam,
 						   postingTitle=postingTitle, postingArchiveStatus=postingArchiveStatus)
+
+	if request.method == "POST":
+		key = request.form.get('key')
+		criteria = request.form.get('criteria')
+		query = {}
+		query[key] = criteria
+		redRows = collection.find(query, cursor_type=CursorType.EXHAUST)
+
+		returnBox = set()
+		bigDict = dict()
+
+		for row in redRows:
+			returnBox.add(row[key])
+			if not row[key] in bigDict:
+				bigDict[row[key]] = set()
+
+			bigDict[row[key]].add(row['Posting Title'])
+		return jsonify(purifyStructure(bigDict))
+
+
+# This makes all the inner sets as list
+def purifyStructure(bigDict):
+	for b,c in bigDict.items():
+		bigDict[b] = list(c)
+	return bigDict
+
+
+
+
 
 
 if __name__ == '__main__':
