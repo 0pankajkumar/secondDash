@@ -73,6 +73,11 @@ def getTable():
 	postingTeam = request.form.get('postingTeam')
 	postingArchiveStatus = request.form.get('postingTeam')
 
+	print(postingTitle)
+	print(companyName)
+	print(postingTeam)
+	print(postingArchiveStatus)
+
 	results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus)
 	return jsonify(results)
 
@@ -168,8 +173,21 @@ def smallRandomNumber():
 	return randint(0, 10)
 
 
-# @app.route('/getBigDict', methods=['GET'])
-# def getBigDict():
+@app.route('/getBigDict', methods=['GET'])
+def getBigDict():
+	bigDict = dict()
+	rows = collection.find(cursor_type=CursorType.EXHAUST)
+	for row in rows:
+		flag = False
+		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
+			continue
+		else:
+			flag = True
+
+		# Making a big data structure for all dropdowns in front end
+		if flag == True:
+			makeBigDict(bigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
+	return jsonify(bigDict)
 
 @app.route('/', methods=['GET', 'POST'])
 def uidropdowns():

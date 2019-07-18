@@ -13,8 +13,8 @@
 
 
   <label for="companyName">Company:</label>
-  <select name="companyName" id="companyName"
-    onchange="modifyddl(this, document.getElementById('ddl2'), document.getElementById('ddl2'))">
+  <select name="ddl1" id="ddl1"
+    onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
     <option value="All" selected>All</option>
     {% for p in postingDepartment %}
     <option value="{{ p }}">{{ p }}</option>
@@ -24,7 +24,8 @@
 
 
   <label for="postingTeam">Team:</label>
-  <select name="postingTeam" id="postingTeam">
+  <select name="ddl2" id="ddl2"
+    onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
     <option value="All" selected>All</option>
     {% for p in postingTeam %}
     <option value="{{ p }}">{{ p }}</option>
@@ -34,7 +35,7 @@
 
 
   <label for="postingTitle">Title:</label>
-  <select name="postingTitle" id="postingTitle">
+  <select name="ddl3" id="ddl3">
     <option value="All" selected>All</option>
     {% for p in postingTitle %}
     <option value="{{ p }}">{{ p }}</option>
@@ -62,10 +63,57 @@
 </form>
 
 <script>
+
+  var bigDict;
+
+  //Ajax call to load the bigDict
+  $(document).ready(function () {
+    $.ajax({
+      type: "GET",
+      cache: true,
+      url: "/getBigDict",
+      data: "", //ajax parameters
+      success: function (result) {
+        console.log(result)
+        myNestedVals = result;
+
+      }
+    });
+
+  });
+
+  function createOption(ddl, text, value) {
+    var opt = document.createElement('option');
+    opt.value = value;
+    opt.text = text;
+    ddl.options.add(opt);
+  }
+
+  function createOptions(optionsArray, ddl) {
+    for (i = 0; i < optionsArray.length; i++) {
+      createOption(ddl, optionsArray[i], optionsArray[i]);
+    }
+  }
+
+  function configureDDL2(ddl1, ddl2, ddl3) {
+    ddl2.options.length = 0;
+    ddl3.options.length = 0;
+    createOption(ddl2, "Select team", "");
+    var ddl2keys = Object.keys(myNestedVals[ddl1.value]);
+    createOptions(ddl2keys, ddl2)
+  }
+
+  function configureDDL3(ddl1, ddl2, ddl3) {
+    ddl3.options.length = 0;
+    createOption(ddl3, "Select Posting", "");
+    var ddl3keys = myNestedVals[ddl1.value][ddl2.value];
+    createOptions(ddl3keys, ddl3);
+  }
+
+
   function modifyddl() {
-    var bigDict;
-    //Do a AJAX call and get json for the next ddl
-    bigDict = {{ bigDict }};
+    //for the next ddl
+
     //Update that ddl
   }
 </script>
@@ -81,7 +129,7 @@
 
     var table = new Tabulator("#example-table", {
       ajaxURL: "http://localhost:5000/getTable", //ajax URL
-      ajaxParams: { "companyName": x['companyName'], "postingTeam": x['postingTeam'], "postingTitle": x['postingTitle'], "postingArchiveStatus": x['postingArchiveStatus'] }, //ajax parameters
+      ajaxParams: { "companyName": x['ddl1'], "postingTeam": x['ddl2'], "postingTitle": x['ddl3'], "postingArchiveStatus": x['postingArchiveStatus'] }, //ajax parameters
       ajaxConfig: "POST", //ajax HTTP request type
       // type:"GET", //set request type to Position
       contentType: 'application/json; charset=utf-8',
