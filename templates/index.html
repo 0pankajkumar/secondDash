@@ -13,7 +13,8 @@
 
 
   <label for="companyName">Company:</label>
-  <select name="companyName">
+  <select name="companyName" id="companyName"
+    onchange="modifyddl(this, document.getElementById('ddl2'), document.getElementById('ddl2'))">
     <option value="All" selected>All</option>
     {% for p in postingDepartment %}
     <option value="{{ p }}">{{ p }}</option>
@@ -23,7 +24,7 @@
 
 
   <label for="postingTeam">Team:</label>
-  <select name="postingTeam">
+  <select name="postingTeam" id="postingTeam">
     <option value="All" selected>All</option>
     {% for p in postingTeam %}
     <option value="{{ p }}">{{ p }}</option>
@@ -33,7 +34,7 @@
 
 
   <label for="postingTitle">Title:</label>
-  <select name="postingTitle">
+  <select name="postingTitle" id="postingTitle">
     <option value="All" selected>All</option>
     {% for p in postingTitle %}
     <option value="{{ p }}">{{ p }}</option>
@@ -60,6 +61,14 @@
   <button id="send" class="btn btn-primary">Go</button>
 </form>
 
+<script>
+  function modifyddl() {
+    var bigDict;
+    //Do a AJAX call and get json for the next ddl
+    bigDict = {{ bigDict }};
+    //Update that ddl
+  }
+</script>
 
 
 <div id="example-table" style="margin: 20px"></div>

@@ -168,6 +168,9 @@ def smallRandomNumber():
 	return randint(0, 10)
 
 
+# @app.route('/getBigDict', methods=['GET'])
+# def getBigDict():
+
 @app.route('/', methods=['GET', 'POST'])
 def uidropdowns():
 	if request.method == "GET":
@@ -176,25 +179,38 @@ def uidropdowns():
 		postingTitle = set()
 		postingArchiveStatus = set()
 
+		bigDict = dict()
+
 		rows = collection.find(cursor_type=CursorType.EXHAUST)
 		for row in rows:
-
-			if row['Posting Department'] == 'Kapow' or row['Posting Department'] == 'None' or row['Posting Department'] == 'Yikes! No Relevant Roles':
+			flag = False
+			if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
 				continue
 			else:
 				postingDepartment.add(row['Posting Department'])
+				flag = True
 
 			postingTeam.add(row['Posting Team'])
 			postingTitle.add(row['Posting Title'])
 			postingArchiveStatus.add(row['Posting Archive Status'])
-		return render_template('index.html', postingDepartment=postingDepartment, postingTeam=postingTeam,
-						   postingTitle=postingTitle, postingArchiveStatus=postingArchiveStatus)
+
+
+
+			# Making a big data structure for all dropdowns in front end
+			if flag == True:
+				makeBigDict(bigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
+
+
+
+		#return jsonify((bigDict))
+		return render_template('index.html', postingDepartment=postingDepartment, postingTeam=postingTeam, postingTitle=postingTitle, postingArchiveStatus=postingArchiveStatus, bigDict= json.dumps(bigDict))
 
 	if request.method == "POST":
 		key = request.form.get('key')
-		criteria = request.form.get('criteria')
+		criteria1 = request.form.get('criteria1') # Filed to be filtered
+		criteria2 = request.form.get('criteria2') # Field to be sent
 		query = {}
-		query[key] = criteria
+		query[key] = criteria1
 		redRows = collection.find(query, cursor_type=CursorType.EXHAUST)
 
 		returnBox = set()
@@ -205,7 +221,7 @@ def uidropdowns():
 			if not row[key] in bigDict:
 				bigDict[row[key]] = set()
 
-			bigDict[row[key]].add(row['Posting Title'])
+			bigDict[row[key]].add(row[criteria2])
 		return jsonify(purifyStructure(bigDict))
 
 
@@ -215,6 +231,15 @@ def purifyStructure(bigDict):
 		bigDict[b] = list(c)
 	return bigDict
 
+# Make that bigDict step by step
+def makeBigDict(bigDict, postDept, postTeam, postTitle):
+	#Do
+	if postDept not in bigDict:
+		bigDict[str(postDept)] = {}
+	if postTeam not in bigDict[str(postDept)]:
+		bigDict[str(postDept)][str(postTeam)] = []
+	if postTitle not in bigDict[postDept][postTeam]:
+		bigDict[str(postDept)][str(postTeam)].append(postTitle)
 
 
 
