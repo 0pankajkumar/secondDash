@@ -69,10 +69,11 @@ def funnel():
 @app.route('/getTable', methods=['POST'])
 def getTable():
 	# collection.createIndex('Posting Department')
+
 	postingTitle = request.form.get('postingTitle')
 	companyName = request.form.get('companyName')
 	postingTeam = request.form.get('postingTeam')
-	postingArchiveStatus = request.form.get('postingTeam')
+	postingArchiveStatus = request.form.get('postingArchiveStatus')
 
 	# postingTitle = postingTitle.strip()
 	# companyName = companyName.strip()
@@ -83,8 +84,8 @@ def getTable():
 	print(postingTeam)
 	print(postingArchiveStatus)
 
-	results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus)
-	# results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
+	# results = getResults(str(postingTitle), str(companyName), str(postingTeam), str(postingArchiveStatus))
+	results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
 	return jsonify(results)
 
 
@@ -202,37 +203,38 @@ def getBigDict():
 
 @app.route('/', methods=['GET', 'POST'])
 def uidropdowns():
-	if request.method == "GET":
-		postingDepartment = set()
-		postingTeam = set()
-		postingTitle = set()
-		postingArchiveStatus = set()
+	# if request.method == "GET":
+	# 	postingDepartment = set()
+	# 	postingTeam = set()
+	# 	postingTitle = set()
+	# 	postingArchiveStatus = set()
 
-		bigDict = dict()
+	# 	bigDict = dict()
 
-		rows = collection.find(cursor_type=CursorType.EXHAUST)
-		for row in rows:
-			flag = False
-			if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
-				continue
-			else:
-				postingDepartment.add(row['Posting Department'])
-				flag = True
+	# 	rows = collection.find(cursor_type=CursorType.EXHAUST)
+	# 	for row in rows:
+	# 		flag = False
+	# 		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
+	# 			continue
+	# 		else:
+	# 			postingDepartment.add(row['Posting Department'])
+	# 			flag = True
 
-			postingTeam.add(row['Posting Team'])
-			postingTitle.add(row['Posting Title'])
-			postingArchiveStatus.add(row['Posting Archive Status'])
-
-
-
-			# Making a big data structure for all dropdowns in front end
-			if flag == True:
-				makeBigDict(bigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
+	# 		postingTeam.add(row['Posting Team'])
+	# 		postingTitle.add(row['Posting Title'])
+	# 		postingArchiveStatus.add(row['Posting Archive Status'])
 
 
 
-		#return jsonify((bigDict))
-		return render_template('index.html', postingDepartment=postingDepartment, postingTeam=postingTeam, postingTitle=postingTitle, postingArchiveStatus=postingArchiveStatus, bigDict= json.dumps(bigDict))
+	# 		# Making a big data structure for all dropdowns in front end
+	# 		if flag == True:
+	# 			makeBigDict(bigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
+
+
+
+		# return jsonify((bigDict))
+		# return render_template('index.html', postingDepartment=postingDepartment, postingTeam=postingTeam, postingTitle=postingTitle, postingArchiveStatus=postingArchiveStatus, bigDict= json.dumps(bigDict))
+	return render_template('index.html')
 
 	if request.method == "POST":
 		key = request.form.get('key')

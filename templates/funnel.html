@@ -62,13 +62,17 @@
 
 
 <div id="chartdivs"></div>
-<!-- <div id="example-table" style="margin: 20px"></div> -->
 
 <script type="text/javascript">
     $('#send').on('click', function (e) {
         e.preventDefault();
         var x = getFormData($('#bigForm'));
 
+        // Clearing all funnels drawn, if any. https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+        var myNode = document.getElementById("chartdivs");
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
 
         $.ajax({
             type: "POST",
@@ -76,10 +80,13 @@
             url: "/getTable",
             data: { "companyName": x['companyName'], "postingTeam": x['postingTeam'], "postingTitle": x['postingTitle'], "postingArchiveStatus": x['postingArchiveStatus'] }, //ajax parameters
             success: function (result) {
-                chartVar = "chartdiv";
+
                 for (let i = 0; i < 6; i++) {
+                    chartVar = "chartdiv";
                     chartVar += i.toString();
                     $("#chartdivs").append(`<div id=${chartVar}></div>`);
+
+                    console.log(i);
 
                     let var1 = 0, var2 = 0, var3 = 0, var4 = 0, var5 = 0, var6 = 0, var7 = 0;
 
@@ -92,9 +99,6 @@
                         var6 += result[i]['_children'][j]["onsiteInterviewCount"];
                         var7 += result[i]['_children'][j]["offerCount"];
                     }
-
-
-
 
                     trigger(chartVar, var1, var2, var3, var4, var5, var6, var7);
                     // trigger(chartVar, result[i]['_children'], 300, 200, 180, 50, 20, 10);
