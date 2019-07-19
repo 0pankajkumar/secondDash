@@ -13,7 +13,7 @@
 
 
   <label for="companyName">Company:</label>
-  <select name="ddl1" id="ddl1"
+  <select name="ddl1" id="ddl1" style="display: none"
     onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
     <option value="All" selected>All</option>
     {% for p in postingDepartment %}
@@ -24,7 +24,7 @@
 
 
   <label for="postingTeam">Team:</label>
-  <select name="ddl2" id="ddl2"
+  <select name="ddl2" id="ddl2" style="display: none"
     onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
     <option value="All" selected>All</option>
     {% for p in postingTeam %}
@@ -35,7 +35,7 @@
 
 
   <label for="postingTitle">Title:</label>
-  <select name="ddl3" id="ddl3">
+  <select name="ddl3" id="ddl3" style="display: none">
     <option value="All" selected>All</option>
     {% for p in postingTitle %}
     <option value="{{ p }}">{{ p }}</option>
@@ -45,7 +45,7 @@
 
 
   <label for="  ">Posting Archived :</label>
-  <select name="postingArchiveStatus">
+  <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: none">
     <option value="Both" selected>Both</option>
     {% for p in postingArchiveStatus %}
     {% if p == 'false' %}
@@ -76,7 +76,10 @@
       success: function (result) {
         console.log(result)
         myNestedVals = result;
-
+        document.getElementById('ddl1').style.display = 'inline';
+        document.getElementById('ddl2').style.display = 'inline';
+        document.getElementById('ddl3').style.display = 'inline';
+        document.getElementById('postingArchiveStatus').style.display = 'inline';
       }
     });
 

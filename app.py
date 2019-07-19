@@ -9,6 +9,7 @@ from bson.int64 import Int64
 import time
 from random import randint
 import os
+import datetime
 
 app = flask.Flask(__name__, static_url_path='',
 				  static_folder='static',
@@ -73,12 +74,17 @@ def getTable():
 	postingTeam = request.form.get('postingTeam')
 	postingArchiveStatus = request.form.get('postingTeam')
 
+	# postingTitle = postingTitle.strip()
+	# companyName = companyName.strip()
+	# postingTeam = postingTeam.strip()
+	# postingArchiveStatus = postingArchiveStatus.strip()
 	print(postingTitle)
 	print(companyName)
 	print(postingTeam)
 	print(postingArchiveStatus)
 
 	results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus)
+	# results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
 	return jsonify(results)
 
 
@@ -98,7 +104,12 @@ def getResults(title, companyName, team, archiveStatus):
 		if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All':
 			continue
 
-		postId = item['Posting ID']
+		# postId = item['Posting ID']
+		# Modified post ID
+		# print(str(item['Created At (GMT)']))
+		item['Created At (GMT)'] =  datetime.datetime.strptime(str(item['Created At (GMT)']), '%Y-%m-%d %H:%M:%S').strftime('%B %Y')
+		# postId = str(item['Posting ID']) + ", " + str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + item['Created At (GMT)']
+		postId = str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + str(item['Posting ID'])
 		origin = item['Origin']
 		if not postId in counts:
 			counts[postId] = dict()
