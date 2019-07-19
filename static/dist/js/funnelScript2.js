@@ -10,19 +10,19 @@ function trigger(
 ) {
   const data = [
     ["New Lead", stage1, "#DCDCDC"],
-    ["Reached Out", stage2, "#D3D3D3"],
-    ["New Applicant", stage3, "#C0C0C0"],
-    ["Recruiter Screen", stage4, "#A9A9A9"],
-    ["Phone Interview", stage5, "#808080"],
-    ["Onsite Interview", stage6, "#696969"],
-    ["Offer", stage7, "#696969"]
+    ["Reached Out", stage2, "#FFFFFF"],
+    ["New Applicant", stage3, "#DCDCDC"],
+    ["Recruiter Screen", stage4, "#FFFFFF"],
+    ["Phone Interview", stage5, "#DCDCDC"],
+    ["Onsite Interview", stage6, "#FFFFFF"],
+    ["Offer", stage7, "#DCDCDC"]
   ];
   const options = {
     chart: {
       width: 400,
       height: 400,
       bottomWidth: 1 / 3,
-      bottomPinch: 1,
+      bottomPinch: 0,
       animate: true,
       curve: {
         enabled: false,
@@ -38,7 +38,7 @@ function trigger(
       format: "{f} - {l}",
       fontFamily: null,
       fontSize: "14px",
-      fill: "#fff"
+      fill: "black"
     },
     tooltip: {
       enabled: true,

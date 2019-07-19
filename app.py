@@ -70,11 +70,15 @@ def funnel():
 def getTable():
 	# collection.createIndex('Posting Department')
 
-	postingTitle = request.form.get('postingTitle')
-	companyName = request.form.get('companyName')
-	postingTeam = request.form.get('postingTeam')
-	postingArchiveStatus = request.form.get('postingArchiveStatus')
+	postingTitl = request.form.get('postingTitle')
+	companyNam = request.form.get('companyName')
+	postingTea = request.form.get('postingTeam')
+	postingArchiveStatu = request.form.get('postingArchiveStatus')
 
+	postingTitle = postingTitl
+	companyName = companyNam
+	postingTeam = postingTea
+	postingArchiveStatus = postingArchiveStatu
 	# postingTitle = postingTitle.strip()
 	# companyName = companyName.strip()
 	# postingTeam = postingTeam.strip()
