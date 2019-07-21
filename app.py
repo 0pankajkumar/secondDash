@@ -49,47 +49,30 @@ def test1():
 @app.route('/funnel', methods=['GET'])
 def funnel():
 	postingDepartment = set()
-	postingTeam = set()
-	postingTitle = set()
 	postingArchiveStatus = set()
-
-	query = {}
-	query['Posting Department'] = {'$regex':'.'}
-	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
+	rows = collection.find(cursor_type=CursorType.EXHAUST)
 	for row in rows:
-		postingDepartment.add(row['Posting Department'])
-		# postingTeam.add(row['Posting Team'])
-		# postingTitle.add(row['Posting Title'])
-		# postingArchiveStatus.add(row['Posting Archive Status'])
-	return render_template('funnel.html', postingDepartment=postingDepartment, postingTeam=postingTeam,
-						   postingTitle=postingTitle, postingArchiveStatus=postingArchiveStatus)
-	#return render_template('funnel.html')
+		flag = False
+		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
+			continue
+		else:
+			postingDepartment.add(row['Posting Department'])
+			flag = True
+		postingArchiveStatus.add(row['Posting Archive Status'])
+	return render_template('funnel.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus)
 
 
 @app.route('/getTable', methods=['POST'])
 def getTable():
 	# collection.createIndex('Posting Department')
 
-	postingTitl = request.form.get('postingTitle')
-	companyNam = request.form.get('companyName')
-	postingTea = request.form.get('postingTeam')
-	postingArchiveStatu = request.form.get('postingArchiveStatus')
+	postingTitle = request.form.get('postingTitle')
+	companyName = request.form.get('companyName')
+	postingTeam = request.form.get('postingTeam')
+	postingArchiveStatus = request.form.get('postingArchiveStatus')
 
-	postingTitle = postingTitl
-	companyName = companyNam
-	postingTeam = postingTea
-	postingArchiveStatus = postingArchiveStatu
-	# postingTitle = postingTitle.strip()
-	# companyName = companyName.strip()
-	# postingTeam = postingTeam.strip()
-	# postingArchiveStatus = postingArchiveStatus.strip()
-	print(postingTitle)
-	print(companyName)
-	print(postingTeam)
-	print(postingArchiveStatus)
-
-	# results = getResults(str(postingTitle), str(companyName), str(postingTeam), str(postingArchiveStatus))
-	results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
+	results = getResults(str(postingTitle), str(companyName), str(postingTeam), str(postingArchiveStatus))
+	# results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
 	return jsonify(results)
 
 
@@ -106,7 +89,7 @@ def getResults(title, companyName, team, archiveStatus):
 		#     continue
 		if item['Posting Team'] != team and team != 'All':
 			continue
-		if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All':
+		if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
 			continue
 
 		# postId = item['Posting ID']
@@ -205,66 +188,22 @@ def getBigDict():
 			makeBigDict(bigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
 	return jsonify(bigDict)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def uidropdowns():
-	# if request.method == "GET":
-	# 	postingDepartment = set()
-	# 	postingTeam = set()
-	# 	postingTitle = set()
-	# 	postingArchiveStatus = set()
+	postingDepartment = set()
+	postingArchiveStatus = set()
+	rows = collection.find(cursor_type=CursorType.EXHAUST)
+	for row in rows:
+		flag = False
+		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
+			continue
+		else:
+			postingDepartment.add(row['Posting Department'])
+			flag = True
+		postingArchiveStatus.add(row['Posting Archive Status'])
+	return render_template('index.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus)
 
-	# 	bigDict = dict()
-
-	# 	rows = collection.find(cursor_type=CursorType.EXHAUST)
-	# 	for row in rows:
-	# 		flag = False
-	# 		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
-	# 			continue
-	# 		else:
-	# 			postingDepartment.add(row['Posting Department'])
-	# 			flag = True
-
-	# 		postingTeam.add(row['Posting Team'])
-	# 		postingTitle.add(row['Posting Title'])
-	# 		postingArchiveStatus.add(row['Posting Archive Status'])
-
-
-
-	# 		# Making a big data structure for all dropdowns in front end
-	# 		if flag == True:
-	# 			makeBigDict(bigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
-
-
-
-		# return jsonify((bigDict))
-		# return render_template('index.html', postingDepartment=postingDepartment, postingTeam=postingTeam, postingTitle=postingTitle, postingArchiveStatus=postingArchiveStatus, bigDict= json.dumps(bigDict))
-	return render_template('index.html')
-
-	if request.method == "POST":
-		key = request.form.get('key')
-		criteria1 = request.form.get('criteria1') # Filed to be filtered
-		criteria2 = request.form.get('criteria2') # Field to be sent
-		query = {}
-		query[key] = criteria1
-		redRows = collection.find(query, cursor_type=CursorType.EXHAUST)
-
-		returnBox = set()
-		bigDict = dict()
-
-		for row in redRows:
-			returnBox.add(row[key])
-			if not row[key] in bigDict:
-				bigDict[row[key]] = set()
-
-			bigDict[row[key]].add(row[criteria2])
-		return jsonify(purifyStructure(bigDict))
-
-
-# This makes all the inner sets as list
-def purifyStructure(bigDict):
-	for b,c in bigDict.items():
-		bigDict[b] = list(c)
-	return bigDict
+	
 
 # Make that bigDict step by step
 def makeBigDict(bigDict, postDept, postTeam, postTitle):

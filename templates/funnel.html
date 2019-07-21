@@ -13,7 +13,8 @@
 
 
     <label for="companyName">Company:</label>
-    <select name="companyName">
+    <select name="ddl1" id="ddl1" style="display: none"
+        onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
         <option value="All" selected>All</option>
         {% for p in postingDepartment %}
         <option value="{{ p }}">{{ p }}</option>
@@ -23,27 +24,22 @@
 
 
     <label for="postingTeam">Team:</label>
-    <select name="postingTeam">
+    <select name="ddl2" id="ddl2" style="display: none"
+        onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
         <option value="All" selected>All</option>
-        {% for p in postingTeam %}
-        <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
     </select>
 
 
 
     <label for="postingTitle">Title:</label>
-    <select name="postingTitle">
+    <select name="ddl3" id="ddl3" style="display: none">
         <option value="All" selected>All</option>
-        {% for p in postingTitle %}
-        <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
     </select>
 
 
 
     <label for="  ">Posting Archived :</label>
-    <select name="postingArchiveStatus">
+    <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: none">
         <option value="Both" selected>Both</option>
         {% for p in postingArchiveStatus %}
         {% if p == 'false' %}
@@ -60,10 +56,61 @@
     <button id="send" class="btn btn-primary">Go</button>
 </form>
 
-
 <div id="chartdivs"></div>
 
 <script type="text/javascript">
+
+    //Ajax call to load the bigDict
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            cache: true,
+            url: "/getBigDict",
+            data: "", //ajax parameters
+            success: function (result) {
+                console.log(result)
+                myNestedVals = result;
+                document.getElementById('ddl1').style.display = 'inline';
+                document.getElementById('ddl2').style.display = 'inline';
+                document.getElementById('ddl3').style.display = 'inline';
+                document.getElementById('postingArchiveStatus').style.display = 'inline';
+            }
+        });
+
+    });
+
+
+    //Code inspired from http://benalexkeen.com/auto-updating-dropdown-fields-in-javascript/
+    function createOption(ddl, text, value) {
+        var opt = document.createElement('option');
+        opt.value = value;
+        opt.text = text;
+        ddl.options.add(opt);
+    }
+
+    function createOptions(optionsArray, ddl) {
+        for (i = 0; i < optionsArray.length; i++) {
+            createOption(ddl, optionsArray[i], optionsArray[i]);
+        }
+    }
+
+    function configureDDL2(ddl1, ddl2, ddl3) {
+        ddl2.options.length = 0;
+        ddl3.options.length = 0;
+        createOption(ddl2, "Select team", "");
+        var ddl2keys = Object.keys(myNestedVals[ddl1.value]);
+        createOptions(ddl2keys, ddl2)
+    }
+
+    function configureDDL3(ddl1, ddl2, ddl3) {
+        ddl3.options.length = 0;
+        createOption(ddl3, "Select Posting", "");
+        var ddl3keys = myNestedVals[ddl1.value][ddl2.value];
+        createOptions(ddl3keys, ddl3);
+    }
+
+
+
     $('#send').on('click', function (e) {
         e.preventDefault();
         var x = getFormData($('#bigForm'));
@@ -78,7 +125,7 @@
             type: "POST",
             cache: false,
             url: "/getTable",
-            data: { "companyName": x['companyName'], "postingTeam": x['postingTeam'], "postingTitle": x['postingTitle'], "postingArchiveStatus": x['postingArchiveStatus'] }, //ajax parameters
+            data: { "companyName": x['ddl1'], "postingTeam": x['ddl2'], "postingTitle": x['ddl3'], "postingArchiveStatus": x['postingArchiveStatus'] }, //ajax parameters
             success: function (result) {
 
                 for (let i = 0; i < 6; i++) {
@@ -101,7 +148,7 @@
                     }
 
                     trigger(chartVar, var1, var2, var3, var4, var5, var6, var7);
-                    // trigger(chartVar, result[i]['_children'], 300, 200, 180, 50, 20, 10);
+                    //trigger(chartVar, result[i]['_children'], 300, 200, 180, 50, 20, 10);
                 }
 
 
