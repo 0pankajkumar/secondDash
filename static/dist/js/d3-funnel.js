@@ -1189,7 +1189,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				scale: (0, _d.scaleOrdinal)(_d.schemeCategory10).domain((0, _d.range)(0, 10)),
 				type: 'solid'
 			},
-			minHeight: 0,
+			minHeight: 30,
 			highlight: false
 		},
 		label: {

@@ -19,7 +19,7 @@ function trigger(
   ];
   const options = {
     chart: {
-      width: 400,
+      width: 450,
       height: 400,
       bottomWidth: 1 / 3,
       bottomPinch: 0,
@@ -30,7 +30,7 @@ function trigger(
       }
     },
     block: {
-      dynamicHeight: false
+      dynamicHeight: true
       // dynamicSlope: true
     },
     label: {
