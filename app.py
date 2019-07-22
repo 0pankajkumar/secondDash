@@ -91,8 +91,8 @@ def getResults(title, companyName, team, archiveStatus, age):
 			continue
 		if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
 			continue
-		if item['Min Date'] < benchmark_date:
-			continue
+		# if item['Min Date'] < benchmark_date:
+		# 	continue
 
 		# Modified posting ID for display
 		item['Created At (GMT)'] =  datetime.datetime.strptime(str(item['Created At (GMT)']), '%Y-%m-%d %H:%M:%S').strftime('%B %Y')
