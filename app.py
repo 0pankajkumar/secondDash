@@ -18,7 +18,7 @@ app.config["DEBUG"] = False
 
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
-collection = database["antDB"]
+collection = database["bullDB"]
 
 
 # configure flask_upload API
@@ -72,7 +72,7 @@ def getTable():
 	postingArchiveStatus = request.form.get('postingArchiveStatus')
 	age = request.form.get('age')
 
-	results = getResults(str(postingTitle), str(companyName), str(postingTeam), str(postingArchiveStatus), age)
+	results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus, age)
 	# results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
 	return jsonify(results)
 
@@ -91,11 +91,14 @@ def getResults(title, companyName, team, archiveStatus, age):
 			continue
 		if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
 			continue
-		# if item['Min Date'] < benchmark_date:
-		# 	continue
+		
+		if item['Min Date'] < benchmark_date:
+			print(f"{item['Min Date']} < {benchmark_date}")
+			continue
+		print(benchmark_date)
 
 		# Modified posting ID for display
-		item['Created At (GMT)'] =  datetime.datetime.strptime(str(item['Created At (GMT)']), '%Y-%m-%d %H:%M:%S').strftime('%B %Y')
+		# item['Created At (GMT)'] =  datetime.datetime.strptime(str(item['Created At (GMT)']), '%Y-%m-%d %H:%M:%S').strftime('%B %Y')
 		# postId = str(item['Posting ID']) + ", " + str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + item['Created At (GMT)']
 		postId = str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + str(item['Posting ID'])
 		origin = item['Origin']
@@ -211,19 +214,14 @@ def uidropdowns():
 	postingDepartment = set()
 	postingArchiveStatus = set()
 	rows = collection.find(cursor_type=CursorType.EXHAUST)
-	try:
-		for row in rows:
-			print(row)
-			break
-			flag = False
-			if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
-				continue
-			else:
-				postingDepartment.add(row['Posting Department'])
-				flag = True
-			postingArchiveStatus.add(row['Posting Archive Status'])
-	finally:
-		client.close()
+	for row in rows:
+		flag = False
+		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
+			continue
+		else:
+			postingDepartment.add(row['Posting Department'])
+			flag = True
+		postingArchiveStatus.add(row['Posting Archive Status'])
 	return render_template('index.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus)
 
 	
