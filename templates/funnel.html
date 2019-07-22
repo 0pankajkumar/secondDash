@@ -52,6 +52,19 @@
         {% endfor %}
     </select>
 
+    <label for="">Age:</label>
+    <select name="age" id="age" style="display: none">
+        <option value="beginningOfTime" selected>Beginning of Time</option>
+        <option value="3 Days Old">3 Days Old</option>
+        <option value="7 Days Old">7 Days Old</option>
+        <option value="15 Days Old">15 Days Old</option>
+        <option value="1 Month Old">1 Month Old</option>
+        <option value="2 Months Old">2 Months Old</option>
+        <option value="3 Months Old">3 Months Old</option>
+        <option value="4 Months Old">4 Months Old</option>
+        <option value="6 Months Old">6 Months Old</option>
+    </select>
+
     &nbsp &nbsp
     <button id="send" class="btn btn-primary">Go</button>
 </form>
@@ -74,6 +87,7 @@
                 document.getElementById('ddl2').style.display = 'inline';
                 document.getElementById('ddl3').style.display = 'inline';
                 document.getElementById('postingArchiveStatus').style.display = 'inline';
+                document.getElementById('age').style.display = 'inline';
             }
         });
 
@@ -97,14 +111,14 @@
     function configureDDL2(ddl1, ddl2, ddl3) {
         ddl2.options.length = 0;
         ddl3.options.length = 0;
-        createOption(ddl2, "Select team", "");
+        createOption(ddl2, "All", "");
         var ddl2keys = Object.keys(myNestedVals[ddl1.value]);
         createOptions(ddl2keys, ddl2)
     }
 
     function configureDDL3(ddl1, ddl2, ddl3) {
         ddl3.options.length = 0;
-        createOption(ddl3, "Select Posting", "");
+        createOption(ddl3, "All", "");
         var ddl3keys = myNestedVals[ddl1.value][ddl2.value];
         createOptions(ddl3keys, ddl3);
     }
@@ -125,7 +139,7 @@
             type: "POST",
             cache: false,
             url: "/getTable",
-            data: { "companyName": x['ddl1'], "postingTeam": x['ddl2'], "postingTitle": x['ddl3'], "postingArchiveStatus": x['postingArchiveStatus'] }, //ajax parameters
+            data: { "companyName": x['ddl1'], "postingTeam": x['ddl2'], "postingTitle": x['ddl3'], "postingArchiveStatus": x['postingArchiveStatus'], "age": x['age'] }, //ajax parameters
             success: function (result) {
 
                 for (let i = 0; i < 6; i++) {

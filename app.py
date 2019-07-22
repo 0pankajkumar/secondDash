@@ -70,31 +70,31 @@ def getTable():
 	companyName = request.form.get('companyName')
 	postingTeam = request.form.get('postingTeam')
 	postingArchiveStatus = request.form.get('postingArchiveStatus')
+	age = request.form.get('age')
 
-	results = getResults(str(postingTitle), str(companyName), str(postingTeam), str(postingArchiveStatus))
+	results = getResults(str(postingTitle), str(companyName), str(postingTeam), str(postingArchiveStatus), age)
 	# results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
 	return jsonify(results)
 
 
-def getResults(title, companyName, team, archiveStatus):
+def getResults(title, companyName, team, archiveStatus, age):
 	ts = time.time()
 	rows = getFromDB(companyName) # title, companyName, team, archiveStatus
 	print('db: ' + str(time.time() - ts))
 	res = []
 	counts = dict()
+	benchmark_date = interpretAge(age)
 	for item in rows:
 		if item['Posting Title'] != title and title != 'All':
 			continue
-		# if item['Posting Department'] != companyName and companyName != 'All':
-		#     continue
 		if item['Posting Team'] != team and team != 'All':
 			continue
 		if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
 			continue
+		if item['Min Date'] < benchmark_date:
+			continue
 
-		# postId = item['Posting ID']
-		# Modified post ID
-		# print(str(item['Created At (GMT)']))
+		# Modified posting ID for display
 		item['Created At (GMT)'] =  datetime.datetime.strptime(str(item['Created At (GMT)']), '%Y-%m-%d %H:%M:%S').strftime('%B %Y')
 		# postId = str(item['Posting ID']) + ", " + str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + item['Created At (GMT)']
 		postId = str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + str(item['Posting ID'])
@@ -171,6 +171,24 @@ def actualResultForOrigin(origin, originCounts):
 def smallRandomNumber():
 	return randint(0, 10)
 
+# Returns back date n days from now based on string passed
+def interpretAge(age):
+	if age == "beginningOfTime":
+		return(datetime.datetime(2005,12,1))
+	lis = age.split()
+	multiplier = int(lis[0])
+	day_or_month = lis[1]
+
+	if day_or_month == "Days":
+		# code for day
+		benchmark_date = datetime.datetime.now() - datetime.timedelta(days=multiplier)
+
+
+	if day_or_month == "Months":
+		# code for month
+		benchmark_date = datetime.datetime.now() - datetime.timedelta(days=multiplier*30)
+
+	return benchmark_date
 
 @app.route('/getBigDict', methods=['GET'])
 def getBigDict():
@@ -193,14 +211,19 @@ def uidropdowns():
 	postingDepartment = set()
 	postingArchiveStatus = set()
 	rows = collection.find(cursor_type=CursorType.EXHAUST)
-	for row in rows:
-		flag = False
-		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
-			continue
-		else:
-			postingDepartment.add(row['Posting Department'])
-			flag = True
-		postingArchiveStatus.add(row['Posting Archive Status'])
+	try:
+		for row in rows:
+			print(row)
+			break
+			flag = False
+			if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
+				continue
+			else:
+				postingDepartment.add(row['Posting Department'])
+				flag = True
+			postingArchiveStatus.add(row['Posting Archive Status'])
+	finally:
+		client.close()
 	return render_template('index.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus)
 
 	
