@@ -12,14 +12,18 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 collection = database["bullDB"]
 
+
 all_The_Stages = ['Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant', 'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer']
-minDateCandidates = list()
 headers = tuple()
 line_count = 0
 
+collection.delete_many({})
+print("Deleted everything")
+print("Adding records...")
 with open('d4871e75-7fb1-4176-bfa0-c3d061757298.candidates.presence.latest (5).csv', 'r', encoding="utf8" ) as csvfile:
 	myReader = csv.reader(csvfile, delimiter=',')
 	for row in myReader:
+		minDateCandidates = list()
 		dict_to_be_written = dict()
 		if line_count > 0:
 			#Making dict for DB
@@ -28,8 +32,11 @@ with open('d4871e75-7fb1-4176-bfa0-c3d061757298.candidates.presence.latest (5).c
 			 
 			for i in range(numberOfColumns):
 				if headers[i] in all_The_Stages and row[i] != '':
-					row[i] = datetime.datetime.strptime(row[i], '%d-%m-%y %H:%M')
+					# row[i] = datetime.datetime.strptime(row[i], '%d-%m-%y %H:%M')
+					row[i] = datetime.datetime.strptime(row[i], '%Y-%m-%d %H:%M:%S')
 					minDateCandidates.append(row[i])
+				if row[i] == "":
+					row[i] = None
 
 				dict_to_be_written[headers[i]] = row[i]
 
@@ -48,32 +55,12 @@ with open('d4871e75-7fb1-4176-bfa0-c3d061757298.candidates.presence.latest (5).c
 			# print(dict_to_be_written)
 
 
-
-
-
-
-
-
-
-
-
-
 			line_count += 1
 			# print(f"Inserting: {line_count}")
 			# if line_count == 3:
 			# 	break
 
 			
-
-
-
-
-
-
-
-
-
-
 		else:
 			headers= tuple(row)
 			numberOfColumns = len(headers)

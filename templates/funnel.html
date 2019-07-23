@@ -145,7 +145,7 @@
                 for (let i = 0; i < 6; i++) {
                     chartVar = "chartdiv";
                     chartVar += i.toString();
-                    $("#chartdivs").append(`<div id=${chartVar}></div>`);
+                    $("#chartdivs").append(`<div><b>${result[i]['Posting ID']}</b><br><div style="text-align:center; margin:auto" id=${chartVar}></div></div>`);
 
                     console.log(i);
 

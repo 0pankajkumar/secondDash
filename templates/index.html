@@ -148,13 +148,13 @@
       columns: [
         { title: "Posting ID", field: "Posting ID", width: 200, responsive: 0 }, //never hide this column
         { title: "Origin", field: "origin", width: 150 },
-        { title: "New Lead", field: "newLeadCount", width: 150 }, //hide this column first
-        { title: "Reached Out", field: "reachedOutCount", width: 150 },
-        { title: "New applicant", field: "newApplicantCount", align: "center", width: 150 },
-        { title: "Recruiter Screen", field: "recruiterScreenCount", align: "center", width: 150 },
-        { title: "Phone Interview", field: "phoneInterviewCount", align: "center", width: 150 },
-        { title: "On-site", field: "onsiteInterviewCount", align: "center", width: 150 },
-        { title: "Offer", field: "offerCount", align: "center", width: 150 },
+        { title: "New Lead", field: "newLeadCount", width: 150, bottomCalc: "sum" }, //hide this column first
+        { title: "Reached Out", field: "reachedOutCount", width: 150, bottomCalc: "sum" },
+        { title: "New applicant", field: "newApplicantCount", align: "center", width: 150, bottomCalc: "sum" },
+        { title: "Recruiter Screen", field: "recruiterScreenCount", align: "center", width: 150, bottomCalc: "sum" },
+        { title: "Phone Interview", field: "phoneInterviewCount", align: "center", width: 150, bottomCalc: "sum" },
+        { title: "On-site", field: "onsiteInterviewCount", align: "center", width: 150, bottomCalc: "sum" },
+        { title: "Offer", field: "offerCount", align: "center", width: 150, bottomCalc: "sum" },
       ],
 
 

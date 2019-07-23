@@ -10,7 +10,7 @@ function trigger(
 ) {
   const data = [
     ["New Lead", stage1, "#DCDCDC"],
-    ["Reached Out", stage2, "#FFFFFF"],
+    ["Reached Out", stage2, "#DCDCDC"],
     ["New Applicant", stage3, "#DCDCDC"],
     ["Recruiter Screen", stage4, "#FFFFFF"],
     ["Phone Interview", stage5, "#DCDCDC"],
@@ -30,7 +30,7 @@ function trigger(
       }
     },
     block: {
-      dynamicHeight: true
+      dynamicHeight: false
       // dynamicSlope: true
     },
     label: {

@@ -53,7 +53,7 @@ def funnel():
 	rows = collection.find(cursor_type=CursorType.EXHAUST)
 	for row in rows:
 		flag = False
-		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
+		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles' or row['Posting Department'] == "":
 			continue
 		else:
 			postingDepartment.add(row['Posting Department'])
@@ -93,9 +93,9 @@ def getResults(title, companyName, team, archiveStatus, age):
 			continue
 		
 		if item['Min Date'] < benchmark_date:
-			print(f"{item['Min Date']} < {benchmark_date}")
+			# print(f"{item['Min Date']} < {benchmark_date}")
 			continue
-		print(benchmark_date)
+		
 
 		# Modified posting ID for display
 		# item['Created At (GMT)'] =  datetime.datetime.strptime(str(item['Created At (GMT)']), '%Y-%m-%d %H:%M:%S').strftime('%B %Y')
@@ -114,12 +114,14 @@ def getResults(title, companyName, team, archiveStatus, age):
 			counts[postId][origin]['onsite_interview'] = 0
 			counts[postId][origin]['offer'] = 0
 		originCounts = counts[postId][origin]
+		
 		if 'Stage - New lead' in item and item['Stage - New lead'] != None:
 			originCounts['new_lead'] += 1
 		if 'Stage - Reached out' in item and item['Stage - Reached out'] != None:
 			originCounts['reached_out'] += 1
 		if 'Stage - New applicant' in item and item['Stage - New applicant'] != None:
 			originCounts['new_applicant'] += 1
+			print(item['Profile ID'])
 		if 'Stage - Recruiter screen' in item and item['Stage - Recruiter screen'] != None:
 			originCounts['recruiter_screen'] += 1
 		if 'Stage - Phone interview' in item and item['Stage - Phone interview'] != None:
@@ -199,7 +201,7 @@ def getBigDict():
 	rows = collection.find(cursor_type=CursorType.EXHAUST)
 	for row in rows:
 		flag = False
-		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
+		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles' or row['Posting Department'] == "":
 			continue
 		else:
 			flag = True
@@ -216,7 +218,7 @@ def uidropdowns():
 	rows = collection.find(cursor_type=CursorType.EXHAUST)
 	for row in rows:
 		flag = False
-		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles':
+		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles' or row['Posting Department'] == "":
 			continue
 		else:
 			postingDepartment.add(row['Posting Department'])
@@ -228,7 +230,6 @@ def uidropdowns():
 
 # Make that bigDict step by step
 def makeBigDict(bigDict, postDept, postTeam, postTitle):
-	#Do
 	if postDept not in bigDict:
 		bigDict[str(postDept)] = {}
 	if postTeam not in bigDict[str(postDept)]:
