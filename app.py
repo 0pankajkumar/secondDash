@@ -121,7 +121,7 @@ def getResults(title, companyName, team, archiveStatus, age):
 			originCounts['reached_out'] += 1
 		if 'Stage - New applicant' in item and item['Stage - New applicant'] != None:
 			originCounts['new_applicant'] += 1
-			print(item['Profile ID'])
+			# print(item['Profile ID'])	
 		if 'Stage - Recruiter screen' in item and item['Stage - Recruiter screen'] != None:
 			originCounts['recruiter_screen'] += 1
 		if 'Stage - Phone interview' in item and item['Stage - Phone interview'] != None:
