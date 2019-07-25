@@ -133,6 +133,25 @@
     e.preventDefault();
     var x = getFormData($('#bigForm'));
 
+    // Nested calculator of TOTAL for each posting
+    var nestedCalc = function (values, data, calcParams) {
+      var calc = 0;
+
+      data.forEach(function (row) {
+        row._children.forEach(function (child) {
+          calc += child[calcParams.field];
+        })
+      });
+
+      return calc;
+    }
+
+    // Rewriting the heading of Posting name
+    var customGroupHeader = function (value, count, data, group) {
+      return value + "<span style='color:#d00; margin-left:10px;'></span>";
+    }
+
+    // Creating a Tabulator object
     var table = new Tabulator("#example-table", {
       ajaxURL: "http://localhost:5000/getTable", //ajax URL
       ajaxParams: { "companyName": x['ddl1'], "postingTeam": x['ddl2'], "postingTitle": x['ddl3'], "postingArchiveStatus": x['postingArchiveStatus'], "age": x['age'] }, //ajax parameters
@@ -145,16 +164,18 @@
       index: "id",
       dataTree: true,
       dataTreeStartExpanded: true,
+      groupBy: "Posting ID",
+      groupHeader: customGroupHeader,
       columns: [
-        { title: "Posting ID", field: "Posting ID", width: 200, responsive: 0 },
-        { title: "Origin", field: "origin", width: 150 },
-        { title: "New Lead", field: "newLeadCount", width: 150, bottomCalc: "sum" },
-        { title: "Reached Out", field: "reachedOutCount", width: 150, bottomCalc: "sum" },
-        { title: "New applicant", field: "newApplicantCount", align: "center", width: 150, bottomCalc: "sum" },
-        { title: "Recruiter Screen", field: "recruiterScreenCount", align: "center", width: 150, bottomCalc: "sum" },
-        { title: "Phone Interview", field: "phoneInterviewCount", align: "center", width: 150, bottomCalc: "sum" },
-        { title: "On-site", field: "onsiteInterviewCount", align: "center", width: 150, bottomCalc: "sum" },
-        { title: "Offer", field: "offerCount", align: "center", width: 150, bottomCalc: "sum" },
+        { title: "Posting", field: "origin", width: 200, responsive: 0 },
+        // { title: "Origin", field: "origin", width: 150 },
+        { title: "New Lead", field: "newLeadCount", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "newLeadCount" } },
+        { title: "Reached Out", field: "reachedOutCount", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "reachedOutCount" } },
+        { title: "New applicant", field: "newApplicantCount", align: "center", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "newApplicantCount" } },
+        { title: "Recruiter Screen", field: "recruiterScreenCount", align: "center", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "recruiterScreenCount" } },
+        { title: "Phone Interview", field: "phoneInterviewCount", align: "center", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "phoneInterviewCount" } },
+        { title: "On-site", field: "onsiteInterviewCount", align: "center", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "onsiteInterviewCount" } },
+        { title: "Offer", field: "offerCount", align: "center", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "offerCount" } },
       ],
 
 
