@@ -1,3 +1,5 @@
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 $(function() {
   $.widget("custom.combobox", {
     _create: function() {
@@ -139,8 +141,25 @@ $(function() {
     }
   });
 
-  $("#ddl1").combobox();
-  $("#ddl2").combobox();
-  $("#ddl3").combobox();
+  $("#ddl1").combobox({
+    select: function(event, ui) {
+      configureDDL2(
+        ui.item,
+        document.getElementById("ddl2"),
+        document.getElementById("ddl3")
+      );
+    }
+  });
+  $("#ddl2").combobox({
+    select: function(event, ui) {
+      configureDDL3(
+        document.getElementById("ddl1"),
+        ui.item,
+        document.getElementById("ddl3")
+      );
+    }
+  });
+  $("#ddl3").combobox({ select: function(event, ui) {} });
   $("#age").combobox();
+  $("#postingArchiveStatus").combobox();
 });

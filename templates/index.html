@@ -13,7 +13,7 @@
 
 
   <label for="companyName">Company:</label>
-  <select name="ddl1" id="ddl1" style="display: none"
+  <select name="ddl1" id="ddl1" style="display: hidden"
     onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
     <option value="All" selected>All</option>
     {% for p in postingDepartment %}
@@ -24,7 +24,7 @@
 
 
   <label for="postingTeam">Team:</label>
-  <select name="ddl2" id="ddl2" style="display: none"
+  <select name="ddl2" id="ddl2" style="display: hidden"
     onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
     <option value="All" selected>All</option>
   </select>
@@ -32,14 +32,14 @@
 
 
   <label for="postingTitle">Title:</label>
-  <select name="ddl3" id="ddl3" style="display: none">
+  <select name="ddl3" id="ddl3" style="display: hidden">
     <option value="All" selected>All</option>
   </select>
 
 
 
   <label for="  ">Posting Archived :</label>
-  <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: none">
+  <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: hidden">
     <option value="Both" selected>Both</option>
     {% for p in postingArchiveStatus %}
     {% if p == 'false' %}
@@ -53,7 +53,7 @@
   </select>
 
   <label for="">Age:</label>
-  <select name="age" id="age" style="display: none">
+  <select name="age" id="age" style="display: hidden">
     <option value="beginningOfTime" selected>Beginning of Time</option>
     <option value="3 Days Old">3 Days Old</option>
     <option value="7 Days Old">7 Days Old</option>
@@ -81,11 +81,11 @@
       success: function (result) {
         console.log(result)
         myNestedVals = result;
-        document.getElementById('ddl1').style.display = 'inline';
-        document.getElementById('ddl2').style.display = 'inline';
-        document.getElementById('ddl3').style.display = 'inline';
-        document.getElementById('postingArchiveStatus').style.display = 'inline';
-        document.getElementById('age').style.display = 'inline';
+        // document.getElementById('ddl1').style.display = 'inline';
+        // document.getElementById('ddl2').style.display = 'inline';
+        // document.getElementById('ddl3').style.display = 'inline';
+        // document.getElementById('postingArchiveStatus').style.display = 'inline';
+        // document.getElementById('age').style.display = 'inline';
       }
     });
 
@@ -169,13 +169,13 @@
       columns: [
         { title: "Posting", field: "origin", width: 200, responsive: 0 },
         // { title: "Origin", field: "origin", width: 150 },
-        { title: "New Lead", field: "newLeadCount", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "newLeadCount" } },
-        { title: "Reached Out", field: "reachedOutCount", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "reachedOutCount" } },
-        { title: "New applicant", field: "newApplicantCount", align: "center", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "newApplicantCount" } },
-        { title: "Recruiter Screen", field: "recruiterScreenCount", align: "center", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "recruiterScreenCount" } },
-        { title: "Phone Interview", field: "phoneInterviewCount", align: "center", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "phoneInterviewCount" } },
-        { title: "On-site", field: "onsiteInterviewCount", align: "center", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "onsiteInterviewCount" } },
-        { title: "Offer", field: "offerCount", align: "center", width: 150, bottomCalc: nestedCalc, bottomCalcParams: { field: "offerCount" } },
+        { title: "New Lead", field: "newLeadCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "newLeadCount" } },
+        { title: "Reached Out", field: "reachedOutCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "reachedOutCount" } },
+        { title: "New applicant", field: "newApplicantCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "newApplicantCount" } },
+        { title: "Recruiter Screen", field: "recruiterScreenCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "recruiterScreenCount" } },
+        { title: "Phone Interview", field: "phoneInterviewCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "phoneInterviewCount" } },
+        { title: "On-site", field: "onsiteInterviewCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "onsiteInterviewCount" } },
+        { title: "Offer", field: "offerCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerCount" } },
       ],
 
 
