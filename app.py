@@ -18,7 +18,7 @@ app.config["DEBUG"] = False
 
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
-collection = database["bullDB"]
+collection = database["dolphinDB"]
 
 
 # configure flask_upload API
@@ -100,7 +100,13 @@ def getResults(title, companyName, team, archiveStatus, age):
 		# Modified posting ID for display
 		# item['Created At (GMT)'] =  datetime.datetime.strptime(str(item['Created At (GMT)']), '%Y-%m-%d %H:%M:%S').strftime('%B %Y')
 		# postId = str(item['Posting ID']) + ", " + str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + item['Created At (GMT)']
-		postId = str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + str(item['Posting ID'])
+
+		if 'postingCreatedDate' in item:
+			dateForLabel = str(item['postingCreatedDate'].strftime('%b')) + " " + str(item['postingCreatedDate'].strftime('%Y'))
+		else:
+			dateForLabel = "$"
+		postId = str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + dateForLabel 
+
 		origin = item['Origin']
 		if not postId in counts:
 			counts[postId] = dict()
@@ -227,7 +233,7 @@ def uidropdowns():
 
 	#Sorting the set alphabatically
 	postingDepartment = sorted(postingDepartment)
-	
+
 	return render_template('index.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus)
 
 	

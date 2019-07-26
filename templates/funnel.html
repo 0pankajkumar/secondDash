@@ -13,7 +13,7 @@
 
 
     <label for="companyName">Company:</label>
-    <select name="ddl1" id="ddl1" style="display: none"
+    <select name="ddl1" id="ddl1" style="display: hidden"
         onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
         <option value="All" selected>All</option>
         {% for p in postingDepartment %}
@@ -24,7 +24,7 @@
 
 
     <label for="postingTeam">Team:</label>
-    <select name="ddl2" id="ddl2" style="display: none"
+    <select name="ddl2" id="ddl2" style="display: hidden"
         onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
         <option value="All" selected>All</option>
     </select>
@@ -32,14 +32,14 @@
 
 
     <label for="postingTitle">Title:</label>
-    <select name="ddl3" id="ddl3" style="display: none">
+    <select name="ddl3" id="ddl3" style="display: hidden">
         <option value="All" selected>All</option>
     </select>
 
 
 
     <label for="  ">Posting Archived :</label>
-    <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: none">
+    <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: hidden">
         <option value="Both" selected>Both</option>
         {% for p in postingArchiveStatus %}
         {% if p == 'false' %}
@@ -53,7 +53,7 @@
     </select>
 
     <label for="">Age:</label>
-    <select name="age" id="age" style="display: none">
+    <select name="age" id="age" style="display: hidden">
         <option value="beginningOfTime" selected>Beginning of Time</option>
         <option value="3 Days Old">3 Days Old</option>
         <option value="7 Days Old">7 Days Old</option>
@@ -83,11 +83,11 @@
             success: function (result) {
                 console.log(result)
                 myNestedVals = result;
-                document.getElementById('ddl1').style.display = 'inline';
-                document.getElementById('ddl2').style.display = 'inline';
-                document.getElementById('ddl3').style.display = 'inline';
-                document.getElementById('postingArchiveStatus').style.display = 'inline';
-                document.getElementById('age').style.display = 'inline';
+                // document.getElementById('ddl1').style.display = 'inline';
+                // document.getElementById('ddl2').style.display = 'inline';
+                // document.getElementById('ddl3').style.display = 'inline';
+                // document.getElementById('postingArchiveStatus').style.display = 'inline';
+                // document.getElementById('age').style.display = 'inline';
             }
         });
 
@@ -103,6 +103,7 @@
     }
 
     function createOptions(optionsArray, ddl) {
+        optionsArray.sort();
         for (i = 0; i < optionsArray.length; i++) {
             createOption(ddl, optionsArray[i], optionsArray[i]);
         }
@@ -111,14 +112,15 @@
     function configureDDL2(ddl1, ddl2, ddl3) {
         ddl2.options.length = 0;
         ddl3.options.length = 0;
-        createOption(ddl2, "All", "");
+        createOption(ddl2, "All", "All");
         var ddl2keys = Object.keys(myNestedVals[ddl1.value]);
-        createOptions(ddl2keys, ddl2)
+        createOptions(ddl2keys, ddl2);
+
     }
 
     function configureDDL3(ddl1, ddl2, ddl3) {
         ddl3.options.length = 0;
-        createOption(ddl3, "All", "");
+        createOption(ddl3, "All", "All");
         var ddl3keys = myNestedVals[ddl1.value][ddl2.value];
         createOptions(ddl3keys, ddl3);
     }
