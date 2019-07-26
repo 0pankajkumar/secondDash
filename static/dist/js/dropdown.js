@@ -1,5 +1,3 @@
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 $(function() {
   $.widget("custom.combobox", {
     _create: function() {
@@ -148,6 +146,7 @@ $(function() {
         document.getElementById("ddl2"),
         document.getElementById("ddl3")
       );
+      refresher("#ddl2");
     }
   });
   $("#ddl2").combobox({
@@ -157,9 +156,20 @@ $(function() {
         ui.item,
         document.getElementById("ddl3")
       );
+      refresher("#ddl3");
     }
   });
   $("#ddl3").combobox({ select: function(event, ui) {} });
   $("#age").combobox();
   $("#postingArchiveStatus").combobox();
 });
+
+function refresher(theID) {
+  // Refresh functions inspired from https://forum.jquery.com/topic/update-jquery-ui-combobox-with-button
+
+  //$(theID).combobox("destroy"); //first destroy the current JQuery combobox
+
+  $(theID + " option:selected").removeAttr("selected"); //deselect the currently selected option
+
+  //$(theID).combobox(); //Recreating the destroyed combobox
+}
