@@ -224,6 +224,10 @@ def uidropdowns():
 			postingDepartment.add(row['Posting Department'])
 			flag = True
 		postingArchiveStatus.add(row['Posting Archive Status'])
+
+	#Sorting the set alphabatically
+	postingDepartment = sorted(postingDepartment)
+	
 	return render_template('index.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus)
 
 	

@@ -101,6 +101,7 @@
   }
 
   function createOptions(optionsArray, ddl) {
+    optionsArray.sort();
     for (i = 0; i < optionsArray.length; i++) {
       createOption(ddl, optionsArray[i], optionsArray[i]);
     }
