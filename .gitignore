@@ -6,3 +6,5 @@ GRES_KEY=Quad2core@
 
 DEF_KEY=2349875
 DEBUG=True
+
+env/

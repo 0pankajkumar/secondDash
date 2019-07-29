@@ -42,9 +42,9 @@ def upload():
 
 
 
-@app.route('/test1', methods=['GET'])
+@app.route('/test2', methods=['GET'])
 def test1():
-	return render_template('test1.html')
+	return render_template('test2.html')
 
 @app.route('/funnel', methods=['GET'])
 def funnel():
