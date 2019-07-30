@@ -46,6 +46,10 @@ def upload():
 def test1():
 	return render_template('test2.html')
 
+@app.route('/trial3', methods=['GET'])
+def trial3():
+	return render_template('trial3.html')
+
 @app.route('/funnel', methods=['GET'])
 def funnel():
 	postingDepartment = set()
