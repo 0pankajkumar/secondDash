@@ -2,21 +2,52 @@
 <html lang="en">
 
 <head>
+    <link href="dist/css/customStyle.css" rel="stylesheet">
+    <link href="dist/css/tabulator.min.css" rel="stylesheet">
+    <link href="dist/css/funnelStyles.css" rel="stylesheet">
+    <link href="dist/css/uploaderStyles.css" rel="stylesheet">
+    <link href="dist/css/dropdownStyles.css" rel="stylesheet">
+    <script type="text/javascript" src="dist/js/tabulator.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        .custom-combobox {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-combobox-toggle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin-left: -1px;
+            padding: 0;
+        }
+
+        .custom-combobox-input {
+            margin: 0;
+            padding: 5px 10px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="dist/js/dropdown.js"></script>
 
 
 
 
-    <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.js"></script>
 
+
+
+    <!-- Resources for charts-->
+    <script type="text/javascript" src="dist/js/d3.js"></script>
+    <script type="text/javascript" src="dist/js/d3-funnel.js"></script>
+    <script type="text/javascript" src="dist/js/funnelScript2.js"></script>
     <script type="text/javascript" src="dist/js/dropdown.js"></script>
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
 
 
-
-
-    <link rel="stylesheet" type="text/css"
-        href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/smoothness/jquery-ui.css">
 
     <style id="compiled-css" type="text/css">
         body {
@@ -44,100 +75,6 @@
             padding: 0.3em;
         }
     </style>
-
-
-
-
-    <script type="text/javascript">//<![CDATA[
-
-        (function ($) {
-            $.widget("ui.combobox", {
-                _create: function () {
-                    var input, self = this,
-                        select = this.element.hide(),
-                        selected = select.children(":selected"),
-                        value = selected.val() ? selected.text() : "",
-                        wrapper = $("<span>").addClass("ui-combobox").insertAfter(select);
-
-                    input = $("<input>").appendTo(wrapper).val(value).addClass("ui-state-default").autocomplete({
-                        delay: 0,
-                        minLength: 0,
-                        source: function (request, response) {
-                            var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
-                            response(select.children("option").map(function () {
-                                var text = $(this).text();
-                                if (this.value && (!request.term || matcher.test(text))) return {
-                                    label: text.replace(
-                                        new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + $.ui.autocomplete.escapeRegex(request.term) + ")(?![^<>]*>)(?![^&;]+;)", "gi"), "<strong>$1</strong>"),
-                                    value: text,
-                                    option: this
-                                };
-                            }));
-                        },
-                        select: function (event, ui) {
-                            ui.item.option.selected = true;
-                            self._trigger("selected", event, {
-                                item: ui.item.option
-                            });
-
-                        },
-                        change: function (event, ui) {
-                            if (!ui.item) {
-                                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex($(this).val()) + "$", "i"),
-                                    valid = false;
-                                select.children("option").each(function () {
-                                    if ($(this).text().match(matcher)) {
-                                        this.selected = valid = true;
-                                        return false;
-                                    }
-                                });
-                                if (!valid) {
-                                    // remove invalid value, as it didn't match anything
-                                    $(this).val("");
-                                    select.val("");
-                                    input.data("autocomplete").term = "";
-                                    return false;
-                                }
-                            }
-                        }
-                    }).addClass("ui-widget ui-widget-content ui-corner-left");
-
-                    input.data("autocomplete")._renderItem = function (ul, item) {
-                        return $("<li></li>").data("item.autocomplete", item).append("<a>" + item.label + "</a>").appendTo(ul);
-                    };
-
-                    $("<button>").attr("tabIndex", -1).attr("title", "Show All Items").appendTo(wrapper).button({
-                        icons: {
-                            primary: "ui-icon-triangle-1-s"
-                        },
-                        text: false
-                    }).removeClass("ui-corner-all").addClass("ui-corner-right ui-button-icon ui-combobox-button").click(function () {
-                        // close if already visible
-                        if (input.autocomplete("widget").is(":visible")) {
-                            input.autocomplete("close");
-                            return;
-                        }
-
-                        // work around a bug (likely same cause as #5265)
-                        $(this).blur();
-
-                        // pass empty string as value to search for, displaying all results
-                        input.autocomplete("search", "");
-                        input.focus();
-                    });
-                },
-
-                destroy: function () {
-                    this.wrapper.remove();
-                    this.element.show();
-                    $.Widget.prototype.destroy.call(this);
-                }
-            });
-        })(jQuery);
-
-
-
-    </script>
 
 </head>
 

@@ -9,72 +9,72 @@
 
 
 
-<form style="text-align: center" id="bigForm">
+<!-- <form style="text-align: center" id="bigForm"> -->
 
-  <div class="ui-widget">
-    <label for="companyName">Company:</label>
-    <select name="ddl1" id="ddl1" style="display: hidden"
-      onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
-      <option value="All" selected>All</option>
-      {% for p in postingDepartment %}
-      <option value="{{ p }}">{{ p }}</option>
-      {% endfor %}
-    </select>
-  </div>
-
-
-
-  <div class="ui-widget">
-    <label for="postingTeam">Team:</label>
-    <select name="ddl2" id="ddl2" style="display: hidden"
-      onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
-      <option value="All" selected>All</option>
-    </select>
-  </div>
+<div class="ui-widget">
+  <label for="companyName">Company:</label>
+  <select name="ddl1" id="ddl1" style="display: hidden"
+    onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
+    <option value="All" selected>All</option>
+    {% for p in postingDepartment %}
+    <option value="{{ p }}">{{ p }}</option>
+    {% endfor %}
+  </select>
+</div>
 
 
-  <div class="ui-widget">
-    <label for="postingTitle">Title:</label>
-    <select name="ddl3" id="ddl3" style="display: hidden">
-      <option value="All" selected>All</option>
-    </select>
-  </div>
+
+<div class="ui-widget">
+  <label for="postingTeam">Team:</label>
+  <select name="ddl2" id="ddl2" style="display: hidden"
+    onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
+    <option value="All" selected>All</option>
+  </select>
+</div>
 
 
-  <div class="ui-widget">
-    <label for="  ">Posting Archived :</label>
-    <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: hidden">
-      <option value="Both" selected>Both</option>
-      {% for p in postingArchiveStatus %}
-      {% if p == 'false' %}
-      <option value="{{ p }}">No</option>
-      {% elif p == 'true' %}
-      <option value="{{ p }}">Yes</option>
-      {% else %}
-      <option value="{{ p }}">{{ p }}</option>
-      {% endif %}
-      {% endfor %}
-    </select>
-  </div>
+<div class="ui-widget">
+  <label for="postingTitle">Title:</label>
+  <select name="ddl3" id="ddl3" style="display: hidden">
+    <option value="All" selected>All</option>
+  </select>
+</div>
 
-  <div class="ui-widget">
-    <label for="">Age:</label>
-    <select name="age" id="age" style="display: hidden">
-      <option value="beginningOfTime" selected>Beginning of Time</option>
-      <option value="3 Days Old">3 Days Old</option>
-      <option value="7 Days Old">7 Days Old</option>
-      <option value="15 Days Old">15 Days Old</option>
-      <option value="1 Months Old">1 Month Old</option>
-      <option value="2 Months Old">2 Months Old</option>
-      <option value="3 Months Old">3 Months Old</option>
-      <option value="4 Months Old">4 Months Old</option>
-      <option value="6 Months Old">6 Months Old</option>
-    </select>
-  </div>
 
-  &nbsp &nbsp
-  <button id="send" class="btn btn-primary">Go</button>
-</form>
+<div class="ui-widget">
+  <label for="  ">Posting Archived :</label>
+  <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: hidden">
+    <option value="Both" selected>Both</option>
+    {% for p in postingArchiveStatus %}
+    {% if p == 'false' %}
+    <option value="{{ p }}">No</option>
+    {% elif p == 'true' %}
+    <option value="{{ p }}">Yes</option>
+    {% else %}
+    <option value="{{ p }}">{{ p }}</option>
+    {% endif %}
+    {% endfor %}
+  </select>
+</div>
+
+<div class="ui-widget">
+  <label for="">Age:</label>
+  <select name="age" id="age" style="display: hidden">
+    <option value="beginningOfTime" selected>Beginning of Time</option>
+    <option value="3 Days Old">3 Days Old</option>
+    <option value="7 Days Old">7 Days Old</option>
+    <option value="15 Days Old">15 Days Old</option>
+    <option value="1 Months Old">1 Month Old</option>
+    <option value="2 Months Old">2 Months Old</option>
+    <option value="3 Months Old">3 Months Old</option>
+    <option value="4 Months Old">4 Months Old</option>
+    <option value="6 Months Old">6 Months Old</option>
+  </select>
+</div>
+
+&nbsp &nbsp
+<button id="send" class="btn btn-primary">Go</button>
+<!-- </form> -->
 
 <script>
 
@@ -139,6 +139,7 @@
 <script type="text/javascript">
 
   $('#send').on('click', function (e) {
+    console.log("Go clicked");
     e.preventDefault();
     var x = getFormData($('#bigForm'));
 
@@ -163,7 +164,7 @@
     // Creating a Tabulator object
     var table = new Tabulator("#example-table", {
       ajaxURL: "http://localhost:5000/getTable", //ajax URL
-      ajaxParams: { "companyName": x['ddl1'], "postingTeam": x['ddl2'], "postingTitle": x['ddl3'], "postingArchiveStatus": x['postingArchiveStatus'], "age": x['age'] }, //ajax parameters
+      ajaxParams: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "age": document.getElementById('age').value }, //ajax parameters
       ajaxConfig: "POST", //ajax HTTP request type
       // type:"GET", //set request type to Position
       contentType: 'application/json; charset=utf-8',
