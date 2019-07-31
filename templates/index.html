@@ -178,6 +178,15 @@
       dataTreeStartExpanded: true,
       groupBy: "Posting ID",
       groupHeader: customGroupHeader,
+      tooltips: function (cell) {
+        //cell - cell component
+        //function should return a string for the tooltip of false to hide the tooltip
+        let data = cell.getRow();
+        if (data.col == "offerCount") {
+          return "Yeah!";
+        }
+        // return cell.getRow(); //return cells "field - value";
+      },
       columns: [
         { title: "Posting", field: "origin", width: 200, responsive: 0 },
         // { title: "Origin", field: "origin", width: 150 },

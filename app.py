@@ -18,7 +18,7 @@ app.config["DEBUG"] = False
 
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
-collection = database["dolphinDB"]
+collection = database["eucalyptusDB"]
 
 
 # configure flask_upload API

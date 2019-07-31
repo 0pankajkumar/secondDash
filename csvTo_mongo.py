@@ -10,7 +10,7 @@ import datetime
 
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
-collection = database["dolphinDB"]
+collection = database["eucalyptusDB"]
 
 
 all_The_Stages = ['Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant', 'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer']
@@ -27,12 +27,53 @@ with open('d4871e75-7fb1-4176-bfa0-c3d061757298.candidates.presence.latest (4).c
 	for row in myReader:
 		minDateCandidates = list()
 		dict_to_be_written = dict()
+		phoneToOnsite = False
+		phoneToOffer = False
+		onsiteToOffer = False
 		if line_count > 0:
 			#Making dict for DB
 
 			row = [r.strip() for r in row]
 			 
 			for i in range(numberOfColumns):
+
+
+
+
+				# Adding column for % conversion calculation
+				#Phone interview to ...
+				if(row[53] != "" and (type(row[53]) is datetime.datetime or type(row[53]) is str)):
+					# On-site
+					if(row[54] != "" and (type(row[54]) is datetime.datetime or type(row[54]) is str)):
+						phoneToOnsite = True
+					else:
+						phoneToOnsite = False
+					# Offer
+					if(row[55] != "" and (type(row[55]) is datetime.datetime or type(row[55]) is str)):
+						phoneToOffer = True
+					else:
+						phoneToOffer = False
+
+				# Onsite to ...						
+				if(row[54] != "" and (type(row[54]) is datetime.datetime or type(row[54]) is str)):
+					# offer
+					if(row[55] != "" and (type(row[55]) is datetime.datetime or type(row[55]) is str)):
+						onsiteToOffer = True
+					else:
+						onsiteToOffer = False
+
+				# Writing to dict
+				dict_to_be_written['phoneToOnsite'] = phoneToOnsite
+				dict_to_be_written['phoneToOffer'] = phoneToOffer
+				dict_to_be_written['onsiteToOffer'] = onsiteToOffer
+
+
+
+
+
+
+
+				# Converting date strings to datetime objects
 				if headers[i] in all_The_Stages and row[i] != '':
 					try:
 						row[i] = datetime.datetime.strptime(row[i], '%Y-%m-%d %H:%M:%S')
@@ -64,26 +105,7 @@ with open('d4871e75-7fb1-4176-bfa0-c3d061757298.candidates.presence.latest (4).c
 						if dict_of_posting_creation_date[row[24]] > row[21]:
 							dict_of_posting_creation_date[row[24]] = row[21]
 
-				# postingIdNow = None
-				# Deciding which is the earliest date for Posting
-				# if headers[i] == "Posting ID"
-				# 	if row[i] not in dict_of_posting_created:
-				# 		dict_of_posting_created[row[i]] = datetime.datetime(2050,12,1)
-				# 		postingIdNow = row[i]
-				# if headers[i] == "Created At (GMT)":
-				# 	if dict_of_posting_created[row[i]] < row[i] and headers[i] == "Created At (GMT)"
-				# 		dict_of_posting_created[row[i]]
 
-
-				# postingCreatedDate = datetime.datetime(2005,12,1)
-				# if headers[i] == "Created At (GMT)":
-				# 	try:
-				# 		just_a_Date = datetime.datetime.strptime(row[i], '%Y-%m-%d %H:%M:%S')
-				# 	except:
-				# 		just_a_Date = datetime.datetime.strptime(row[i], '%d-%m-%Y %H:%M')
-				# 	if just_a_Date < postingCreatedDate:
-				# 		postingCreatedDate = just_a_Date
-				# dict_to_be_written['postingCreatedDate'] = postingCreatedDate
 
 
 				# Making dict entry for each column
