@@ -123,6 +123,12 @@ def getResults(title, companyName, team, archiveStatus, age):
 			counts[postId][origin]['phone_interview'] = 0
 			counts[postId][origin]['onsite_interview'] = 0
 			counts[postId][origin]['offer'] = 0
+
+			# var for % counts
+			counts[postId][origin]['phone_To_Onsite'] = 0
+			counts[postId][origin]['phone_To_Offer'] = 0
+			counts[postId][origin]['onsite_To_Offer'] = 0
+
 		originCounts = counts[postId][origin]
 		
 		if 'Stage - New lead' in item and item['Stage - New lead'] != None:
@@ -131,13 +137,23 @@ def getResults(title, companyName, team, archiveStatus, age):
 			originCounts['reached_out'] += 1
 		if 'Stage - New applicant' in item and item['Stage - New applicant'] != None:
 			originCounts['new_applicant'] += 1
-			# print(item['Profile ID'])	
 		if 'Stage - Recruiter screen' in item and item['Stage - Recruiter screen'] != None:
 			originCounts['recruiter_screen'] += 1
+
 		if 'Stage - Phone interview' in item and item['Stage - Phone interview'] != None:
 			originCounts['phone_interview'] += 1
+			# Counting for % conversion
+			if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
+				originCounts['phone_To_Onsite'] += 1
+			if 'Stage - Offer' in item and item['Stage - Offer'] != None:
+				originCounts['phone_To_Offer'] += 1
+
 		if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
 			originCounts['onsite_interview'] += 1
+			# Counting for % conversion
+			if 'Stage - Offer' in item and item['Stage - Offer'] != None:
+				originCounts['onsite_To_Offer'] += 1
+
 		if 'Stage - Offer' in item and item['Stage - Offer'] != None:
 			originCounts['offer'] += 1
 
@@ -179,7 +195,10 @@ def actualResultForOrigin(origin, originCounts):
 		"phoneInterviewCount": originCounts['phone_interview'],
 		"onsiteInterviewCount": originCounts['onsite_interview'],
 		"offerCount": originCounts['offer'],
-		"reachedOutCount": originCounts['reached_out']
+		"reachedOutCount": originCounts['reached_out'],
+		"phoneToOnsiteCount": originCounts['phone_To_Onsite'],
+		"phoneToOfferCount": originCounts['phone_To_Offer'],
+		"onsiteToOfferCount": originCounts['onsite_To_Offer']
 	}
 
 
