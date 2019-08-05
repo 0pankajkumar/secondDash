@@ -1,0 +1,18 @@
+virtualenv tutorial @ https://www.linode.com/docs/development/python/create-a-python-virtualenv-on-ubuntu-1610/
+
+activate using 
+source env/bin/activate
+
+deactivate using
+deactivate
+
+
+
+
+
+
+
+
+
+MongoDB
+Installation tutorial https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
