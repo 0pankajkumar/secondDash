@@ -74,14 +74,15 @@ def getTable():
 	companyName = request.form.get('companyName')
 	postingTeam = request.form.get('postingTeam')
 	postingArchiveStatus = request.form.get('postingArchiveStatus')
+	profileArchiveStatus = request.form.get('profileArchiveStatus')
 	age = request.form.get('age')
 
-	results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus, age)
+	results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus, profileArchiveStatus, age)
 	# results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
 	return jsonify(results)
 
 
-def getResults(title, companyName, team, archiveStatus, age):
+def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, age):
 	ts = time.time()
 	rows = getFromDB(companyName) # title, companyName, team, archiveStatus
 	print('db: ' + str(time.time() - ts))
@@ -94,6 +95,8 @@ def getResults(title, companyName, team, archiveStatus, age):
 		if item['Posting Team'] != team and team != 'All':
 			continue
 		if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
+			continue
+		if item['Profile Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
 			continue
 		
 		if item['Min Date'] < benchmark_date:
@@ -244,6 +247,7 @@ def getBigDict():
 def uidropdowns():
 	postingDepartment = set()
 	postingArchiveStatus = set()
+	profileArchiveStatus = set()
 	rows = collection.find(cursor_type=CursorType.EXHAUST)
 	for row in rows:
 		flag = False
@@ -253,11 +257,12 @@ def uidropdowns():
 			postingDepartment.add(row['Posting Department'])
 			flag = True
 		postingArchiveStatus.add(row['Posting Archive Status'])
+		profileArchiveStatus.add(row['Profile Archive Status'])
 
 	#Sorting the set alphabatically
 	postingDepartment = sorted(postingDepartment)
 
-	return render_template('index.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus)
+	return render_template('index.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus, profileArchiveStatus = profileArchiveStatus)
 
 	
 

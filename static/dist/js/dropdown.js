@@ -162,6 +162,7 @@ $(function() {
   $("#ddl3").combobox({ select: function(event, ui) {} });
   $("#age").combobox();
   $("#postingArchiveStatus").combobox();
+  $("#profileArchiveStatus").combobox();
 });
 
 function refresher(theID) {

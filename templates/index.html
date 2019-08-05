@@ -58,6 +58,22 @@
   </div>
 
   <div class="ui-widget flexItem">
+    <label for="  ">Profile Archived :</label><br>
+    <select name="profileArchiveStatus" id="profileArchiveStatus" style="display: hidden">
+      <option value="Both" selected>Both</option>
+      {% for p in profileArchiveStatus %}
+      {% if p == 'false' %}
+      <option value="{{ p }}">No</option>
+      {% elif p == 'true' %}
+      <option value="{{ p }}">Yes</option>
+      {% else %}
+      <option value="{{ p }}">{{ p }}</option>
+      {% endif %}
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="ui-widget flexItem">
     <label for="">Age:</label><br>
     <select name="age" id="age" style="display: hidden">
       <option value="beginningOfTime" selected>Beginning of Time</option>
@@ -166,7 +182,7 @@
     // Creating a Tabulator object
     var table = new Tabulator("#example-table", {
       ajaxURL: "http://localhost:5000/getTable", //ajax URL
-      ajaxParams: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "age": document.getElementById('age').value }, //ajax parameters
+      ajaxParams: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "age": document.getElementById('age').value }, //ajax parameters
       ajaxConfig: "POST", //ajax HTTP request type
       // type:"GET", //set request type to Position
       contentType: 'application/json; charset=utf-8',
