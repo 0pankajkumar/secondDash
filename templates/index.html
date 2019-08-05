@@ -181,7 +181,7 @@
 
     // Creating a Tabulator object
     var table = new Tabulator("#example-table", {
-      ajaxURL: "http://localhost:5000/getTable", //ajax URL
+      ajaxURL: "/getTable", //ajax URL
       ajaxParams: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "age": document.getElementById('age').value }, //ajax parameters
       ajaxConfig: "POST", //ajax HTTP request type
       // type:"GET", //set request type to Position
