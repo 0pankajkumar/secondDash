@@ -48,7 +48,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-    
+
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
@@ -320,7 +320,7 @@ def makeBigDict(bigDict, postDept, postTeam, postTitle):
 
 
 if __name__ == '__main__':
-	app.run(debug=True,host="172.16.140.211",port=5000)
+	app.run(debug=True,host="172.16.140.211")
 
 # if __name__ == '__main__':
 # 	app.run(debug=True)
