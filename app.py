@@ -1,5 +1,5 @@
 import flask
-from flask import request, jsonify, render_template, url_for
+from flask import request, jsonify, render_template, url_for, redirect, session
 from werkzeug import secure_filename
 from flask_uploads import UploadSet, IMAGES, configure_uploads, UploadNotAllowed
 from pymongo import MongoClient, CursorType
@@ -10,6 +10,8 @@ import time
 from random import randint
 import os
 import datetime
+from functools import wraps
+
 
 app = flask.Flask(__name__, static_url_path='',
 				  static_folder='static',
@@ -20,6 +22,13 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 collection = database["eucalyptusDB"]
 
+# Clearing caches
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
 
 # configure flask_upload API
 documents = UploadSet("documents", ('csv'))
@@ -27,7 +36,21 @@ app.config["UPLOADED_DOCUMENTS_DEST"] = "uploaded_csv"
 configure_uploads(app, documents)
 
 
+def login_required(f):
+    """
+    Decorate routes to require login.
+    http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated_function
+
+    
 @app.route('/upload', methods=['GET', 'POST'])
+@login_required
 def upload():
 	if request.method == 'GET':
 		return render_template('uploader.html')
@@ -43,14 +66,17 @@ def upload():
 
 
 @app.route('/test2', methods=['GET'])
+@login_required
 def test1():
 	return render_template('test2.html')
 
 @app.route('/trial3', methods=['GET'])
+@login_required
 def trial3():
 	return render_template('trial3.html')
 
 @app.route('/funnel', methods=['GET'])
+@login_required
 def funnel():
 	postingDepartment = set()
 	postingArchiveStatus = set()
@@ -67,6 +93,7 @@ def funnel():
 
 
 @app.route('/getTable', methods=['POST'])
+@login_required
 def getTable():
 	# collection.createIndex('Posting Department')
 
@@ -227,7 +254,10 @@ def interpretAge(age):
 
 	return benchmark_date
 
+
+
 @app.route('/getBigDict', methods=['GET'])
+@login_required
 def getBigDict():
 	bigDict = dict()
 	rows = collection.find(cursor_type=CursorType.EXHAUST)
@@ -243,7 +273,8 @@ def getBigDict():
 			makeBigDict(bigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
 	return jsonify(bigDict)
 
-@app.route('/', methods=['GET'])
+@app.route('/table', methods=['GET'])
+@login_required
 def uidropdowns():
 	postingDepartment = set()
 	postingArchiveStatus = set()
@@ -264,6 +295,15 @@ def uidropdowns():
 
 	return render_template('index.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus, profileArchiveStatus = profileArchiveStatus)
 
+
+@app.route('/login', methods=['GET'])
+def loginPage1():
+	return render_template('login.html')
+
+
+@app.route('/', methods=['GET'])
+def loginPage():
+	return render_template('login.html')
 	
 
 # Make that bigDict step by step
@@ -281,6 +321,9 @@ def makeBigDict(bigDict, postDept, postTeam, postTitle):
 
 if __name__ == '__main__':
 	app.run(debug=True,host="172.16.140.211",port=5000)
+
+# if __name__ == '__main__':
+# 	app.run(debug=True)
 
 
 
