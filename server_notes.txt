@@ -10,9 +10,18 @@ deactivate
 
 
 
-
-
-
-
 MongoDB
 Installation tutorial https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+
+
+
+Virtualenv on server
+https://www.linode.com/docs/development/python/create-a-python-virtualenv-on-ubuntu-1610/
+
+Installing from requiremnts.txt
+https://stackoverflow.com/questions/7225900/how-to-install-packages-using-pip-according-to-the-requirements-txt-file-from-a
+
+Apache setting
+https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
+
+
