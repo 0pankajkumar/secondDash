@@ -324,11 +324,11 @@ def makeBigDict(bigDict, postDept, postTeam, postTitle):
 
 
 
-# if __name__ == '__main__':
-# 	app.run(debug=True,host="172.16.140.211")
-
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(debug=True,host="172.16.140.211")
+
+# if __name__ == '__main__':
+# 	app.run(debug=True)
 
 
 
