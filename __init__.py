@@ -298,7 +298,12 @@ def uidropdowns():
 
 @app.route('/login', methods=['GET'])
 def loginPage1():
-	return render_template('login.html')
+	if request.method == "GET":
+		return render_template('login.html')
+	if request.method == "POST":
+		googID = request.form.get('idtoken')
+		print(googID + " received")
+		return jsonify("success")
 
 
 @app.route('/', methods=['GET'])
@@ -319,11 +324,11 @@ def makeBigDict(bigDict, postDept, postTeam, postTitle):
 
 
 
-if __name__ == '__main__':
-	app.run(debug=True,host="172.16.140.211")
-
 # if __name__ == '__main__':
-# 	app.run(debug=True)
+# 	app.run(debug=True,host="172.16.140.211")
+
+if __name__ == '__main__':
+	app.run(debug=True)
 
 
 
