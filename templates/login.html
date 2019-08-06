@@ -2,7 +2,13 @@
 
 
 {% block main %}
+<meta name="google-signin-client_id" content="409502799386-m3oslq5hn1srai18aug08mirrp7bdesv.apps.googleusercontent.com">
 
+<style>
+    .abcRioButton.abcRioButtonLightBlue {
+        margin: 0 auto;
+    }
+</style>
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <script>
@@ -19,11 +25,7 @@
         };
         xhr.send('idtoken=' + id_token);
 
-        var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
     }
 
 </script>
@@ -38,13 +40,7 @@
     }
 </script>
 
-<meta name="google-signin-client_id" content="409502799386-m3oslq5hn1srai18aug08mirrp7bdesv.apps.googleusercontent.com">
 
-<style>
-    .abcRioButton.abcRioButtonLightBlue {
-        margin: 0 auto;
-    }
-</style>
 
 
 <div style="text-align: center">
