@@ -50,7 +50,7 @@ def login_required(f):
 
 
 @app.route('/upload', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def upload():
 	if request.method == 'GET':
 		return render_template('uploader.html')
@@ -66,17 +66,17 @@ def upload():
 
 
 @app.route('/test2', methods=['GET'])
-@login_required
+# @login_required
 def test1():
 	return render_template('test2.html')
 
 @app.route('/trial3', methods=['GET'])
-@login_required
+# @login_required
 def trial3():
 	return render_template('trial3.html')
 
 @app.route('/funnel', methods=['GET'])
-@login_required
+# @login_required
 def funnel():
 	postingDepartment = set()
 	postingArchiveStatus = set()
@@ -93,7 +93,7 @@ def funnel():
 
 
 @app.route('/getTable', methods=['POST'])
-@login_required
+# @login_required
 def getTable():
 	# collection.createIndex('Posting Department')
 
@@ -257,7 +257,7 @@ def interpretAge(age):
 
 
 @app.route('/getBigDict', methods=['GET'])
-@login_required
+# @login_required
 def getBigDict():
 	bigDict = dict()
 	rows = collection.find(cursor_type=CursorType.EXHAUST)
