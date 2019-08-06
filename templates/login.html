@@ -3,12 +3,28 @@
 
 {% block main %}
 
-<h2 style="text-align: center">Please login to continue</h2>
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content="409502799386-1os87d25jnhelb016ms4kvtv2slfe4ku.apps.googleusercontent.com">
+<meta name="google-signin-client_id" content="409502799386-a0oqst3vdpdse0ho2rre9i2ebqkmpr03.apps.googleusercontent.com">
+<style>
+    .abcRioButton.abcRioButtonLightBlue {
+        margin: 0 auto;
+    }
+</style>
+<div style="text-align: center">
+    <h2>Please login to continue</h2>
+    <!-- <div class="g-signin2" style="text-align: center" data-onsuccess="onSignIn"></div> -->
 
-<div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <br><br>
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="300" data-height="50"
+        data-longtitle="true"></div>
+    <!-- <a href="#" onclick="signOut();">Sign out</a> -->
+
+</div>
+
+
+
+
 
 <script>
     function onSignIn(googleUser) {
@@ -21,7 +37,7 @@
 
 </script>
 
-<a href="#" onclick="signOut();">Sign out</a>
+
 <script>
     function signOut() {
         var auth2 = gapi.auth2.getAuthInstance();
