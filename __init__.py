@@ -1,5 +1,6 @@
 import flask
 from flask import request, jsonify, render_template, url_for, redirect, session
+from flask_session import Session
 from werkzeug import secure_filename
 from flask_uploads import UploadSet, IMAGES, configure_uploads, UploadNotAllowed
 from pymongo import MongoClient, CursorType
@@ -29,6 +30,12 @@ def after_request(response):
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
+
+# Configure session to use filesystem (instead of signed cookies)
+app.config["SESSION_FILE_DIR"] = mkdtemp()
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 # configure flask_upload API
 documents = UploadSet("documents", ('csv'))
@@ -298,12 +305,16 @@ def uidropdowns():
 
 @app.route('/login', methods=['GET'])
 def loginPage1():
+
+	# Forget any user_id
+	session.clear()
+
 	if request.method == "GET":
 		return render_template('login.html')
 	if request.method == "POST":
 		googID = request.form.get('idtoken')
 		print(googID + " received")
-		return jsonify("success")
+		return render_template("welcome.html")
 
 
 @app.route('/', methods=['GET'])
@@ -324,11 +335,11 @@ def makeBigDict(bigDict, postDept, postTeam, postTitle):
 
 
 
-# if __name__ == '__main__':
-# 	app.run(debug=True,host="172.16.140.211")
-
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(debug=True,host="172.16.140.211")
+
+# if __name__ == '__main__':
+# 	app.run(debug=True)
 
 
 
