@@ -10,7 +10,56 @@
     <script type="text/javascript" src="dist/js/tabulator.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
 
+    <!-- For Google signin -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id"
+        content="409502799386-6r7ba3thnc8nl7c0fllp88mggvrgth8s.apps.googleusercontent.com">
+    <style>
+        .abcRioButton.abcRioButtonLightBlue {
+            margin: 0 auto;
+        }
+    </style>
 
+
+    <script>
+        function onSignIn(googleUser) {
+            console.log("retet");
+
+            // Informing backend
+            var id_token = googleUser.getAuthResponse().id_token;
+            $.ajax({
+                type: "POST",
+                cache: true,
+                url: "/login",
+                data: { "idtoken": id_token }, //ajax parameters
+                success: function (result) {
+                    if (result == "Accepted") {
+                        window.location.replace("http://localhost:5000/table");
+                    }
+                    console.log(result)
+                    console.log("successfully sent");
+                }
+            });
+
+
+        }
+
+    </script>
+
+
+    <script>
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+            });
+        }
+    </script>
+    <!-- Google sign in scripts end -->
+
+
+
+    <!-- For dropdown -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
         .custom-combobox {
@@ -48,6 +97,13 @@
     <h1 style="text-align: center; font-size:30px">The Dashboard
         <small>Beta</small>
     </h1>
+
+
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="300" data-height="50"
+        data-longtitle="true"></div>
+    <a href="#" onclick="signOut();">Sign out</a>
+
+
 
     {% block main %}{% endblock %}
 

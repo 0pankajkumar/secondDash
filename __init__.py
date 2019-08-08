@@ -13,26 +13,34 @@ import os
 import datetime
 from functools import wraps
 
+# For google login
+from google.oauth2 import id_token
+from google.auth.transport import requests
+
 
 app = flask.Flask(__name__, static_url_path='',
 				  static_folder='static',
 				  template_folder='templates')
 app.config["DEBUG"] = False
 
+# DB links for main collection
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 collection = database["eucalyptusDB"]
 
+# DB links for ApprovedUsers collection
+collection2 = database["ApprovedUsers"]
+
 # Clearing caches
 @app.after_request
 def after_request(response):
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Expires"] = 0
-    response.headers["Pragma"] = "no-cache"
-    return response
+	response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+	response.headers["Expires"] = 0
+	response.headers["Pragma"] = "no-cache"
+	return response
 
 # Configure session to use filesystem (instead of signed cookies)
-app.config["SESSION_FILE_DIR"] = mkdtemp()
+# app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -44,16 +52,20 @@ configure_uploads(app, documents)
 
 
 def login_required(f):
-    """
-    Decorate routes to require login.
-    http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/
-    """
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if session.get("user_id") is None:
-            return redirect("/login")
-        return f(*args, **kwargs)
-    return decorated_function
+	"""
+	Decorate routes to require login.
+	http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/
+	"""
+	@wraps(f)
+	def decorated_function(*args, **kwargs):
+		print("333333333333 Inside Decorators 33333333333")
+		if session.get("user_id") is None:
+			print("Inside")
+			return redirect("/login")
+		else:
+			print("Outisde")
+		return f(*args, **kwargs)
+	return decorated_function
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -73,7 +85,7 @@ def upload():
 
 
 @app.route('/test2', methods=['GET'])
-# @login_required
+@login_required
 def test1():
 	return render_template('test2.html')
 
@@ -281,8 +293,9 @@ def getBigDict():
 	return jsonify(bigDict)
 
 @app.route('/table', methods=['GET'])
-# @login_required
-def uidropdowns():
+@login_required
+def table():
+	print(session['user_id'])
 	postingDepartment = set()
 	postingArchiveStatus = set()
 	profileArchiveStatus = set()
@@ -303,7 +316,7 @@ def uidropdowns():
 	return render_template('index.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus, profileArchiveStatus = profileArchiveStatus)
 
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET', 'POST'])
 def loginPage1():
 
 	# Forget any user_id
@@ -312,9 +325,36 @@ def loginPage1():
 	if request.method == "GET":
 		return render_template('login.html')
 	if request.method == "POST":
-		googID = request.form.get('idtoken')
-		print(googID + " received")
-		return render_template("welcome.html")
+		token = request.form.get('idtoken')
+		CLIENT_ID = "409502799386-6r7ba3thnc8nl7c0fllp88mggvrgth8s.apps.googleusercontent.com"
+		status = "Not Accepted"
+		try:
+			idinfo = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
+			if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+				raise ValueError('Wrong issuer.')
+
+			# Getting all approved users form DB
+			query = {}
+			list_of_users = []
+			ApprovedUsers = list(collection2.find(query, cursor_type=CursorType.EXHAUST))
+			for ap in ApprovedUsers:
+				list_of_users.append(ap['users'])
+
+
+			if idinfo['email'] in list_of_users:
+				print(f"{idinfo['sub']} is being accepted and {idinfo['email']}")
+				session['user_id'] = idinfo['sub']
+				status = "Accepted"
+			else:
+				print("User not excepted")
+				status = "Not Accepted"
+			
+		except ValueError:
+			# Invalid token
+			pass
+		return status
+		# return render_template("welcome.html")
+		# return redirect(url_for('table'))
 
 
 @app.route('/', methods=['GET'])
@@ -335,11 +375,11 @@ def makeBigDict(bigDict, postDept, postTeam, postTitle):
 
 
 
-if __name__ == '__main__':
-	app.run(debug=True,host="172.16.140.211")
-
 # if __name__ == '__main__':
-# 	app.run(debug=True)
+#   app.run(debug=True,host="172.16.140.211")
+
+if __name__ == '__main__':
+	app.run(debug=True)
 
 
 
