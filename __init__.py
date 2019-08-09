@@ -297,7 +297,7 @@ def getBigDict():
 @app.route('/table', methods=['GET'])
 @login_required
 def table():
-	print(session['user_id'])
+	# print(session['user_id'])
 	postingDepartment = set()
 	postingArchiveStatus = set()
 	profileArchiveStatus = set()
@@ -359,11 +359,11 @@ def loginPage1():
 
 
 			if idinfo['email'] in list_of_users:
-				print(f"{idinfo['sub']} is being accepted and {idinfo['email']}")
+				# print(f"{idinfo['sub']} is being accepted and {idinfo['email']}")
 				session['user_id'] = idinfo['sub']
 				status = "Accepted"
 			else:
-				print("User not excepted")
+				# print("User not excepted")
 				status = "Not Accepted"
 			
 		except ValueError:
