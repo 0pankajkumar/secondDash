@@ -7,6 +7,7 @@
     <link href="dist/css/funnelStyles.css" rel="stylesheet">
     <link href="dist/css/uploaderStyles.css" rel="stylesheet">
     <link href="dist/css/dropdownStyles.css" rel="stylesheet">
+    <link href="dist/css/topNavbarStyles.css" rel="stylesheet">
     <script type="text/javascript" src="dist/js/tabulator.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
 
@@ -71,7 +72,7 @@
                     // if (result == "Accepted") {
                     //     window.location.replace("http://localhost:5000/table");
                     // }
-                    window.location.replace("http://localhost:5000/table");
+                    // window.location.replace("http://localhost:5000/table");
                     console.log(result)
                     console.log("successfully sent");
                 }
@@ -102,20 +103,64 @@
     </script>
     <!-- Google sign in scripts end -->
 
+
+
+
 </head>
 
 <body>
+    <div class="topnav">
+        <a class="active" href="/">
+            The Dashboard
+            <small>Beta</small>
 
-    <h1 style="text-align: center; font-size:30px">The Dashboard
-        <small>Beta</small>
-    </h1>
+        </a>
+        <a href="/table">Table</a>
+        <a href="/funnel">Funnel Report</a>
+        <div class="search-container">
+            <div class="g-signin2" style="text-align: center" data-onsuccess="onSignIn"></div>
+            <div><a href="/logout" onclick="signOut();">Sign out</a></div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
     <!-- <div id="loginButton" class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="300"
         data-height="50" data-longtitle="true"></div> -->
-    <div class="g-signin2" style="text-align: center" data-onsuccess="onSignIn"></div>
-    <a href="/logout" onclick="signOut();">Sign out</a>
+
+
 
 
 
