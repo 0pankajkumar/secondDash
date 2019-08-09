@@ -50,9 +50,9 @@
     <meta name="google-signin-client_id"
         content="409502799386-6r7ba3thnc8nl7c0fllp88mggvrgth8s.apps.googleusercontent.com">
     <style>
-        .abcRioButton.abcRioButtonLightBlue {
+        /* .abcRioButton.abcRioButtonLightBlue {
             margin: 0 auto;
-        }
+        } */
     </style>
 
 
@@ -71,6 +71,7 @@
                     // if (result == "Accepted") {
                     //     window.location.replace("http://localhost:5000/table");
                     // }
+                    window.location.replace("http://localhost:5000/table");
                     console.log(result)
                     console.log("successfully sent");
                 }
@@ -86,16 +87,16 @@
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
-                $.ajax({
-                    type: "GET",
-                    cache: false,
-                    url: "/logout",
-                    data: {}, //ajax parameters
-                    success: function (result) {
-                        console.log('User signed out.');
-                    }
-                });
-
+                // $.ajax({
+                //     type: "POST",
+                //     cache: false,
+                //     url: "/logout",
+                //     data: {}, //ajax parameters
+                //     success: function (result) {
+                //         console.log('User signed out.');
+                //     }
+                // });
+                // document.location.href = "http://localhost:5000";
             });
         }
     </script>
@@ -111,9 +112,10 @@
 
 
 
-    <div id="loginButton" class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="300"
-        data-height="50" data-longtitle="true"></div>
-    <a href="#" onclick="signOut();">Sign out</a>
+    <!-- <div id="loginButton" class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="300"
+        data-height="50" data-longtitle="true"></div> -->
+    <div class="g-signin2" style="text-align: center" data-onsuccess="onSignIn"></div>
+    <a href="/logout" onclick="signOut();">Sign out</a>
 
 
 

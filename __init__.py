@@ -61,9 +61,11 @@ def login_required(f):
 		print("333333333333 Inside Decorators 33333333333")
 		if session.get("user_id") is None:
 			print("Inside")
-			return redirect("/login")
+			print(session)
+			return redirect("/")
 		else:
 			print("Outisde")
+			print(session)
 		return f(*args, **kwargs)
 	return decorated_function
 
@@ -317,11 +319,15 @@ def table():
 
 
 @app.route("/logout", methods=['GET', 'POST'])
+@login_required
 def logout():
-    """Log user out"""
 
+    """Log user out"""
+    print("Inside logout")
+    print(f"Before clearing {session}")
     # Forget any user_id
     session.clear()
+    print(f"After clearing {session}")
 
     # Redirect user to login form
     return redirect("/")
@@ -363,7 +369,8 @@ def loginPage1():
 		except ValueError:
 			# Invalid token
 			pass
-		return status
+		# return status
+		return redirect('/table')
 		# return render_template("welcome.html")
 		# return redirect(url_for('table'))
 
