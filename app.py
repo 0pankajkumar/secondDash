@@ -332,6 +332,7 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
+emailID = []
 
 @app.route('/login', methods=['GET', 'POST'])
 def loginPage1():

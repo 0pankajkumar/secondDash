@@ -12,5 +12,5 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 collection = database["ApprovedUsers"]
 
-collection.insert_one({"users":"testuser@directi.com"})
+collection.insert_one({"users":"nishantd@directi.com"})
 
