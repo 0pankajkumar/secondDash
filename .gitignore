@@ -9,4 +9,12 @@ DEBUG=True
 
 env/
 
+venv/
+
+flask_session/
+
+lib/
+
+
+
 __pycache__/
