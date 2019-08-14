@@ -11,8 +11,11 @@ deactivate
 
 
 MongoDB
-Installation tutorial https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+Installation tutorial 
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
 
+Google sign in 
+https://developers.google.com/identity/sign-in/web/backend-auth
 
 
 Virtualenv on server

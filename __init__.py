@@ -9,7 +9,7 @@ from bson import json_util, ObjectId
 from bson.int64 import Int64
 import time
 from random import randint
-import os
+import os, tempfile
 import datetime
 from functools import wraps
 
@@ -40,7 +40,7 @@ def after_request(response):
 	return response
 
 # Configure session to use filesystem (instead of signed cookies)
-# app.config["SESSION_FILE_DIR"] = mkdtemp()
+app.config["SESSION_FILE_DIR"] = tempfile.mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -318,6 +318,26 @@ def table():
 	return render_template('index.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus, profileArchiveStatus = profileArchiveStatus)
 
 
+# Make this function reject users who are already added
+# Add a delete option as well
+@app.route("/addUser", methods=['GET', 'POST'])
+# @login_required
+def addUser():
+	if request.method == "GET":
+		return render_template("addUser.html")
+	if request.method == "POST":
+		# Do the insertion stuff
+		addThisUser = request.form.get('emailID')
+		makeAdmin = request.form.get('typeOfUser')
+		
+		if makeAdmin == "Admin":
+			collection2.insert_one({"users": addThisUser, "type":"admin"})
+		else:
+			collection2.insert_one({"users": addThisUser, "type":"regular"})
+
+	return render_template("addUser.html")
+
+
 @app.route("/logout", methods=['GET', 'POST'])
 @login_required
 def logout():
@@ -370,9 +390,9 @@ def loginPage1():
 			# Invalid token
 			pass
 		# return status
-		return redirect('/table')
+		# return redirect('/table')
 		# return render_template("welcome.html")
-		# return redirect(url_for('table'))
+		return redirect(url_for('table'))
 
 
 @app.route('/', methods=['GET'])

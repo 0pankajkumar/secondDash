@@ -12,5 +12,22 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 collection = database["ApprovedUsers"]
 
-collection.insert_one({"users":"nishantd@directi.com"})
+makeAdmin = True
+addThisUser = "pankajkum@directi.com"
+
+if makeAdmin == True:
+	collection.insert_one({"users": addThisUser, "type":"admin"})
+else:
+	collection.insert_one({"users": addThisUser, "type":"regular"})
+
+# Deleteing or Dropping the collection
+# collection.delete_many({})
+
+# rows = collection.find({"users": "pankajkum@directi.com"}, cursor_type=CursorType.EXHAUST)
+
+# if rows:
+# 	# Do something else
+# 	collection.update_one({"users":"pankajkum@directi.com"}, {"$set":{'type':'admin'}})
+# else:
+# 	collection.insert_one({"users":"pankajkum@directi.com", "type":"admin"})
 
