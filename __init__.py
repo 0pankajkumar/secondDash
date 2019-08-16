@@ -320,23 +320,46 @@ def table():
 
 # Make this function reject users who are already added
 # Add a delete option as well
-@app.route("/addUser", methods=['GET', 'POST'])
+@app.route("/modifyUser", methods=['GET', 'POST'])
 # @login_required
 def addUser():
+
+	usersList = list()
+	fetchUsers(usersList)
+	
 	if request.method == "GET":
-		return render_template("addUser.html")
+		return render_template("modifyUser.html",usersList = usersList)
+
 	if request.method == "POST":
 		# Do the insertion stuff
-		addThisUser = request.form.get('emailID')
-		makeAdmin = request.form.get('typeOfUser')
-		
-		if makeAdmin == "Admin":
-			collection2.insert_one({"users": addThisUser, "type":"admin"})
-		else:
-			collection2.insert_one({"users": addThisUser, "type":"regular"})
+		if request.form.get('actionType') == "addUser":
+			addThisUser = request.form.get('emailID')
+			makeAdmin = request.form.get('typeOfUser')
+			
+			if makeAdmin == "Admin":
+				collection2.insert_one({"users": addThisUser, "type":"admin"})
+			else:
+				collection2.insert_one({"users": addThisUser, "type":"regular"})
 
-	return render_template("addUser.html")
+			# Fetch users
+			usersList = []
+			fetchUsers(usersList)
 
+		if request.form.get('actionType') == "deleteUser":
+			deleteThisUser = request.form.get('users')
+			collection2.delete_many( { "users" : deleteThisUser } );
+			print(f"Deleted {deleteThisUser}")
+
+	return render_template("modifyUser.html",usersList = usersList)
+
+
+def fetchUsers(usersList):
+	pa = collection2.find({})
+	for p in pa:
+		usersDict = dict()
+		usersDict['users'] = p['users']
+		usersDict['type'] = p['type']
+		usersList.append(usersDict)
 
 @app.route("/logout", methods=['GET', 'POST'])
 @login_required

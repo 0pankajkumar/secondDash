@@ -15,10 +15,21 @@ collection = database["ApprovedUsers"]
 makeAdmin = True
 addThisUser = "pankajkum@directi.com"
 
-if makeAdmin == True:
-	collection.insert_one({"users": addThisUser, "type":"admin"})
-else:
-	collection.insert_one({"users": addThisUser, "type":"regular"})
+# if makeAdmin == True:
+# 	collection.insert_one({"users": addThisUser, "type":"admin"})
+# else:
+# 	collection.insert_one({"users": addThisUser, "type":"regular"})
+
+pa = collection.find({})
+usersList = list()
+for p in pa:
+	usersDict = dict()
+	usersDict['users'] = p['users']
+	usersDict['type'] = p['type']
+	usersList.append(usersDict)
+	print(p["users"])
+
+# print(usersList)
 
 # Deleteing or Dropping the collection
 # collection.delete_many({})
