@@ -12,6 +12,7 @@ from random import randint
 import os, tempfile
 import datetime
 from functools import wraps
+from helpers import updateMongo, customMessages
 
 # For google login
 from google.oauth2 import id_token
@@ -70,6 +71,8 @@ def login_required(f):
 	return decorated_function
 
 
+
+
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
@@ -78,12 +81,26 @@ def upload():
 	elif request.method == 'POST':
 		f = request.files['file']
 		# print(f.filename, secure_filename(f.filename))
-		file = documents.save(request.files['file'])
+		file = documents.save(request.files['file'], name="dump.csv")
 		# f = request.files['file']
 		# f.save(secure_filename(f.filename))
 		# os.remove(app.config["UPLOADED_DOCUMENTS_DEST"] + "/" + str())
-		return 'file uploaded successfully'
+		return 'File Uploaded Successfully'
 
+# This route gives status when it's uploading
+@app.route('/updating', methods=['GET', 'POST'])
+@login_required
+def updating():
+
+	# The database uploading method comes here
+	res = 'starting XD'
+	updateMongo()
+	# try:
+	# 	updateMongo()
+	# 	res = 'Database Successfully Updated'
+	# except:
+	# 	res = 'Database update failed. Please contact admin'
+	return jsonify(res)
 
 
 @app.route('/test2', methods=['GET'])
@@ -415,7 +432,8 @@ def loginPage1():
 		# return status
 		# return redirect('/table')
 		# return render_template("welcome.html")
-		return redirect(url_for('table'))
+		# return redirect(url_for('table'))
+		return jsonify("success")
 
 
 @app.route('/', methods=['GET'])

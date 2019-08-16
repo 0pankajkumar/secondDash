@@ -1,43 +1,70 @@
 body {
-    
-    background-color: #FFF;
-    background-image: url("../img/site-background-image.png");
-    background-position: top left;
-    background-repeat: repeat;
-    background-size: auto;
-    background-attachment: auto;
-    
+  background-color: #fff;
+  background-image: url("../img/site-background-image.png");
+  background-position: top left;
+  background-repeat: repeat;
+  background-size: auto;
+  background-attachment: auto;
 }
 
 #example-table {
-	margin : 100px;
+  margin: 100px;
 }
 
 .mytopnav {
-    overflow: hidden;
-    background-color: #333;
-  }
-  
-  .mytopnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-  }
-  
-  .mytopnav a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  .mytopnav a.active {
-    background-color: #4CAF50;
-    color: rgb(240, 226, 226);
-  }
+  overflow: hidden;
+  background-color: #333;
+}
 
-#ui-datepicker-div { font-size: 12px; } 
+.mytopnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
 
+.mytopnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
 
+.mytopnav a.active {
+  background-color: #4caf50;
+  color: rgb(240, 226, 226);
+}
 
+#ui-datepicker-div {
+  font-size: 12px;
+}
+
+/* For Ajax loading */
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8) url("http://i.stack.imgur.com/FhHRx.gif")
+    50% 50% no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading .modal {
+  overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+  display: block;
+}

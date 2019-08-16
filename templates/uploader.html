@@ -25,6 +25,8 @@
 </div>
 
 <script type="text/javascript">
+
+
     //configuration
     var max_file_size = 20485769999999999999; //allowed file size. (1 MB = 1048576)
     var allowed_file_types = ['application/vnd.ms-excel']; //allowed file types
@@ -92,6 +94,10 @@
                     cache: false,
                     processData: false,
                     xhr: function () {
+
+                        // Hiding JS load which pops up at all pages
+                        $body.removeClass("loading");
+
                         //upload Progress
                         var xhr = $.ajaxSettings.xhr();
                         if (xhr.upload) {
@@ -113,11 +119,26 @@
                 }).done(function (res) { //
                     $(my_form_id)[0].reset(); //reset form
                     $(result_output).html(res); //output response from server
+
+                    // Hit updating api to initiate update
+                    $(result_output).append("<br>Updating database ...");
+
+
                     submit_btn.val("Upload").prop("disabled", false); //enable submit button once ajax is done
                 });
 
             }
         }
+
+
+        // Hitting POST request
+        data = null;
+        $.post('/updating', data, function (res) {
+            console.log('received response', res);
+            $(result_output).html("<br>Database successfully updated");
+        }, 'json');
+        //Update response
+
 
         $(result_output).html(""); //reset output 
         $(error).each(function (i) { //output any error to output element
@@ -125,6 +146,8 @@
         });
 
     });
+
+
 </script>
 
 {% endblock %}

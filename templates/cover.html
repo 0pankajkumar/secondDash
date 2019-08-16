@@ -127,38 +127,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- <div id="loginButton" class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="300"
         data-height="50" data-longtitle="true"></div> -->
 
@@ -170,6 +138,17 @@
     {% block main %}{% endblock %}
 
 
+    <div class="modal">
+        <!-- For loading everytime some ajax is fired. Inspiration from https://stackoverflow.com/questions/1964839/how-can-i-create-a-please-wait-loading-animation-using-jquery -->
+    </div>
+    <script>
+        $body = $("body");
+
+        $(document).on({
+            ajaxStart: function () { $body.addClass("loading"); },
+            ajaxStop: function () { $body.removeClass("loading"); }
+        });
+    </script>
 
 </body>
 
