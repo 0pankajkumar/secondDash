@@ -46,11 +46,10 @@
             <option value="Both" selected>Both</option>
             {% for p in postingArchiveStatus %}
             {% if p == 'false' %}
-            <option value="{{ p }}">No</option>
+            <option value="{{ p }}">Live</option>
             {% elif p == 'true' %}
-            <option value="{{ p }}">Yes</option>
-            {% else %}
-            <option value="{{ p }}">{{ p }}</option>
+            <option value="{{ p }}">Archived</option>
+
             {% endif %}
             {% endfor %}
         </select>
@@ -62,11 +61,10 @@
             <option value="Both" selected>Both</option>
             {% for p in profileArchiveStatus %}
             {% if p == 'false' %}
-            <option value="{{ p }}">No</option>
+            <option value="{{ p }}">Active</option>
             {% elif p == 'true' %}
-            <option value="{{ p }}">Yes</option>
-            {% else %}
-            <option value="{{ p }}">{{ p }}</option>
+            <option value="{{ p }}">Archived</option>
+
             {% endif %}
             {% endfor %}
         </select>

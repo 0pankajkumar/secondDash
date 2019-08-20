@@ -8,6 +8,7 @@ import time
 import datetime
 import os
 from pathlib import Path
+import codecs
 
 def customMessages(message):
 	render_template("customMessages.html", message = message)
@@ -35,6 +36,7 @@ def updateMongo():
 	data_folder = Path("uploaded_csv/")
 	file_to_open = data_folder / "dump.csv" 
 
+	file_to_open = "leverDump_19Aug2019.csv"
 	with open(file_to_open, 'r', encoding="utf8" ) as csvfile:
 		myReader = csv.reader(csvfile, delimiter=',')
 		for row in myReader:
@@ -161,3 +163,6 @@ def updateMongo():
 
 	os.remove(file_to_open)
 	print("File Deleted")
+
+
+updateMongo()

@@ -30,7 +30,7 @@ app.config["DEBUG"] = False
 # DB links for main collection
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
-collection = database["eucalyptusDB"]
+collection = database["falconDB"]
 
 # DB links for ApprovedUsers collection
 collection2 = database["ApprovedUsers"]
@@ -116,21 +116,41 @@ def test1():
 def trial3():
 	return render_template('trial3.html')
 
-@app.route('/funnel', methods=['GET'])
-@login_required
-def funnel():
+
+def generateMainPageDropdowns():
 	postingDepartment = set()
 	postingArchiveStatus = set()
+	profileArchiveStatus = set()
+
+	companiesAllowed = set()
+	companiesAllowed = {'Campus', 'Codechef', 'Flock', 'Radix', 'Shared Services'}
+
 	rows = collection.find(cursor_type=CursorType.EXHAUST)
 	for row in rows:
-		flag = False
-		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles' or row['Posting Department'] == "":
+		if row['Posting Department'] not in companiesAllowed:
 			continue
 		else:
 			postingDepartment.add(row['Posting Department'])
-			flag = True
 		postingArchiveStatus.add(row['Posting Archive Status'])
-	return render_template('funnel.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus)
+		profileArchiveStatus.add(row['Profile Archive Status'])
+
+	#Sorting the set alphabatically
+	postingDepartment = sorted(postingDepartment)
+
+	# Packing everything to return
+	returnList = {}
+	returnList['postingDepartment'] = postingDepartment
+	returnList['postingArchiveStatus'] = postingArchiveStatus
+	returnList['profileArchiveStatus'] = profileArchiveStatus
+
+	return returnList
+
+
+@app.route('/funnel', methods=['GET'])
+@login_required
+def funnel():
+	returnedDict = generateMainPageDropdowns()
+	return render_template('funnel.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'])
 
 
 @app.route('/getTable', methods=['POST'])
@@ -317,25 +337,9 @@ def getBigDict():
 @app.route('/table', methods=['GET'])
 @login_required
 def table():
-	# print(session['user_id'])
-	postingDepartment = set()
-	postingArchiveStatus = set()
-	profileArchiveStatus = set()
-	rows = collection.find(cursor_type=CursorType.EXHAUST)
-	for row in rows:
-		flag = False
-		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles' or row['Posting Department'] == "":
-			continue
-		else:
-			postingDepartment.add(row['Posting Department'])
-			flag = True
-		postingArchiveStatus.add(row['Posting Archive Status'])
-		profileArchiveStatus.add(row['Profile Archive Status'])
+	returnedDict = generateMainPageDropdowns()
+	return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'])
 
-	#Sorting the set alphabatically
-	postingDepartment = sorted(postingDepartment)
-
-	return render_template('index.html', postingDepartment=postingDepartment, postingArchiveStatus = postingArchiveStatus, profileArchiveStatus = profileArchiveStatus)
 
 
 # Make this function reject users who are already added

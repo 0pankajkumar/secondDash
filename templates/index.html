@@ -13,7 +13,7 @@
     <label for="companyName">Company:</label><br>
     <select name="ddl1" id="ddl1" style="display: hidden"
       onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
-      <option value="All" selected>All</option>
+      <option value="All" selected>Choose</option>
       {% for p in postingDepartment %}
       <option value="{{ p }}">{{ p }}</option>
       {% endfor %}
@@ -40,32 +40,30 @@
 
 
   <div class="ui-widget flexItem">
-    <label for="  ">Posting Archived :</label><br>
+    <label for="  ">Posting Status :</label><br>
     <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: hidden">
       <option value="Both" selected>Both</option>
       {% for p in postingArchiveStatus %}
       {% if p == 'false' %}
-      <option value="{{ p }}">No</option>
+      <option value="{{ p }}">Live</option>
       {% elif p == 'true' %}
-      <option value="{{ p }}">Yes</option>
-      {% else %}
-      <option value="{{ p }}">{{ p }}</option>
+      <option value="{{ p }}">Archived</option>
+
       {% endif %}
       {% endfor %}
     </select>
   </div>
 
   <div class="ui-widget flexItem">
-    <label for="  ">Profile Archived :</label><br>
+    <label for="  ">Profile Status :</label><br>
     <select name="profileArchiveStatus" id="profileArchiveStatus" style="display: hidden">
       <option value="Both" selected>Both</option>
       {% for p in profileArchiveStatus %}
       {% if p == 'false' %}
-      <option value="{{ p }}">No</option>
+      <option value="{{ p }}">Active</option>
       {% elif p == 'true' %}
-      <option value="{{ p }}">Yes</option>
-      {% else %}
-      <option value="{{ p }}">{{ p }}</option>
+      <option value="{{ p }}">Archived</option>
+
       {% endif %}
       {% endfor %}
     </select>
@@ -155,6 +153,10 @@
 
 
 <div id="example-table" style="margin: 20px"></div>
+
+
+<button onclick="csvDownload()">klick</button>
+
 
 <script type="text/javascript">
 
@@ -247,7 +249,21 @@
 
       return indexed_array;
     }
+
+    table.setData(tableData)
+      .then(function () {
+        //run code after table has been successfuly updated
+        table.download("csv", "data.csv", { delimiter: "," }); //download a CSV file that uses a fullstop (.) delimiter
+      })
+      .catch(function (error) {
+        //handle error loading data
+      });
+
   });
+
+  function csvDownload() {
+
+  }
 
 </script>
 
