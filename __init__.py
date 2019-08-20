@@ -322,16 +322,13 @@ def interpretAge(age):
 def getBigDict():
 	bigDict = dict()
 	rows = collection.find(cursor_type=CursorType.EXHAUST)
+
 	for row in rows:
-		flag = False
 		if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles' or row['Posting Department'] == "":
 			continue
-		else:
-			flag = True
 
 		# Making a big data structure for all dropdowns in front end
-		if flag == True:
-			makeBigDict(bigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
+		makeBigDict(bigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
 	return jsonify(bigDict)
 
 @app.route('/table', methods=['GET'])
@@ -454,8 +451,11 @@ def makeBigDict(bigDict, postDept, postTeam, postTitle):
 		bigDict[str(postDept)] = {}
 	if postTeam not in bigDict[str(postDept)]:
 		bigDict[str(postDept)][str(postTeam)] = []
+	if 'All' not  in bigDict[str(postDept)]:
+		bigDict[str(postDept)]['All'] = []
 	if postTitle not in bigDict[postDept][postTeam]:
 		bigDict[str(postDept)][str(postTeam)].append(postTitle)
+		bigDict[str(postDept)]['All'].append(postTitle)
 
 
 # Helpers file

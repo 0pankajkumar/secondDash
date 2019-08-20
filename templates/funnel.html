@@ -14,7 +14,7 @@
         <label for="companyName">Company:</label><br>
         <select name="ddl1" id="ddl1" style="display: hidden"
             onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
-            <option value="All" selected>All</option>
+            <option value="nothing" selected>Choose</option>
             {% for p in postingDepartment %}
             <option value="{{ p }}">{{ p }}</option>
             {% endfor %}
@@ -27,7 +27,7 @@
         <label for="postingTeam">Team:</label><br>
         <select name="ddl2" id="ddl2" style="display: hidden"
             onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
-            <option value="All" selected>All</option>
+            <option value="nothing" selected>Choose</option>
         </select>
     </div>
 
