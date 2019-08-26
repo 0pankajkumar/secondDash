@@ -155,8 +155,6 @@
 <div id="example-table" style="margin: 20px"></div>
 
 
-<button onclick="csvDownload()">klick</button>
-
 
 <script type="text/javascript">
 
@@ -181,6 +179,12 @@
     // Rewriting the heading of Posting name
     var customGroupHeader = function (value, count, data, group) {
       return value + "<span style='color:#d00; margin-left:10px;'></span>";
+    }
+
+    function downCSV() {
+      table.download("csv", "data.csv", {
+        delimiter: ","
+      });
     }
 
     // Creating a Tabulator object
@@ -235,6 +239,7 @@
         { title: "Offer", field: "offerCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerCount" } },
       ],
 
+      footerElement: "<button id='download-csv' onclick='downCSV();'>Download CSV</button>",
 
     });
 
@@ -250,20 +255,11 @@
       return indexed_array;
     }
 
-    table.setData(tableData)
-      .then(function () {
-        //run code after table has been successfuly updated
-        table.download("csv", "data.csv", { delimiter: "," }); //download a CSV file that uses a fullstop (.) delimiter
-      })
-      .catch(function (error) {
-        //handle error loading data
-      });
+
 
   });
 
-  function csvDownload() {
 
-  }
 
 </script>
 
