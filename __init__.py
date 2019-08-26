@@ -57,7 +57,7 @@ app.config["DEBUG"] = False
 # DB links for main collection
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
-collection = database["eucalyptusDB"]
+collection = database["dolphinDB"]
 
 # DB links for ApprovedUsers collection
 collection2 = database["ApprovedUsers"]
@@ -124,13 +124,13 @@ def updating():
 
     # The database uploading method comes here
     res = 'starting'
-    updateMongo()
-    # try:
-    #   updateMongo()
-    #   res = 'Database Successfully Updated'
-    # except:
-    #   res = 'Database update failed. Please contact admin'
-    return jsonify(res)
+    # updateMongo()
+    try:
+        updateMongo()
+        res = 'Database Successfully Updated'
+    except:
+        res = 'Database update failed. Please contact admin'
+    return res
 
 
 @app.route('/test2', methods=['GET'])
@@ -431,7 +431,7 @@ def customMessages(message):
 def updateMongo():
     client = MongoClient("mongodb://localhost:27017")
     database = client["local"]
-    collection = database["eucalyptusDB"]
+    collection = database["dolphinDB"]
 
 
     all_The_Stages = ['Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant', 'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer']

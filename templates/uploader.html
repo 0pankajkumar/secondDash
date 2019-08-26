@@ -28,7 +28,7 @@
 
 
     //configuration
-    var max_file_size = 20485769999999999999; //allowed file size. (1 MB = 1048576)
+    var max_file_size = 1048576 * 200; //allowed file size. (1 MB = 1048576)
     var allowed_file_types = ['application/vnd.ms-excel']; //allowed file types
     var result_output = '#output'; //ID of an element for response output
     var my_form_id = '#upload_form'; //ID of an element for response output
@@ -135,7 +135,7 @@
         data = null;
         $.post('/updating', data, function (res) {
             console.log('received response', res);
-            $(result_output).html("<br>Database successfully updated");
+            $(result_output).html("<br>" + res);
         }, 'json');
         //Update response
 
