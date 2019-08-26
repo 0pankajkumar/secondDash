@@ -123,7 +123,7 @@ def upload():
 def updating():
 
     # The database uploading method comes here
-    res = 'starting XD'
+    res = 'starting'
     updateMongo()
     # try:
     #   updateMongo()
@@ -616,8 +616,10 @@ def updateMongo():
 
 
 
-
-
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
 
 
 
@@ -643,7 +645,7 @@ login_manager.init_app(app)
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    return "You must be logged in to access this content.", 403
+    return render_template("unauthorized.html"), 403
 
 
 # Naive database setup

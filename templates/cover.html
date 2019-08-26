@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -57,56 +57,6 @@
     </style>
 
 
-    <script>
-        function onSignIn(googleUser) {
-            // document.getElementById('loginAsker').style.visibility = "hidden"
-
-            // Getting user information
-            var profile = googleUser.getBasicProfile();
-            document.getElementById("loginAsker").innerHTML = "Hi, " + profile.getName();
-
-
-            // Informing backend
-            var id_token = googleUser.getAuthResponse().id_token;
-            $.ajax({
-                type: "POST",
-                cache: false,
-                url: "/login",
-                data: { "idtoken": id_token }, //ajax parameters
-                success: function (result) {
-                    // if (result == "Accepted") {
-                    //     window.location.replace("http://localhost:5000/table");
-                    // }
-                    // window.location.replace("http://localhost:5000/table");
-                    console.log(result)
-                    console.log("successfully sent");
-                }
-            });
-
-
-        }
-
-    </script>
-
-
-    <script>
-        function signOut() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-                // $.ajax({
-                //     type: "POST",
-                //     cache: false,
-                //     url: "/logout",
-                //     data: {}, //ajax parameters
-                //     success: function (result) {
-                //         console.log('User signed out.');
-                //     }
-                // });
-                // document.location.href = "http://localhost:5000";
-            });
-        }
-    </script>
-    <!-- Google sign in scripts end -->
 
 
 
