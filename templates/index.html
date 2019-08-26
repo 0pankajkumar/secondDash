@@ -152,8 +152,8 @@
 </script>
 
 
-<div id="example-table" style="margin: 20px; visibility: hidden;"></div>
-<div id="chartdivs" style="visibility: hidden;"></div>
+<div id="example-table" style="margin: 20px; visibility: none;"></div>
+<div id="chartdivs" style="visibility: none;"></div>
 
 
 
@@ -165,7 +165,7 @@
 
   $('#sendForTable').on('click', function (e) {
     document.getElementById("example-table").style.display = "inline-block";
-    document.getElementById("chartdivs").style.display = "hidden";
+    document.getElementById("chartdivs").style.display = "none";
     console.log("Go clicked");
     e.preventDefault();
     var x = getFormData($('#bigForm'));
@@ -278,7 +278,7 @@
 <script>
   // The funnel script here
   $('#sendForFunnel').on('click', function (e) {
-    document.getElementById("example-table").style.display = "hidden";
+    document.getElementById("example-table").style.display = "none";
     document.getElementById("chartdivs").style.display = "inline-block";
     e.preventDefault();
     var x = getFormData($('#bigForm'));
