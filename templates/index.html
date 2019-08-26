@@ -85,7 +85,8 @@
   </div>
 
   <div class="flexItem">
-    <button id="send" class="btn btn-primary">Go</button>
+    <button id="sendForTable" class="btn btn-primary" style="visibility: hidden">Table</button>
+    <button id="sendForFunnel" class="btn btn-primary" style="visibility: hidden">Funnel</button>
   </div>
 </div>
 <!-- </form> -->
@@ -152,7 +153,8 @@
 </script>
 
 
-<div id="example-table" style="margin: 20px"></div>
+<div id="example-table" style="margin: 20px; visibility: none;"></div>
+<div id="chartdivs" style="visibility: none;"></div>
 
 
 
@@ -160,9 +162,11 @@
 
 
 
-    
 
-  $('#send').on('click', function (e) {
+
+  $('#sendForTable').on('click', function (e) {
+    document.getElementById("example-table").style.display = "block";
+    document.getElementById("chartdivs").style.display = "none";
     console.log("Go clicked");
     e.preventDefault();
     var x = getFormData($('#bigForm'));
@@ -267,6 +271,74 @@
 
   });
 
+
+
+</script>
+
+
+<script>
+  // The funnel script here
+  $('#sendForFunnel').on('click', function (e) {
+    document.getElementById("example-table").style.display = "none";
+    document.getElementById("chartdivs").style.display = "block";
+    e.preventDefault();
+    var x = getFormData($('#bigForm'));
+
+    // Clearing all funnels drawn, if any. https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+    var myNode = document.getElementById("chartdivs");
+    while (myNode.firstChild) {
+      myNode.removeChild(myNode.firstChild);
+    }
+
+    $.ajax({
+      type: "POST",
+      cache: false,
+      url: "/getTable",
+      data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "age": document.getElementById('age').value }, //ajax parameters
+      success: function (result) {
+
+        for (let i = 0; i < result.length; i++) {
+          chartVar = "chartdiv";
+          chartVar += i.toString();
+          $("#chartdivs").append(`<div style="text-align:center; margin:auto"><b>${result[i]['Posting ID']}</b><br><div  id=${chartVar}></div></div>`);
+
+          console.log(i);
+
+          let var1 = 0, var2 = 0, var3 = 0, var4 = 0, var5 = 0, var6 = 0, var7 = 0;
+
+          for (let j = 0; j < result[i]['_children'].length; j++) {
+            var1 += result[i]['_children'][j]["newLeadCount"];
+            var2 += result[i]['_children'][j]["reachedOutCount"];
+            var3 += result[i]['_children'][j]["newApplicantCount"];
+            var4 += result[i]['_children'][j]["recruiterScreenCount"];
+            var5 += result[i]['_children'][j]["phoneInterviewCount"];
+            var6 += result[i]['_children'][j]["onsiteInterviewCount"];
+            var7 += result[i]['_children'][j]["offerCount"];
+          }
+
+          trigger(chartVar, var1, var2, var3, var4, var5, var6, var7);
+          //trigger(chartVar, result[i]['_children'], 300, 200, 180, 50, 20, 10);
+        }
+
+
+      }
+    });
+
+
+
+
+
+    function getFormData($form) {
+      var unindexed_array = $form.serializeArray();
+      var indexed_array = {};
+
+      $.map(unindexed_array, function (n, i) {
+        indexed_array[n['name']] = n['value'];
+      });
+
+      return indexed_array;
+    }
+  });
 
 
 </script>
