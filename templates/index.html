@@ -164,7 +164,7 @@
 
 
   $('#sendForTable').on('click', function (e) {
-    document.getElementById("example-table").style.display = "flex";
+    document.getElementById("example-table").style.display = "inline-block";
     document.getElementById("chartdivs").style.display = "hidden";
     console.log("Go clicked");
     e.preventDefault();
@@ -279,7 +279,7 @@
   // The funnel script here
   $('#sendForFunnel').on('click', function (e) {
     document.getElementById("example-table").style.display = "hidden";
-    document.getElementById("chartdivs").style.display = "flex";
+    document.getElementById("chartdivs").style.display = "inline-block";
     e.preventDefault();
     var x = getFormData($('#bigForm'));
 
