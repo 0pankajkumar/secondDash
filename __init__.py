@@ -57,7 +57,7 @@ app.config["DEBUG"] = False
 # DB links for main collection
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
-collection = database["falconDB"]
+collection = database["eucalyptusDB"]
 
 # DB links for ApprovedUsers collection
 collection2 = database["ApprovedUsers"]
@@ -78,7 +78,7 @@ def after_request(response):
 
 # configure flask_upload API
 documents = UploadSet("documents", ('csv'))
-app.config["UPLOADED_DOCUMENTS_DEST"] = "uploaded_csv"
+app.config["UPLOADED_DOCUMENTS_DEST"] = "/var/www/FlaskApp/FlaskApp/uploaded_csv"
 configure_uploads(app, documents)
 
 
@@ -110,7 +110,7 @@ def upload():
         return render_template('uploader.html')
     elif request.method == 'POST':
         f = request.files['file']
-        # print(f.filename, secure_filename(f.filename))
+        print(f.filename, secure_filename(f.filename))
         file = documents.save(request.files['file'], name="dump.csv")
         # f = request.files['file']
         # f.save(secure_filename(f.filename))
@@ -439,7 +439,7 @@ def updateMongo():
     line_count = 0
     dict_of_posting_creation_date = dict()
     box = []
-    fileName = "/uploaded_csv/dump.csv"
+    fileName = "uploaded_csv/dump.csv"
 
     collection.delete_many({})
     print("Deleted everything")
@@ -447,10 +447,10 @@ def updateMongo():
 
     # relative path inspired from here https://medium.com/@ageitgey/python-3-quick-tip-the-easy-way-to-deal-with-file-paths-on-windows-mac-and-linux-11a072b58d5f
     script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
-    data_folder = Path("uploaded_csv/")
+    data_folder = Path("/var/www/FlaskApp/FlaskApp/uploaded_csv")
     file_to_open = data_folder / "dump.csv" 
 
-    with open(file_to_open, 'r', encoding="utf8" ) as csvfile:
+    with open(str(file_to_open), 'r', encoding="utf8" ) as csvfile:
         myReader = csv.reader(csvfile, delimiter=',')
         for row in myReader:
             minDateCandidates = list()
