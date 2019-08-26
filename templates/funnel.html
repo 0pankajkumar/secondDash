@@ -166,7 +166,7 @@
             data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "age": document.getElementById('age').value }, //ajax parameters
             success: function (result) {
 
-                for (let i = 0; i < 6; i++) {
+                for (let i = 0; i < result.length; i++) {
                     chartVar = "chartdiv";
                     chartVar += i.toString();
                     $("#chartdivs").append(`<div style="text-align:center; margin:auto"><b>${result[i]['Posting ID']}</b><br><div  id=${chartVar}></div></div>`);
