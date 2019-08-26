@@ -96,7 +96,9 @@
   //Ajax call to load the bigDict
   $(document).ready(function () {
 
-
+    // Hiding table &b funnel
+    $("example-table").hide();
+    $("chartdivs").hide();
 
     $.ajax({
       type: "GET",
@@ -152,8 +154,8 @@
 </script>
 
 
-<div id="example-table" style="margin: 20px; visibility: none;"></div>
-<div id="chartdivs" style="visibility: none;"></div>
+<div id="example-table" style="margin: 20px;"></div>
+<div id="chartdivs"></div>
 
 
 
