@@ -17,7 +17,7 @@ def customMessages(message):
 def updateMongo():
 	client = MongoClient("mongodb://localhost:27017")
 	database = client["local"]
-	collection = database["eucalyptusDB"]
+	collection = database["dolphinDB"]
 
 
 	all_The_Stages = ['Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant', 'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer']
