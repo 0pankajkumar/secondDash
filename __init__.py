@@ -124,12 +124,12 @@ def updating():
 
     # The database uploading method comes here
     res = 'starting'
-    # updateMongo()
-    try:
-        updateMongo()
-        res = 'Database Successfully Updated'
-    except:
-        res = 'Database update failed. Please contact admin'
+    updateMongo()
+    # try:
+    #     updateMongo()
+    #     res = 'Database Successfully Updated'
+    # except:
+    #     res = 'Database update failed. Please contact admin'
     return res
 
 
@@ -452,6 +452,7 @@ def updateMongo():
 
     with open(str(file_to_open), 'r', encoding="utf8" ) as csvfile:
         myReader = csv.reader(csvfile, delimiter=',')
+        print("Opened file for uploading")
         for row in myReader:
             minDateCandidates = list()
             dict_to_be_written = dict()
