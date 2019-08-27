@@ -191,13 +191,17 @@ def getTable():
     postingArchiveStatus = request.form.get('postingArchiveStatus')
     profileArchiveStatus = request.form.get('profileArchiveStatus')
     age = request.form.get('age')
+    fromDate = request.form.get('from')
+    toDate = request.form.get('to')
 
-    results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus, profileArchiveStatus, age)
+    results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus, profileArchiveStatus, age, fromDate, toDate)
     # results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
     return jsonify(results)
 
 
-def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, age):
+def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, age, fromDate, toDate):
+    print(fromDate)
+    print(toDate)
     ts = time.time()
     rows = getFromDB(companyName) # title, companyName, team, archiveStatus
     print('db: ' + str(time.time() - ts))
@@ -214,6 +218,10 @@ def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, ag
         if item['Profile Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
             continue
         
+        if item['Min Date'] < benchmark_date:
+            # print(f"{item['Min Date']} < {benchmark_date}")
+            continue
+
         if item['Min Date'] < benchmark_date:
             # print(f"{item['Min Date']} < {benchmark_date}")
             continue
