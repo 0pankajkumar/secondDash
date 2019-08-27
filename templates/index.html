@@ -4,7 +4,10 @@
 {% block main %}
 
 
+<script type="text/javascript" src="https://oss.sheetjs.com/js-xlsx/xlsx.full.min.js"></script>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"></script>
 
 
 <!-- <form style="text-align: center" id="bigForm"> -->
@@ -161,9 +164,9 @@
 
 <script type="text/javascript">
 
-
-
-
+ function downXL(){
+	table.download("xlsx", "data.xlsx", {sheetName:"tableReport"});
+    }
 
   $('#sendForTable').on('click', function (e) {
 
@@ -187,9 +190,9 @@
     }
 
     // Rewriting the heading of Posting name
-    var customGroupHeader = function (value, count, data, group) {
+   var customGroupHeader = function (value, count, data, group) {
       return value + "<span style='color:#d00; margin-left:10px;'></span>";
-    }
+   }
 
     function downCSV() {
       table.download("csv", "data.csv", {
@@ -197,7 +200,7 @@
       });
     }
 
-
+   
 
     // Creating a Tabulator object
     var table = new Tabulator("#example-table", {
@@ -209,11 +212,11 @@
       height: "auto",
       layout: "fitColumns",
       placeholder: "No Data",
-      index: "id",
-      dataTree: true,
+     // index: "id",
+     dataTree: true,
       dataTreeStartExpanded: true,
-      groupBy: "Posting ID",
-      groupHeader: customGroupHeader,
+     groupBy: "title",
+     groupHeader: customGroupHeader,
       tooltips: function (cell) {
         //cell - cell component
         //function should return a string for the tooltip of false to hide the tooltip
@@ -240,7 +243,7 @@
 
       },
       columns: [
-        { title: "Posting", field: "origin", width: 200, responsive: 0 },
+        { title: "Posting", field: "title", width: 200, responsive: 0 },
         // { title: "Origin", field: "origin", width: 150 },
         { title: "New Lead", field: "newLeadCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "newLeadCount" } },
         { title: "Reached Out", field: "reachedOutCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "reachedOutCount" } },
@@ -251,10 +254,12 @@
         { title: "Offer", field: "offerCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerCount" } },
       ],
 
-      footerElement: "<button id='download-csv' onclick='downCSV();'>Download CSV</button>",
+      footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
 
     });
 
+$(document).on('click', "#download-xl", downXL);
+$(document).on('click', "#download-PDF", downPDF);
 
     function getFormData($form) {
       var unindexed_array = $form.serializeArray();
@@ -266,6 +271,19 @@
 
       return indexed_array;
     }
+
+ function downXL(){
+	 console.log("Inside downXL");
+	 
+	table.download("xlsx", "data.xlsx", {sheetName:"tableReport"});
+    }
+
+ function downPDF() {
+	table.download("pdf", "data.pdf", {
+        orientation:"landscape", //set page orientation to portrait
+        title:"TAT Report", //add title to report
+	});
+ }
 
 
 

@@ -299,14 +299,14 @@ def actualPostId(postId, postIdCounts):
     for origin in postIdCounts:
         children.append(actualResultForOrigin(origin, postIdCounts[origin]))
     return {
-        'Posting ID': postId,
+        'title': postId,
         '_children': children
     }
 
 
 def actualResultForOrigin(origin, originCounts):
     return {
-        'origin': origin,
+        'title': origin,
         'newApplicantCount': originCounts['new_applicant'],
         "newLeadCount": originCounts['new_lead'],
         "recruiterScreenCount": originCounts['recruiter_screen'],
