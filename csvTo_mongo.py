@@ -10,7 +10,7 @@ import datetime
 
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
-collection = database["falconDB"]
+collection = database["dolphinDB"]
 
 
 all_The_Stages = ['Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant', 'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer']
@@ -22,7 +22,7 @@ box = []
 collection.delete_many({})
 print("Deleted everything")
 print("Adding records...")
-with open('leverDump_19Aug2019.csv', encoding="utf_8" ) as csvfile:
+with open('d4871e75-7fb1-4176-bfa0-c3d061757298.candidates.presence.latest (4).csv', encoding="utf_8" ) as csvfile:
 	myReader = csv.reader(csvfile, delimiter=',')
 	
 
@@ -115,8 +115,10 @@ with open('leverDump_19Aug2019.csv', encoding="utf_8" ) as csvfile:
 
 			if len(minDateCandidates) > 0:
 				dict_to_be_written['Min Date'] = min(minDateCandidates)
+				dict_to_be_written['Max Date'] = max(minDateCandidates)
 			else:
 				dict_to_be_written['Min Date'] = datetime.datetime(2005,12,1)
+				dict_to_be_written['Max Date'] = datetime.datetime(2030,12,1)
 
 
 			box.append(dict_to_be_written)
