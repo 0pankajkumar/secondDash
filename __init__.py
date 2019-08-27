@@ -202,6 +202,12 @@ def getTable():
 def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, age, fromDate, toDate):
     print(fromDate)
     print(toDate)
+    try:
+        fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
+        toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
+    except:
+        fromDate = datetime.datetime(2000,01,01)
+        toDate = datetime.datetime(2030,01,01)
     ts = time.time()
     rows = getFromDB(companyName) # title, companyName, team, archiveStatus
     print('db: ' + str(time.time() - ts))
@@ -218,11 +224,11 @@ def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, ag
         if item['Profile Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
             continue
         
-        if item['Min Date'] < benchmark_date:
+        if item['Min Date'] <= fromDate:
             # print(f"{item['Min Date']} < {benchmark_date}")
             continue
 
-        if item['Min Date'] < benchmark_date:
+        if item['Max Date'] >= toDate:
             # print(f"{item['Min Date']} < {benchmark_date}")
             continue
         
