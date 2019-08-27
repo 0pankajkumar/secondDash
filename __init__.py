@@ -206,8 +206,8 @@ def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, ag
         fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
         toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
     except:
-        fromDate = datetime.datetime(2000,01,01)
-        toDate = datetime.datetime(2030,01,01)
+        fromDate = datetime.datetime(2000,1,1)
+        toDate = datetime.datetime(2030,1,1)
     ts = time.time()
     rows = getFromDB(companyName) # title, companyName, team, archiveStatus
     print('db: ' + str(time.time() - ts))
