@@ -190,16 +190,15 @@ def getTable():
     postingTeam = request.form.get('postingTeam')
     postingArchiveStatus = request.form.get('postingArchiveStatus')
     profileArchiveStatus = request.form.get('profileArchiveStatus')
-    age = request.form.get('age')
     fromDate = request.form.get('from')
     toDate = request.form.get('to')
 
-    results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus, profileArchiveStatus, age, fromDate, toDate)
+    results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus, profileArchiveStatus, fromDate, toDate)
     # results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
     return jsonify(results)
 
 
-def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, age, fromDate, toDate):
+def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, fromDate, toDate):
     print(fromDate)
     print(toDate)
     try:
@@ -213,7 +212,7 @@ def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, ag
     print('db: ' + str(time.time() - ts))
     res = []
     counts = dict()
-    benchmark_date = interpretAge(age)
+    
     for item in rows:
         if item['Posting Title'] != title and title != 'All':
             continue
