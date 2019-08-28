@@ -76,3 +76,7 @@ body.loading .modal {
   border: 1px solid #c5c5c5;
   border-radius: 3px;
 }
+
+.flexGroup2 {
+  text-align: center;
+}
