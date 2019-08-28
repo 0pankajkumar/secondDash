@@ -73,7 +73,7 @@
     </select>
   </div>
 
-  <div class="ui-widget flexItem">
+  <div class="ui-widget flexItem" style="visibility: hidden">
     <label for="">Age:</label><br>
     <select name="age" id="age" style="display: hidden">
       <option value="beginningOfTime" selected>Beginning of Time</option>
@@ -101,8 +101,8 @@
 </div>
 
 <div class="flexGroup">
-  <button id="sendForTable" class="btn btn-primary flexItem">Table</button>
-  <button id="sendForFunnel" class="btn btn-primary flexItem">Funnel</button>
+  <button id="sendForTable" class="btn btn-primary flexItem2">Table</button>
+  <button id="sendForFunnel" class="btn btn-primary flexItem2">Funnel</button>
 </div>
 <!-- </form> -->
 
@@ -110,10 +110,10 @@
 
   //Date picker
   $(function () {
-	  $("#fromdatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+    $("#fromdatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
   });
   $(function () {
-	  $("#todatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+    $("#todatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
   });
 
   //Ajax call to load the bigDict
