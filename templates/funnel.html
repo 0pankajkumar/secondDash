@@ -71,21 +71,6 @@
     </div>
 
 
-    <div class="ui-widget flexItem">
-        <label for="">Age:</label><br>
-        <select name="age" id="age" style="display: hidden">
-            <option value="beginningOfTime" selected>Beginning of Time</option>
-            <option value="3 Days Old">3 Days Old</option>
-            <option value="7 Days Old">7 Days Old</option>
-            <option value="15 Days Old">15 Days Old</option>
-            <option value="1 Months Old">1 Month Old</option>
-            <option value="2 Months Old">2 Months Old</option>
-            <option value="3 Months Old">3 Months Old</option>
-            <option value="4 Months Old">4 Months Old</option>
-            <option value="6 Months Old">6 Months Old</option>
-        </select>
-    </div>
-
     <div class="flexItem">
         <button id="send" class="btn btn-primary">Go</button>
     </div>
@@ -163,7 +148,7 @@
             type: "POST",
             cache: false,
             url: "/getTable",
-            data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "age": document.getElementById('age').value }, //ajax parameters
+            data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "profileArchiveStatus": document.getElementById('profileArchiveStatus').value }, //ajax parameters
             success: function (result) {
 
                 for (let i = 0; i < result.length; i++) {
