@@ -363,8 +363,11 @@ def getBigDict():
     bigDict = dict()
     rows = collection.find(cursor_type=CursorType.EXHAUST)
 
+    companiesAllowed = set()
+    companiesAllowed = {'Campus', 'Codechef', 'Flock', 'Radix', 'Shared Services'}
+
     for row in rows:
-        if row['Posting Department'] == 'Kapow' or row['Posting Department'] == None or row['Posting Department'] == 'Yikes! No Relevant Roles' or row['Posting Department'] == "":
+        if row['Posting Department'] not in companiesAllowed:
             continue
 
         # Making a big data structure for all dropdowns in front end
