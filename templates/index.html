@@ -176,7 +176,7 @@
 
   $('#sendForTable').on('click', function (e) {
 
-    document.getElementById("example-table").style.display = "inline-flex";
+    document.getElementById("example-table").style.display = "list-item inline";
     document.getElementById("chartdivs").style.display = "none";
     console.log("Go clicked");
     e.preventDefault();
@@ -307,7 +307,7 @@
   $('#sendForFunnel').on('click', function (e) {
 
     document.getElementById("example-table").style.display = "none";
-    document.getElementById("chartdivs").style.display = "inline-flex";
+    document.getElementById("chartdivs").style.display = "list-item inline";
     e.preventDefault();
     var x = getFormData($('#bigForm'));
 
