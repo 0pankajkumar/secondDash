@@ -216,6 +216,22 @@
       success: function (result) {
         console.log(result);
 
+        $(document).on('click', "#download-xl", downXL);
+        $(document).on('click', "#download-PDF", downPDF);
+        function downXL() {
+          console.log("Inside downXL");
+
+          table.download("xlsx", "data.xlsx", { sheetName: "tableReport" });
+        }
+
+        function downPDF() {
+          table.download("pdf", "data.pdf", {
+            orientation: "landscape", //set page orientation to portrait
+            title: "TAT Report", //add title to report
+          });
+        }
+
+        // Creating a Tabulator object
         var table = new Tabulator("#example-table", {
           data: result,
           height: "auto",
@@ -271,11 +287,10 @@
     });
 
 
-    // Creating a Tabulator object
 
 
-    $(document).on('click', "#download-xl", downXL);
-    $(document).on('click', "#download-PDF", downPDF);
+
+
 
     function getFormData($form) {
       var unindexed_array = $form.serializeArray();
@@ -287,21 +302,6 @@
 
       return indexed_array;
     }
-
-    function downXL() {
-      console.log("Inside downXL");
-
-      table.download("xlsx", "data.xlsx", { sheetName: "tableReport" });
-    }
-
-    function downPDF() {
-      table.download("pdf", "data.pdf", {
-        orientation: "landscape", //set page orientation to portrait
-        title: "TAT Report", //add title to report
-      });
-    }
-
-
 
 
 
