@@ -220,8 +220,8 @@
         $(document).on('click', "#download-PDF", downPDF);
         function downXL() {
           console.log("Inside downXL");
+          JSONToCSVConvertor(result, "TAT Report");
 
-          table.download("xlsx", "data.xlsx", { sheetName: "tableReport" });
         }
 
         function downPDF() {
