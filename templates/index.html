@@ -206,63 +206,73 @@
       });
     }
 
+    $.ajax({
+      type: "POST",
+      cache: false,
+      url: "/getTable",
+      data: {
+        "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value,
+      }, // multiple data sent using ajax
+      success: function (result) {
+        console.log(result);
+
+        var table = new Tabulator("#example-table", {
+          data: result,
+          height: "auto",
+          layout: "fitColumns",
+          placeholder: "No Data",
+          // index: "id",
+          dataTree: true,
+          dataTreeStartExpanded: true,
+          groupBy: "title",
+          groupHeader: customGroupHeader,
+          tooltips: function (cell) {
+            //cell - cell component
+            //function should return a string for the tooltip of false to hide the tooltip
+            // let data = cell.getRow();
+            // if (data.col == "offerCount") {
+            //   return "Yeah!";
+            // }
+            // return cell.getRow(); //return cells "field - value";
+            const countOf_phoneToOnsiteCount = cell.getRow().getData().phoneToOnsiteCount;
+            const countOf_phoneToOfferCount = cell.getRow().getData().phoneToOfferCount;
+            const countOf_onsiteToOfferCount = cell.getRow().getData().onsiteToOfferCount;
+
+            if (cell.getColumn().getField() == "onsiteInterviewCount") {
+              return countOf_phoneToOnsiteCount ? "Phone to Onsite: " + countOf_phoneToOnsiteCount : '';
+            }
+
+
+
+            if (cell.getColumn().getField() == "offerCount") {
+              let temp = countOf_phoneToOfferCount ? "Phone to Offer: " + countOf_phoneToOfferCount : '';
+              temp = countOf_onsiteToOfferCount ? temp += ("\nOnsite to Offer: " + countOf_onsiteToOfferCount) : temp += '\n';
+              return temp;
+            }
+
+          },
+          columns: [
+            { title: "Posting", field: "title", width: 200, responsive: 0 },
+            // { title: "Origin", field: "origin", width: 150 },
+            { title: "New Lead", field: "newLeadCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "newLeadCount" } },
+            { title: "Reached Out", field: "reachedOutCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "reachedOutCount" } },
+            { title: "New applicant", field: "newApplicantCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "newApplicantCount" } },
+            { title: "Recruiter Screen", field: "recruiterScreenCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "recruiterScreenCount" } },
+            { title: "Phone Interview", field: "phoneInterviewCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "phoneInterviewCount" } },
+            { title: "On-site", field: "onsiteInterviewCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "onsiteInterviewCount" } },
+            { title: "Offer", field: "offerCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerCount" } },
+          ],
+
+          footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+        });
+
+      }
+    });
 
 
     // Creating a Tabulator object
-    var table = new Tabulator("#example-table", {
-      ajaxURL: "/getTable", //ajax URL
-      ajaxParams: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, },  //ajax parameters
-      ajaxConfig: "POST", //ajax HTTP request type
-      // type:"GET", //set request type to Position
-      contentType: 'application/json; charset=utf-8',
-      height: "auto",
-      layout: "fitColumns",
-      placeholder: "No Data",
-      // index: "id",
-      dataTree: true,
-      dataTreeStartExpanded: true,
-      groupBy: "title",
-      groupHeader: customGroupHeader,
-      tooltips: function (cell) {
-        //cell - cell component
-        //function should return a string for the tooltip of false to hide the tooltip
-        // let data = cell.getRow();
-        // if (data.col == "offerCount") {
-        //   return "Yeah!";
-        // }
-        // return cell.getRow(); //return cells "field - value";
-        const countOf_phoneToOnsiteCount = cell.getRow().getData().phoneToOnsiteCount;
-        const countOf_phoneToOfferCount = cell.getRow().getData().phoneToOfferCount;
-        const countOf_onsiteToOfferCount = cell.getRow().getData().onsiteToOfferCount;
 
-        if (cell.getColumn().getField() == "onsiteInterviewCount") {
-          return countOf_phoneToOnsiteCount ? "Phone to Onsite: " + countOf_phoneToOnsiteCount : '';
-        }
-
-
-
-        if (cell.getColumn().getField() == "offerCount") {
-          let temp = countOf_phoneToOfferCount ? "Phone to Offer: " + countOf_phoneToOfferCount : '';
-          temp = countOf_onsiteToOfferCount ? temp += ("\nOnsite to Offer: " + countOf_onsiteToOfferCount) : temp += '\n';
-          return temp;
-        }
-
-      },
-      columns: [
-        { title: "Posting", field: "title", width: 200, responsive: 0 },
-        // { title: "Origin", field: "origin", width: 150 },
-        { title: "New Lead", field: "newLeadCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "newLeadCount" } },
-        { title: "Reached Out", field: "reachedOutCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "reachedOutCount" } },
-        { title: "New applicant", field: "newApplicantCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "newApplicantCount" } },
-        { title: "Recruiter Screen", field: "recruiterScreenCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "recruiterScreenCount" } },
-        { title: "Phone Interview", field: "phoneInterviewCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "phoneInterviewCount" } },
-        { title: "On-site", field: "onsiteInterviewCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "onsiteInterviewCount" } },
-        { title: "Offer", field: "offerCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerCount" } },
-      ],
-
-      footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
-
-    });
 
     $(document).on('click', "#download-xl", downXL);
     $(document).on('click', "#download-PDF", downPDF);
