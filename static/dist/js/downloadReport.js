@@ -30,12 +30,12 @@ function JSONToCSVConvertor(JSONData, ReportTitle) {
     CSV += eachPost["title"];
     CSV += '"\r\n';
 
-    let newLeadSum,
-      reachedOutSum,
-      newApplicantSum,
-      recruiterScreenSum,
-      phoneInterviewSum,
-      onsiteInterviewSum,
+    let newLeadSum = 0,
+      reachedOutSum = 0,
+      newApplicantSum = 0,
+      recruiterScreenSum = 0,
+      phoneInterviewSum = 0,
+      onsiteInterviewSum = 0,
       offerSum = 0;
     for (let i = 0; i < eachPost["_children"].length; i++) {
       newLeadSum += eachPost["_children"][i]["newLeadCount"];

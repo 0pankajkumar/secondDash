@@ -293,16 +293,16 @@ for (let eachPost of arrData) {
   CSV += eachPost["title"];
   CSV += '"\r\n';
 
-  let newLeadSum,
-    reachedOutSum,
-    newApplicantSum,
-    recruiterScreenSum,
-    phoneInterviewSum,
-    onsiteInterviewSum,
+  let newLeadSum = 0,
+    reachedOutSum = 0,
+    newApplicantSum = 0,
+    recruiterScreenSum = 0,
+    phoneInterviewSum = 0,
+    onsiteInterviewSum = 0,
     offerSum = 0;
   for (let i = 0; i < eachPost["_children"].length; i++) {
-    newLeadSum += eachPost["_children"][i]["newLeadCount"];
-    reachedOutSum += eachPost["_children"][i]["reachedOutCount"];
+    newLeadSum += parseInt(eachPost["_children"][i]["newLeadCount"]);
+    reachedOutSum += parseInt(eachPost["_children"][i]["reachedOutCount"]);
     newApplicantSum += eachPost["_children"][i]["newApplicantCount"];
     recruiterScreenSum += eachPost["_children"][i]["recruiterScreenCount"];
     phoneInterviewSum += eachPost["_children"][i]["phoneInterviewCount"];
