@@ -293,7 +293,22 @@ for (let eachPost of arrData) {
   CSV += eachPost["title"];
   CSV += '"\r\n';
 
+  let newLeadSum,
+    reachedOutSum,
+    newApplicantSum,
+    recruiterScreenSum,
+    phoneInterviewSum,
+    onsiteInterviewSum,
+    offerSum = 0;
   for (let i = 0; i < eachPost["_children"].length; i++) {
+    newLeadSum += eachPost["_children"][i]["newLeadCount"];
+    reachedOutSum += eachPost["_children"][i]["reachedOutCount"];
+    newApplicantSum += eachPost["_children"][i]["newApplicantCount"];
+    recruiterScreenSum += eachPost["_children"][i]["recruiterScreenCount"];
+    phoneInterviewSum += eachPost["_children"][i]["phoneInterviewCount"];
+    onsiteInterviewSum += eachPost["_children"][i]["onsiteInterviewCount"];
+    offerSum += eachPost["_children"][i]["offerCount"];
+
     let line = "";
     line += eachPost["_children"][i]["title"];
     line += ",";
@@ -314,6 +329,23 @@ for (let eachPost of arrData) {
 
     CSV += line;
   }
+
+  CSV += ",";
+  CSV += newLeadSum;
+  CSV += ",";
+  CSV += reachedOutSum;
+  CSV += ",";
+  CSV += newApplicantSum;
+  CSV += ",";
+  CSV += recruiterScreenSum;
+  CSV += ",";
+  CSV += phoneInterviewSum;
+  CSV += ",";
+  CSV += onsiteInterviewSum;
+  CSV += ",";
+  CSV += offerSum;
+  CSV += "\r\n";
+
   CSV += "\r\n";
 }
 console.log(CSV);
