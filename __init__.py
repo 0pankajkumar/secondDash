@@ -377,8 +377,17 @@ def getBigDict():
 @app.route('/table', methods=['GET'])
 @login_required
 def table():
+    o = collection.find_one({})
+    # for o in ob:
+    timestamp = str(o['_id'])
+    timestamp = timestamp[0:8]
+    timestamp = int(timestamp,16)
+
+    timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(timestamp))
+    print(timestamp)
+    timestamp = _id.toString().substring(0,8)
     returnedDict = generateMainPageDropdowns()
-    return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'])
+    return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = timestamp)
 
 
 
@@ -686,7 +695,7 @@ client = WebApplicationClient(GOOGLE_CLIENT_ID)
 def load_user(user_id):
     return User.get(user_id)
 
-@app.route("/settings")
+@app.routeste("/settings")
 @login_required
 def settings():
     return "Authorized"
@@ -767,9 +776,9 @@ def callback():
         id_=users_email
     )
 
-    # Doesn't exist? Add to database
+    # Doesn't exist? Add to database of suspicious people
     if not User.get(users_email):
-        # User.create(users_email)
+        User.suspicious(users_email)
         print("User doesn't exist")
 
     # Begin user session by logging the user in

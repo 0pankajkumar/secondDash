@@ -121,7 +121,9 @@ function JSONToCSVConvertor(JSONData, ReportTitle) {
 ////////////////////////////////////////////////////////////////////////
 ///////////////////////// For PDF download ////////////////////////////
 ///////////////////////////////////////////////////////////////////////
-
+// Inspired from https://codepen.io/someatoms/pen/adojWy?editors=1010
+// https://codebun.com/create-dynamic-table-using-jquery/
+// And a noble person who suggested to directly print html table without getting confused with any frameworks
 function createPDF(ReportTitle) {
   var sTable = document.getElementById("tableDiv").innerHTML;
 

@@ -46,12 +46,15 @@ class User(UserMixin):
 
 
 
-    # @staticmethod
-    # def create(id_, name, email, profile_pic):
-    #     db = get_db()
-    #     db.execute(
-    #         "INSERT INTO user (id, name, email, profile_pic)"
-    #         " VALUES (?, ?, ?, ?)",
-    #         (id_, name, email, profile_pic),
-    #     )
-    #     db.commit()
+    @staticmethod
+    def suspicious(users_email):
+        #log unauthorized users
+        client = MongoClient("mongodb://localhost:27017")
+        database = client["local"]
+        collection2 = database["SuspiciousUsers"]
+
+        try:
+            collection2.insert_one({'email': users_email})
+        except:
+            print("Could not get hold of this trespassing")
+        print("Logged in unauthorized")
