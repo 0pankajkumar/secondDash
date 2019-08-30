@@ -166,6 +166,9 @@
 <div id="example-table" style="margin: 20px; visibility: none;"></div>
 <div id="chartdivs" style="visibility: none;"></div>
 
+<!-- So, this div holds a table which is created on the fly to enable PDF download -->
+<div id="tableDiv"></div>
+
 
 
 <script type="text/javascript">
@@ -200,11 +203,7 @@
       return value + "<span style='color:#d00; margin-left:10px;'></span>";
     }
 
-    function downCSV() {
-      table.download("csv", "data.csv", {
-        delimiter: ","
-      });
-    }
+
 
     $.ajax({
       type: "POST",
@@ -218,17 +217,15 @@
 
         $(document).on('click', "#download-xl", downXL);
         $(document).on('click', "#download-PDF", downPDF);
+
         function downXL() {
           console.log("Inside downXL");
           JSONToCSVConvertor(result, "TAT Report");
-
         }
 
         function downPDF() {
-          table.download("pdf", "data.pdf", {
-            orientation: "landscape", //set page orientation to portrait
-            title: "TAT Report", //add title to report
-          });
+          console.log("Inside downPDF");
+          JSONToPDFConvertor(result, "TAT Report");
         }
 
         // Creating a Tabulator object

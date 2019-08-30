@@ -117,3 +117,145 @@ function JSONToCSVConvertor(JSONData, ReportTitle) {
   link.click();
   document.body.removeChild(link);
 }
+
+////////////////////////////////////////////////////////////////////////
+///////////////////////// For PDF download ////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+function createPDF(ReportTitle) {
+  var sTable = document.getElementById("tableDiv").innerHTML;
+
+  var style = "<style>";
+  style = style + "table {width: 100%;font: 17px Calibri;}";
+  style =
+    style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+  style = style + "padding: 2px 3px;text-align: center;}";
+  style = style + "</style>";
+
+  // CREATE A WINDOW OBJECT.
+  var win = window.open("", "", "height=700,width=700");
+
+  win.document.write("<html><head>");
+  win.document.write(`<title>` + { ReportTitle }` + </title>`); // <title> FOR PDF HEADER.
+  win.document.write(style); // ADD STYLE INSIDE THE HEAD TAG.
+  win.document.write("</head>");
+  win.document.write("<body>");
+  win.document.write(sTable); // THE TABLE CONTENTS INSIDE THE BODY TAG.
+  win.document.write("</body></html>");
+
+  win.document.close(); // CLOSE THE CURRENT WINDOW.
+
+  win.print(); // PRINT THE CONTENTS.
+}
+
+function JSONToPDFConvertor(JSONData, ReportTitle) {
+  let data = JSONData;
+  var table_body = '<table border="1">';
+  table_body +=
+    "<thead><tr><td>Origin</td><td>New Lead</td><td>Reached Out</td><td>New Apllicant</td><td>Recruiter Screen</td><td>Phone interview</td><td>Onsite</td><td>Offer</td></tr></thead>";
+
+  table_body += "<tbody>";
+
+  for (let eachPost of data) {
+    let temp = eachPost["title"];
+    table_body += '<td colspan="8">';
+    table_body += temp;
+    table_body += "</td>";
+    table_body += "";
+
+    let newLeadSum = 0,
+      reachedOutSum = 0,
+      newApplicantSum = 0,
+      recruiterScreenSum = 0,
+      phoneInterviewSum = 0,
+      onsiteInterviewSum = 0,
+      offerSum = 0;
+
+    for (let i = 0; i < eachPost["_children"].length; i++) {
+      newLeadSum += parseInt(eachPost["_children"][i]["newLeadCount"]);
+      reachedOutSum += parseInt(eachPost["_children"][i]["reachedOutCount"]);
+      newApplicantSum += eachPost["_children"][i]["newApplicantCount"];
+      recruiterScreenSum += eachPost["_children"][i]["recruiterScreenCount"];
+      phoneInterviewSum += eachPost["_children"][i]["phoneInterviewCount"];
+      onsiteInterviewSum += eachPost["_children"][i]["onsiteInterviewCount"];
+      offerSum += eachPost["_children"][i]["offerCount"];
+
+      table_body += "<tr>";
+      table_body += "<td>";
+      table_body += eachPost["_children"][i]["title"];
+      table_body += "</td>";
+
+      table_body += "<td>";
+      table_body += eachPost["_children"][i]["newLeadCount"];
+      table_body += "</td>";
+
+      table_body += "<td>";
+      table_body += eachPost["_children"][i]["reachedOutCount"];
+      table_body += "</td>";
+
+      table_body += "<td>";
+      table_body += eachPost["_children"][i]["newApplicantCount"];
+      table_body += "</td>";
+
+      table_body += "<td>";
+      table_body += eachPost["_children"][i]["recruiterScreenCount"];
+      table_body += "</td>";
+
+      table_body += "<td>";
+      table_body += eachPost["_children"][i]["phoneInterviewCount"];
+      table_body += "</td>";
+
+      table_body += "<td>";
+      table_body += eachPost["_children"][i]["onsiteInterviewCount"];
+      table_body += "</td>";
+
+      table_body += "<td>";
+      table_body += eachPost["_children"][i]["offerCount"];
+      table_body += "</td>";
+      table_body += "</tr>";
+    }
+
+    table_body += "<tr>";
+    table_body += "<td>";
+    table_body += "Total";
+    table_body += "</td>";
+
+    table_body += "<td>";
+    table_body += newLeadSum;
+    table_body += "</td>";
+
+    table_body += "<td>";
+    table_body += reachedOutSum;
+    table_body += "</td>";
+
+    table_body += "<td>";
+    table_body += newApplicantSum;
+    table_body += "</td>";
+
+    table_body += "<td>";
+    table_body += recruiterScreenSum;
+    table_body += "</td>";
+
+    table_body += "<td>";
+    table_body += phoneInterviewSum;
+    table_body += "</td>";
+
+    table_body += "<td>";
+    table_body += onsiteInterviewSum;
+    table_body += "</td>";
+
+    table_body += "<td>";
+    table_body += offerSum;
+    table_body += "</td>";
+    table_body += "</tr>";
+
+    /* Adding a space in the end */
+    table_body += '<tr><td colspan="8">&nbsp</td></tr>';
+  }
+
+  table_body += "</tbody></table>";
+  $("#tableDiv").html(table_body);
+
+  // Trigger the PDF download
+  createPDF(ReportTitle);
+}
