@@ -383,9 +383,9 @@ def table():
     timestamp = timestamp[0:8]
     timestamp = int(timestamp,16)
 
-    timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(timestamp))
+    timestamp = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime(timestamp))
     print(timestamp)
-    
+
     returnedDict = generateMainPageDropdowns()
     return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = timestamp)
 
