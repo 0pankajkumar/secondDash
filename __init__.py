@@ -377,14 +377,18 @@ def getBigDict():
 @app.route('/table', methods=['GET'])
 @login_required
 def table():
-    o = collection.find_one({})
-    # for o in ob:
-    timestamp = str(o['_id'])
-    timestamp = timestamp[0:8]
-    timestamp = int(timestamp,16)
+    timestamp = None
+    try:
+        o = collection.find_one({})
+        # for o in ob:
+        timestamp = str(o['_id'])
+        timestamp = timestamp[0:8]
+        timestamp = int(timestamp,16)
 
-    timestamp = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime(timestamp))
-    print(timestamp)
+        timestamp = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime(timestamp))
+        print(timestamp)
+    except:
+        print("Coudn't get last updated date")
 
     returnedDict = generateMainPageDropdowns()
     return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = timestamp)
