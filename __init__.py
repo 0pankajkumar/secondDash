@@ -695,7 +695,7 @@ client = WebApplicationClient(GOOGLE_CLIENT_ID)
 def load_user(user_id):
     return User.get(user_id)
 
-@app.routeste("/settings")
+@app.route("/settings")
 @login_required
 def settings():
     return "Authorized"
