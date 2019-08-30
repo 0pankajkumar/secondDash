@@ -541,8 +541,12 @@ def updateMongo():
                                     row[i] = datetime.datetime.strptime(row[i], '%Y-%m-%d')
                                     minDateCandidates.append(row[i])
                                 except:
-                                    row[i] = datetime.datetime.strptime(row[i], '%m-%d-%y %H:%M')
-                                    minDateCandidates.append(row[i])
+                                    try:
+                                        row[i] = datetime.datetime.strptime(row[i], '%m-%d-%y %H:%M')
+                                        minDateCandidates.append(row[i])
+                                    except:
+                                        row[i] = datetime.datetime.strptime(row[i], '%d-%m-%y %H:%M')
+                                        minDateCandidates.append(row[i])
  
                         
                     if row[i] == "":
