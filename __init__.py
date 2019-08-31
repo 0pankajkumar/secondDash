@@ -107,7 +107,7 @@ configure_uploads(app, documents)
 @login_required
 def upload():
     if request.method == 'GET':
-        return render_template('uploader.html')
+        return render_template('uploader2.html')
     elif request.method == 'POST':
         f = request.files['file']
         print(f.filename, secure_filename(f.filename))
@@ -115,7 +115,15 @@ def upload():
         # f = request.files['file']
         # f.save(secure_filename(f.filename))
         # os.remove(app.config["UPLOADED_DOCUMENTS_DEST"] + "/" + str())
-        return 'File Uploaded Successfully'
+        return redirect(url_for('uploadedSuccessfully'))
+
+
+@app.route('/uploadedSuccessfully', methods=['GET', 'POST'])
+@login_required
+def uploadedSuccessfully():
+    return render_template("uploadedSuccessfully.html")
+
+
 
 # This route gives status when it's uploading
 @app.route('/updating', methods=['GET', 'POST'])
@@ -124,12 +132,12 @@ def updating():
 
     # The database uploading method comes here
     res = 'starting'
-    updateMongo()
-    # try:
-    #     updateMongo()
-    #     res = 'Database Successfully Updated'
-    # except:
-    #     res = 'Database update failed. Please contact admin'
+    # updateMongo()
+    try:
+        updateMongo()
+        res = 'Database Successfully Updated'
+    except:
+        res = 'Database update failed. Please contact admin'
     return res
 
 

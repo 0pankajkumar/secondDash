@@ -1,0 +1,24 @@
+{% extends "cover.html" %}
+
+{% block main %}
+
+
+<!-- <form action="http://localhost:5000/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <input type="submit" />
+</form> -->
+
+
+<div class="form-wrap">
+    <h3>Upload Data Dump from Lever</h3>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="file">
+    <input type="submit" value="Upload Image" name="submit">
+
+   
+</div>
+
+
+{% endblock %}
