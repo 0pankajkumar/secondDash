@@ -107,7 +107,7 @@ configure_uploads(app, documents)
 @login_required
 def upload():
     if request.method == 'GET':
-        return render_template('uploader2.html')
+        return render_template('uploader2.html', lastUpdated = getLastUpdatedTimestamp())
     elif request.method == 'POST':
         f = request.files['file']
         print(f.filename, secure_filename(f.filename))
@@ -121,7 +121,7 @@ def upload():
 @app.route('/uploadedSuccessfully', methods=['GET', 'POST'])
 @login_required
 def uploadedSuccessfully():
-    return render_template("uploadedSuccessfully.html")
+    return render_template("uploadedSuccessfully.html", lastUpdated = getLastUpdatedTimestamp())
 
 
 
@@ -382,9 +382,7 @@ def getBigDict():
         makeBigDict(bigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
     return jsonify(bigDict)
 
-@app.route('/table', methods=['GET'])
-@login_required
-def table():
+def getLastUpdatedTimestamp():
     timestamp = None
     try:
         o = collection.find_one({})
@@ -396,10 +394,18 @@ def table():
         timestamp = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime(timestamp))
         print(timestamp)
     except:
-        print("Coudn't get last updated date")
+        timestamp = "Coudn't get last updated date"
+        print(timestamp)
+    return timestamp
+
+
+@app.route('/table', methods=['GET'])
+@login_required
+def table():
+    
 
     returnedDict = generateMainPageDropdowns()
-    return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = timestamp)
+    return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp())
 
 
 
@@ -435,7 +441,7 @@ def addUser():
             collection2.delete_many( { "users" : deleteThisUser } );
             print(f"Deleted {deleteThisUser}")
 
-    return render_template("modifyUser.html",usersList = usersList)
+    return render_template("modifyUser.html",usersList = usersList, lastUpdated = getLastUpdatedTimestamp())
 
 
 def fetchUsers(usersList):
