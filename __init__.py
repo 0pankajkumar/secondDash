@@ -477,7 +477,15 @@ def updateMongo():
     # relative path inspired from here https://medium.com/@ageitgey/python-3-quick-tip-the-easy-way-to-deal-with-file-paths-on-windows-mac-and-linux-11a072b58d5f
     script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
     data_folder = Path("/var/www/FlaskApp/FlaskApp/uploaded_csv")
-    file_to_open = data_folder / "dump.csv" 
+    file_to_open = data_folder / "dump.csv"
+
+    # The correcting code for Null found in csv
+    fi = open(file_to_open, 'rb')
+    data = fi.read()
+    fi.close()
+    fo = open(file_to_open, 'wb')
+    fo.write(data.replace(b'\x00', b''))
+    fo.close() 
 
     with open(str(file_to_open), 'r', encoding="utf8" ) as csvfile:
         myReader = csv.reader(csvfile, delimiter=',')
