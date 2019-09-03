@@ -151,6 +151,11 @@ def test1():
 def trial3():
     return render_template('trial3.html')
 
+@app.route('/trial4', methods=['GET'])
+@login_required
+def trial3():
+    return "ss"
+
 
 def generateMainPageDropdowns():
     postingDepartment = set()
@@ -412,7 +417,7 @@ def table():
 # Make this function reject users who are already added
 # Add a delete option as well
 @app.route("/modifyUser", methods=['GET', 'POST'])
-# @login_required
+@login_required
 def addUser():
 
     usersList = list()
@@ -729,6 +734,8 @@ def load_user(user_id):
 @login_required
 def settings():
     return "Authorized"
+
+
 
 @app.route("/")
 def index():
