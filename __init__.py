@@ -107,7 +107,10 @@ configure_uploads(app, documents)
 @login_required
 def upload():
     if request.method == 'GET':
-        return render_template('uploader2.html', lastUpdated = getLastUpdatedTimestamp())
+        if checkAdmin(current_user.id):
+            return render_template('uploader2.html', lastUpdated = getLastUpdatedTimestamp())
+        else:
+            return render_template("unauthorized.html"), 403
     elif request.method == 'POST':
         f = request.files['file']
         print(f.filename, secure_filename(f.filename))
@@ -412,7 +415,14 @@ def table():
     returnedDict = generateMainPageDropdowns()
     return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp())
 
-
+def checkAdmin(user):
+    # Checking whether user is admin or not
+    pa = collection2.find({'users': current_user.id})
+    for p in pa:
+        if p['type'] == 'admin':
+            return True
+        else:
+            return False
 
 # Make this function reject users who are already added
 # Add a delete option as well
@@ -428,19 +438,11 @@ def modifyUser():
 
     if request.method == "GET":
 
-        # Checking whether user is admin or not
-        pa = collection2.find({'users': current_user.id})
-        for p in pa:
-            if p['type'] == 'admin':
-                return render_template("modifyUser.html",usersList = usersList)
-            else:
-                return render_template("unauthorized.html")
-
-        # user = flask_login.current_user
-        # if user.typeOfUser == 'admin':
-        #     return render_template("modifyUser.html",usersList = usersList)
-        # else:
-        #     return render_template("unauthorized.html"), 403
+        if checkAdmin(current_user.id):
+            return render_template("modifyUser.html",usersList = usersList)
+        else:
+            return render_template("unauthorized.html"), 403
+    
 
     if request.method == "POST":
         # Do the insertion stuff
