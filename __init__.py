@@ -427,11 +427,12 @@ def modifyUser():
     print(f"Got current user iD , yeahhh!!! {current_user.id}")
 
     if request.method == "GET":
-        user = flask_login.current_user
-        if user.typeOfUser == 'admin':
-            return render_template("modifyUser.html",usersList = usersList)
-        else:
-            return render_template("unauthorized.html"), 403
+        return render_template("modifyUser.html",usersList = usersList)
+        # user = flask_login.current_user
+        # if user.typeOfUser == 'admin':
+        #     return render_template("modifyUser.html",usersList = usersList)
+        # else:
+        #     return render_template("unauthorized.html"), 403
 
     if request.method == "POST":
         # Do the insertion stuff
