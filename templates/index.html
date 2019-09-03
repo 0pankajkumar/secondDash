@@ -43,7 +43,7 @@
   </div>
 
 
-  <div class="ui-widget flexItem">
+  <!-- <div class="ui-widget flexItem">
     <label for="  ">Posting Status :</label><br>
     <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: hidden">
       <option value="Both" selected>Both</option>
@@ -56,7 +56,7 @@
       {% endif %}
       {% endfor %}
     </select>
-  </div>
+  </div> -->
 
   <div class="ui-widget flexItem">
     <label for="  ">Profile Status :</label><br>
@@ -210,7 +210,7 @@
       cache: false,
       url: "/getTable",
       data: {
-        "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value,
+        "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value,
       }, // multiple data sent using ajax
       success: function (result) {
         console.log(result);
@@ -328,7 +328,7 @@
       type: "POST",
       cache: false,
       url: "/getTable",
-      data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": document.getElementById('postingArchiveStatus').value, "profileArchiveStatus": document.getElementById('profileArchiveStatus').value }, //ajax parameters
+      data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value }, //ajax parameters
       success: function (result) {
 
         for (let i = 0; i < result.length; i++) {
