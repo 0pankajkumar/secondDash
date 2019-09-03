@@ -431,7 +431,7 @@ def modifyUser():
         # Checking whether user is admin or not
         pa = collection2.find({'users': current_user.id})
         for p in pa:
-            if p['type'] == 'admin'
+            if p['type'] == 'admin':
                 return render_template("modifyUser.html",usersList = usersList)
             else:
                 return render_template("unauthorized.html")
