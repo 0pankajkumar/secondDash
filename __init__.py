@@ -153,7 +153,7 @@ def trial3():
 
 @app.route('/trial4', methods=['GET'])
 @login_required
-def trial3():
+def trial4():
     return "ss"
 
 
@@ -423,7 +423,7 @@ def modifyUser():
     # Fetch users
     usersList = list()
     fetchUsers(usersList)
-    
+
     print(f"Got current user iD , yeahhh!!! {current_user.id}")
 
     if request.method == "GET":
