@@ -418,13 +418,18 @@ def table():
 # Add a delete option as well
 @app.route("/modifyUser", methods=['GET', 'POST'])
 @login_required
-def addUser():
+def modifyUser():
 
+    # Fetch users
     usersList = list()
     fetchUsers(usersList)
     
     if request.method == "GET":
-        return render_template("modifyUser.html",usersList = usersList)
+        user = flask_login.current_user
+        if user.typeOfUser == 'admin':
+            return render_template("modifyUser.html",usersList = usersList)
+        else:
+            return render_template("unauthorized.html"), 403
 
     if request.method == "POST":
         # Do the insertion stuff
@@ -437,16 +442,14 @@ def addUser():
             else:
                 collection2.insert_one({"users": addThisUser, "type":"regular"})
 
-            # Fetch users
-            usersList = []
-            fetchUsers(usersList)
+            
 
         if request.form.get('actionType') == "deleteUser":
             deleteThisUser = request.form.get('users')
             collection2.delete_many( { "users" : deleteThisUser } );
             print(f"Deleted {deleteThisUser}")
 
-    return render_template("modifyUser.html",usersList = usersList, lastUpdated = getLastUpdatedTimestamp())
+        return render_template("modifyUser.html",usersList = usersList, lastUpdated = getLastUpdatedTimestamp())
 
 
 def fetchUsers(usersList):
@@ -809,17 +812,17 @@ def callback():
 
     # Create a user in our db with the information provided
     # by Google
-    user = User(
-        id_=users_email
-    )
+    
 
-    # Doesn't exist? Add to database of suspicious people
-    if not User.get(users_email):
+    tmpUser = User.get(users_email)
+    if tmpUser:
+        user = tmpUser
+    else: # Doesn't exist? Add to database of suspicious people
         User.suspicious(users_email)
-        print("User doesn't exist")
+        print("User doesn't exist in our records & added to suspicious list")
 
     # Begin user session by logging the user in
-    login_user(user)
+    login_user(tmpUser)
 
     # Send user back to homepage
     return redirect(url_for("index"))

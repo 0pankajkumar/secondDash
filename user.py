@@ -7,8 +7,9 @@ from pymongo import MongoClient, CursorType
 
 
 class User(UserMixin):
-    def __init__(self, id_):
+    def __init__(self, id_, typeOfUser):
         self.id = id_
+        self.typeOfUser = typeOfUser
 
     @staticmethod
     def get(users_email):
@@ -31,6 +32,7 @@ class User(UserMixin):
                     print("\nYeah, found in mongoDB\n")
                     user = User(
                         id_=users_email
+                        typeOfUser = p['type']
                     )
                     return user
                 else:
