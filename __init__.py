@@ -427,7 +427,15 @@ def modifyUser():
     print(f"Got current user iD , yeahhh!!! {current_user.id}")
 
     if request.method == "GET":
-        return render_template("modifyUser.html",usersList = usersList)
+
+        # Checking whether user is admin or not
+        pa = collection2.find({'users': current_user.id})
+        for p in pa:
+            if p['type'] == 'admin'
+                return render_template("modifyUser.html",usersList = usersList)
+            else:
+                return render_template("unauthorized.html")
+
         # user = flask_login.current_user
         # if user.typeOfUser == 'admin':
         #     return render_template("modifyUser.html",usersList = usersList)
