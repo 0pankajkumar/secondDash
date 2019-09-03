@@ -424,6 +424,8 @@ def modifyUser():
     usersList = list()
     fetchUsers(usersList)
     
+    print(f"Got current user iD , yeahhh!!! {current_user.id}")
+
     if request.method == "GET":
         user = flask_login.current_user
         if user.typeOfUser == 'admin':
@@ -814,15 +816,19 @@ def callback():
     # by Google
     
 
-    tmpUser = User.get(users_email)
-    if tmpUser:
-        user = tmpUser
-    else: # Doesn't exist? Add to database of suspicious people
+    # Create a user in our db with the information provided
+    # by Google
+    user = User(
+        id_=users_email
+    )
+
+    # Doesn't exist? Add to database of suspicious people
+    if not User.get(users_email):
         User.suspicious(users_email)
-        print("User doesn't exist in our records & added to suspicious list")
+        print("User doesn't exist")
 
     # Begin user session by logging the user in
-    login_user(tmpUser)
+    login_user(user)
 
     # Send user back to homepage
     return redirect(url_for("index"))
