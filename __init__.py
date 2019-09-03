@@ -201,17 +201,17 @@ def getTable():
     postingTitle = request.form.get('postingTitle')
     companyName = request.form.get('companyName')
     postingTeam = request.form.get('postingTeam')
-    postingArchiveStatus = request.form.get('postingArchiveStatus')
+    # postingArchiveStatus = request.form.get('postingArchiveStatus')
     profileArchiveStatus = request.form.get('profileArchiveStatus')
     fromDate = request.form.get('from')
     toDate = request.form.get('to')
 
-    results = getResults(postingTitle, companyName, postingTeam, postingArchiveStatus, profileArchiveStatus, fromDate, toDate)
+    results = getResults(postingTitle, companyName, postingTeam, profileArchiveStatus, fromDate, toDate)
     # results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
     return jsonify(results)
 
 
-def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, fromDate, toDate):
+def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate):
     print(fromDate)
     print(toDate)
     try:
@@ -231,8 +231,8 @@ def getResults(title, companyName, team, archiveStatus, profileArchiveStatus, fr
             continue
         if item['Posting Team'] != team and team != 'All':
             continue
-        if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
-            continue
+        # if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
+        #     continue
         if item['Profile Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
             continue
         
