@@ -106,8 +106,8 @@
   $(document).ready(function () {
 
     // Hiding table &b funnel
-    $("example-table").hide();
-    $("chartdivs").hide();
+    // $("example-table").hide();
+    // $("chartdivs").hide();
 
     $.ajax({
       type: "GET",
@@ -163,8 +163,8 @@
 </script>
 
 
-<div id="example-table" style="margin: 20px; visibility: none;"></div>
-<div id="chartdivs" style="visibility: none;"></div>
+<div id="example-table" style="margin: 20px; display: none;"></div>
+<div id="chartdivs" style="display: none;"></div>
 
 <!-- So, this div holds a table which is created on the fly to enable PDF download -->
 <div style="display:none" id="tableDiv"></div>
