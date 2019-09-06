@@ -108,7 +108,7 @@ configure_uploads(app, documents)
 def upload():
     if request.method == 'GET':
         if checkAdmin(current_user.id):
-            return render_template('uploader2.html', lastUpdated = getLastUpdatedTimestamp())
+            return render_template('uploader2.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions=True)
         else:
             return render_template("unauthorized.html"), 403
     elif request.method == 'POST':
