@@ -412,7 +412,7 @@ def getLastUpdatedTimestamp():
 def table():
     
     adminOptions = False
-    if checkAdmin:
+    if checkAdmin(current_user.id):
         adminOptions = True
     returnedDict = generateMainPageDropdowns()
     return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions)
