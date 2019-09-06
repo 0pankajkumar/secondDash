@@ -441,7 +441,7 @@ def modifyUser():
     if request.method == "GET":
 
         if checkAdmin(current_user.id):
-            return render_template("modifyUser.html",usersList = usersList)
+            return render_template("modifyUser.html",usersList = usersList, adminOptions=True)
         else:
             return render_template("unauthorized.html"), 403
     
