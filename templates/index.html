@@ -12,7 +12,7 @@
 
 
 <!-- <form style="text-align: center" id="bigForm"> -->
-<div class="flexGroup">
+<div class="menu col-3">
   <div class="ui-widget flexItem">
     <label for="companyName">Company:</label><br>
     <select name="ddl1" id="ddl1" style="display: hidden"
@@ -173,9 +173,7 @@
 
 <script type="text/javascript">
 
-  function downXL() {
-    table.download("xlsx", "data.xlsx", { sheetName: "tableReport" });
-  }
+
 
   $('#sendForTable').on('click', function (e) {
 
