@@ -13,34 +13,86 @@
 
 <!-- <form style="text-align: center" id="bigForm"> -->
 <div class="menu col-3">
-  <div class="ui-widget flexItem">
-    <label for="companyName">Company:</label><br>
-    <select name="ddl1" id="ddl1" style="display: hidden"
-      onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
-      <option value="nothing" selected>Choose</option>
-      {% for p in postingDepartment %}
-      <option value="{{ p }}">{{ p }}</option>
-      {% endfor %}
-    </select>
-  </div>
+
+  <ul>
+    <li>
+      <div class="ui-widget flexItem">
+        <label for="companyName">Company:</label><br>
+        <select name="ddl1" id="ddl1" style="display: hidden"
+          onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
+          <option value="nothing" selected>Choose</option>
+          {% for p in postingDepartment %}
+          <option value="{{ p }}">{{ p }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+    </li>
+    <div class="ui-widget flexItem">
+      <label for="postingTeam">Team:</label><br>
+      <select name="ddl2" id="ddl2" style="display: hidden"
+        onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
+        <option value="nothing" selected>Choose</option>
+      </select>
+    </div>
+
+    <li>
+      <div class="ui-widget flexItem">
+        <label for="postingTitle">Title:</label><br>
+        <select name="ddl3" id="ddl3" style="display: hidden">
+          <option value="All" selected>All</option>
+        </select>
+      </div>
+    </li>
+
+    <li>
+      <div class="ui-widget flexItem">
+        <label for="  ">Profile Status :</label><br>
+        <select name="profileArchiveStatus" id="profileArchiveStatus" style="display: hidden">
+          <option value="Both" selected>Both</option>
+          {% for p in profileArchiveStatus %}
+          {% if p == 'false' %}
+          <option value="{{ p }}">Active</option>
+          {% elif p == 'true' %}
+          <option value="{{ p }}">Archived</option>
+
+          {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+    </li>
+
+    <li>
+      <div class="ui-widget flexItem">
+        <label for="">From:</label><br>
+        <input type="text" id="fromdatepicker">
+      </div>
+    </li>
+
+    <li>
+      <div class="ui-widget flexItem">
+        <label for="">To:</label><br>
+        <input type="text" id="todatepicker">
+      </div>
+    </li>
+
+    <li>
+      <div class="flexGroup2">
+        <button id="sendForTable" class="btn btn-primary flexItem2">Table view</button>
+        <button id="sendForFunnel" class="btn btn-primary flexItem2">Funnel view</button>
+      </div>
+    </li>
+
+  </ul>
 
 
 
-  <div class="ui-widget flexItem">
-    <label for="postingTeam">Team:</label><br>
-    <select name="ddl2" id="ddl2" style="display: hidden"
-      onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
-      <option value="nothing" selected>Choose</option>
-    </select>
-  </div>
 
 
-  <div class="ui-widget flexItem">
-    <label for="postingTitle">Title:</label><br>
-    <select name="ddl3" id="ddl3" style="display: hidden">
-      <option value="All" selected>All</option>
-    </select>
-  </div>
+
+
+
+
 
 
   <!-- <div class="ui-widget flexItem">
@@ -58,38 +110,16 @@
     </select>
   </div> -->
 
-  <div class="ui-widget flexItem">
-    <label for="  ">Profile Status :</label><br>
-    <select name="profileArchiveStatus" id="profileArchiveStatus" style="display: hidden">
-      <option value="Both" selected>Both</option>
-      {% for p in profileArchiveStatus %}
-      {% if p == 'false' %}
-      <option value="{{ p }}">Active</option>
-      {% elif p == 'true' %}
-      <option value="{{ p }}">Archived</option>
-
-      {% endif %}
-      {% endfor %}
-    </select>
-  </div>
 
 
-  <div class="ui-widget flexItem">
-    <label for="">From:</label><br>
-    <input type="text" id="fromdatepicker">
-  </div>
 
-  <div class="ui-widget flexItem">
-    <label for="">To:</label><br>
-    <input type="text" id="todatepicker">
-  </div>
+
+
+
 
 </div>
 
-<div class="flexGroup2">
-  <button id="sendForTable" class="btn btn-primary flexItem2">Table view</button>
-  <button id="sendForFunnel" class="btn btn-primary flexItem2">Funnel view</button>
-</div>
+
 <!-- </form> -->
 
 <script>
