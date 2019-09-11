@@ -255,7 +255,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 		# postId = str(item['Posting ID']) + ", " + str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + item['Created At (GMT)']
 
 		if 'postingCreatedDate' in item:
-			dateForLabel = f"{str(item['postingCreatedDate'].strftime('%b'))} {str(item['postingCreatedDate'].strftime('%Y'))} {str(item['Candidate Owner Name'])}"
+			dateForLabel = f"{str(item['postingCreatedDate'].strftime('%b'))} {str(item['postingCreatedDate'].strftime('%Y'))} - {str(item['Candidate Owner Name'])}"
 			# dateForLabel = str(item['postingCreatedDate'].strftime('%b')) + " " + str(item['postingCreatedDate'].strftime('%Y'))
 			# dateForLabel += str(item['Candidate Owner Name'])
 		else:
