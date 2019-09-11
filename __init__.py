@@ -421,17 +421,17 @@ def getLastUpdatedTimestamp():
 		print(timestamp)
 	return timestamp
 
-@app.route('/team', methods=['GET'])
-@login_required
-def team():
-	if 
+# @app.route('/team', methods=['GET'])
+# @login_required
+# def team():
+# 	if 
 	
-	adminOptions = False
-	loginOption = True
-	if checkAdmin(current_user.id):
-		adminOptions = True
-	returnedDict = generateMainPageDropdowns()
-	return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
+# 	adminOptions = False
+# 	loginOption = True
+# 	if checkAdmin(current_user.id):
+# 		adminOptions = True
+# 	returnedDict = generateMainPageDropdowns()
+# 	return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
 
 
 @app.route('/table', methods=['GET'])
