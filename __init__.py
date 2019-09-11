@@ -255,9 +255,11 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 		# postId = str(item['Posting ID']) + ", " + str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + item['Created At (GMT)']
 
 		if 'postingCreatedDate' in item:
-			dateForLabel = str(item['postingCreatedDate'].strftime('%b')) + " " + str(item['postingCreatedDate'].strftime('%Y'))
+			dateForLabel = f"{str(item['postingCreatedDate'].strftime('%b'))} {str(item['postingCreatedDate'].strftime('%Y'))} {str(item['Candidate Owner Name'])}"
+			# dateForLabel = str(item['postingCreatedDate'].strftime('%b')) + " " + str(item['postingCreatedDate'].strftime('%Y'))
+			# dateForLabel += str(item['Candidate Owner Name'])
 		else:
-			dateForLabel = "$"
+			dateForLabel = f"$ {str(item['Candidate Owner Name'])}"
 		postId = str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + dateForLabel 
 
 		origin = item['Origin']
@@ -418,6 +420,18 @@ def getLastUpdatedTimestamp():
 		timestamp = "Coudn't get last updated date"
 		print(timestamp)
 	return timestamp
+
+@app.route('/team', methods=['GET'])
+@login_required
+def team():
+	if 
+	
+	adminOptions = False
+	loginOption = True
+	if checkAdmin(current_user.id):
+		adminOptions = True
+	returnedDict = generateMainPageDropdowns()
+	return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
 
 
 @app.route('/table', methods=['GET'])
