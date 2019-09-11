@@ -270,6 +270,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
             counts[postId][origin]['phone_interview'] = 0
             counts[postId][origin]['onsite_interview'] = 0
             counts[postId][origin]['offer'] = 0
+            counts[postId][origin]['hired'] = 0
 
             # var for % counts
             counts[postId][origin]['phone_To_Onsite'] = 0
@@ -310,6 +311,9 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
         if 'Stage - Offer Approved' in item and item['Stage - Offer Approved'] != None:
             originCounts['offer'] += 1
 
+        if 'Hired' in item and item['Hired'] != None:
+            originCounts['hired'] += 1
+
     for postId in counts:
         res.append(actualPostId(postId, counts[postId]))
     print('total: ' + str(time.time() - ts))
@@ -348,6 +352,7 @@ def actualResultForOrigin(origin, originCounts):
         "phoneInterviewCount": originCounts['phone_interview'],
         "onsiteInterviewCount": originCounts['onsite_interview'],
         "offerCount": originCounts['offer'],
+        "hiredCount": originCounts['hired'],
         "reachedOutCount": originCounts['reached_out'],
         "phoneToOnsiteCount": originCounts['phone_To_Onsite'],
         "phoneToOfferCount": originCounts['phone_To_Offer'],
