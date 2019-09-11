@@ -304,6 +304,12 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
         if 'Stage - Offer' in item and item['Stage - Offer'] != None:
             originCounts['offer'] += 1
 
+        if 'Stage - Offer Approval' in item and item['Stage - Offer Approval'] != None:
+            originCounts['offer'] += 1
+
+        if 'Stage - Offer Approved' in item and item['Stage - Offer Approved'] != None:
+            originCounts['offer'] += 1
+
     for postId in counts:
         res.append(actualPostId(postId, counts[postId]))
     print('total: ' + str(time.time() - ts))
