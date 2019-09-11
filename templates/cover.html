@@ -54,14 +54,14 @@
     <script type="text/javascript" src="https://unpkg.com/jspdf-autotable@2.3.2"></script>
 
     <!-- For Google signin -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-client_id"
         content="409502799386-6r7ba3thnc8nl7c0fllp88mggvrgth8s.apps.googleusercontent.com">
     <style>
         .abcRioButton.abcRioButtonLightBlue {
             margin: 0 auto;
         }
-    </style>
+    </style> -->
 
 
 
@@ -78,7 +78,10 @@
         <a href="/funnel">Funnel Report</a> -->
         <div class="search-container">
 
+            {% if loginOption == True %}
             <div><a href="/logout">Sign out</a></div>
+            {% endif %}
+
             {% if adminOptions == True %}
             <div><a href="/upload">Upload</a></div>
             <div><a href="/modifyUser">Users</a></div>
@@ -90,7 +93,9 @@
 
     <div class="topnav">
         <div class="search-container" style="text-align: right">
+            {% if loginOption == True %}
             Last Updated:<br> {{lastUpdated}}
+            {% endif %}
         </div>
     </div>
 

@@ -108,7 +108,8 @@ configure_uploads(app, documents)
 def upload():
     if request.method == 'GET':
         if checkAdmin(current_user.id):
-            return render_template('uploader2.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions=True)
+        	loginOption = True
+            return render_template('uploader2.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption)
         else:
             return render_template("unauthorized.html"), 403
     elif request.method == 'POST':
@@ -124,7 +125,8 @@ def upload():
 @app.route('/uploadedSuccessfully', methods=['GET', 'POST'])
 @login_required
 def uploadedSuccessfully():
-    return render_template("uploadedSuccessfully.html", lastUpdated = getLastUpdatedTimestamp())
+	loginOption = True
+    return render_template("uploadedSuccessfully.html", lastUpdated = getLastUpdatedTimestamp(), loginOption = loginOption)
 
 
 
@@ -423,10 +425,11 @@ def getLastUpdatedTimestamp():
 def table():
     
     adminOptions = False
+    loginOption = True
     if checkAdmin(current_user.id):
         adminOptions = True
     returnedDict = generateMainPageDropdowns()
-    return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions)
+    return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
 
 def checkAdmin(user):
     # Checking whether user is admin or not
@@ -448,11 +451,12 @@ def modifyUser():
     fetchUsers(usersList)
 
     print(f"Got current user iD , yeahhh!!! {current_user.id}")
+    loginOption = True
 
     if request.method == "GET":
-
+    	
         if checkAdmin(current_user.id):
-            return render_template("modifyUser.html",usersList = usersList,lastUpdated = getLastUpdatedTimestamp(), adminOptions=True)
+            return render_template("modifyUser.html",usersList = usersList,lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption)
         else:
             return render_template("unauthorized.html"), 403
     
@@ -475,7 +479,7 @@ def modifyUser():
             collection2.delete_many( { "users" : deleteThisUser } );
             print(f"Deleted {deleteThisUser}")
 
-        return render_template("modifyUser.html",usersList = usersList, lastUpdated = getLastUpdatedTimestamp())
+        return render_template("modifyUser.html",usersList = usersList, lastUpdated = getLastUpdatedTimestamp(), loginOption = loginOption)
 
 
 def fetchUsers(usersList):
@@ -774,7 +778,8 @@ def index():
 
     else:
         # return '<a class="button" href="/login">Google Login</a>'
-        return render_template("login.html")
+        loginOption = False
+        return render_template("login.html", loginOption = loginOption)
 
 
 @app.route("/login")
