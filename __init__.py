@@ -480,11 +480,19 @@ def modifyUser():
 		if request.form.get('actionType') == "addUser":
 			addThisUser = request.form.get('emailID')
 			makeAdmin = request.form.get('typeOfUser')
+			tatMember = request.form.get('tatmember')
+			companiesToBeAllowed = request.form.getlist('companiesToBeAllowed')
 			
 			if makeAdmin == "Admin":
-				collection2.insert_one({"users": addThisUser, "type":"admin"})
+				if tatmember == "Nope":
+					collection2.insert_one({"users": addThisUser, "type":"admin", "tatmember": "Nope", "companiesActuallyAllowed":companiesToBeAllowed})
+				elif tatmember == "Yeah":
+					collection2.insert_one({"users": addThisUser, "type":"admin", "tatmember": "Yeah", "companiesActuallyAllowed":companiesToBeAllowed})
 			else:
-				collection2.insert_one({"users": addThisUser, "type":"regular"})
+				if tatmember == "Nope":
+					collection2.insert_one({"users": addThisUser, "type":"regular", "tatmember": "Nope", "companiesActuallyAllowed":companiesToBeAllowed})
+				elif tatmember == "Yeah":
+					collection2.insert_one({"users": addThisUser, "type":"regular", "tatmember": "Yeah", "companiesActuallyAllowed":companiesToBeAllowed})
 
 			
 
