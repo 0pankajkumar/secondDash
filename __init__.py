@@ -484,15 +484,15 @@ def modifyUser():
 			companiesToBeAllowed = request.form.getlist('companiesToBeAllowed')
 			
 			if makeAdmin == "Admin":
-				if tatmember == "Nope":
-					collection2.insert_one({"users": addThisUser, "type":"admin", "tatmember": "Nope", "companiesActuallyAllowed":companiesToBeAllowed})
-				elif tatmember == "Yeah":
-					collection2.insert_one({"users": addThisUser, "type":"admin", "tatmember": "Yeah", "companiesActuallyAllowed":companiesToBeAllowed})
+				if tatMember == "Nope":
+					collection2.insert_one({"users": addThisUser, "type":"admin", "tatMember": "Nope", "companiesActuallyAllowed":companiesToBeAllowed})
+				elif tatMember == "Yeah":
+					collection2.insert_one({"users": addThisUser, "type":"admin", "tatMember": "Yeah", "companiesActuallyAllowed":companiesToBeAllowed})
 			else:
-				if tatmember == "Nope":
-					collection2.insert_one({"users": addThisUser, "type":"regular", "tatmember": "Nope", "companiesActuallyAllowed":companiesToBeAllowed})
-				elif tatmember == "Yeah":
-					collection2.insert_one({"users": addThisUser, "type":"regular", "tatmember": "Yeah", "companiesActuallyAllowed":companiesToBeAllowed})
+				if tatMember == "Nope":
+					collection2.insert_one({"users": addThisUser, "type":"regular", "tatMember": "Nope", "companiesActuallyAllowed":companiesToBeAllowed})
+				elif tatMember == "Yeah":
+					collection2.insert_one({"users": addThisUser, "type":"regular", "tatMember": "Yeah", "companiesActuallyAllowed":companiesToBeAllowed})
 
 			
 
