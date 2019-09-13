@@ -453,7 +453,9 @@ def generateReferalDict():
 		tem['Posting Title'] = ro['Posting Title']
 		tem['Created At (GMT)'] = ro['Created At (GMT)']
 		tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
+
 		tem['Ageing'] = tem['Last Story At (GMT)'] - tem['Created At (GMT)']
+		tem['Ageing'] = tem['Ageing'].days
 
 		pack.append(tem)
 
