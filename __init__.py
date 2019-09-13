@@ -245,13 +245,13 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 		if item['Profile Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
 			continue
 		
-		if item['Min Date'] <= fromDate:
+		if item['Min Date'] < fromDate and item['Max Date'] > toDate:
 			# print(f"{item['Min Date']} < {benchmark_date}")
 			continue
 
-		if item['Max Date'] >= toDate:
+		# if item['Max Date'] > toDate:
 			# print(f"{item['Min Date']} < {benchmark_date}")
-			continue
+			# continue
 		
 
 		# Modified posting ID for display
