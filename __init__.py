@@ -457,7 +457,7 @@ def generateReferalDict():
 
 	# 	pack.append(temp)
 
-	return jsonify(rows)
+	return jsonify(list(rows))
 
 
 
