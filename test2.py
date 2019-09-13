@@ -23,6 +23,6 @@ collection = database["ApprovedUsers"]
 rows = collection.find({"users": {"$in": ["pankajkum@directi.com", "shwetha.d@directi.com"]}}, cursor_type=CursorType.EXHAUST)
 
 for ro in rows:
-	print(ro['companiesActuallyAllowed'])
+	print(ro)
 
 

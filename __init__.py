@@ -396,10 +396,20 @@ def interpretAge(age):
 @login_required
 def getBigDict():
 	bigDict = dict()
-	rows = collection.find(cursor_type=CursorType.EXHAUST)
 
-	companiesAllowed = set()
-	companiesAllowed = {'Campus', 'Codechef', 'Flock', 'Radix', 'Shared Services'}
+
+	rows = collection2.find({"users": current_user.id})
+	for row in rows:
+		companiesAllowed = row["companiesActuallyAllowed"]
+
+	rows = collection.find({"Posting Department": {"$in": companiesAllowed}},cursor_type=CursorType.EXHAUST)
+
+
+
+	# rows = collection.find(cursor_type=CursorType.EXHAUST)
+
+	# companiesAllowed = set()
+	# companiesAllowed = {'Campus', 'Codechef', 'Flock', 'Radix', 'Shared Services'}
 
 	for row in rows:
 		if row['Posting Department'] not in companiesAllowed:
