@@ -475,8 +475,8 @@ def team():
 
 
 		returnedDict = generateReferalDict()
-		return returnedDict
-		# return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
+		# return returnedDict
+		return render_template('teamPage.html', referals=returnedDict, lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
 
 
 	else:
