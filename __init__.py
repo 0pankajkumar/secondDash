@@ -167,10 +167,14 @@ def generateMainPageDropdowns():
 	postingArchiveStatus = set()
 	profileArchiveStatus = set()
 
-	companiesAllowed = set()
-	companiesAllowed = {'Campus', 'Codechef', 'Flock', 'Radix', 'Shared Services'}
+	# companiesAllowed = set()
+	# companiesAllowed = {'Campus', 'Codechef', 'Flock', 'Radix', 'Shared Services'}
 
-	rows = collection.find(cursor_type=CursorType.EXHAUST)
+	rows = collection2.find({"users": current_user.id})
+	for row in rows:
+		companiesAllowed = row["companiesActuallyAllowed"]
+
+	rows = collection.find({"Posting Department": {"$in": companiesAllowed}},cursor_type=CursorType.EXHAUST)
 	for row in rows:
 		if row['Posting Department'] not in companiesAllowed:
 			continue
