@@ -437,18 +437,50 @@ def getLastUpdatedTimestamp():
 		print(timestamp)
 	return timestamp
 
-# @app.route('/team', methods=['GET'])
-# @login_required
-# def team():
-# 	if 
-	
-# 	adminOptions = False
-# 	loginOption = True
-# 	if checkAdmin(current_user.id):
-# 		adminOptions = True
-# 	returnedDict = generateMainPageDropdowns()
-# 	return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
+def generateReferalDict():
+	query = {"Origin":"referred", ""}
+	proj = {'_id':0, 'Profile ID':1, 'Candidate Name':1, 'Application ID':1, 'Posting ID':1, 'Posting Title':1, 'Created At (GMT)':1}
+	rows = collection.find(query, proj, cursor_type=CursorType.EXHAUST)
 
+	# pack = list()
+
+	# for ro in rows:
+	# 	tem = dict()
+	# 	tem['Profile ID'] = ro['Profile ID']
+	# 	tem['Candidate Name'] = ro['Candidate Name']
+	# 	tem['Application ID'] = ro['Application ID']
+	# 	tem['Posting ID'] = ro['Posting ID']
+	# 	tem['Posting Title'] = ro['Posting Title']
+	# 	tem['Created At (GMT)'] = ro['Created At (GMT)']
+	# 	tem[] = ro[]
+	# 	tem[] = ro[]
+
+	# 	pack.append(temp)
+
+	return jsonify(rows)
+
+
+
+@app.route('/team', methods=['GET'])
+@login_required
+def team():
+	if checkTeamMembership(current_user.id):
+		# Do all
+		adminOptions = False
+		loginOption = True
+		if checkAdmin(current_user.id):
+			adminOptions = True
+
+
+		returnedDict = generateReferalDict()
+		return returnedDict
+		# return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
+
+
+	else:
+		return render_template("unauthorized.html"), 403
+	
+	
 
 @app.route('/table', methods=['GET'])
 @login_required
@@ -462,6 +494,15 @@ def table():
 	return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
 
 def checkAdmin(user):
+	# Checking whether user is admin or not
+	pa = collection2.find({'users': current_user.id})
+	for p in pa:
+		if p['tatMember'] == 'Yeah':
+			return True
+		else:
+			return False
+
+def checkTeamMembership(user):
 	# Checking whether user is admin or not
 	pa = collection2.find({'users': current_user.id})
 	for p in pa:
