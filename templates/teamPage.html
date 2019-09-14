@@ -56,19 +56,19 @@
 
 <div id="London" class="tabcontent">
     <h3>Referrals in New Applicant stage</h3>
-    <li>
-        <div class="ui-widget flexItem">
-            <label for="">From:</label><br>
-            <input type="text" id="fromdatepicker">
-        </div>
-    </li>
 
-    <li>
-        <div class="ui-widget flexItem">
-            <label for="">To:</label><br>
-            <input type="text" id="todatepicker">
-        </div>
-    </li>
+    <div class="ui-widget flexItem">
+        <label for="">From:</label><br>
+        <input type="text" id="fromdatepicker">
+    </div>
+
+
+
+    <div class="ui-widget flexItem">
+        <label for="">To:</label><br>
+        <input type="text" id="todatepicker">
+    </div>
+
     <div id="referral-table" style="margin: 20px; display: none;"></div>
 </div>
 
@@ -90,6 +90,7 @@
 
 
 <script>
+    // Just for top tabs
     function openCity(evt, cityName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
@@ -103,6 +104,14 @@
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
     }
+
+    // for loading date picker
+    $(function () {
+        $("#fromdatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+    });
+    $(function () {
+        $("#todatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+    });
 </script>
 
 {% endblock %}
