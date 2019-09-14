@@ -518,8 +518,19 @@ def team():
 
 	else:
 		return render_template("unauthorized.html"), 403
-	
-	
+
+
+# Return json for referal data
+@app.route('/teamReferals', methods=['POST'])
+@login_required
+def teamReferals():
+	fromDate = request.form.get('actionType')
+	toDate = request.form.get('actionType')
+
+	returnedDict = generateReferalDict()
+
+	return returnedDict
+
 
 @app.route('/table', methods=['GET'])
 @login_required
