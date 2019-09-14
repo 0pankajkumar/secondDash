@@ -736,7 +736,7 @@ def updateMongo():
  
 						
 					if row[i] == "":
-						row[i] = None
+						row[i] = datetime.datetime(1990,1,1)
 
 
 
