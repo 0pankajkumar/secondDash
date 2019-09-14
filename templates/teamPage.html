@@ -140,38 +140,6 @@
             success: function (result) {
                 console.log(result);
 
-                // Creating a Tabulator object
-                var table = new Tabulator("#referal-main-table", {
-                    data: result,
-                    height: "75vh",
-                    layout: "fitColumns",
-                    placeholder: "No Data",
-                    // index: "id",
-                    dataTree: true,
-                    dataTreeStartExpanded: true,
-                    groupBy: "title",
-                    // groupHeader: customGroupHeader,
-                    tooltips: function (cell) {
-
-
-                    },
-                    columns: [
-                        { title: "Posting", field: "title", width: 200, responsive: 0 },
-                        // { title: "Origin", field: "origin", width: 150 },
-                        { title: "New Lead", field: "newLeadCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "newLeadCount" } },
-                        { title: "Reached Out", field: "reachedOutCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "reachedOutCount" } },
-                        { title: "New applicant", field: "newApplicantCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "newApplicantCount" } },
-                        { title: "Recruiter Screen", field: "recruiterScreenCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "recruiterScreenCount" } },
-                        { title: "Phone Interview", field: "phoneInterviewCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "phoneInterviewCount" } },
-                        { title: "On-site", field: "onsiteInterviewCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "onsiteInterviewCount" } },
-                        { title: "Offer", field: "offerCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerCount" } },
-                        { title: "Offer Approval/ed", field: "offerApprovalCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerApprovalCount" } },
-                        { title: "Hired", field: "hiredCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "hiredCount" } },
-                    ],
-
-                    footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
-
-                });
 
             }
         });
