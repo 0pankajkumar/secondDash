@@ -474,8 +474,14 @@ def getLastUpdatedTimestamp():
 		print(timestamp)
 	return timestamp
 
-def generateReferalDict():
-	query = {"Origin":"referred", "Current Stage":"New applicant"}
+def generateReferalDict(fromDate, toDate):
+	try:
+		fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
+		toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
+	except:
+		fromDate = datetime.datetime(2000,1,1)
+		toDate = datetime.datetime(2030,1,1)
+	query = {"Origin":"referred", "Current Stage":"New applicant", "Created At (GMT)":{"$gte":fromDate}, "Created At (GMT)":{"$lte":toDate}}
 	# proj = {'_id':0, 'Profile ID':1, 'Candidate Name':1, 'Application ID':1, 'Posting ID':1, 'Posting Title':1, 'Created At (GMT)':1}
 	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
 
@@ -511,9 +517,9 @@ def team():
 			adminOptions = True
 
 
-		returnedDict = generateReferalDict()
+		# returnedDict = generateReferalDict()
 		# return returnedDict
-		return render_template('teamPage.html', referals=returnedDict, lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
+		return render_template('teamPage.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
 
 
 	else:
@@ -527,7 +533,7 @@ def teamReferals():
 	fromDate = request.form.get('actionType')
 	toDate = request.form.get('actionType')
 
-	returnedDict = generateReferalDict()
+	returnedDict = generateReferalDict(fromDate, toDate)
 
 	return returnedDict
 
