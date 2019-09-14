@@ -245,9 +245,9 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 		if item['Profile Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
 			continue
 		
-		if item['Min Date'] < fromDate and item['Max Date'] > toDate:
-			# print(f"{item['Min Date']} < {benchmark_date}")
-			continue
+		# if item['Min Date'] < fromDate and item['Max Date'] > toDate:
+		# 	# print(f"{item['Min Date']} < {benchmark_date}")
+		# 	continue
 
 		# if item['Max Date'] > toDate:
 			# print(f"{item['Min Date']} < {benchmark_date}")
@@ -288,16 +288,53 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 
 		originCounts = counts[postId][origin]
 		
-		if 'Stage - New lead' in item and item['Stage - New lead'] != None:
+		# if 'Stage - New lead' in item and item['Stage - New lead'] != None:
+		# 	originCounts['new_lead'] += 1
+		# if 'Stage - Reached out' in item and item['Stage - Reached out'] != None:
+		# 	originCounts['reached_out'] += 1
+		# if 'Stage - New applicant' in item and item['Stage - New applicant'] != None:
+		# 	originCounts['new_applicant'] += 1
+		# if 'Stage - Recruiter screen' in item and item['Stage - Recruiter screen'] != None:
+		# 	originCounts['recruiter_screen'] += 1
+
+		# if 'Stage - Phone interview' in item and item['Stage - Phone interview'] != None:
+		# 	originCounts['phone_interview'] += 1
+		# 	# Counting for % conversion
+		# 	if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
+		# 		originCounts['phone_To_Onsite'] += 1
+		# 	if 'Stage - Offer' in item and item['Stage - Offer'] != None:
+		# 		originCounts['phone_To_Offer'] += 1
+
+		# if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
+		# 	originCounts['onsite_interview'] += 1
+		# 	# Counting for % conversion
+		# 	if 'Stage - Offer' in item and item['Stage - Offer'] != None:
+		# 		originCounts['onsite_To_Offer'] += 1
+
+		# if 'Stage - Offer' in item and item['Stage - Offer'] != None:
+		# 	originCounts['offer'] += 1
+
+		# if 'Stage - Offer Approval' in item and item['Stage - Offer Approval'] != None:
+		# 	originCounts['offerApproval'] += 1
+
+		# if 'Stage - Offer Approved' in item and item['Stage - Offer Approved'] != None:
+		# 	originCounts['offerApproval'] += 1
+
+		# if 'Hired' in item and item['Hired'] != None:
+		# 	originCounts['hired'] += 1
+
+
+
+		if item['Stage - New lead'] >= fromDate and item['Stage - New lead'] <= toDate:
 			originCounts['new_lead'] += 1
-		if 'Stage - Reached out' in item and item['Stage - Reached out'] != None:
+		if item['Stage - Reached out'] >= fromDate and item['Stage - Reached out'] <= toDate:
 			originCounts['reached_out'] += 1
-		if 'Stage - New applicant' in item and item['Stage - New applicant'] != None:
+		if item['Stage - New applicant'] >= fromDate and item['Stage - New applicant'] <= toDate:
 			originCounts['new_applicant'] += 1
-		if 'Stage - Recruiter screen' in item and item['Stage - Recruiter screen'] != None:
+		if item['Stage - Recruiter screen'] >= fromDate and item['Stage - Recruiter screen'] <= toDate:
 			originCounts['recruiter_screen'] += 1
 
-		if 'Stage - Phone interview' in item and item['Stage - Phone interview'] != None:
+		if item['Stage - Phone interview'] >= fromDate and item['Stage - Phone interview'] <= toDate:
 			originCounts['phone_interview'] += 1
 			# Counting for % conversion
 			if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
@@ -305,22 +342,22 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 			if 'Stage - Offer' in item and item['Stage - Offer'] != None:
 				originCounts['phone_To_Offer'] += 1
 
-		if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
+		if item['Stage - On-site interview'] >= fromDate and item['Stage - On-site interview'] <= toDate:
 			originCounts['onsite_interview'] += 1
 			# Counting for % conversion
 			if 'Stage - Offer' in item and item['Stage - Offer'] != None:
 				originCounts['onsite_To_Offer'] += 1
 
-		if 'Stage - Offer' in item and item['Stage - Offer'] != None:
+		if item['Stage - Offer'] >= fromDate and item['Stage - Offer'] <= toDate:
 			originCounts['offer'] += 1
 
-		if 'Stage - Offer Approval' in item and item['Stage - Offer Approval'] != None:
+		if item['Stage - Offer Approval'] >= fromDate and item['Stage - Offer Approval'] <= toDate:
 			originCounts['offerApproval'] += 1
 
-		if 'Stage - Offer Approved' in item and item['Stage - Offer Approved'] != None:
+		if item['Stage - Offer Approved'] >= fromDate and item['Stage - Offer Approved'] <= toDate:
 			originCounts['offerApproval'] += 1
 
-		if 'Hired' in item and item['Hired'] != None:
+		if item['Hired'] >= fromDate and item['Hired'] <= toDate:
 			originCounts['hired'] += 1
 
 	for postId in counts:
