@@ -150,30 +150,9 @@
                     dataTree: true,
                     dataTreeStartExpanded: true,
                     groupBy: "title",
-                    groupHeader: customGroupHeader,
+                    // groupHeader: customGroupHeader,
                     tooltips: function (cell) {
-                        //cell - cell component
-                        //function should return a string for the tooltip of false to hide the tooltip
-                        // let data = cell.getRow();
-                        // if (data.col == "offerCount") {
-                        //   return "Yeah!";
-                        // }
-                        // return cell.getRow(); //return cells "field - value";
-                        const countOf_phoneToOnsiteCount = cell.getRow().getData().phoneToOnsiteCount;
-                        const countOf_phoneToOfferCount = cell.getRow().getData().phoneToOfferCount;
-                        const countOf_onsiteToOfferCount = cell.getRow().getData().onsiteToOfferCount;
 
-                        if (cell.getColumn().getField() == "onsiteInterviewCount") {
-                            return countOf_phoneToOnsiteCount ? "Phone to Onsite: " + countOf_phoneToOnsiteCount : '';
-                        }
-
-
-
-                        if (cell.getColumn().getField() == "offerCount") {
-                            let temp = countOf_phoneToOfferCount ? "Phone to Offer: " + countOf_phoneToOfferCount : '';
-                            temp = countOf_onsiteToOfferCount ? temp += ("\nOnsite to Offer: " + countOf_onsiteToOfferCount) : temp += '\n';
-                            return temp;
-                        }
 
                     },
                     columns: [
