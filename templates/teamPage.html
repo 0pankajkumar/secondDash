@@ -140,6 +140,35 @@
             success: function (result) {
                 console.log(result);
 
+                // Creating a Tabulator object
+                var table = new Tabulator("#referal-main-table", {
+                    data: result,
+                    height: "75vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    dataTree: true,
+                    dataTreeStartExpanded: true,
+                    groupBy: "title",
+                    // groupHeader: customGroupHeader,
+                    tooltips: function (cell) {
+
+
+                    },
+                    columns: [
+                        { title: "Application ID", field: "Application ID", width: 200, responsive: 0 },
+                        { title: "Candidate Name", field: "Candidate Name", width: 150 },
+                        { title: "Created At (GMT)", field: "Created At (GMT)" },
+                        { title: "Last Story At (GMT)", field: "Last Story At (GMT)" },
+                        { title: "Posting ID", field: "Posting ID" },
+                        { title: "Posting Title", field: "Posting Title" },
+                        { title: "Profile ID", field: "Profile ID" },
+
+                    ],
+
+                    footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
 
             }
         });
