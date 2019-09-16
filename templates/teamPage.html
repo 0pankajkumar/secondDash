@@ -138,8 +138,9 @@
                 "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
             }, // multiple data sent using ajax
             success: function (result) {
-                console.log(result[0][0]);
-                console.log(result[0][1]);
+                console.log(result['a']);
+                console.log("\n\nSpaced");
+                console.log(result['b']);
 
                 // Creating a Tabulator object
                 var table = new Tabulator("#referal-main-table", {

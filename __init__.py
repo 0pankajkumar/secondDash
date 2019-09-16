@@ -531,7 +531,7 @@ def generateReferalDict(fromDate, toDate):
 		upperPackForTabulator.append(justLikeThat)
 
 	print(upperPackForTabulator)
-	return jsonify(lowerPack, upperPackForTabulator)
+	return jsonify({'a':lowerPack, 'b':upperPackForTabulator})
 
 
 
