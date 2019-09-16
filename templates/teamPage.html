@@ -71,7 +71,8 @@
 
     <span><button id="sendForTable" class="btn btn-primary flexItem2">Go</button></span>
 
-    <div id="referal-main-table" style="margin: 20px;"></div>
+    <div id="referal-up-table" style="margin: 20px;"></div>
+    <div id="referal-down-table" style="margin: 20px;"></div>
 
 </div>
 
@@ -142,10 +143,37 @@
                 console.log("\n\nSpaced");
                 console.log(result['b']);
 
-                // Creating a Tabulator object
-                var table = new Tabulator("#referal-main-table", {
-                    data: result.a,
-                    height: "75vh",
+                // Creating a Tabulator object for lower table
+                var tableUp = new Tabulator("#referal-up-table", {
+                    data: result.up,
+                    height: "20vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    dataTree: true,
+                    dataTreeStartExpanded: true,
+                    groupBy: "Recruiter",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        { title: "Recruiter", field: "Recruiter", width: 200, responsive: 0 },
+                        { title: "Candidate Name", field: "Candidate Name", width: 150 },
+                        { title: "Created At (GMT)", field: "Created At (GMT)" },
+                        { title: "Last Story At (GMT)", field: "Last Story At (GMT)" },
+                        { title: "Posting ID", field: "Posting ID" },
+                        { title: "Posting Title", field: "Posting Title" },
+                        { title: "Profile ID", field: "Profile ID" },
+
+                    ],
+
+                    footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+                // Creating a Tabulator object for lower table
+                var tableLow = new Tabulator("#referal-low-table", {
+                    data: result.low,
+                    height: "70vh",
                     layout: "fitColumns",
                     placeholder: "No Data",
                     // index: "id",
@@ -153,10 +181,7 @@
                     dataTreeStartExpanded: true,
                     groupBy: "title",
                     // groupHeader: customGroupHeader,
-                    tooltips: function (cell) {
 
-
-                    },
                     columns: [
                         { title: "Application ID", field: "Application ID", width: 200, responsive: 0 },
                         { title: "Candidate Name", field: "Candidate Name", width: 150 },

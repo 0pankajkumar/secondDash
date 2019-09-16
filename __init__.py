@@ -515,7 +515,7 @@ def generateReferalDict(fromDate, toDate):
 
 		lowerPack.append(tem)
 
-	# print(upperPack)
+	print(upperPack)
 
 	# Making a dict to be readable at Front end Tabulator
 	upperPackForTabulator = []
@@ -530,8 +530,8 @@ def generateReferalDict(fromDate, toDate):
 
 		upperPackForTabulator.append(justLikeThat)
 
-	print(upperPackForTabulator)
-	return jsonify({'a':lowerPack, 'b':upperPackForTabulator})
+	# print(upperPackForTabulator)
+	return jsonify({'low':lowerPack, 'up':upperPackForTabulator})
 
 
 
