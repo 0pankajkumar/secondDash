@@ -486,15 +486,16 @@ def generateReferalDict(fromDate, toDate):
 	# proj = {'_id':0, 'Profile ID':1, 'Candidate Name':1, 'Application ID':1, 'Posting ID':1, 'Posting Title':1, 'Created At (GMT)':1}
 	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
 
-	upperPack = list()
+	upperPack = dict()
 	lowerPack = list()
 	tem2 = dict()
+	monthList = ['*', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec' ]
 
 	for ro in rows:
 		tem = dict()
 		
 		tem['Profile ID'] = ro['Profile ID']
-		tem['Candidate Name'] = ro['Candidate Name']
+		tem['Candidate Owner Name'] = ro['Candidate Owner Name']
 		tem['Application ID'] = ro['Application ID']
 		tem['Posting ID'] = ro['Posting ID']
 		tem['Posting Title'] = ro['Posting Title']
@@ -505,10 +506,28 @@ def generateReferalDict(fromDate, toDate):
 		tem['Ageing'] = tem['Ageing'].days
 
 
-		# if tem['Candidate Name'] not in tem2:
-		# 	tem2[]
+		if tem['Candidate Owner Name'] not in upperPack:
+			upperPack[tem['Candidate Owner Name']] = [0] * 13
+			# for i in range(1,len(monthList) + 1):
+			# 	upperPack[tem['Candidate Owner Name']][monthList[i]] = 0
+		else:
+			upperPack[tem['Candidate Owner Name']][tem['Created At (GMT)'].month] += 1
+
+
+
+
+
+
+
+
+
+
+
+
 
 		lowerPack.append(tem)
+
+	print(upperPack)
 
 	return jsonify(lowerPack)
 
