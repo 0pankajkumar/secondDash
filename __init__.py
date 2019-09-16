@@ -537,6 +537,9 @@ def generateReferalDict(fromDate, toDate):
 		tempDict['Recruiter'] = key
 		# tempDict['monthValues'] = value
 
+		thatTotal = sum(value)
+		tempDict['Grand Total'] = thatTotal
+
 		i = 0
 		for mon in monthList:
 			tempDict[mon] = value[i]
