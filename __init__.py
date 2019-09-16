@@ -505,8 +505,8 @@ def generateReferalDict(fromDate, toDate):
 		tem['Ageing'] = tem['Ageing'].days
 
 
-		if tem['Candidate Name'] not in tem2:
-			tem2[]
+		# if tem['Candidate Name'] not in tem2:
+		# 	tem2[]
 
 		lowerPack.append(tem)
 
