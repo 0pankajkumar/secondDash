@@ -483,7 +483,7 @@ def generateReferalDict(fromDate, toDate):
 		toDate = datetime.datetime(2030,1,1)
 
 	print(f"{fromDate} ---------- {toDate}")
-db.inventory.find( { $and: [ { price: { $ne: 1.99 } }, { price: { $exists: true } } ] } )
+
 	query = {"Origin":"referred", "Current Stage":"New applicant", "$and": [{"Created At (GMT)":{"$gte":fromDate}}, {"Created At (GMT)":{"$lte":toDate}}] }
 	# proj = {'_id':0, 'Profile ID':1, 'Candidate Name':1, 'Application ID':1, 'Posting ID':1, 'Posting Title':1, 'Created At (GMT)':1}
 	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
