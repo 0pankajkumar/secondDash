@@ -496,7 +496,7 @@ def generateReferalDict(fromDate, toDate):
 			tem = dict()
 			
 			tem['Profile ID'] = ro['Profile ID']
-			tem['Candidate Owner Name'] = ro['Candidate Owner Name']
+			tem['Posting Owner Name'] = ro['Posting Owner Name']
 			tem['Application ID'] = ro['Application ID']
 			tem['Posting ID'] = ro['Posting ID']
 			tem['Posting Title'] = ro['Posting Title']
@@ -507,12 +507,12 @@ def generateReferalDict(fromDate, toDate):
 			tem['Ageing'] = tem['Ageing'].days
 
 
-			if tem['Candidate Owner Name'] not in upperPack:
-				upperPack[tem['Candidate Owner Name']] = [0] * 13
+			if tem['Posting Owner Name'] not in upperPack:
+				upperPack[tem['Posting Owner Name']] = [0] * 13
 				# for i in range(1,len(monthList) + 1):
 				# 	upperPack[tem['Candidate Owner Name']][monthList[i]] = 0
 			else:
-				upperPack[tem['Candidate Owner Name']][tem['Created At (GMT)'].month] += 1
+				upperPack[tem['Posting Owner Name']][tem['Created At (GMT)'].month] += 1
 
 			lowerPack.append(tem)
 
