@@ -525,7 +525,7 @@ def generateReferalDict(fromDate, toDate):
 
 		justLikeThat['_children'] = {}
 
-		for i in range(value):
+		for i in range(len(value)):
 			justLikeThat['_children'][monthList[i]] = value[i]
 
 		upperPackForTabulator.append(justLikeThat)
