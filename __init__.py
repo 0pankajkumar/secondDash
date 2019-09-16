@@ -535,7 +535,14 @@ def generateReferalDict(fromDate, toDate):
 	for key,value in upperPack.items():
 		tempDict = {}
 		tempDict['Recruiter'] = key
-		tempDict['monthValues'] = value
+		# tempDict['monthValues'] = value
+
+		i = 0
+		for mon in monthList:
+			tempDict[mon] = value[i]
+			i += 1
+
+
 		upperPackForTabulator.append(tempDict)
 
 	print(upperPackForTabulator)
