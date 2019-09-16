@@ -774,7 +774,7 @@ def updateMongo():
 
 
 
-					# Converting date strings to datetime objects
+					# Converting date strings to datetime objects for MinDate candidates
 					if headers[i] in all_The_Stages and row[i] != '':
 						try:
 							row[i] = datetime.datetime.strptime(row[i], '%Y-%m-%d %H:%M:%S')
@@ -795,12 +795,12 @@ def updateMongo():
 										try:
 											row[i] = datetime.datetime.strptime(row[i], '%d-%m-%y %H:%M')
 											minDateCandidates.append(row[i])
-										# except:
-										# 	print(f"{row[i]} is problematic -------*************-------------<<<<<")
+										except:
+											print(f"{row[i]} is problematic -------*************-------------<<<<<")
  
 						
-					# if row[i] == "":
-					# 	row[i] = datetime.datetime(1990,1,1)
+					if row[i] == "":
+						row[i] = datetime.datetime(1990,1,1)
 
 
 
