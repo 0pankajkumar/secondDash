@@ -544,7 +544,7 @@ def generateReferalDict(fromDate, toDate):
 		i = 0
 		for mon in monthList:
 			if value[i] != 0:
-				value[i] += value[i]
+				value[i] += 1
 				tempDict[mon] = value[i]
 			else:
 				tempDict[mon] = value[i]
