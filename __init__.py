@@ -508,7 +508,7 @@ def generateReferalDict(fromDate, toDate):
 
 
 			if tem['Posting Owner Name'] not in upperPack:
-				upperPack[tem['Posting Owner Name']] = [1] * 13
+				upperPack[tem['Posting Owner Name']] = [0] * 13
 				# for i in range(1,len(monthList) + 1):
 				# 	upperPack[tem['Candidate Owner Name']][monthList[i]] = 0
 			else:
@@ -543,7 +543,11 @@ def generateReferalDict(fromDate, toDate):
 
 		i = 0
 		for mon in monthList:
-			tempDict[mon] = value[i]
+			if value[i] != 0:
+				value[i] += value[i]
+				tempDict[mon] = value[i]
+			else:
+				tempDict[mon] = value[i]
 			i += 1
 
 
