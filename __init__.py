@@ -513,22 +513,24 @@ def generateReferalDict(fromDate, toDate):
 		else:
 			upperPack[tem['Candidate Owner Name']][tem['Created At (GMT)'].month] += 1
 
-
-
-
-
-
-
-
-
-
-
-
-
 		lowerPack.append(tem)
 
-	print(upperPack)
+	# print(upperPack)
 
+	# Making a dict to be readable at Front end Tabulator
+	upperPackForTabulator = []
+	for key,value in upperPack.items():
+		justLikeThat = {}
+		justLikeThat['Recruiter'] = key
+
+		justLikeThat['_children'] = {}
+
+		for i in range(value):
+			justLikeThat['_children'][monthList[i]] = value[i]
+
+		upperPackForTabulator.append(justLikeThat)
+
+	print(upperPackForTabulator)
 	return jsonify(lowerPack)
 
 
