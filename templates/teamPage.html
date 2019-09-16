@@ -143,6 +143,21 @@
                 // console.log("\n\nSpaced");
                 // console.log(result['b']);
 
+
+                // Nested calculator of TOTAL for each posting
+                var nestedCalc = function (values, data, calcParams) {
+                    var calc = 0;
+
+                    data.forEach(function (row) {
+                        row._children.forEach(function (child) {
+                            calc += child[calcParams.field];
+                        })
+                    });
+
+                    return calc;
+                }
+
+
                 // Creating a Tabulator object for lower table
                 var tableUp = new Tabulator("#referal-up-table", {
                     data: result.up,
