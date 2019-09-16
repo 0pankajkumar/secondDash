@@ -799,8 +799,8 @@ def updateMongo():
 											print(f"{row[i]} is problematic -------*************-------------<<<<<")
  
 						
-					if row[i] == "":
-						row[i] = datetime.datetime(1990,1,1)
+					# if row[i] == "":
+					# 	row[i] = datetime.datetime(1990,1,1)
 
 
 
