@@ -145,17 +145,17 @@
 
 
                 // Nested calculator of TOTAL for each posting
-                var nestedCalc = function (values, data, calcParams) {
-                    var calc = 0;
+                // var nestedCalc = function (values, data, calcParams) {
+                //     var calc = 0;
 
-                    data.forEach(function (row) {
-                        row._children.forEach(function (child) {
-                            calc += child[calcParams.field];
-                        })
-                    });
+                //     data.forEach(function (row) {
+                //         row._children.forEach(function (child) {
+                //             calc += child[calcParams.field];
+                //         })
+                //     });
 
-                    return calc;
-                }
+                //     return calc;
+                // }
 
 
                 // Creating a Tabulator object for lower table
@@ -171,19 +171,19 @@
 
                     columns: [
                         { title: "Recruiter", field: "Recruiter", width: 200, responsive: 0 },
-                        { title: "Jan", field: "Jan", bottomCalc: nestedCalc, bottomCalcParams: { field: "Jan" } },
-                        { title: "Feb", field: "Feb", bottomCalc: nestedCalc, bottomCalcParams: { field: "Feb" } },
-                        { title: "Mar", field: "Mar", bottomCalc: nestedCalc, bottomCalcParams: { field: "Mar" } },
-                        { title: "Apr", field: "Apr", bottomCalc: nestedCalc, bottomCalcParams: { field: "Apr" } },
-                        { title: "May", field: "May", bottomCalc: nestedCalc, bottomCalcParams: { field: "May" } },
-                        { title: "Jun", field: "Jun", bottomCalc: nestedCalc, bottomCalcParams: { field: "Jun" } },
-                        { title: "Jul", field: "Jul", bottomCalc: nestedCalc, bottomCalcParams: { field: "Jul" } },
-                        { title: "Aug", field: "Aug", bottomCalc: nestedCalc, bottomCalcParams: { field: "Aug" } },
-                        { title: "Sept", field: "Sept", bottomCalc: nestedCalc, bottomCalcParams: { field: "Sept" } },
-                        { title: "Oct", field: "Oct", bottomCalc: nestedCalc, bottomCalcParams: { field: "Oct" } },
-                        { title: "Nov", field: "Nov", bottomCalc: nestedCalc, bottomCalcParams: { field: "Nov" } },
-                        { title: "Dec", field: "Dec", bottomCalc: nestedCalc, bottomCalcParams: { field: "Dec" } },
-                        { title: "Grand Total", field: "Grand Total", bottomCalc: nestedCalc, bottomCalcParams: { field: "Grand Total" } },
+                        { title: "Jan", field: "Jan", bottomCalc: "sum" },
+                        { title: "Feb", field: "Feb", bottomCalc: "sum" },
+                        { title: "Mar", field: "Mar", bottomCalc: "sum" },
+                        { title: "Apr", field: "Apr", bottomCalc: "sum" },
+                        { title: "May", field: "May", bottomCalc: "sum" },
+                        { title: "Jun", field: "Jun", bottomCalc: "sum" },
+                        { title: "Jul", field: "Jul", bottomCalc: "sum" },
+                        { title: "Aug", field: "Aug", bottomCalc: "sum" },
+                        { title: "Sept", field: "Sept", bottomCalc: "sum" },
+                        { title: "Oct", field: "Oct", bottomCalc: "sum" },
+                        { title: "Nov", field: "Nov", bottomCalc: "sum" },
+                        { title: "Dec", field: "Dec", bottomCalc: "sum" },
+                        { title: "Grand Total", field: "Grand Total", bottomCalc: "sum" },
                     ],
 
                     // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
