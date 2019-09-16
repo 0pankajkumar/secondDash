@@ -492,28 +492,29 @@ def generateReferalDict(fromDate, toDate):
 	monthList = ['*', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec' ]
 
 	for ro in rows:
-		tem = dict()
-		
-		tem['Profile ID'] = ro['Profile ID']
-		tem['Candidate Owner Name'] = ro['Candidate Owner Name']
-		tem['Application ID'] = ro['Application ID']
-		tem['Posting ID'] = ro['Posting ID']
-		tem['Posting Title'] = ro['Posting Title']
-		tem['Created At (GMT)'] = ro['Created At (GMT)']
-		tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
-		tem['Candidate Name'] = ro['Candidate Name']
-		tem['Ageing'] = tem['Last Story At (GMT)'] - tem['Created At (GMT)']
-		tem['Ageing'] = tem['Ageing'].days
+		if isinstance(ro['Profile Archive Reason'], datetime.date):
+			tem = dict()
+			
+			tem['Profile ID'] = ro['Profile ID']
+			tem['Candidate Owner Name'] = ro['Candidate Owner Name']
+			tem['Application ID'] = ro['Application ID']
+			tem['Posting ID'] = ro['Posting ID']
+			tem['Posting Title'] = ro['Posting Title']
+			tem['Created At (GMT)'] = ro['Created At (GMT)']
+			tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
+			tem['Candidate Name'] = ro['Candidate Name']
+			tem['Ageing'] = tem['Last Story At (GMT)'] - tem['Created At (GMT)']
+			tem['Ageing'] = tem['Ageing'].days
 
 
-		if tem['Candidate Owner Name'] not in upperPack:
-			upperPack[tem['Candidate Owner Name']] = [0] * 13
-			# for i in range(1,len(monthList) + 1):
-			# 	upperPack[tem['Candidate Owner Name']][monthList[i]] = 0
-		else:
-			upperPack[tem['Candidate Owner Name']][tem['Created At (GMT)'].month] += 1
+			if tem['Candidate Owner Name'] not in upperPack:
+				upperPack[tem['Candidate Owner Name']] = [0] * 13
+				# for i in range(1,len(monthList) + 1):
+				# 	upperPack[tem['Candidate Owner Name']][monthList[i]] = 0
+			else:
+				upperPack[tem['Candidate Owner Name']][tem['Created At (GMT)'].month] += 1
 
-		lowerPack.append(tem)
+			lowerPack.append(tem)
 
 	# print(upperPack)
 
