@@ -139,9 +139,9 @@
                 "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
             }, // multiple data sent using ajax
             success: function (result) {
-                console.log(result['a']);
-                console.log("\n\nSpaced");
-                console.log(result['b']);
+                // console.log(result['a']);
+                // console.log("\n\nSpaced");
+                // console.log(result['b']);
 
                 // Creating a Tabulator object for lower table
                 var tableUp = new Tabulator("#referal-up-table", {
@@ -150,7 +150,6 @@
                     layout: "fitColumns",
                     placeholder: "No Data",
                     // index: "id",
-                    dataTree: true,
                     dataTreeStartExpanded: true,
                     groupBy: "Recruiter",
                     // groupHeader: customGroupHeader,
