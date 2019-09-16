@@ -515,22 +515,31 @@ def generateReferalDict(fromDate, toDate):
 
 		lowerPack.append(tem)
 
-	print(upperPack)
+	# print(upperPack)
 
 	# Making a dict to be readable at Front end Tabulator
 	upperPackForTabulator = []
-	for key,value in upperPack.items():
-		justLikeThat = {}
-		justLikeThat['Recruiter'] = key
+	# for key,value in upperPack.items():
+	# 	justLikeThat = {}
+	# 	justLikeThat['Recruiter'] = key
 
-		justLikeThat['_children'] = {}
+	# 	justLikeThat['_children'] = {}
 
-		for i in range(len(value)):
-			justLikeThat['_children'][monthList[i]] = value[i]
+	# 	for i in range(len(value)):
+	# 		justLikeThat['_children'][monthList[i]] = value[i]
 
-		upperPackForTabulator.append(justLikeThat)
+	# 	upperPackForTabulator.append(justLikeThat)
 
 	# print(upperPackForTabulator)
+
+	for key,value in upperPack.items():
+		tempDict = {}
+		tempDict['Recruiter'] = key
+		tempDict['monthValues'] = value
+		upperPackForTabulator.append(tempDict)
+
+	print(upperPackForTabulator)
+
 	return jsonify({'low':lowerPack, 'up':upperPackForTabulator})
 
 
