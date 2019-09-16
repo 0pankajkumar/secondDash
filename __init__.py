@@ -775,28 +775,28 @@ def updateMongo():
 
 
 					# Converting date strings to datetime objects for MinDate candidates
-					if headers[i] in all_The_Stages and row[i] != '':
-						try:
-							row[i] = datetime.datetime.strptime(row[i], '%Y-%m-%d %H:%M:%S')
-							minDateCandidates.append(row[i])
-						except:
-							try:
-								row[i] = datetime.datetime.strptime(row[i], '%d-%m-%Y %H:%M')
-								minDateCandidates.append(row[i])
-							except:
-								try:
-									row[i] = datetime.datetime.strptime(row[i], '%Y-%m-%d')
-									minDateCandidates.append(row[i])
-								except:
-									try:
-										row[i] = datetime.datetime.strptime(row[i], '%m-%d-%y %H:%M')
-										minDateCandidates.append(row[i])
-									except:
-										try:
-											row[i] = datetime.datetime.strptime(row[i], '%d-%m-%y %H:%M')
-											minDateCandidates.append(row[i])
-										except:
-											print(f"{row[i]} is problematic -------*************-------------<<<<<")
+					# if headers[i] in all_The_Stages and row[i] != '':
+					# 	try:
+					# 		row[i] = datetime.datetime.strptime(row[i], '%Y-%m-%d %H:%M:%S')
+					# 		minDateCandidates.append(row[i])
+					# 	except:
+					# 		try:
+					# 			row[i] = datetime.datetime.strptime(row[i], '%d-%m-%Y %H:%M')
+					# 			minDateCandidates.append(row[i])
+					# 		except:
+					# 			try:
+					# 				row[i] = datetime.datetime.strptime(row[i], '%Y-%m-%d')
+					# 				minDateCandidates.append(row[i])
+					# 			except:
+					# 				try:
+					# 					row[i] = datetime.datetime.strptime(row[i], '%m-%d-%y %H:%M')
+					# 					minDateCandidates.append(row[i])
+					# 				except:
+					# 					try:
+					# 						row[i] = datetime.datetime.strptime(row[i], '%d-%m-%y %H:%M')
+					# 						minDateCandidates.append(row[i])
+					# 					except:
+					# 						print(f"{row[i]} is problematic -------*************-------------<<<<<")
  
 						
 					# if row[i] == "":
@@ -828,12 +828,12 @@ def updateMongo():
 					# Making dict entry for each column
 					dict_to_be_written[headers[i]] = row[i]
 
-				if len(minDateCandidates) > 0:
-					dict_to_be_written['Min Date'] = min(minDateCandidates)
-					dict_to_be_written['Max Date'] = max(minDateCandidates)
-				else:
-					dict_to_be_written['Min Date'] = datetime.datetime(2005,12,1)
-					dict_to_be_written['Max Date'] = datetime.datetime(2030,12,1)
+				# if len(minDateCandidates) > 0:
+				# 	dict_to_be_written['Min Date'] = min(minDateCandidates)
+				# 	dict_to_be_written['Max Date'] = max(minDateCandidates)
+				# else:
+				# 	dict_to_be_written['Min Date'] = datetime.datetime(2005,12,1)
+				# 	dict_to_be_written['Max Date'] = datetime.datetime(2030,12,1)
 
 				box.append(dict_to_be_written)
 			
