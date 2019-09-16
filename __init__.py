@@ -482,16 +482,17 @@ def generateReferalDict(fromDate, toDate):
 		fromDate = datetime.datetime(2000,1,1)
 		toDate = datetime.datetime(2030,1,1)
 
-	print(f"{fromDate} ---------- {toDate}")
-
 	query = {"Origin":"referred", "Current Stage":"New applicant", "$and": [{"Created At (GMT)":{"$gte":fromDate}}, {"Created At (GMT)":{"$lte":toDate}}] }
 	# proj = {'_id':0, 'Profile ID':1, 'Candidate Name':1, 'Application ID':1, 'Posting ID':1, 'Posting Title':1, 'Created At (GMT)':1}
 	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
 
-	pack = list()
+	upperPack = list()
+	lowerPack = list()
+	tem2 = dict()
 
 	for ro in rows:
 		tem = dict()
+		
 		tem['Profile ID'] = ro['Profile ID']
 		tem['Candidate Name'] = ro['Candidate Name']
 		tem['Application ID'] = ro['Application ID']
@@ -503,9 +504,13 @@ def generateReferalDict(fromDate, toDate):
 		tem['Ageing'] = tem['Last Story At (GMT)'] - tem['Created At (GMT)']
 		tem['Ageing'] = tem['Ageing'].days
 
-		pack.append(tem)
 
-	return jsonify(pack)
+		if tem['Candidate Name'] not in tem2:
+			tem2[]
+
+		lowerPack.append(tem)
+
+	return jsonify(lowerPack)
 
 
 
@@ -653,7 +658,7 @@ def updateMongo():
 	collection = database["dolphinDB"]
 
 
-	all_The_Stages = ['Created At (GMT)', 'Last Story At (GMT)', 'Last Advanced At (GMT)', 'Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant', 'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer', 'Stage - Offer Approval', 'Stage - Offer Approved']
+	all_The_Stages = ['Created At (GMT)', 'Last Story At (GMT)', 'Last Advanced At (GMT)', 'Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant', 'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer', 'Stage - Offer Approval', 'Stage - Offer Approved', 'Hired']
 	headers = tuple()
 	line_count = 0
 	dict_of_posting_creation_date = dict()
