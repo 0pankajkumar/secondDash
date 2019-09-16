@@ -795,8 +795,8 @@ def updateMongo():
 										try:
 											row[i] = datetime.datetime.strptime(row[i], '%d-%m-%y %H:%M')
 											minDateCandidates.append(row[i])
-										except:
-											print(f"{row[i]} is problematic -------*************-------------<<<<<")
+										# except:
+										# 	print(f"{row[i]} is problematic -------*************-------------<<<<<")
  
 						
 					# if row[i] == "":
