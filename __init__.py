@@ -137,12 +137,12 @@ def updating():
 
 	# The database uploading method comes here
 	res = 'starting'
-	# updateMongo()
-	try:
-		updateMongo()
-		res = 'Database Successfully Updated'
-	except:
-		res = 'Database update failed. Please contact admin'
+	updateMongo()
+	# try:
+	# 	updateMongo()
+	# 	res = 'Database Successfully Updated'
+	# except:
+	# 	res = 'Database update failed. Please contact admin'
 	return res
 
 
