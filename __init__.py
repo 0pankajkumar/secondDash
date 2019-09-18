@@ -616,7 +616,7 @@ def checkTeamMembership(user):
 	# Checking whether user is admin or not
 	pa = collection2.find({'users': user})
 	for p in pa:
-		if p['type'] == 'admin':
+		if p['tatmember'] == 'Yeah':
 			return True
 		else:
 			return False
