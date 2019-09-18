@@ -205,7 +205,7 @@
                     columns: [
                         { title: "Profile ID", field: "Profile ID" },
                         // { title: "Candidate Name", field: "CandidateName" },
-                        { title: "Candidate Name", field: "Profile Link", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return "Click for " + cell.getRow().getData().CandidateName } } },
+                        { title: "Candidate Name", field: "Profile Link", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return cell.getRow().getData().CandidateName } } },
                         { title: "Application ID", field: "Application ID" },
                         { title: "Posting ID", field: "Posting ID" },
                         { title: "Posting Title", field: "Posting Title" },
