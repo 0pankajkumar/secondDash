@@ -505,6 +505,7 @@ def generateReferalDict(fromDate, toDate):
 			tem['Candidate Name'] = ro['Candidate Name']
 			tem['Ageing'] = tem['Last Story At (GMT)'] - tem['Created At (GMT)']
 			tem['Ageing'] = tem['Ageing'].days
+			tem['Profile Link'] = 'https://hire.lever.co/candidates/'.join(tem['Profile ID'])
 
 
 			if tem['Posting Owner Name'] not in upperPack:
