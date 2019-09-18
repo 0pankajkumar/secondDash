@@ -542,14 +542,14 @@ def generateReferalDict(fromDate, toDate):
 		thatTotal = sum(value)
 		tempDict['Grand Total'] = thatTotal
 
-		# i = 0
-		# for mon in monthList:
-		# 	if value[i] != 0:
-		# 		value[i] += 1
-		# 		tempDict[mon] = value[i]
-		# 	else:
-		# 		tempDict[mon] = value[i]
-		# 	i += 1
+		i = 0
+		for mon in monthList:
+			if value[i] != 0:
+				# value[i] += 1
+				tempDict[mon] = value[i]
+			else:
+				tempDict[mon] = value[i]
+			i += 1
 
 
 		upperPackForTabulator.append(tempDict)
