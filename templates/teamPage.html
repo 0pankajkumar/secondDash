@@ -204,14 +204,14 @@
 
                     columns: [
                         { title: "Profile ID", field: "Profile ID" },
-                        { title: "Candidate Name", field: "Candidate Name" },
+                        { title: "Candidate Name", field: "CandidateName" },
                         { title: "Application ID", field: "Application ID" },
                         { title: "Posting ID", field: "Posting ID" },
                         { title: "Posting Title", field: "Posting Title" },
                         { title: "Created At (GMT)", field: "Created At (GMT)" },
                         { title: "Last Story At (GMT)", field: "Last Story At (GMT)" },
                         { title: "Recruiter", field: "Posting Owner Name", width: 200 },
-                        { title: "Profile Link", field: "Profile Link", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return "Click for " + cell.getData().title } } },
+                        { title: "Profile Link", field: "Profile Link", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return "Click for " + cell.getRow().getData().CandidateName } } },
                     ],
 
                     // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",

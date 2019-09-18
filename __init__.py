@@ -502,7 +502,7 @@ def generateReferalDict(fromDate, toDate):
 			tem['Posting Title'] = ro['Posting Title']
 			tem['Created At (GMT)'] = ro['Created At (GMT)']
 			tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
-			tem['Candidate Name'] = ro['Candidate Name']
+			tem['CandidateName'] = ro['Candidate Name']
 			tem['Ageing'] = tem['Last Story At (GMT)'] - tem['Created At (GMT)']
 			tem['Ageing'] = tem['Ageing'].days
 			tem['Profile Link'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
