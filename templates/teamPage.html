@@ -211,7 +211,7 @@
                         { title: "Created At (GMT)", field: "Created At (GMT)" },
                         { title: "Last Story At (GMT)", field: "Last Story At (GMT)" },
                         { title: "Recruiter", field: "Posting Owner Name", width: 200 },
-                        { title: "Profile Link", field: "Profile Link", align: "center", formatter: "link", formatterParams: { label: "Profile" } },
+                        { title: "Profile Link", field: "Profile Link", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return "Click for " + cell.getData().title } } },
                     ],
 
                     // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
