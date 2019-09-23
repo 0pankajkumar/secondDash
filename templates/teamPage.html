@@ -63,9 +63,9 @@
         <input type="text" id="fromdatepicker">
     </span>
 
-    <span class="ui-widget flexItem">
+    <div class="ui-widget flexItem">
         Ageing in New Applicant Stage: Average Overall - <span id="average-ageing-count"></span> days
-    </span>
+    </div>
 
 
 
@@ -156,7 +156,7 @@
                     }
                 }
 
-                document.getElementById("average-ageing-count").innerHTML = ageingAvg;
+                document.getElementById("average-ageing-count").innerHTML = Math.round(ageingAvg);
                 console.log(ageingAvg);
 
 
