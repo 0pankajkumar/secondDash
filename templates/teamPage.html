@@ -57,9 +57,14 @@
 <div id="London" class="tabcontent">
     <h3>Referrals in New Applicant stage</h3>
 
+
     <span class="ui-widget flexItem">
         <label for="">From:</label>
         <input type="text" id="fromdatepicker">
+    </span>
+
+    <span class="ui-widget flexItem">
+        Ageing in New Applicant Stage: Average Overall - <span id="average-ageing-count"></span> days
     </span>
 
 
@@ -151,6 +156,7 @@
                     }
                 }
 
+                document.getElementById("average-ageing-count").innerHTML = ageingAvg;
                 console.log(ageingAvg);
 
 
