@@ -13,6 +13,9 @@ import os, tempfile
 import datetime
 from functools import wraps
 
+#For deleting uploads
+import os, shutil
+
 # For helpers
 import csv
 from pathlib import Path
@@ -76,6 +79,19 @@ def after_request(response):
 # app.config["SESSION_TYPE"] = "filesystem"
 # Session(app)
 
+# To delete /uploads folder at start of upload
+def flushUploadsFolder():
+	folder = '/var/www/FlaskApp/FlaskApp/uploaded_csv'
+	for the_file in os.listdir(folder):
+	    file_path = os.path.join(folder, the_file)
+	    try:
+	        if os.path.isfile(file_path):
+	            os.unlink(file_path)
+	        #elif os.path.isdir(file_path): shutil.rmtree(file_path)
+	    except Exception as e:
+	        print(e)
+
+
 # configure flask_upload API
 documents = UploadSet("documents", ('csv'))
 app.config["UPLOADED_DOCUMENTS_DEST"] = "/var/www/FlaskApp/FlaskApp/uploaded_csv"
@@ -113,6 +129,10 @@ def upload():
 		else:
 			return render_template("unauthorized.html"), 403
 	elif request.method == 'POST':
+
+		# Deleting everything in uploads folder
+		flushUploadsFolder()
+
 		f = request.files['file']
 		print(f.filename, secure_filename(f.filename))
 		file = documents.save(request.files['file'], name="dump.csv")
