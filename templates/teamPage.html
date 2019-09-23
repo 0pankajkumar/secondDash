@@ -140,9 +140,18 @@
             }, // multiple data sent using ajax
             success: function (result) {
 
+                let ageingAvg = 0;
+
                 for (let i = 0; i < result.low.length; i++) {
                     console.log(result.low[0].Ageing);
+                    ageingAvg += result.low[0].Ageing;
+
+                    if (i == result.low.length - 1) {
+                        ageingAvg /= (i + 1);
+                    }
                 }
+
+                console.log(ageingAvg);
 
 
                 // Creating a Tabulator object for lower table
