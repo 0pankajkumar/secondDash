@@ -347,7 +347,7 @@
                 var tableUp = new Tabulator("#referal-up-table2", {
                     data: leaderboradDict2,
                     // height: "40vh",
-                    layout: "fitColumns",
+                    layout: "fitData",
                     placeholder: "No Data",
                     // index: "id",
                     // dataTreeStartExpanded: true,
@@ -355,7 +355,7 @@
                     // groupHeader: customGroupHeader,
 
                     columns: [
-                        { title: "Recruiter Name", field: "name", width: 200, responsive: 0 },
+                        { title: "Recruiter Name", field: "name", responsive: 0 },
                         { title: "Average Closure Days", field: "average" },
 
                     ],
