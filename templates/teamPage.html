@@ -301,6 +301,8 @@
                     }
                     else {
                         leaderboradDict[result.low[i]['Posting Owner Name']] = { sum: 0, count: 0 };
+                        leaderboradDict[result.low[i]['Posting Owner Name']].count += 1;
+                        leaderboradDict[result.low[i]['Posting Owner Name']].sum += result.low[i]['Ageing'];
                     }
                 }
 
