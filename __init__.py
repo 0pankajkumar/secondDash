@@ -776,7 +776,7 @@ def updateMongo():
 	collection = database["dolphinDB"]
 
 
-	all_The_Stages = ['Created At (GMT)', 'Last Story At (GMT)', 'Last Advanced At (GMT)', 'Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant', 'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer', 'Stage - Offer Approval', 'Stage - Offer Approved', 'Hired']
+	all_The_Stages = ['Posting Archived At (GMT)', 'Created At (GMT)', 'Last Story At (GMT)', 'Last Advanced At (GMT)', 'Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant', 'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer', 'Stage - Offer Approval', 'Stage - Offer Approved', 'Hired']
 	headers = tuple()
 	line_count = 0
 	dict_of_posting_creation_date = dict()
