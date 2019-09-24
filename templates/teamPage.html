@@ -291,13 +291,16 @@
 
                 let leaderboradDict = new Object();
                 for (let i = 0; i < result.low.length; i++) {
-                    if (!result.low[i]['Posting Owner Name'] in leaderboradDict) {
-                        leaderboradDict[result.low[i]['Posting Owner Name']] = { sum: 0, count: 0 };
-                    }
-                    else {
-                        leaderboradDict[result.low[i]['Posting Owner Name']].count += 1;
-                        leaderboradDict[result.low[i]['Posting Owner Name']].sum += result.low[i].Ageing;
-                    }
+
+                    console.log(result.low[i]['Posting Owner Name']);
+
+                    // if (!result.low[i]['Posting Owner Name'] in leaderboradDict) {
+                    //     leaderboradDict[result.low[i]['Posting Owner Name']] = { sum: 0, count: 0 };
+                    // }
+                    // else {
+                    //     leaderboradDict[result.low[i]['Posting Owner Name']].count += 1;
+                    //     leaderboradDict[result.low[i]['Posting Owner Name']].sum += result.low[i]['Ageing'];
+                    // }
                 }
 
                 console.log(leaderboradDict);
