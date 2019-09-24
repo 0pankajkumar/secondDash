@@ -511,7 +511,7 @@ def generateReferalArchivedDict(fromDate, toDate):
 	upperPackForTabulator = []
 
 	for ro in rows:
-		if not isinstance(ro['Profile Archive Reason'], datetime.date) and isinstance(ro['Posting Owner Name'], datetime.date):
+		if not (isinstance(ro['Profile Archive Reason'], datetime.date) and isinstance(ro['Posting Owner Name'], datetime.date)):
 			# Do things
 			tem = dict()
 			
