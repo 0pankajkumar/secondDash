@@ -49,9 +49,9 @@
 
 
 <div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'London')">Referrals</button>
-    <button class="tablinks" onclick="openCity(event, 'Paris')">Application to Archive</button>
-    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Application to Offer</button>
+    <button class="tablinks" onclick="openCity(event, 'London')">New applicant</button>
+    <button class="tablinks" onclick="openCity(event, 'Paris')">Archived</button>
+    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Offered</button>
 </div>
 
 <div id="London" class="tabcontent">
@@ -83,8 +83,25 @@
 
 
 <div id="Paris" class="tabcontent">
-    <h3>Paris</h3>
-    <p>Paris is the capital of France.</p>
+    <h3>Response - Application to Archive</h3>
+    <span class="ui-widget flexItem">
+        <label for="">From:</label>
+        <input type="text" id="fromdatepicker">
+    </span>
+
+    <span class="ui-widget flexItem">
+        <label for="">To:</label>
+        <input type="text" id="todatepicker">
+    </span>
+
+    <span><button id="sendForTable2" class="btn btn-primary flexItem2">Go</button></span>
+
+    <div class="ui-widget flexItem">
+        Average Days (Response: Application stage to archive Stage) - <span id="average-ageing-count2"></span> days
+    </div>
+
+    <div id="referal-up-table2"></div>
+    <div id="referal-low-table2" style="margin: 20px;"></div>
 </div>
 
 
@@ -123,7 +140,7 @@
 
 
 
-<!-- Script after hitting Go -->
+<!-- Referrals still in New Applicant stage -- Script after hitting Go -->
 <script type="text/javascript">
     $('#sendForTable').on('click', function (e) {
 
@@ -139,7 +156,7 @@
             cache: false,
             url: "/teamReferals",
             data: {
-                "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
+                "requestType": "referalsInNewApplicantStage", "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
             }, // multiple data sent using ajax
             success: function (result) {
 
@@ -238,4 +255,115 @@
 
 
 </script>
+
+
+
+
+<!-- For Response : Application to Archive -->
+<!-- Referrals still in New Applicant stage -- Script after hitting Go -->
+<script type="text/javascript">
+    $('#sendForTable').on('click', function (e) {
+
+        // document.getElementById("example-table").style.display = "flex";
+        // document.getElementById("chartdivs").style.display = "none";
+        console.log("Go clicked");
+
+
+
+
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/teamReferals",
+            data: {
+                "requestType": "applicationToArchive", "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
+            }, // multiple data sent using ajax
+            success: function (result) {
+
+                console.log(result);
+
+                let ageingAvg = 0;
+
+                for (let i = 0; i < result.low.length; i++) {
+                    console.log(result.low[i].Ageing);
+                    ageingAvg += result.low[i].Ageing;
+
+                    if (i == result.low.length - 1) {
+                        ageingAvg /= (i + 1);
+                    }
+                }
+
+                document.getElementById("average-ageing-count2").innerHTML = Math.round(ageingAvg);
+                console.log(ageingAvg);
+
+
+                // Creating a Tabulator object for lower table
+                var tableUp = new Tabulator("#referal-up-table2", {
+                    data: result.up,
+                    // height: "40vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    // dataTreeStartExpanded: true,
+                    // groupBy: "title",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        { title: "Recruiter", field: "Recruiter", width: 200, responsive: 0 },
+                        { title: "Jan", field: "Jan", bottomCalc: "sum" },
+                        { title: "Feb", field: "Feb", bottomCalc: "sum" },
+                        { title: "Mar", field: "Mar", bottomCalc: "sum" },
+                        { title: "Apr", field: "Apr", bottomCalc: "sum" },
+                        { title: "May", field: "May", bottomCalc: "sum" },
+                        { title: "Jun", field: "Jun", bottomCalc: "sum" },
+                        { title: "Jul", field: "Jul", bottomCalc: "sum" },
+                        { title: "Aug", field: "Aug", bottomCalc: "sum" },
+                        { title: "Sept", field: "Sept", bottomCalc: "sum" },
+                        { title: "Oct", field: "Oct", bottomCalc: "sum" },
+                        { title: "Nov", field: "Nov", bottomCalc: "sum" },
+                        { title: "Dec", field: "Dec", bottomCalc: "sum" },
+                        { title: "Grand Total", field: "Grand Total", bottomCalc: "sum" },
+                    ],
+
+                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+                // Creating a Tabulator object for lower table
+                var tableLow = new Tabulator("#referal-low-table2", {
+                    data: result.low,
+                    height: "60vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    // dataTree: true,
+                    // dataTreeStartExpanded: true,
+                    // groupBy: "title",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        { title: "Profile ID", field: "Profile ID" },
+                        // { title: "Candidate Name", field: "CandidateName" },
+                        { title: "Candidate Name", field: "Profile Link", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return cell.getRow().getData().CandidateName } } },
+                        { title: "Application ID", field: "Application ID" },
+                        { title: "Posting ID", field: "Posting ID" },
+                        { title: "Posting Title", field: "Posting Title" },
+                        { title: "Created At (GMT)", field: "Created At (GMT)" },
+                        { title: "Last Story At (GMT)", field: "Last Story At (GMT)" },
+                        { title: "Ageing", field: "Ageing" },
+                        { title: "Recruiter", field: "Posting Owner Name", width: 200 },
+
+                    ],
+
+                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+            }
+        });
+
+
+    });
+</script>
+
 {% endblock %}
