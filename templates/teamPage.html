@@ -314,7 +314,7 @@
                 for (lea in leaderboradDict) {
                     let tempObject = new Object();
                     tempObject.name = lea;
-                    tempObject.average = leaderboradDict[lea].sum / leaderboradDict[lea].count;
+                    tempObject.average = Math.round(leaderboradDict[lea].sum / leaderboradDict[lea].count);
 
                     leaderboradDict2.push(tempObject);
 
@@ -345,7 +345,7 @@
 
                 // Creating a Tabulator object for lower table
                 var tableUp = new Tabulator("#referal-up-table2", {
-                    data: result.up,
+                    data: leaderboradDict2,
                     // height: "40vh",
                     layout: "fitColumns",
                     placeholder: "No Data",
@@ -355,20 +355,9 @@
                     // groupHeader: customGroupHeader,
 
                     columns: [
-                        { title: "Recruiter", field: "Recruiter", width: 200, responsive: 0 },
-                        { title: "Jan", field: "Jan", bottomCalc: "sum" },
-                        { title: "Feb", field: "Feb", bottomCalc: "sum" },
-                        { title: "Mar", field: "Mar", bottomCalc: "sum" },
-                        { title: "Apr", field: "Apr", bottomCalc: "sum" },
-                        { title: "May", field: "May", bottomCalc: "sum" },
-                        { title: "Jun", field: "Jun", bottomCalc: "sum" },
-                        { title: "Jul", field: "Jul", bottomCalc: "sum" },
-                        { title: "Aug", field: "Aug", bottomCalc: "sum" },
-                        { title: "Sept", field: "Sept", bottomCalc: "sum" },
-                        { title: "Oct", field: "Oct", bottomCalc: "sum" },
-                        { title: "Nov", field: "Nov", bottomCalc: "sum" },
-                        { title: "Dec", field: "Dec", bottomCalc: "sum" },
-                        { title: "Grand Total", field: "Grand Total", bottomCalc: "sum" },
+                        { title: "Recruiter Name", field: "name", width: 200, responsive: 0 },
+                        { title: "Average Closure Days", field: "average" },
+
                     ],
 
                     // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
