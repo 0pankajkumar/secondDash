@@ -6,16 +6,18 @@ function trigger(
   stage4,
   stage5,
   stage6,
-  stage7
+  stage7,
+  stage8
 ) {
   const data = [
     ["New Lead", stage1, "#DCDCDC"],
     ["Reached Out", stage2, "#DCDCDC"],
     ["New Applicant", stage3, "#DCDCDC"],
     ["Recruiter Screen", stage4, "#FFFFFF"],
-    ["Phone Interview", stage5, "#DCDCDC"],
+    ["Phone Interview", stage5, "#FFFFFF"],
     ["Onsite Interview", stage6, "#FFFFFF"],
-    ["Offer", stage7, "#DCDCDC"]
+    ["Offer", stage7, "#D3D3D3"],
+    ["Hired", stage8, "#D3D3D3"]
   ];
   const options = {
     chart: {
