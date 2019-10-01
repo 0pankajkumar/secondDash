@@ -280,7 +280,7 @@
             // }
             // return cell.getRow(); //return cells "field - value";
             const countOf_phoneToOnsiteCount = cell.getRow().getData().phoneToOnsiteCount;
-            const countOf_phoneToOfferCount = cell.getRow().getData().phoneToOfferCount;
+            const countOf_phoneToOfferCount = cell.getcRow().getData().phoneToOfferCount;
             const countOf_onsiteToOfferCount = cell.getRow().getData().onsiteToOfferCount;
 
             if (cell.getColumn().getField() == "onsiteInterviewCount") {
@@ -363,7 +363,7 @@
       type: "POST",
       cache: false,
       url: "/getTable",
-      data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value }, //ajax parameters
+      data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, }, //ajax parameters
       success: function (result) {
 
         for (let i = 0; i < result.length; i++) {
