@@ -887,18 +887,18 @@ def updateMongo():
 					# row[21] is Created At date
 					# row[24] is Posting ID
 					try:
-						row[21] = datetime.datetime.strptime(row[21], '%Y-%m-%d %H:%M:%S')
+						row[22] = datetime.datetime.strptime(row[22], '%Y-%m-%d %H:%M:%S')
 					except:
 						try:
-							row[21] = datetime.datetime.strptime(row[21], '%d-%m-%Y %H:%M')
+							row[22] = datetime.datetime.strptime(row[22], '%d-%m-%Y %H:%M')
 						except:
-							row[21] = row[21]
+							row[22] = row[22]
 					if row[24] != "" and row[24] != None:
 						if row[24] not in dict_of_posting_creation_date:
-							dict_of_posting_creation_date[row[24]] = row[21]
+							dict_of_posting_creation_date[row[24]] = row[22]
 						else:
-							if dict_of_posting_creation_date[row[24]] > row[21]:
-								dict_of_posting_creation_date[row[24]] = row[21]
+							if dict_of_posting_creation_date[row[24]] > row[22]:
+								dict_of_posting_creation_date[row[24]] = row[22]
 
 
 
