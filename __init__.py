@@ -940,7 +940,7 @@ def updateMongo():
 		collection.insert_one(di)
 
 	# Indexing based on Posting Title
-	collection.create_index([("Posting Title", pymongo.DESCENDING)])
+	# collection.create_index([("Posting Title", pymongo.DESCENDING)])
 
 	os.remove(file_to_open)
 	print("File Deleted")
