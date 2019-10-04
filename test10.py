@@ -43,6 +43,9 @@ listOfBoxes = []
 ts = time.time()
 # Inbetween whatever you want to measure
 
+title = 'Senior DevOps Engineer'
+team = 'Software Engineering'
+profileArchiveStatus = 'Both'
 
 
 for item in rows:
