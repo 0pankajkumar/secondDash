@@ -46,6 +46,8 @@ ts = time.time()
 title = 'Senior DevOps Engineer'
 team = 'Software Engineering'
 profileArchiveStatus = 'Both'
+res = []
+counts = dict()
 
 
 for item in rows:
