@@ -392,10 +392,15 @@ def getFromDB(title, companyName, team): # title, companyName, team, archiveStat
 	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - New Lead' : '2019-01-01'})
 	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
 	query = dict()
-	if companyName != 'All':
-		query['Posting Department'] = companyName
-		query['Posting Title'] = title
-		query['Posting Team'] = team
+
+	if title == 'All':
+		title = { '$regex': '.*'}
+	if team == 'All':
+		team = { '$regex': '.*'}
+		
+	query['Posting Department'] = companyName
+	query['Posting Title'] = title
+	query['Posting Team'] = team
 		# query['Posting Archive Status'] = archiveStatus
 	return list(collection.find(query, cursor_type=CursorType.EXHAUST))
 
