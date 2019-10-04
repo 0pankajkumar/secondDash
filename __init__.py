@@ -250,7 +250,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 		fromDate = datetime.datetime(2000,1,1)
 		toDate = datetime.datetime(2030,1,1)
 	ts = time.time()
-	rows = getFromDB(companyName) # title, companyName, team, archiveStatus
+	rows = getFromDB(title, companyName, team)
 	print('db: ' + str(time.time() - ts))
 	res = []
 	counts = dict()
@@ -387,15 +387,15 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 	return res
 
 
-def getFromDB(companyName): # title, companyName, team, archiveStatus):
+def getFromDB(title, companyName, team): # title, companyName, team, archiveStatus):
 	# collection.drop()
 	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - New Lead' : '2019-01-01'})
 	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
 	query = dict()
 	if companyName != 'All':
 		query['Posting Department'] = companyName
-		# query['Posting Title'] = title
-		# query['Posting Team'] = team
+		query['Posting Title'] = title
+		query['Posting Team'] = team
 		# query['Posting Archive Status'] = archiveStatus
 	return list(collection.find(query, cursor_type=CursorType.EXHAUST))
 
