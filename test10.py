@@ -43,6 +43,8 @@ listOfBoxes = []
 ts = time.time()
 # Inbetween whatever you want to measure
 
+fromDate = datetime.datetime(2000,1,1)
+toDate = datetime.datetime(2030,1,1)
 title = 'Senior DevOps Engineer'
 team = 'Software Engineering'
 profileArchiveStatus = 'Both'
