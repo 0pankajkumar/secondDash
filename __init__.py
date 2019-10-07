@@ -3,7 +3,7 @@ from flask import request, jsonify, render_template, url_for, redirect, session
 from flask_session import Session
 from werkzeug import secure_filename
 from flask_uploads import UploadSet, IMAGES, configure_uploads, UploadNotAllowed
-from pymongo import MongoClient, CursorType
+from pymongo import MongoClient, CursorType, ASCENDING, DESCENDING
 import json
 from bson import json_util, ObjectId
 from bson.int64 import Int64
