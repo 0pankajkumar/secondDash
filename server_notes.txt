@@ -31,3 +31,45 @@ Apache log locations
 https://blog.codeasite.com/how-do-i-find-apache-http-server-log-files/
 
 
+
+
+#############
+@@@@@@@@@@@@@
+
+Algorithm for removing duplicates
+If for a Posting ID
+Profile ID is same
+Take posting ID with superior Stage in Current stage in a new list
+
+& write this new list to DB
+
+
+	Posting ID 					Profile ID 				The whole dict which was written
+----------------------------------------------------------------------------------------
+{
+	"hvbwqd-wdqe12e-cd-f32cd": {"yhsjs-s-fsdsd-sssdf": {...............................}},
+	"ucnwce-wecewv-cwevwv-vw": {"edxascs-csdfd-dsvvd": {...............................}},
+	...
+	...
+	"ddasca-casa-ascaa-csaaa": {"edxascs-csdfd-dsvvd": {...............................}}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#############
+@@@@@@@@@@@@@

@@ -10,5 +10,7 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 collection = database["antDB"]
 
-collection.create_index([("Posting Department",ASCENDING), ("Posting Team",ASCENDING), ("Posting Title",ASCENDING)])
+# Testing compound indexing
+# collection.create_index([("Posting Department",ASCENDING), ("Posting Team",ASCENDING), ("Posting Title",ASCENDING)])
 # collection.create_index([("Posting Department",DESCENDING)])
+
