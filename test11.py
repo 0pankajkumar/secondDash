@@ -9,7 +9,7 @@ import sys
 
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
-collection = database["dolphinDB"]
+collection = database["antDB"]
 
 rows = collection.find({})
 
@@ -34,20 +34,24 @@ def addPostingToPostingDict(ro):
 			stg1 = postingDict[pst][prfl]['Current Stage']
 			stg2 = ro['Current Stage']
 
-			# if currentStages.index(stg2) < currentStages.index(stg1):
-			# 	postingDict[pst][prfl] = ro
-			postingDict[pst][prfl] = ro
+			if currentStages.index(stg2) < currentStages.index(stg1):
+				postingDict[pst][prfl] = ro
+			# postingDict[pst][prfl] = ro
 				
 
 y = 0
 for row in rows:
 	addPostingToPostingDict(row)
-	# if  y == 10000:
-	# 	break
-	# y += 1
 
 print(sys.getsizeof(postingDict))
+# print(postingDict)
 
-for a,b in postingDict.items():
-	print(a, postingDict[a].keys())
+# collection2 = database["filteredDB"]
+
+
+# for x in postingDict.keys():
+# 	for y in postingDict[x].keys():
+# 		collection2.insert_one(postingDict[x][y])
+
+
 	

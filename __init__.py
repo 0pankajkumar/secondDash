@@ -776,6 +776,32 @@ def customMessages(message):
 	render_template("customMessages.html", message = message)
 
 
+def addPostingToPostingDict(ro, postingDict, currentStages):
+	if ro['Posting ID'] and ro['Profile ID'] is not None:
+		pst = ro['Posting ID']
+		prfl = ro['Profile ID']
+	else:
+		return
+
+	if pst not in postingDict:
+		postingDict[pst] = {}
+		postingDict[pst][prfl] = ro
+	else:
+		if prfl not in postingDict[pst]:
+			postingDict[pst][prfl] = ro
+
+		else:
+			stg1 = postingDict[pst][prfl]['Current Stage']
+			stg2 = ro['Current Stage']
+
+			if currentStages.index(stg2) < currentStages.index(stg1):
+				postingDict[pst][prfl] = ro
+			# postingDict[pst][prfl] = ro
+
+
+
+
+
 def updateMongo():
 	client = MongoClient("mongodb://localhost:27017")
 	database = client["local"]
@@ -941,8 +967,21 @@ def updateMongo():
 			box[i]["postingCreatedDate"] = dict_of_posting_creation_date[box[i]['Posting ID']]
 
 	# Inserting into MOngoDB
-	for di in box:
-		collection.insert_one(di)
+	# for di in box:
+	# 	collection.insert_one(di)
+
+
+	# Removing duplicates & then adding to DB
+	currentStages = ['New lead', 'Reached out', 'Responded', 'New applicant',	'Recruiter screen',	'Profile review', 'Case study', 'Phone interview', 'On-site interview', 'Offer', 'Offer Approval', 'Offer Approved']
+	postingDict = {}
+	for row in box:
+		addPostingToPostingDict(row, postingDict, currentStages)
+
+	for x in postingDict.keys():
+		for y in postingDict[x].keys():
+			collection.insert_one(postingDict[x][y])
+
+
 
 	# Compound Indexing DB
 	# collection.create_index([("Posting Title", pymongo.DESCENDING)])
