@@ -9,7 +9,7 @@ import sys
 
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
-collection = database["antDB"]
+collection = database["dolphinDB"]
 
 rows = collection.find({})
 
