@@ -1,0 +1,32 @@
+
+Actually happening
+--------------------------------------------------------------
+5156
+db: 3.685041904449463
+hr-tat@mmpbacula:/var/www/FlaskApp/FlaskApp$ python3 test10.py
+5156
+db: 3.6494805812835693
+hr-tat@mmpbacula:/var/www/FlaskApp/FlaskApp$ python3 test10.py
+5156
+db: 3.5948400497436523
+
+
+
+Using all 3 queries in mongo fetch to utilize index
+-------------------------------------------------------------
+6245
+db: 0.343005895614624
+hr-tat@mmpbacula:/var/www/FlaskApp/FlaskApp$ python3 test10.py
+6245
+db: 0.34383082389831543
+hr-tat@mmpbacula:/var/www/FlaskApp/FlaskApp$ python3 test10.py
+6245
+db: 0.40097570419311523
+hr-tat@mmpbacula:/var/www/FlaskApp/FlaskApp$ python3 test10.py
+6245
+db: 0.4061148166656494
+
+
+Conclusion:
+It's astonishingly fast
+

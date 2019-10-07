@@ -944,8 +944,9 @@ def updateMongo():
 	for di in box:
 		collection.insert_one(di)
 
-	# Indexing based on Posting Title
+	# Compound Indexing DB
 	# collection.create_index([("Posting Title", pymongo.DESCENDING)])
+	collection.create_index([("Posting Department",ASCENDING), ("Posting Team",ASCENDING), ("Posting Title",ASCENDING)])
 
 	os.remove(file_to_open)
 	print("File Deleted")

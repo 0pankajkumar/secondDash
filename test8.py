@@ -1,6 +1,6 @@
 import json
 import datetime
-from pymongo import MongoClient, CursorType
+from pymongo import MongoClient, CursorType, DESCENDING, ASCENDING
 from bson import json_util, ObjectId
 from bson.int64 import Int64
 import time
@@ -10,12 +10,5 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 collection = database["antDB"]
 
-o = collection.find_one({})
-# for o in ob:
-timestamp = str(o['_id'])
-timestamp = timestamp[0:8]
-timestamp = int(timestamp,16)
-
-timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(timestamp))
-print(timestamp)
-# break
+collection.create_index([("Posting Department",ASCENDING), ("Posting Team",ASCENDING), ("Posting Title",ASCENDING)])
+# collection.create_index([("Posting Department",DESCENDING)])
