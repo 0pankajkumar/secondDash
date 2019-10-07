@@ -777,7 +777,8 @@ def customMessages(message):
 
 
 def addPostingToPostingDict(ro, postingDict, currentStages):
-	if ro['Posting ID'] and ro['Profile ID'] is not None:
+	# if ro['Posting ID'] and ro['Profile ID'] is not None:
+	if not isinstance(ro['Posting ID'], datetime.datetime) and not isinstance(ro['Profile ID'], datetime.datetime):
 		pst = ro['Posting ID']
 		prfl = ro['Profile ID']
 	else:
