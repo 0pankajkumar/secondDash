@@ -910,7 +910,8 @@ def updateMongo():
  
 						
 					if row[i] == "":
-						row[i] = datetime.datetime(1990,1,1)
+						row[i] = None
+						# row[i] = datetime.datetime(1990,1,1)
 
 
 

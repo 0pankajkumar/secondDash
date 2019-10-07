@@ -37,7 +37,7 @@ def addPostingToPostingDict(ro):
 			if currentStages.index(stg2) < currentStages.index(stg1):
 				postingDict[pst][prfl] = ro
 			# postingDict[pst][prfl] = ro
-				
+					
 
 y = 0
 for row in rows:
