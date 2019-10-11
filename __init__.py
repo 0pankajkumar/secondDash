@@ -564,7 +564,7 @@ def generateReferalDict(fromDate, toDate):
 	monthList = ['*', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec' ]
 
 	for ro in rows:
-		if isinstance(ro['Posting Archive Reason'], datetime.date) and tem['Current Stage'] == 'New applicant':
+		if isinstance(ro['Posting Archive Reason'], datetime.date) and ro['Current Stage'] == 'New applicant':
 			tem = dict()
 			
 			tem['Profile ID'] = ro['Profile ID']
