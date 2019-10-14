@@ -550,6 +550,7 @@ def generateReferalDict(fromDate, toDate):
 	try:
 		fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
 		toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
+		toDate += datetime.timedelta(days=1)
 	except:
 		fromDate = datetime.datetime(2000,1,1)
 		toDate = datetime.datetime(2030,1,1)
