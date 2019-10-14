@@ -776,7 +776,8 @@ def makeBigDict(bigDict, postDept, postTeam, postTitle):
 def customMessages(message):
 	render_template("customMessages.html", message = message)
 
-
+# Classification based on Stage in which candidate is
+# For same Profile ID the no more than one entry is allowed
 def addPostingToPostingDict(ro, postingDict, currentStages):
 	# if ro['Posting ID'] and ro['Profile ID'] is not None:
 	if not isinstance(ro['Posting ID'], datetime.datetime) and not isinstance(ro['Profile ID'], datetime.datetime):
@@ -796,7 +797,7 @@ def addPostingToPostingDict(ro, postingDict, currentStages):
 			stg1 = postingDict[pst][prfl]['Current Stage']
 			stg2 = ro['Current Stage']
 
-			if currentStages.index(stg2) < currentStages.index(stg1):
+			if currentStages.index(stg2) > currentStages.index(stg1):
 				postingDict[pst][prfl] = ro
 			# postingDict[pst][prfl] = ro
 
