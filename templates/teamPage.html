@@ -168,8 +168,10 @@
 
         // document.getElementById("example-table").style.display = "flex";
         // document.getElementById("chartdivs").style.display = "none";
-        console.log("Go clicked");
+        // console.log("Go clicked");
 
+        var eos = document.getElementById("originChoices");
+        var originSelected = eos.options[eos.selectedIndex].value;
 
 
 
@@ -178,7 +180,7 @@
             cache: false,
             url: "/teamReferals",
             data: {
-                "requestType": "InNewApplicantStage", "origin": "applied", "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
+                "requestType": "InNewApplicantStage", "origin": originSelected, "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
             }, // multiple data sent using ajax
             success: function (result) {
 
@@ -288,7 +290,10 @@
 
         // document.getElementById("example-table").style.display = "flex";
         // document.getElementById("chartdivs").style.display = "none";
-        console.log("Go clicked");
+        // console.log("Go clicked");
+
+        var eos2 = document.getElementById("originChoices");
+        var originSelected2 = eos2.options[eos2.selectedIndex].value;
 
 
 
@@ -298,7 +303,7 @@
             cache: false,
             url: "/teamReferals",
             data: {
-                "requestType": "applicationToArchive", "origin": "applied", "fromDate": document.getElementById('fromdatepicker2').value, "toDate": document.getElementById('todatepicker2').value,
+                "requestType": "applicationToArchive", "origin": originSelected2, "fromDate": document.getElementById('fromdatepicker2').value, "toDate": document.getElementById('todatepicker2').value,
             }, // multiple data sent using ajax
             success: function (result) {
 
