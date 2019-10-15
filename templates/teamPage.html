@@ -127,12 +127,6 @@
 
 <script>
 
-    // Declaring table variables
-    var tableUp = new Tabulator();
-    var tableLow = new Tabulator();
-    var tableUp2 = new Tabulator();
-    var tableLow2 = new Tabulator();
-
     // Just for top tabs
     function openCity(evt, cityName) {
         var i, tabcontent, tablinks;
@@ -146,12 +140,6 @@
         }
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
-
-        // Redrawing tabulator tables as they look ugly when refreshed
-        tableUp.redraw();
-        tableLow.redraw();
-        tableUp2.redraw();
-        tableLow2.redraw();
 
     }
 
