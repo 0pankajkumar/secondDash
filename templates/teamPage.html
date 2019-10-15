@@ -165,10 +165,14 @@
     //     document.getElementById("sendForTable").click();
     // });
 
-    function refreshSerenity() {
+    $('#originChoices').on('selectmenuchange', function () {
         console.log("In refresh");
         document.getElementById("sendForTable").click();
-    }
+    });
+    // function refreshSerenity() {
+    //     console.log("In refresh");
+    //     document.getElementById("sendForTable").click();
+    // }
 </script>
 
 
