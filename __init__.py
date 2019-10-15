@@ -551,6 +551,57 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 
 	return jsonify({'low':lowerPack, 'up':upperPackForTabulator})
 
+def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
+
+	if originType not in allowedOrigins:
+		return jsonify([])
+
+	try:
+		fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
+		toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
+
+	except:
+		fromDate = datetime.datetime(2000,1,1)
+		toDate = datetime.datetime(2030,1,1)
+
+	query = {"Origin": originType, "$and": [{"Created At (GMT)":{"$gte":fromDate}}, {"Created At (GMT)":{"$lte":toDate}}] }
+	# proj = {'_id':0, 'Profile ID':1, 'Candidate Name':1, 'Application ID':1, 'Posting ID':1, 'Posting Title':1, 'Created At (GMT)':1}
+	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
+
+	upperPack = dict()
+	lowerPack = list()
+	upperPackForTabulator = []
+
+	for ro in rows:
+		if ro['Posting Archive Reason'] == 'Hired' and not isinstance(ro['Posting Owner Name'], datetime.date):
+			# Do things
+			tem = dict()
+			
+			tem['Profile ID'] = ro['Profile ID']
+			tem['Posting Owner Name'] = ro['Posting Owner Name']
+			tem['Application ID'] = ro['Application ID']
+			tem['Posting ID'] = ro['Posting ID']
+			tem['Posting Title'] = ro['Posting Title']
+			tem['Created At (GMT)'] = ro['Created At (GMT)']
+			tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
+			tem['Posting Archived At (GMT)'] = ro['Posting Archived At (GMT)']
+			tem['CandidateName'] = ro['Candidate Name']
+			tem['Ageing'] = tem['Stage - Offer'] - tem['Created At (GMT)']
+			tem['Ageing'] = tem['Ageing'].days
+			tem['Profile Link'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
+
+			if tem['Posting Owner Name'] not in upperPack:
+				upperPack[tem['Posting Owner Name']] = [0] * 13
+				upperPack[tem['Posting Owner Name']][tem['Created At (GMT)'].month] = 1
+				# for i in range(1,len(monthList) + 1):
+				# 	upperPack[tem['Candidate Owner Name']][monthList[i]] = 0
+			else:
+				upperPack[tem['Posting Owner Name']][tem['Created At (GMT)'].month] += 1
+
+			lowerPack.append(tem)
+
+	return jsonify({'low':lowerPack, 'up':upperPackForTabulator})
+
 def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 
 	if originType not in allowedOrigins:
@@ -672,6 +723,9 @@ def team():
 
 		if requestType == "applicationToArchive":
 			returnedDict = generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins)
+
+		if requestType == "applicationToOffer":
+			returnedDict = generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins)
 
 		return returnedDict
 
