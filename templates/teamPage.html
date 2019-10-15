@@ -139,6 +139,13 @@
         }
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
+
+        // Redrawing tabulator tables as they look ugly when refreshed
+        tableUp.redraw();
+        tableLow.redraw();
+        tableUp2.redraw();
+        tableLow2.redraw();
+
     }
 
     // for loading date picker
@@ -161,6 +168,7 @@
         console.log("In refresh");
         document.getElementById("sendForTable").click();
         document.getElementById("sendForTable2").click();
+
     });
     // function refreshSerenity() {
     //     console.log("In refresh");
