@@ -500,15 +500,20 @@ def getLastUpdatedTimestamp():
 		print(timestamp)
 	return timestamp
 
-def generateReferalArchivedDict(fromDate, toDate):
+def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
+
+	if originType not in allowedOrigins:
+		return jsonify([])
+
 	try:
 		fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
 		toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
+
 	except:
 		fromDate = datetime.datetime(2000,1,1)
 		toDate = datetime.datetime(2030,1,1)
 
-	query = {"Origin":"referred", "$and": [{"Created At (GMT)":{"$gte":fromDate}}, {"Created At (GMT)":{"$lte":toDate}}] }
+	query = {"Origin": originType, "$and": [{"Created At (GMT)":{"$gte":fromDate}}, {"Created At (GMT)":{"$lte":toDate}}] }
 	# proj = {'_id':0, 'Profile ID':1, 'Candidate Name':1, 'Application ID':1, 'Posting ID':1, 'Posting Title':1, 'Created At (GMT)':1}
 	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
 
@@ -546,16 +551,21 @@ def generateReferalArchivedDict(fromDate, toDate):
 
 	return jsonify({'low':lowerPack, 'up':upperPackForTabulator})
 
-def generateReferalDict(fromDate, toDate):
+def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
+
+	if originType not in allowedOrigins:
+		return jsonify([])
+
 	try:
 		fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
 		toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
 		toDate += datetime.timedelta(days=1)
+
 	except:
 		fromDate = datetime.datetime(2000,1,1)
 		toDate = datetime.datetime(2030,1,1)
 
-	query = {"Origin":"referred", "$and": [{"Created At (GMT)":{"$gte":fromDate}}, {"Created At (GMT)":{"$lte":toDate}}] }
+	query = {"Origin": originType, "$and": [{"Created At (GMT)":{"$gte":fromDate}}, {"Created At (GMT)":{"$lte":toDate}}] }
 	# proj = {'_id':0, 'Profile ID':1, 'Candidate Name':1, 'Application ID':1, 'Posting ID':1, 'Posting Title':1, 'Created At (GMT)':1}
 	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
 
@@ -661,12 +671,15 @@ def teamReferals():
 	fromDate = request.form.get('fromDate')
 	toDate = request.form.get('toDate')
 	requestType = request.form.get('requestType')
+	originType = request.form.get('origin')
 
-	if requestType == "referalsInNewApplicantStage":
-		returnedDict = generateReferalDict(fromDate, toDate)
+	allowedOrigins = ["referred", "agency", "applied", "sourced"]
+
+	if requestType == "InNewApplicantStage":
+		returnedDict = generateReferalDict(fromDate, toDate, originType, allowedOrigins)
 
 	if requestType == "applicationToArchive":
-		returnedDict = generateReferalArchivedDict(fromDate, toDate)
+		returnedDict = generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins)
 
 	return returnedDict
 
