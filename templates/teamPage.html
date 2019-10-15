@@ -167,10 +167,6 @@
     $(function () {
         $("#fromdatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
         $("#todatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
-        $("#fromdatepicker2").datepicker({ dateFormat: 'dd-mm-yy' });
-        $("#todatepicker2").datepicker({ dateFormat: 'dd-mm-yy' });
-        $("#fromdatepicker3").datepicker({ dateFormat: 'dd-mm-yy' });
-        $("#todatepicker3").datepicker({ dateFormat: 'dd-mm-yy' });
         $("#originChoices").selectmenu();
     });
 
@@ -336,7 +332,7 @@
             cache: false,
             url: "/team",
             data: {
-                "requestType": "applicationToArchive", "origin": originSelected2, "fromDate": document.getElementById('fromdatepicker2').value, "toDate": document.getElementById('todatepicker2').value,
+                "requestType": "applicationToArchive", "origin": originSelected2, "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
             }, // multiple data sent using ajax
             success: function (result) {
 
@@ -476,7 +472,7 @@
             cache: false,
             url: "/team",
             data: {
-                "requestType": "applicationToOffer", "origin": originSelected3, "fromDate": document.getElementById('fromdatepicker3').value, "toDate": document.getElementById('todatepicker3').value,
+                "requestType": "applicationToOffer", "origin": originSelected3, "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
             }, // multiple data sent using ajax
             success: function (result) {
 
