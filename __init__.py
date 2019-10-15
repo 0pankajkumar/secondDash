@@ -125,7 +125,10 @@ def upload():
 	if request.method == 'GET':
 		if checkAdmin(current_user.id):
 			loginOption = True
-			return render_template('uploader2.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption)
+			teamOptions = False
+			if checkTeamMembership(current_user.id):
+				teamOptions = True
+			return render_template('uploader2.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption, teamOptions = teamOptions)
 		else:
 			return render_template("unauthorized.html"), 403
 	elif request.method == 'POST':
@@ -215,11 +218,11 @@ def generateMainPageDropdowns():
 	return returnList
 
 
-@app.route('/funnel', methods=['GET'])
-@login_required
-def funnel():
-	returnedDict = generateMainPageDropdowns()
-	return render_template('funnel.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'])
+# @app.route('/funnel', methods=['GET'])
+# @login_required
+# def funnel():
+# 	returnedDict = generateMainPageDropdowns()
+# 	return render_template('funnel.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'])
 
 
 @app.route('/getTable', methods=['POST'])
@@ -699,13 +702,18 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 @login_required
 def team():
 	if request.method == "GET":
+
+		teamOptions = False
+
 		if checkTeamMembership(current_user.id):
 			# Do all
 			adminOptions = False
 			loginOption = True
+			teamOptions = True
+			
 			if checkAdmin(current_user.id):
 				adminOptions = True
-			return render_template('teamPage.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
+			return render_template('teamPage.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions)
 		else:
 			return render_template("unauthorized.html"), 403
 
