@@ -514,7 +514,7 @@
 
                 // Preparing leaderboardDict for tabulator
 
-                let leaderboradDict3 = [];
+                let leaderboradDict2 = [];
                 for (lea in leaderboradDict) {
                     let tempObject = new Object();
                     tempObject.name = lea;
@@ -524,7 +524,7 @@
 
                 }
 
-                console.log(leaderboradDict3);
+                console.log(leaderboradDict2);
 
 
 
@@ -549,7 +549,7 @@
 
                 // Creating a Tabulator object for lower table
                 tableUp3 = new Tabulator("#referal-up-table3", {
-                    data: leaderboradDict3,
+                    data: leaderboradDict2,
                     // height: "40vh",
                     layout: "fitData",
                     placeholder: "No Data",
