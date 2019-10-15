@@ -127,6 +127,11 @@
 
 <script>
 
+    var tableUp;
+    var tableLow;
+    var tableUp2;
+    var tableLow2;
+
     // Just for top tabs
     function openCity(evt, cityName) {
         var i, tabcontent, tablinks;
@@ -141,6 +146,11 @@
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
 
+        // Redrawing tabulator tables as they look ugly when refreshed
+        tableUp.redraw();
+        tableLow.redraw();
+        tableUp2.redraw();
+        tableLow2.redraw();
     }
 
     // for loading date picker
@@ -210,7 +220,7 @@
 
 
                 // Creating a Tabulator object for lower table
-                var tableUp = new Tabulator("#referal-up-table", {
+                tableUp = new Tabulator("#referal-up-table", {
                     data: result.up,
                     // height: "40vh",
                     layout: "fitColumns",
@@ -242,7 +252,7 @@
                 });
 
                 // Creating a Tabulator object for lower table
-                var tableLow = new Tabulator("#referal-low-table", {
+                tableLow = new Tabulator("#referal-low-table", {
                     data: result.low,
                     height: "60vh",
                     layout: "fitColumns",
@@ -374,7 +384,7 @@
 
 
                 // Creating a Tabulator object for lower table
-                var tableUp2 = new Tabulator("#referal-up-table2", {
+                tableUp2 = new Tabulator("#referal-up-table2", {
                     data: leaderboradDict2,
                     // height: "40vh",
                     layout: "fitData",
@@ -395,7 +405,7 @@
                 });
 
                 // Creating a Tabulator object for lower table
-                var tableLow2 = new Tabulator("#referal-low-table2", {
+                tableLow2 = new Tabulator("#referal-low-table2", {
                     data: result.low,
                     height: "60vh",
                     layout: "fitColumns",
