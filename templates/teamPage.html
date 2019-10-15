@@ -47,7 +47,16 @@
     }
 </style>
 
+<!-- Origin selection dropdown -->
+<select name="originChoices" id="originChoices">
+    <option selected="selected" value="referred">Referred</option>
+    <option value="agency">Agency</option>
+    <option value="applied">Applied</option>
+    <option value="sourced">Sourced</option>
+</select>
 
+
+<!-- Tabs -->
 <div class="tab">
     <button class="tablinks" onclick="openCity(event, 'London')">New applicant</button>
     <button class="tablinks" onclick="openCity(event, 'Paris')">Archived</button>
@@ -142,6 +151,9 @@
     });
     $(function () {
         $("#todatepicker2").datepicker({ dateFormat: 'dd-mm-yy' });
+    });
+    $(function () {
+        $("#originChoices").selectmenu();
     });
 </script>
 
