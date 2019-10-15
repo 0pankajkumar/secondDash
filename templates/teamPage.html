@@ -55,6 +55,23 @@
         <option value="applied">Applied</option>
         <option value="sourced">Sourced</option>
     </select>
+
+    <span class="ui-widget flexItem">
+        <label for="">From:</label>
+        <input type="text" id="fromdatepicker">
+    </span>
+
+    <span class="ui-widget flexItem">
+        <label for="">To:</label>
+        <input type="text" id="todatepicker">
+    </span>
+
+    <span><button id="sendForTable" class="btn btn-primary flexItem2" onclick="clickAllButs();">Go</button></span>
+
+    <button id="sendForTable1" style="visibility: hidden;"></button>
+    <button id="sendForTable2" style="visibility: hidden;"></button>
+    <button id="sendForTable3" style="visibility: hidden;"></button>
+
 </div>
 
 
@@ -68,19 +85,6 @@
 
 <div id="London" class="tabcontent">
     <h3>Referrals in New Applicant stage</h3>
-
-
-    <span class="ui-widget flexItem">
-        <label for="">From:</label>
-        <input type="text" id="fromdatepicker">
-    </span>
-
-    <span class="ui-widget flexItem">
-        <label for="">To:</label>
-        <input type="text" id="todatepicker">
-    </span>
-
-    <span><button id="sendForTable" class="btn btn-primary flexItem2">Go</button></span>
 
     <div class="ui-widget flexItem">
         Ageing in New Applicant Stage: Average Overall - <span id="average-ageing-count"></span> days
@@ -96,17 +100,6 @@
 
 <div id="Paris" class="tabcontent">
     <h3>Response - Application to Archive</h3>
-    <span class="ui-widget flexItem">
-        <label for="">From:</label>
-        <input type="text" id="fromdatepicker2">
-    </span>
-
-    <span class="ui-widget flexItem">
-        <label for="">To:</label>
-        <input type="text" id="todatepicker2">
-    </span>
-
-    <span><button id="sendForTable2" class="btn btn-primary flexItem2">Go</button></span>
 
     <div class="ui-widget flexItem">
         Average Days (Response: Application stage to archive Stage) - <span id="average-ageing-count2"></span> days
@@ -121,17 +114,7 @@
 
 <div id="Tokyo" class="tabcontent">
     <h3>Response - Application to Offer</h3>
-    <span class="ui-widget flexItem">
-        <label for="">From:</label>
-        <input type="text" id="fromdatepicker3">
-    </span>
 
-    <span class="ui-widget flexItem">
-        <label for="">To:</label>
-        <input type="text" id="todatepicker3">
-    </span>
-
-    <span><button id="sendForTable3" class="btn btn-primary flexItem2">Go</button></span>
 
     <div class="ui-widget flexItem">
         Average Days (Response: Application stage to Offer Stage) - <span id="average-ageing-count3"></span> days
@@ -174,6 +157,12 @@
         tableLow3.redraw();
     }
 
+    function clickAllButs() {
+        document.getElementById("sendForTable1").click();
+        document.getElementById("sendForTable2").click();
+        document.getElementById("sendForTable3").click();
+    }
+
     // for loading date picker
     $(function () {
         $("#fromdatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
@@ -194,7 +183,7 @@
 
     $('#originChoices').on('selectmenuchange', function () {
         console.log("In refresh");
-        document.getElementById("sendForTable").click();
+        document.getElementById("sendForTable1").click();
         document.getElementById("sendForTable2").click();
         document.getElementById("sendForTable3").click();
 
@@ -208,7 +197,7 @@
 
 
     // Referrals still in New Applicant stage -- Script after hitting Go
-    $('#sendForTable').on('click', function (e) {
+    $('#sendForTable1').on('click', function (e) {
 
         // document.getElementById("example-table").style.display = "flex";
         // document.getElementById("chartdivs").style.display = "none";
