@@ -739,10 +739,13 @@ def table():
 	
 	adminOptions = False
 	loginOption = True
+	teamOptions = False
+	if checkTeamMembership(current_user.id):
+		teamOptions = True
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns()
-	return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
+	return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions)
 
 def checkAdmin(user):
 	# Checking whether user is admin or not
