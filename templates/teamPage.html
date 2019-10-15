@@ -163,7 +163,7 @@
             cache: false,
             url: "/teamReferals",
             data: {
-                "requestType": "InNewApplicantStage", "origin": "referred", "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
+                "requestType": "InNewApplicantStage", "origin": "applied", "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
             }, // multiple data sent using ajax
             success: function (result) {
 
@@ -283,7 +283,7 @@
             cache: false,
             url: "/teamReferals",
             data: {
-                "requestType": "applicationToArchive", "origin": "referred", "fromDate": document.getElementById('fromdatepicker2').value, "toDate": document.getElementById('todatepicker2').value,
+                "requestType": "applicationToArchive", "origin": "applied", "fromDate": document.getElementById('fromdatepicker2').value, "toDate": document.getElementById('todatepicker2').value,
             }, // multiple data sent using ajax
             success: function (result) {
 
