@@ -583,7 +583,7 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 			tem['Posting ID'] = ro['Posting ID']
 			tem['Posting Title'] = ro['Posting Title']
 			tem['Created At (GMT)'] = ro['Created At (GMT)']
-			tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
+			tem['Stage - Offer'] = ro['Stage - Offer']
 			tem['Posting Archived At (GMT)'] = ro['Posting Archived At (GMT)']
 			tem['CandidateName'] = ro['Candidate Name']
 			tem['Ageing'] = tem['Stage - Offer'] - tem['Created At (GMT)']

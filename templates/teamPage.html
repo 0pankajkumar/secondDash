@@ -120,8 +120,25 @@
 
 
 <div id="Tokyo" class="tabcontent">
-    <h3>Tokyo</h3>
-    <p>Tokyo is the capital of Japan.</p>
+    <h3>Response - Application to Offer</h3>
+    <span class="ui-widget flexItem">
+        <label for="">From:</label>
+        <input type="text" id="fromdatepicker3">
+    </span>
+
+    <span class="ui-widget flexItem">
+        <label for="">To:</label>
+        <input type="text" id="todatepicker3">
+    </span>
+
+    <span><button id="sendForTable3" class="btn btn-primary flexItem2">Go</button></span>
+
+    <div class="ui-widget flexItem">
+        Average Days (Response: Application stage to Offer Stage) - <span id="average-ageing-count3"></span> days
+    </div>
+
+    <div id="referal-up-table3" style="width:375px;"></div>
+    <div id="referal-low-table3" style="margin: 20px;"></div>
 </div>
 
 
@@ -131,6 +148,8 @@
     var tableLow;
     var tableUp2;
     var tableLow2;
+    var tableUp3;
+    var tableLow3;
 
     // Just for top tabs
     function openCity(evt, cityName) {
@@ -151,6 +170,8 @@
         tableLow.redraw();
         tableUp2.redraw();
         tableLow2.redraw();
+        tableUp3.redraw();
+        tableLow3.redraw();
     }
 
     // for loading date picker
@@ -159,6 +180,8 @@
         $("#todatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
         $("#fromdatepicker2").datepicker({ dateFormat: 'dd-mm-yy' });
         $("#todatepicker2").datepicker({ dateFormat: 'dd-mm-yy' });
+        $("#fromdatepicker3").datepicker({ dateFormat: 'dd-mm-yy' });
+        $("#todatepicker3").datepicker({ dateFormat: 'dd-mm-yy' });
         $("#originChoices").selectmenu();
     });
 
@@ -173,6 +196,7 @@
         console.log("In refresh");
         document.getElementById("sendForTable").click();
         document.getElementById("sendForTable2").click();
+        document.getElementById("sendForTable3").click();
 
     });
     // function refreshSerenity() {
@@ -425,6 +449,146 @@
                         { title: "Posting Title", field: "Posting Title" },
                         { title: "Created", field: "Created At (GMT)" },
                         { title: "Posting Archived At", field: "Posting Archived At (GMT)" },
+                        { title: "Ageing", field: "Ageing" },
+                        { title: "Recruiter", field: "Posting Owner Name", width: 200 },
+
+                    ],
+
+                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+            }
+        });
+
+
+    });
+
+
+
+
+
+
+
+    $('#sendForTable3').on('click', function (e) {
+
+        // document.getElementById("example-table").style.display = "flex";
+        // document.getElementById("chartdivs").style.display = "none";
+        // console.log("Go clicked");
+
+        var eos2 = document.getElementById("originChoices");
+        var originSelected2 = eos2.options[eos2.selectedIndex].value;
+
+
+
+
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/team",
+            data: {
+                "requestType": "applicationToArchive", "origin": originSelected3, "fromDate": document.getElementById('fromdatepicker3').value, "toDate": document.getElementById('todatepicker3').value,
+            }, // multiple data sent using ajax
+            success: function (result) {
+
+                console.log(result);
+
+                let leaderboradDict = new Object();
+                for (let i = 0; i < result.low.length; i++) {
+
+                    // console.log(result.low[i]['Posting Owner Name']);
+
+                    if (result.low[i]['Posting Owner Name'] in leaderboradDict) {
+                        leaderboradDict[result.low[i]['Posting Owner Name']].count += 1;
+                        leaderboradDict[result.low[i]['Posting Owner Name']].sum += result.low[i]['Ageing'];
+
+                    }
+                    else {
+                        leaderboradDict[result.low[i]['Posting Owner Name']] = { sum: 0, count: 0 };
+                        leaderboradDict[result.low[i]['Posting Owner Name']].count += 1;
+                        leaderboradDict[result.low[i]['Posting Owner Name']].sum += result.low[i]['Ageing'];
+                    }
+                }
+
+                console.log(leaderboradDict);
+
+                // Preparing leaderboardDict for tabulator
+
+                let leaderboradDict3 = [];
+                for (lea in leaderboradDict) {
+                    let tempObject = new Object();
+                    tempObject.name = lea;
+                    tempObject.average = Math.round(leaderboradDict[lea].sum / leaderboradDict[lea].count);
+
+                    leaderboradDict2.push(tempObject);
+
+                }
+
+                console.log(leaderboradDict3);
+
+
+
+
+
+
+
+                let ageingAvg = 0;
+
+                for (let i = 0; i < result.low.length; i++) {
+                    // console.log(result.low[i].Ageing);
+                    ageingAvg += result.low[i].Ageing;
+
+                    if (i == result.low.length - 1) {
+                        ageingAvg /= (i + 1);
+                    }
+                }
+
+                document.getElementById("average-ageing-count3").innerHTML = Math.round(ageingAvg);
+                // console.log(ageingAvg);
+
+
+                // Creating a Tabulator object for lower table
+                tableUp3 = new Tabulator("#referal-up-table3", {
+                    data: leaderboradDict3,
+                    // height: "40vh",
+                    layout: "fitData",
+                    placeholder: "No Data",
+                    // index: "id",
+                    // dataTreeStartExpanded: true,
+                    // groupBy: "title",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        { title: "Recruiter Name", field: "name", responsive: 0 },
+                        { title: "Average Closure Days", field: "average" },
+
+                    ],
+
+                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+                // Creating a Tabulator object for lower table
+                tableLow3 = new Tabulator("#referal-low-table3", {
+                    data: result.low,
+                    height: "60vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    // dataTree: true,
+                    // dataTreeStartExpanded: true,
+                    // groupBy: "title",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        // { title: "Profile ID", field: "Profile ID" },
+                        // { title: "Candidate Name", field: "CandidateName" },
+                        { title: "Candidate Name", field: "Profile Link", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return cell.getRow().getData().CandidateName } } },
+                        // { title: "Application ID", field: "Application ID" },
+                        // { title: "Posting ID", field: "Posting ID" },
+                        { title: "Posting Title", field: "Posting Title" },
+                        { title: "Created", field: "Created At (GMT)" },
+                        { title: "Offered", field: "Stage - Offer" },
                         { title: "Ageing", field: "Ageing" },
                         { title: "Recruiter", field: "Posting Owner Name", width: 200 },
 
