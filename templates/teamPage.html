@@ -198,7 +198,7 @@
         $.ajax({
             type: "POST",
             cache: false,
-            url: "/teamReferals",
+            url: "/team",
             data: {
                 "requestType": "InNewApplicantStage", "origin": originSelected, "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
             }, // multiple data sent using ajax
@@ -321,7 +321,7 @@
         $.ajax({
             type: "POST",
             cache: false,
-            url: "/teamReferals",
+            url: "/team",
             data: {
                 "requestType": "applicationToArchive", "origin": originSelected2, "fromDate": document.getElementById('fromdatepicker2').value, "toDate": document.getElementById('todatepicker2').value,
             }, // multiple data sent using ajax

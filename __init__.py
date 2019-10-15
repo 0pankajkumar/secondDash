@@ -644,38 +644,39 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 
 
 
-@app.route('/team', methods=['GET'])
+@app.route('/team', methods=['GET','POST'])
 @login_required
 def team():
-	if checkTeamMembership(current_user.id):
-		# Do all
-		adminOptions = False
-		loginOption = True
-		if checkAdmin(current_user.id):
-			adminOptions = True
-		return render_template('teamPage.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
-	else:
-		return render_template("unauthorized.html"), 403
+	if request.method == "GET":
+		if checkTeamMembership(current_user.id):
+			# Do all
+			adminOptions = False
+			loginOption = True
+			if checkAdmin(current_user.id):
+				adminOptions = True
+			return render_template('teamPage.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption)
+		else:
+			return render_template("unauthorized.html"), 403
+
+	# Return json data
+	if request.method == "POST":
+		fromDate = request.form.get('fromDate')
+		toDate = request.form.get('toDate')
+		requestType = request.form.get('requestType')
+		originType = request.form.get('origin')
+
+		allowedOrigins = ["referred", "agency", "applied", "sourced"]
+
+		if requestType == "InNewApplicantStage":
+			returnedDict = generateReferalDict(fromDate, toDate, originType, allowedOrigins)
+
+		if requestType == "applicationToArchive":
+			returnedDict = generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins)
+
+		return returnedDict
 
 
-# Return json for referal data
-@app.route('/teamReferals', methods=['POST'])
-@login_required
-def teamReferals():
-	fromDate = request.form.get('fromDate')
-	toDate = request.form.get('toDate')
-	requestType = request.form.get('requestType')
-	originType = request.form.get('origin')
 
-	allowedOrigins = ["referred", "agency", "applied", "sourced"]
-
-	if requestType == "InNewApplicantStage":
-		returnedDict = generateReferalDict(fromDate, toDate, originType, allowedOrigins)
-
-	if requestType == "applicationToArchive":
-		returnedDict = generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins)
-
-	return returnedDict
 
 
 @app.route('/table', methods=['GET'])
