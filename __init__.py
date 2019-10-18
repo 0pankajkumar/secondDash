@@ -540,7 +540,7 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 			tem['CandidateName'] = ro['Candidate Name']
 			tem['Ageing'] = tem['Posting Archived At (GMT)'] - tem['Created At (GMT)']
 			tem['Ageing'] = tem['Ageing'].days
-			tem['Profile Link'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
+			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
 
 			if tem['Posting Owner Name'] not in upperPack:
 				upperPack[tem['Posting Owner Name']] = [0] * 13
@@ -591,7 +591,7 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 			tem['CandidateName'] = ro['Candidate Name']
 			tem['Ageing'] = tem['Stage - Offer'] - tem['Created At (GMT)']
 			tem['Ageing'] = tem['Ageing'].days
-			tem['Profile Link'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
+			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
 
 			if tem['Posting Owner Name'] not in upperPack:
 				upperPack[tem['Posting Owner Name']] = [0] * 13
@@ -642,7 +642,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 			tem['CandidateName'] = ro['Candidate Name']
 			tem['Ageing'] = datetime.datetime.now() - tem['Created At (GMT)']
 			tem['Ageing'] = tem['Ageing'].days
-			tem['Profile Link'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
+			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
 
 
 			if tem['Posting Owner Name'] not in upperPack:
