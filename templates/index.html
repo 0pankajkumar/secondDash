@@ -197,6 +197,9 @@
 
 <div id="example-table" style="margin: 20px; display: none;"></div>
 <div id="chartdivs" style="display: none;"></div>
+<div id="nobodyFound" style="display: none;">
+  <h2>No Candidates here !</h2>
+</div>
 
 <!-- So, this div holds a table which is created on the fly to enable PDF download -->
 <div style="display:none" id="tableDiv"></div>
@@ -211,6 +214,7 @@
 
     document.getElementById("example-table").style.display = "flex";
     document.getElementById("chartdivs").style.display = "none";
+    document.getElementById("nobodyFound").style.display = "none";
     console.log("Go clicked");
     e.preventDefault();
     var x = getFormData($('#bigForm'));
@@ -280,8 +284,8 @@
 
         if (isItAllZero(result)) {
           // Place a message
-          document.getElementById("example-table").innerHTML = "";
-          document.getElementById("example-table").innerHTML = "Found Nobody !";
+          document.getElementById("example-table").style.display = "none";
+          document.getElementById("nobodyFound").style.display = "flex";
         }
         else {
           // Display the table
@@ -379,6 +383,7 @@
 
     document.getElementById("example-table").style.display = "none";
     document.getElementById("chartdivs").style.display = "flex";
+    document.getElementById("nobodyFound").style.display = "none";
     e.preventDefault();
     var x = getFormData($('#bigForm'));
     console.log("Go for funnel clicked");
@@ -389,6 +394,7 @@
       myNode.removeChild(myNode.firstChild);
     }
 
+
     $.ajax({
       type: "POST",
       cache: false,
@@ -396,31 +402,58 @@
       data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": document.getElementById('ddl3').value, "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, }, //ajax parameters
       success: function (result) {
 
-        for (let i = 0; i < result.length; i++) {
-          chartVar = "chartdiv";
-          chartVar += i.toString();
-          $("#chartdivs").append(`<div style="text-align:center; margin:auto"><b>${result[i]['title']}</b><br><div  id=${chartVar}></div></div>`);
 
-          console.log(i);
+        function isItAllZero(jso) {
+          let county = 0;
 
-          let var1 = 0, var2 = 0, var3 = 0, var4 = 0, var5 = 0, var6 = 0, var7 = 0, var8 = 0;
-
-          for (let j = 0; j < result[i]['_children'].length; j++) {
-            var1 += result[i]['_children'][j]["newLeadCount"];
-            var2 += result[i]['_children'][j]["reachedOutCount"];
-            var3 += result[i]['_children'][j]["newApplicantCount"];
-            var4 += result[i]['_children'][j]["recruiterScreenCount"];
-            var5 += result[i]['_children'][j]["phoneInterviewCount"];
-            var6 += result[i]['_children'][j]["onsiteInterviewCount"];
-            var7 += result[i]['_children'][j]["offerCount"];
-            var8 += result[i]['_children'][j]["hiredCount"];
+          for (let i = 0; i < jso.length; i++) {
+            for (a in jso[0]['_children'][0]) {
+              if (Number.isInteger(jso[i]['_children'][0][a]) && jso[i]['_children'][0][a] != 0) {
+                // console.log(jso[i]['_children'][0][a]);
+                county++;
+              }
+            }
           }
 
-          trigger(chartVar, var1, var2, var3, var4, var5, var6, var7, var8);
-          //trigger(chartVar, result[i]['_children'], 300, 200, 180, 50, 20, 10);
+          if (county == 0) {
+            return true;
+          }
+          else {
+            return false;
+          }
         }
 
+        if (isItAllZero(result)) {
+          // Place a message
+          document.getElementById("example-table").style.display = "none";
+          document.getElementById("#chartdivs").style.display = "none";
+          document.getElementById("nobodyFound").style.display = "flex";
+        }
+        else {
+          for (let i = 0; i < result.length; i++) {
+            chartVar = "chartdiv";
+            chartVar += i.toString();
+            $("#chartdivs").append(`<div style="text-align:center; margin:auto"><b>${result[i]['title']}</b><br><div  id=${chartVar}></div></div>`);
 
+            console.log(i);
+
+            let var1 = 0, var2 = 0, var3 = 0, var4 = 0, var5 = 0, var6 = 0, var7 = 0, var8 = 0;
+
+            for (let j = 0; j < result[i]['_children'].length; j++) {
+              var1 += result[i]['_children'][j]["newLeadCount"];
+              var2 += result[i]['_children'][j]["reachedOutCount"];
+              var3 += result[i]['_children'][j]["newApplicantCount"];
+              var4 += result[i]['_children'][j]["recruiterScreenCount"];
+              var5 += result[i]['_children'][j]["phoneInterviewCount"];
+              var6 += result[i]['_children'][j]["onsiteInterviewCount"];
+              var7 += result[i]['_children'][j]["offerCount"];
+              var8 += result[i]['_children'][j]["hiredCount"];
+            }
+
+            trigger(chartVar, var1, var2, var3, var4, var5, var6, var7, var8);
+            //trigger(chartVar, result[i]['_children'], 300, 200, 180, 50, 20, 10);
+          }
+        }
       }
     });
 
