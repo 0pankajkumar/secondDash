@@ -78,9 +78,9 @@
 
 <!-- Tabs -->
 <div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'London')">New applicant</button>
-    <button class="tablinks" onclick="openCity(event, 'Paris')">Archived</button>
-    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Offered</button>
+    <button class="tablinks" id="London" onclick="openCity(event, 'London')">New applicant</button>
+    <button class="tablinks" id="Paris" onclick="openCity(event, 'Paris')">Archived</button>
+    <button class="tablinks" id="Tokyo" onclick="openCity(event, 'Tokyo')">Offered</button>
 </div>
 
 <div id="London" class="tabcontent">
@@ -167,6 +167,7 @@
         document.getElementById("sendForTable1").click();
         document.getElementById("sendForTable2").click();
         document.getElementById("sendForTable3").click();
+        document.getElementById("London").click();
     }
 
     // for loading date picker
@@ -319,7 +320,8 @@
 
 
     // For Response : Application to Archive
-    // Referrals still in New Applicant stage -- Script after hitting Go
+    // Referrals still in New Applicant stage -- Script after hitting 
+
 
     $('#sendForTable2').on('click', function (e) {
 
