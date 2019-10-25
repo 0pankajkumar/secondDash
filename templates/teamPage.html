@@ -152,14 +152,20 @@
         if (cityName === "London") {
             tableUp.redraw();
             tableLow.redraw();
+            document.getElementById("Paris").innerHTML = "";
+            document.getElementById("Tokyo").innerHTML = "";
         }
         else if (cityName === "Paris") {
             tableUp2.redraw();
             tableLow2.redraw();
+            document.getElementById("London").innerHTML = "";
+            document.getElementById("Tokyo").innerHTML = "";
         }
         else if (cityName === "Tokyo") {
             tableUp3.redraw();
             tableLow3.redraw();
+            document.getElementById("London").innerHTML = "";
+            document.getElementById("Paris").innerHTML = "";
         }
     }
 
