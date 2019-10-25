@@ -149,12 +149,18 @@
         evt.currentTarget.className += " active";
 
         // Redrawing tabulator tables as they look ugly when refreshed
-        tableUp.redraw();
-        tableLow.redraw();
-        tableUp2.redraw();
-        tableLow2.redraw();
-        tableUp3.redraw();
-        tableLow3.redraw();
+        if (cityName === "London") {
+            tableUp.redraw();
+            tableLow.redraw();
+        }
+        else if (cityName === "Paris") {
+            tableUp2.redraw();
+            tableLow2.redraw();
+        }
+        else if (cityName === "Tokyo") {
+            tableUp3.redraw();
+            tableLow3.redraw();
+        }
     }
 
     function clickAllButs() {
