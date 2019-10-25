@@ -593,14 +593,14 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 			if tem['Stage - Offer'] == datetime.datetime(1990,1,1):
 				if tem['Stage - Offer Approval'] == datetime.datetime(1990,1,1):
 					if tem['Stage - Offer Approved'] == datetime.datetime(1990,1,1):
-						reject this section
+						continue
 					else:
 						tem['Ageing'] = tem['Stage - Offer Approved'] - tem['Created At (GMT)']
 				else:
 					tem['Ageing'] = tem['Stage - Offer Approval'] - tem['Created At (GMT)']
 			else:
 				tem['Ageing'] = tem['Stage - Offer'] - tem['Created At (GMT)']
-				
+
 			tem['Ageing'] = tem['Ageing'].days
 			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
 
