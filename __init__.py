@@ -900,7 +900,8 @@ def addPostingToPostingDict(ro, postingDict, currentStages):
 			stg2 = ro['Current Stage']
 
 			if currentStages.index(stg2) > currentStages.index(stg1):
-				postingDict[pst][prfl] = ro
+				if ro['Max Date'] >= postingDict[pst][prfl]['Max Date']
+					postingDict[pst][prfl] = ro
 			# postingDict[pst][prfl] = ro
 
 
