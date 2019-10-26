@@ -632,15 +632,18 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 			tem['Posting Archived At (GMT)'] = ro['Posting Archived At (GMT)']
 			tem['CandidateName'] = ro['Candidate Name']
 
-			tem['Ageing'] = tem['Posting Archived At (GMT)'] - tem['Created At (GMT)']
-			tem['Ageing'] = tem['Ageing'].days
+			# tem['Ageing'] = tem['Posting Archived At (GMT)'] - tem['Created At (GMT)']
+			# tem['Ageing'] = tem['Ageing'].days
 
 			# If Aging days is -ve it's sort of icorrect data captured
 			# To rectify that we use another column's date
-			if tem['Ageing'] < 0:
-				# In fact we should always use 'Posting Archived At (GMT)'
-				tem['Ageing'] = tem['Last Advanced At (GMT)'] - tem['Created At (GMT)']
-				tem['Ageing'] = tem['Ageing'].days
+			# if tem['Ageing'] < 0:
+			# 	# In fact we should always use 'Posting Archived At (GMT)'
+			# 	tem['Ageing'] = ro['Last Advanced At (GMT)'] - tem['Created At (GMT)']
+			# 	tem['Ageing'] = tem['Ageing'].days
+
+			tem['Ageing'] = ro['Last Advanced At (GMT)'] - tem['Created At (GMT)']
+			tem['Ageing'] = tem['Ageing'].days
 
 			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
 
