@@ -631,6 +631,7 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 			tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
 			tem['Posting Archived At (GMT)'] = ro['Posting Archived At (GMT)']
 			tem['CandidateName'] = ro['Candidate Name']
+			tem['Last Advanced At (GMT)'] = ro['Last Advanced At (GMT)']
 
 			# tem['Ageing'] = tem['Posting Archived At (GMT)'] - tem['Created At (GMT)']
 			# tem['Ageing'] = tem['Ageing'].days
@@ -639,10 +640,10 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 			# To rectify that we use another column's date
 			# if tem['Ageing'] < 0:
 			# 	# In fact we should always use 'Posting Archived At (GMT)'
-			# 	tem['Ageing'] = ro['Last Advanced At (GMT)'] - tem['Created At (GMT)']
+			# 	tem['Ageing'] = tem['Last Advanced At (GMT)'] - tem['Created At (GMT)']
 			# 	tem['Ageing'] = tem['Ageing'].days
 
-			tem['Ageing'] = ro['Last Advanced At (GMT)'] - tem['Created At (GMT)']
+			tem['Ageing'] = tem['Last Advanced At (GMT)'] - tem['Created At (GMT)']
 			tem['Ageing'] = tem['Ageing'].days
 
 			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
@@ -694,6 +695,8 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 			tem['Stage - Offer'] = ro['Stage - Offer']
 			tem['Posting Archived At (GMT)'] = ro['Posting Archived At (GMT)']
 			tem['CandidateName'] = ro['Candidate Name']
+			tem['Stage - Offer Approval'] = ro['Stage - Offer Approval']
+			tem['Stage - Offer Approved'] = ro['Stage - Offer Approved']
 
 			if tem['Stage - Offer'] == datetime.datetime(1990,1,1):
 				if tem['Stage - Offer Approval'] == datetime.datetime(1990,1,1):
