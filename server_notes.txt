@@ -30,6 +30,9 @@ https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-applicati
 Apache log locations
 https://blog.codeasite.com/how-do-i-find-apache-http-server-log-files/
 
+File permissions on server folder for www-data
+https://www.digitalocean.com/community/questions/permissions-on-var-www-html-for-uploading-web-site-files-via-sftp
+https://superuser.com/questions/260925/how-can-i-make-chown-work-recursively
 
 
 
