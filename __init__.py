@@ -814,11 +814,14 @@ def modifyUser():
 
 	print(f"Got current user iD , yeahhh!!! {current_user.id}")
 	loginOption = True
-
+	teamOptions = False
+	
 	if request.method == "GET":
-		
+		if checkTeamMembership(current_user.id):
+			teamOptions = True
+
 		if checkAdmin(current_user.id):
-			return render_template("modifyUser.html",usersList = usersList,lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption)
+			return render_template("modifyUser.html",usersList = usersList,lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption, teamOptions= teamOptions)
 		else:
 			return render_template("unauthorized.html"), 403
 	
