@@ -829,7 +829,7 @@ def modifyUser():
 			addThisUser = request.form.get('emailID')
 			makeAdmin = request.form.get('typeOfUser')
 			tatMember = request.form.get('tatmember')
-			companiesToBeAllowed = request.form.getlist('companiesToBeAllowed')
+			companiesToBeAllowed = ['Enterprise Payments', 'Enterprise Solutions', 'Express', 'Commons', 'Banking']
 			
 			if makeAdmin == "Admin":
 				if tatMember == "Nope":
@@ -841,6 +841,7 @@ def modifyUser():
 					collection2.insert_one({"users": addThisUser, "type":"regular", "tatMember": "Nope", "companiesActuallyAllowed":companiesToBeAllowed})
 				elif tatMember == "Yeah":
 					collection2.insert_one({"users": addThisUser, "type":"regular", "tatMember": "Yeah", "companiesActuallyAllowed":companiesToBeAllowed})
+			return redirect(url_for('modifyUser'))
 
 			
 
