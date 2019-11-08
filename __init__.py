@@ -528,7 +528,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 	monthList = ['*', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec' ]
 
 	for ro in rows:
-		if isinstance(ro['Posting Archive Reason'], datetime.date) and ro['Current Stage'] == 'New applicant':
+		if isinstance(ro['Profile Archive Reason'], datetime.date) and ro['Current Stage'] == 'New applicant':
 			tem = dict()
 			
 			tem['Profile ID'] = ro['Profile ID']
@@ -618,7 +618,7 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 	upperPackForTabulator = []
 
 	for ro in rows:
-		if not isinstance(ro['Posting Archive Reason'], datetime.date) and not isinstance(ro['Posting Owner Name'], datetime.date):
+		if not isinstance(ro['Profile Archive Reason'], datetime.date) and not isinstance(ro['Posting Owner Name'], datetime.date):
 			# Do things
 			tem = dict()
 			
@@ -682,7 +682,7 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 	upperPackForTabulator = []
 
 	for ro in rows:
-		if ro['Posting Archive Reason'] == 'Hired' and not isinstance(ro['Posting Owner Name'], datetime.date):
+		if ro['Profile Archive Reason'] == 'Hired' and not isinstance(ro['Posting Owner Name'], datetime.date):
 			# Do things
 			tem = dict()
 			
@@ -832,7 +832,7 @@ def modifyUser():
 			addThisUser = request.form.get('emailID')
 			makeAdmin = request.form.get('typeOfUser')
 			tatMember = request.form.get('tatmember')
-			companiesToBeAllowed = ['Enterprise Payments', 'Enterprise Solutions', 'Express', 'Commons', 'Banking']
+			companiesToBeAllowed = request.form.getlist('companiesToBeAllowed')
 			
 			if makeAdmin == "Admin":
 				if tatMember == "Nope":
