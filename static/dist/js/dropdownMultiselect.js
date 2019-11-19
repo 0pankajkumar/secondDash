@@ -1,4 +1,3 @@
-$("#ddl3").select2();
 $("#checkbox").click(function() {
   if ($("#checkbox").is(":checked")) {
     $("#e1 > option").prop("selected", "selected");
