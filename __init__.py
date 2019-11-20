@@ -260,7 +260,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 	counts = dict()
 	
 	for item in rows:
-		if item['Posting Title'] not in title and title != 'All':
+		if item['Posting Title'] not in title and title[0] != 'All':
 			continue
 		if item['Posting Team'] != team and team != 'All':
 			continue
