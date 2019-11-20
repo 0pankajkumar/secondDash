@@ -230,10 +230,10 @@ def generateMainPageDropdowns():
 def getTable():
 	# collection.createIndex('Posting Department')
 
-	postingTitle = request.form.get('postingTitle')
+	postingTitle = request.form['postingTitle']
 	companyName = request.form.get('companyName')
 	postingTeam = request.form.get('postingTeam')
-	print("PPPPosting team here ---- ", postingTitle)
+	print("PPPPosting title here ---- ", postingTitle)
 	# postingArchiveStatus = request.form.get('postingArchiveStatus')
 	profileArchiveStatus = request.form.get('profileArchiveStatus')
 	fromDate = request.form.get('from')
