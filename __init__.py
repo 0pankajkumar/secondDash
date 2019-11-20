@@ -233,7 +233,7 @@ def getTable():
 	postingTitle = request.form.get('postingTitle')
 	companyName = request.form.get('companyName')
 	postingTeam = request.form.get('postingTeam')
-	print("PPPPosting team here ---- ", postingTeam)
+	print("PPPPosting team here ---- ", postingTitle)
 	# postingArchiveStatus = request.form.get('postingArchiveStatus')
 	profileArchiveStatus = request.form.get('profileArchiveStatus')
 	fromDate = request.form.get('from')
