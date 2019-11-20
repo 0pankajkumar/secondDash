@@ -122,6 +122,7 @@ button:hover {
   width: 100%;
 }
 
+/* This was introduced when Nishant requested multiselect option in dropdowns */
 .select2-dropdown {
   width: 230px;
 }
