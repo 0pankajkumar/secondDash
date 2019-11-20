@@ -397,7 +397,7 @@ def getFromDB(title, companyName, team): # title, companyName, team, archiveStat
 	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
 	query = dict()
 
-	if title == 'All':
+	if title[0] == 'All':
 		title = { '$regex': '.*'}
 	else:#if isinstance(title, list):
 		title = { "$in": title }
