@@ -16,7 +16,7 @@
 
   <ul>
     <li>
-      <div class="ui-widget flexItem">
+      <div class="ui-widget flexItem select2-dropdown">
         <label for="companyName">Company:</label><br>
         <select name="ddl1" id="ddl1" style="display: hidden"
           onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
@@ -29,7 +29,7 @@
 
     </li>
     <li>
-      <div class="ui-widget flexItem">
+      <div class="ui-widget flexItem select2-dropdown">
         <label for="postingTeam">Team:</label><br>
         <select name="ddl2" id="ddl2" style="display: hidden"
           onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
@@ -39,7 +39,7 @@
     </li>
 
     <li>
-      <div class="ui-widget flexItem">
+      <div class="ui-widget flexItem select2-dropdown">
         <label for="postingTitle">Title:</label><br>
         <select multiple name="ddl3" id="ddl3" style="display: hidden">
           <option value="All" selected>All</option>
@@ -48,7 +48,7 @@
     </li>
 
     <li>
-      <div class="ui-widget flexItem">
+      <div class="ui-widget flexItem select2-dropdown">
         <label for="  ">Profile Status :</label><br>
         <select name="profileArchiveStatus" id="profileArchiveStatus" style="display: hidden">
           <option value="Both" selected>Both</option>
@@ -65,14 +65,14 @@
     </li>
 
     <li>
-      <div class="ui-widget flexItem">
+      <div class="ui-widget flexItem select2-dropdown">
         <label for="">From:</label><br>
         <input type="text" id="fromdatepicker" autocomplete="off">
       </div>
     </li>
 
     <li>
-      <div class="ui-widget flexItem">
+      <div class="ui-widget flexItem select2-dropdown">
         <label for="">To:</label><br>
         <input type="text" id="todatepicker" autocomplete="off">
       </div>
@@ -159,6 +159,7 @@
         $("#ddl1").select2();
         $("#ddl2").select2();
         $("#ddl3").select2();
+        $("#profileArchiveStatus").select2();
       }
     });
 

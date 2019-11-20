@@ -122,6 +122,10 @@ button:hover {
   width: 100%;
 }
 
+.select2-dropdown {
+  width: 230px;
+}
+
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   [class*="col-"] {
