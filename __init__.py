@@ -260,6 +260,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 	counts = dict()
 	
 	for item in rows:
+		print("We have so many rows here..........................")
 		if item['Posting Title'] != title and title != 'All':
 			continue
 		if item['Posting Team'] != team and team != 'All':
