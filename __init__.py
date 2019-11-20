@@ -399,6 +399,8 @@ def getFromDB(title, companyName, team): # title, companyName, team, archiveStat
 
 	if title == 'All':
 		title = { '$regex': '.*'}
+	elif isinstance(title, list):
+		title = { "$in": title }
 	if team == 'All':
 		team = { '$regex': '.*'}
 		
