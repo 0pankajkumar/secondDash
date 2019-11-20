@@ -260,9 +260,8 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 	counts = dict()
 	
 	for item in rows:
-		print("We have so many rows here..........................")
-		# if item['Posting Title'] != title and title != 'All':
-		# 	continue
+		if item['Posting Title'] not in title and title != 'All':
+			continue
 		if item['Posting Team'] != team and team != 'All':
 			continue
 		# if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
@@ -398,7 +397,6 @@ def getFromDB(title, companyName, team): # title, companyName, team, archiveStat
 	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
 	query = dict()
 
-	print("~~~~~~ title looks like this ~~~~~~ ", type(title), " ", title)
 	if title == 'All':
 		title = { '$regex': '.*'}
 	else:#if isinstance(title, list):
