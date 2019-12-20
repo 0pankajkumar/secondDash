@@ -65,6 +65,9 @@ collection = database["dolphinDB"]
 # DB links for ApprovedUsers collection
 collection2 = database["ApprovedUsers"]
 
+# From new dup
+collection4 = database["jobPostingWiseDB"]
+
 # Clearing caches
 @app.after_request
 def after_request(response):
@@ -462,6 +465,46 @@ def interpretAge(age):
 	return benchmark_date
 
 
+@app.route('/getBigDictLive', methods=['GET'])
+@login_required
+def getBigDictLive():
+	liveBigDict = dict()
+
+	rows = collection2.find({"users": current_user.id})
+	for row in rows:
+		companiesAllowed = row["companiesActuallyAllowed"]
+
+	rows = collection4.find({"Posting Department": {"$in": companiesAllowed}, "Status": "active"})
+
+	for row in rows:
+		if row['Posting Department'] not in companiesAllowed:
+			print("Continuing as Posting Department not in companiesAllowed")
+			continue
+
+		# Making a big data structure for all dropdowns in front end
+		makeBigDict(liveBigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
+	return jsonify(liveBigDict)
+
+@app.route('/getBigDictArchived', methods=['GET'])
+@login_required
+def getBigDictArchived():
+	archivedBigDict = dict()
+
+	rows = collection2.find({"users": current_user.id})
+	for row in rows:
+		companiesAllowed = row["companiesActuallyAllowed"]
+
+	rows = collection4.find({"Posting Department": {"$in": companiesAllowed}, "Status": "closed"})
+
+	for row in rows:
+		if row['Posting Department'] not in companiesAllowed:
+			print("Continuing as Posting Department not in companiesAllowed")
+			continue
+
+		# Making a big data structure for all dropdowns in front end
+		makeBigDict(archivedBigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
+	return jsonify(archivedBigDict)
+
 
 @app.route('/getBigDict', methods=['GET'])
 @login_required
@@ -770,12 +813,9 @@ def team():
 		return returnedDict
 
 
-
-
-
-@app.route('/table', methods=['GET'])
+@app.route('/archivedPostings', methods=['GET'])
 @login_required
-def table():
+def archivedPostings():
 	
 	adminOptions = False
 	loginOption = True
@@ -785,7 +825,25 @@ def table():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns()
-	return render_template('index.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions)
+	return render_template('archivedPostings.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions)
+
+
+
+@app.route('/livePostings', methods=['GET'])
+@login_required
+def index():
+	
+	adminOptions = False
+	loginOption = True
+	teamOptions = False
+	if checkTeamMembership(current_user.id):
+		teamOptions = True
+	if checkAdmin(current_user.id):
+		adminOptions = True
+	returnedDict = generateMainPageDropdowns()
+	return render_template('livePostings.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions)
+
+
 
 def checkAdmin(user):
 	# Checking whether user is admin or not
