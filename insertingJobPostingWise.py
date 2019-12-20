@@ -8,7 +8,6 @@ from random import randint
 import os
 import csv
 from pathlib import Path
-import unicode
 
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
@@ -18,7 +17,7 @@ script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
 data_folder = Path("/var/www/FlaskApp/FlaskApp/")
 
 # data_folder = Path("C:\\Users\\pankaj.kum\\Desktop\\zetaDash")
-file_to_open = data_folder / "vendors.csv"
+file_to_open = data_folder / "JobPostingDump.csv"
 
 def getInDateFormat(r, ty):
 	# 2017-11-13 10:15:40
@@ -49,7 +48,7 @@ def getInDateFormat(r, ty):
 
 
 
-with open(str("JobPostingDump.csv"), 'r', encoding="utf8" ) as csvfile:
+with open(str(file_to_open), 'r', encoding="utf8" ) as csvfile:
 	myReader = csv.reader(csvfile, delimiter=',')
 
 	titlesWanted = ["Posting ID", "Posting Title", "Applications", "Date Created (GMT)", "Last Updated (GMT)", "Status", "Posting Team", "Posting Owner", "Posting Owner Email", "Posting Department", "State"]
