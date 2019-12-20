@@ -831,7 +831,7 @@ def archivedPostings():
 
 @app.route('/livePostings', methods=['GET'])
 @login_required
-def index():
+def table():
 	
 	adminOptions = False
 	loginOption = True
