@@ -480,6 +480,8 @@ def getBigDictLive():
 		if row['Posting Department'] not in companiesAllowed:
 			print("Continuing as Posting Department not in companiesAllowed")
 			continue
+		if row['Status'] != "active":
+			continue
 
 		# Making a big data structure for all dropdowns in front end
 		makeBigDict(liveBigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
@@ -499,6 +501,8 @@ def getBigDictArchived():
 	for row in rows:
 		if row['Posting Department'] not in companiesAllowed:
 			print("Continuing as Posting Department not in companiesAllowed")
+			continue
+		if row['Status'] != "closed":
 			continue
 
 		# Making a big data structure for all dropdowns in front end
