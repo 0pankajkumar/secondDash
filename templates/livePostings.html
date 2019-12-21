@@ -1,4 +1,4 @@
-<!-- Used to display the Posting which are LIVE -->
+<!-- Used to display the Posting which are LIVE  -->
 
 {% extends "cover.html" %}
 
@@ -146,7 +146,7 @@
     $.ajax({
       type: "GET",
       cache: true,
-      url: "/getBigDict",
+      url: "/getBigDictLive",
       data: "", //ajax parameters
       success: function (result) {
         console.log(result)
