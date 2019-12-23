@@ -163,12 +163,12 @@ def updating():
 
 	# The database uploading method comes here
 	res = 'starting'
-	# updateMongo()
-	try:
-		updateMongo()
-		res = 'Database Successfully Updated'
-	except:
-		res = 'Database update failed. Please contact admin'
+	updateMongo()
+	# try:
+	# 	updateMongo()
+	# 	res = 'Database Successfully Updated'
+	# except:
+	# 	res = 'Database update failed. Please contact admin'
 	return res
 
 
@@ -1199,9 +1199,9 @@ def updateMongo():
 	# 	for c, d in postingDict[a].items():
 	# 		postingDict[a][c]["Actual Posting Owner Name"] = 
 
-	for p,k in postingDict.items():
-		print("\"", p , "\"", " : ", k)
-		break
+	for m, n in postingDict.items():
+		for o, p in postingDict[m]:
+			postingDict[m][o]["Actual Posting Owner Name"] = dict_for_actual_posting_owner[m]["Actual Posting Owner Name"]
 
 	# Adding to DB
 	for x in postingDict.keys():
