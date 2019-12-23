@@ -1202,6 +1202,7 @@ def updateMongo():
 
 	for m, n in postingDict.items():
 		print("\"", m, "\"", " : ", n)
+		break
 
 	# for m, n in postingDict.items():
 	# 	for o, p in postingDict[m]:
