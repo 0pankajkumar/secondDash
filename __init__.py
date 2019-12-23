@@ -1162,8 +1162,8 @@ def updateMongo():
 
 
 				# This holds & decide "Actual Posting Owner" based on latest "Applied At date"
-				if dict_to_be_written["Applied At (GMT)"] < dict_for_actual_posting_owner[dict_to_be_written["Applied At (GMT)"]]
-				dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]] = 
+				# if dict_to_be_written["Applied At (GMT)"] < dict_for_actual_posting_owner[dict_to_be_written["Applied At (GMT)"]]:
+				# 	dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]] = 
 
 
 				line_count += 1
