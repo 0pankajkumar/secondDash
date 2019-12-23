@@ -1201,13 +1201,16 @@ def updateMongo():
 	# 		postingDict[a][c]["Actual Posting Owner Name"] = 
 
 	for m, n in postingDict.items():
-		for o, p in postingDict[m]:
-			postingDict[m][o]["Actual Posting Owner Name"] = dict_for_actual_posting_owner[m]["Actual Posting Owner Name"]
+		print("\"", m, "\"", " : ", n)
 
-	# Adding to DB
-	for x in postingDict.keys():
-		for y in postingDict[x].keys():
-			collection.insert_one(postingDict[x][y])
+	# for m, n in postingDict.items():
+	# 	for o, p in postingDict[m]:
+	# 		postingDict[m][o]["Actual Posting Owner Name"] = dict_for_actual_posting_owner[m]["Actual Posting Owner Name"]
+
+	# # Adding to DB
+	# for x in postingDict.keys():
+	# 	for y in postingDict[x].keys():
+	# 		collection.insert_one(postingDict[x][y])
 
 
 
