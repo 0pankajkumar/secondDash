@@ -949,7 +949,7 @@ def customMessages(message):
 
 # Classification based on Stage in which candidate is
 # For same Profile ID the no more than one entry is allowed
-def addPostingToPostingDict(ro, postingDict, currentStages, dict_for_actual_posting_owner):
+def addPostingToPostingDict(ro, postingDict, currentStages):
 
 	if not isinstance(ro['Posting ID'], datetime.datetime) and not isinstance(ro['Profile ID'], datetime.datetime):
 		pst = ro['Posting ID']
@@ -1016,6 +1016,7 @@ def updateMongo():
 		for row in myReader:
 			minDateCandidates = list()
 			dict_to_be_written = dict()
+			dict_for_actual_posting_owner = dict()
 			phoneToOnsite = False
 			phoneToOffer = False
 			onsiteToOffer = False
@@ -1192,7 +1193,7 @@ def updateMongo():
 	currentStages = ['New lead', 'Reached out', 'Responded', 'New applicant',	'Recruiter screen',	'Profile review', 'Case study', 'Phone interview', 'On-site interview', 'Offer', 'Offer Approval', 'Offer Approved']
 	postingDict = {}
 	for row in box:
-		addPostingToPostingDict(row, postingDict, currentStages, dict_for_actual_posting_owner)
+		addPostingToPostingDict(row, postingDict, currentStages)
 
 	# Adding "Actual Posting Owner Name"
 	# for a, b in postingDict.items():
