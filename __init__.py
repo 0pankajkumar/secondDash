@@ -949,8 +949,8 @@ def customMessages(message):
 
 # Classification based on Stage in which candidate is
 # For same Profile ID the no more than one entry is allowed
-def addPostingToPostingDict(ro, postingDict, currentStages):
-	# if ro['Posting ID'] and ro['Profile ID'] is not None:
+def addPostingToPostingDict(ro, postingDict, currentStages, dict_for_actual_posting_owner):
+
 	if not isinstance(ro['Posting ID'], datetime.datetime) and not isinstance(ro['Profile ID'], datetime.datetime):
 		pst = ro['Posting ID']
 		prfl = ro['Profile ID']
@@ -972,6 +972,9 @@ def addPostingToPostingDict(ro, postingDict, currentStages):
 			if ro['Max Date'] >= postingDict[pst][prfl]['Max Date']:
 				postingDict[pst][prfl] = ro
 			# postingDict[pst][prfl] = ro
+
+
+
 
 
 
@@ -1114,6 +1117,26 @@ def updateMongo():
 					# Making dict entry for each column
 					dict_to_be_written[headers[i]] = row[i]
 
+
+
+				# Deciding the latest or Actual "Posting Owner Name" for labelling
+				if dict_to_be_written["Posting ID"] not in dict_for_actual_posting_owner:
+					if isinstance(dict_to_be_written["Applied At (GMT)"], datetime.date):
+						appliedDate = dict_to_be_written["Applied At (GMT)"]
+					else:
+						appliedDate = ""
+
+					dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]] = {
+						"Actual Posting Owner Name": dict_to_be_written["Posting Owner Name"],
+						"Applied At (GMT)": appliedDate
+					}
+				elif isinstance(dict_to_be_written["Applied At (GMT)"], datetime.date):
+					if dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Applied At (GMT)"] < dict_to_be_written["Applied At (GMT)"]:
+						dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Applied At (GMT)"] = dict_to_be_written["Applied At (GMT)"]
+						dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Actual Posting Owner Name"] = dict_to_be_written["Posting Owner Name"]
+
+
+
 				if len(minDateCandidates) > 0:
 					dict_to_be_written['Min Date'] = min(minDateCandidates)
 					dict_to_be_written['Max Date'] = max(minDateCandidates)
@@ -1122,7 +1145,25 @@ def updateMongo():
 					dict_to_be_written['Max Date'] = datetime.datetime(2030,12,1)
 
 				box.append(dict_to_be_written)
-			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				# This holds & decide "Actual Posting Owner" based on latest "Applied At date"
+				if dict_to_be_written["Applied At (GMT)"] < dict_for_actual_posting_owner[dict_to_be_written["Applied At (GMT)"]]
+				dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]] = 
 
 
 				line_count += 1
@@ -1151,8 +1192,14 @@ def updateMongo():
 	currentStages = ['New lead', 'Reached out', 'Responded', 'New applicant',	'Recruiter screen',	'Profile review', 'Case study', 'Phone interview', 'On-site interview', 'Offer', 'Offer Approval', 'Offer Approved']
 	postingDict = {}
 	for row in box:
-		addPostingToPostingDict(row, postingDict, currentStages)
+		addPostingToPostingDict(row, postingDict, currentStages, dict_for_actual_posting_owner)
 
+	# Adding "Actual Posting Owner Name"
+	# for a, b in postingDict.items():
+	# 	for c, d in postingDict[a].items():
+	# 		postingDict[a][c]["Actual Posting Owner Name"] = 
+
+	# Adding to DB
 	for x in postingDict.keys():
 		for y in postingDict[x].keys():
 			collection.insert_one(postingDict[x][y])
