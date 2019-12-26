@@ -1122,7 +1122,6 @@ def updateMongo():
 
 				# Deciding the latest or Actual "Posting Owner Name" for labelling
 				if dict_to_be_written["Posting ID"] not in dict_for_actual_posting_owner:
-					print("New postng added to dict_for_actual_posting_owner ^^^^^^^^^^^ ")
 					if isinstance(dict_to_be_written["Applied At (GMT)"], datetime.date):
 						appliedDate = dict_to_be_written["Applied At (GMT)"]
 					else:
@@ -1133,12 +1132,13 @@ def updateMongo():
 						"Applied At (GMT)": appliedDate
 					}
 				elif isinstance(dict_to_be_written["Applied At (GMT)"], datetime.date):
-					print("((((000)))) ^^^^^^^^^^^ It was already there in dict_for_actual_posting_owner")
 					if dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Applied At (GMT)"] < dict_to_be_written["Applied At (GMT)"]:
 						dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Applied At (GMT)"] = dict_to_be_written["Applied At (GMT)"]
 						dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Actual Posting Owner Name"] = dict_to_be_written["Posting Owner Name"]
 
 				print(dict_for_actual_posting_owner)
+
+				
 
 				if len(minDateCandidates) > 0:
 					dict_to_be_written['Min Date'] = min(minDateCandidates)
