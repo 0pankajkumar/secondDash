@@ -271,8 +271,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 		#     continue
 		if item['Profile Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
 			continue
-		if '(I)' in item['Posting Title']:
-			continue
+
 		
 		# if item['Min Date'] < fromDate and item['Max Date'] > toDate:
 		# 	# print(f"{item['Min Date']} < {benchmark_date}")
@@ -484,6 +483,8 @@ def getBigDictLive():
 			continue
 		if row['Status'] != "active":
 			continue
+		if '(I)' in row['Posting Title']:
+			continue
 
 		# Making a big data structure for all dropdowns in front end
 		makeBigDict(liveBigDict, row['Posting Department'], row['Posting Team'], row['Posting Title'])
@@ -505,6 +506,8 @@ def getBigDictArchived():
 			print("Continuing as Posting Department not in companiesAllowed")
 			continue
 		if row['Status'] != "closed":
+			continue
+		if '(I)' in row['Posting Title']:
 			continue
 
 		# Making a big data structure for all dropdowns in front end
