@@ -1121,22 +1121,21 @@ def updateMongo():
 
 
 				# Deciding the latest or Actual "Posting Owner Name" for labelling
-				if dict_to_be_written["Posting ID"] not in dict_for_actual_posting_owner:
-					if isinstance(dict_to_be_written["Applied At (GMT)"], datetime.date):
-						appliedDate = dict_to_be_written["Applied At (GMT)"]
-					else:
-						appliedDate = ""
+				# if dict_to_be_written["Posting ID"] not in dict_for_actual_posting_owner:
+				# 	if isinstance(dict_to_be_written["Applied At (GMT)"], datetime.date):
+				# 		appliedDate = dict_to_be_written["Applied At (GMT)"]
+				# 	else:
+				# 		appliedDate = ""
 
-					dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]] = {
-						"Actual Posting Owner Name": dict_to_be_written["Posting Owner Name"],
-						"Applied At (GMT)": appliedDate
-					}
-				elif isinstance(dict_to_be_written["Applied At (GMT)"], datetime.date):
-					if dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Applied At (GMT)"] < dict_to_be_written["Applied At (GMT)"]:
-						dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Applied At (GMT)"] = dict_to_be_written["Applied At (GMT)"]
-						dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Actual Posting Owner Name"] = dict_to_be_written["Posting Owner Name"]
+				# 	dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]] = {
+				# 		"Actual Posting Owner Name": dict_to_be_written["Posting Owner Name"],
+				# 		"Applied At (GMT)": appliedDate
+				# 	}
+				# elif isinstance(dict_to_be_written["Applied At (GMT)"], datetime.date):
+				# 	if dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Applied At (GMT)"] < dict_to_be_written["Applied At (GMT)"]:
+				# 		dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Applied At (GMT)"] = dict_to_be_written["Applied At (GMT)"]
+				# 		dict_for_actual_posting_owner[dict_to_be_written["Posting ID"]]["Actual Posting Owner Name"] = dict_to_be_written["Posting Owner Name"]
 
-				print(dict_for_actual_posting_owner)
 
 				
 
@@ -1215,8 +1214,8 @@ def updateMongo():
 	# 	for y in postingDict[x].keys():
 	# 		collection.insert_one(postingDict[x][y])
 
-	print("--------- ******************* __-____________")
-	print(len(dict_for_actual_posting_owner))
+	# print("--------- ******************* __-____________")
+	# print(len(dict_for_actual_posting_owner))
 
 
 
