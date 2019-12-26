@@ -949,7 +949,7 @@ def customMessages(message):
 
 # Classification based on Stage in which candidate is
 # For same Profile ID the no more than one entry is allowed
-def addPostingToPostingDict(ro, postingDict, currentStages):
+def addPostingToPostingDict(ro, postingDict, currentStages, postingActualOwnersDict):
 	# if ro['Posting ID'] and ro['Profile ID'] is not None:
 	if not isinstance(ro['Posting ID'], datetime.datetime) and not isinstance(ro['Profile ID'], datetime.datetime):
 		pst = ro['Posting ID']
@@ -960,7 +960,19 @@ def addPostingToPostingDict(ro, postingDict, currentStages):
 	if pst not in postingDict:
 		postingDict[pst] = {}
 		postingDict[pst][prfl] = ro
+
+		# Create a new posting entry in dict
+		postingActualOwnersDict[pst] = dict()
+		postingActualOwnersDict[pst]["Actual Posting Owner Name"] = ro["Posting Owner Name"] 
+		postingActualOwnersDict[pst]["Applied At (GMT)"] = ro["Applied At (GMT)"] 
+
 	else:
+
+		# Check posting date & if its earlier changing the Name
+		if postingActualOwnersDict[pst]["Applied At (GMT)"] > ro["Applied At (GMT)"]:
+			postingActualOwnersDict[pst]["Actual Posting Owner Name"] = ro["Posting Owner Name"]
+			postingActualOwnersDict[pst]["Applied At (GMT)"] = ro["Applied At (GMT)"]
+
 		if prfl not in postingDict[pst]:
 			postingDict[pst][prfl] = ro
 
@@ -1151,7 +1163,11 @@ def updateMongo():
 	currentStages = ['New lead', 'Reached out', 'Responded', 'New applicant',	'Recruiter screen',	'Profile review', 'Case study', 'Phone interview', 'On-site interview', 'Offer', 'Offer Approval', 'Offer Approved']
 	postingDict = {}
 	for row in box:
-		addPostingToPostingDict(row, postingDict, currentStages)
+		addPostingToPostingDict(row, postingDict, currentStages, postingActualOwnersDict)
+
+
+	# Determining Actual Posting Owner Name before writing
+
 
 	for x in postingDict.keys():
 		for y in postingDict[x].keys():
