@@ -969,7 +969,7 @@ def addPostingToPostingDict(ro, postingDict, currentStages, postingActualOwnersD
 	else:
 
 		# Check posting date & if its earlier changing the Name
-		if postingActualOwnersDict[pst]["Applied At (GMT)"] > ro["Applied At (GMT)"]:
+		if postingActualOwnersDict[pst]["Applied At (GMT)"] < ro["Applied At (GMT)"]:
 			postingActualOwnersDict[pst]["Actual Posting Owner Name"] = ro["Posting Owner Name"]
 			postingActualOwnersDict[pst]["Applied At (GMT)"] = ro["Applied At (GMT)"]
 
