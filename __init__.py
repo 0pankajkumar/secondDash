@@ -1158,7 +1158,8 @@ def updateMongo():
 	# for di in box:
 	# 	collection.insert_one(di)
 
-
+	postingActualOwnersDict = dict()
+	
 	# Removing duplicates & then adding to DB
 	currentStages = ['New lead', 'Reached out', 'Responded', 'New applicant',	'Recruiter screen',	'Profile review', 'Case study', 'Phone interview', 'On-site interview', 'Offer', 'Offer Approval', 'Offer Approved']
 	postingDict = {}
