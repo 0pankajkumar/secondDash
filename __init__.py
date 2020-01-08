@@ -949,7 +949,10 @@ def fetchUsers(usersList):
 		usersDict['users'] = p['users']
 		usersDict['type'] = p['type']
 		usersDict['tatMember'] = p['tatMember']
-		usersDict['whichPositions'] = p['whichPositions']
+		if p['whichPositions']:
+			usersDict['whichPositions'] = p['whichPositions']
+		else:
+			usersDict['whichPositions'] = "Not defined"
 		usersList.append(usersDict)
 
 
