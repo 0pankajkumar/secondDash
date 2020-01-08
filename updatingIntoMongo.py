@@ -4,8 +4,8 @@ myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["local"]
 mycol = mydb["ApprovedUsers"]
 
-myquery = { "savingText": "ww" }
-newvalues = { "$set": { "whatPositions": "all" } }
+myquery = { "users": "pankajkum@directi.com" }
+newvalues = { "$set": { "whichPositions": "all" } }
 
 mycol.update_one(myquery, newvalues)
 
