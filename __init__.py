@@ -264,8 +264,8 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 	
 	# The restriction is there mark this flag
 	# We want to display only postings related to him/her if he/she is marked so
-        whichPositions = "all"
-        rows = collection2.find({"users": current_user.id})
+	whichPositions = "all"
+	rows = collection2.find({"users": current_user.id})
 	for row in rows:
 		whichPositions = row["whichPositions"]
 
