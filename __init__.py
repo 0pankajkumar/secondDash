@@ -274,9 +274,9 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 		# If that flag was marked check whether the email of 
 		# ... signed in user is in "Posting Owners email id" or "Hiring mangers email id"
 		# ... if yes then only display otherwise skip (continue) the loop
-		#if whichPositions == "respective":
-		#	if not (item["Posting Owner Email"] == current_user.id or item["Posting Hiring Manager Email"] == current_user.id):
-		#		continue
+		if whichPositions == "respective":
+			if not (item["Posting Owner Email"] == current_user.id or item["Posting Hiring Manager Email"] == current_user.id):
+				continue
 
 		if item['Posting Title'] not in title and 'All' not in title:
 			continue
