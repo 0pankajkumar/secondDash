@@ -916,19 +916,20 @@ def modifyUser():
 		if request.form.get('actionType') == "addUser":
 			addThisUser = request.form.get('emailID')
 			makeAdmin = request.form.get('typeOfUser')
+			positionFilter = request.form.get('positionFilter')
 			tatMember = request.form.get('tatmember')
 			companiesToBeAllowed = request.form.getlist('companiesToBeAllowed')
 			
 			if makeAdmin == "Admin":
 				if tatMember == "Nope":
-					collection2.insert_one({"users": addThisUser, "type":"admin", "tatMember": "Nope", "companiesActuallyAllowed":companiesToBeAllowed})
+					collection2.insert_one({"users": addThisUser, "type":"admin", "tatMember": "Nope", "companiesActuallyAllowed":companiesToBeAllowed, "whichPositions": positionFilter})
 				elif tatMember == "Yeah":
-					collection2.insert_one({"users": addThisUser, "type":"admin", "tatMember": "Yeah", "companiesActuallyAllowed":companiesToBeAllowed})
+					collection2.insert_one({"users": addThisUser, "type":"admin", "tatMember": "Yeah", "companiesActuallyAllowed":companiesToBeAllowed, "whichPositions": positionFilter})
 			else:
 				if tatMember == "Nope":
-					collection2.insert_one({"users": addThisUser, "type":"regular", "tatMember": "Nope", "companiesActuallyAllowed":companiesToBeAllowed})
+					collection2.insert_one({"users": addThisUser, "type":"regular", "tatMember": "Nope", "companiesActuallyAllowed":companiesToBeAllowed, "whichPositions": positionFilter})
 				elif tatMember == "Yeah":
-					collection2.insert_one({"users": addThisUser, "type":"regular", "tatMember": "Yeah", "companiesActuallyAllowed":companiesToBeAllowed})
+					collection2.insert_one({"users": addThisUser, "type":"regular", "tatMember": "Yeah", "companiesActuallyAllowed":companiesToBeAllowed, "whichPositions": positionFilter})
 			return redirect(url_for('modifyUser'))
 
 			
@@ -947,6 +948,8 @@ def fetchUsers(usersList):
 		usersDict = dict()
 		usersDict['users'] = p['users']
 		usersDict['type'] = p['type']
+		usersDict['tatMember'] = p['tatMember']
+		usersDict['whichPositions'] = p['whichPositions']
 		usersList.append(usersDict)
 
 

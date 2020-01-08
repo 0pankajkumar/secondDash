@@ -146,6 +146,16 @@
 
             <div class="row">
                 <div class="col-25">
+                    <label for="Type">Position filter</label>
+                </div>
+                <div class="col-75">
+                    <input type="radio" name="positionFilter" value="Regular" checked="checked"> All<br><br>
+                    <input type="radio" name="positionFilter" value="Admin"> Only related ones<br>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
                     <label for="Type">TAT team member:</label>
                 </div>
                 <div class="col-75">
@@ -201,6 +211,8 @@
             <tr>
                 <th>User</th>
                 <th>Type</th>
+                <th>TAT Member</th>
+                <th>Position filter</th>
                 <th></th>
             </tr>
             {% for us in usersList %}
@@ -208,6 +220,8 @@
             <tr>
                 <th class="users">{{us['users']}}</th>
                 <th class="type">{{us['type']}}</th>
+                <th class="type">{{us['tatMember']}}</th>
+                <th class="type">{{us['whichPositions']}}</th>
                 <th><input type="button" class="delete-button delete" value="Delete"></th>
             </tr>
             {% endfor %}
