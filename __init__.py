@@ -306,6 +306,8 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 
 	# Maintaining a set of eligible posting types
 	# The need for this arised since we started using archived & live postings
+	eligiblePostingTeams = set()
+	eligiblePostingTitles = set()
 	if team == "All":
 		eligiblePostingTeams = getEligiblePostingTeams(companyName)
 	if title == "All":
