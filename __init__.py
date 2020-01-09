@@ -368,11 +368,11 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 		if item['Posting ID'] in live_or_archived_dict:
 			print("if item['Posting ID'] in live_or_archived_dict passed")
 			if requestType == "live": 
-				if live_or_archived_dict[item['Posting ID']] == "active":
+				if not (live_or_archived_dict[item['Posting ID']] == "active"):
 					print("Wasn't live")
 					continue
-			if not (requestType == "archived":
-				if live_or_archived_dict[item['Posting ID']] == "closed"):
+			if requestType == "archived":
+				if not (live_or_archived_dict[item['Posting ID']] == "closed"):
 					print("Wasn't archived")
 					continue
 		else:
