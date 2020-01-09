@@ -354,18 +354,18 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 
 
 
+		if item['Posting Title'] != "All" and item['Posting Title'] not in eligiblePostingTitles:
+			continue
+		elif item['Posting Title'] not in title:
+			continue
 
 
-
-		if item['Posting Team'] == "All" and item['Posting Team'] not in eligiblePostingTeams:
+		if item['Posting Team'] != "All" and item['Posting Team'] not in eligiblePostingTeams:
 			continue
 		elif item['Posting Team'] != team:
 			continue
 
-		if item['Posting Title'] == "All" and item['Posting Title'] not in eligiblePostingTitles:
-			continue
-		elif item['Posting Title'] not in title:
-			continue
+		
 		
 		# if item['Posting Title'] not in title and 'All' not in title:
 		# 	continue
