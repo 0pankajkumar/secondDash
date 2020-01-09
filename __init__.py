@@ -372,10 +372,10 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 
 		
 		
-		if item['Posting Title'] not in title and 'All' not in title:
-			continue
-		if item['Posting Team'] != team and team != 'All':
-			continue
+		# if item['Posting Title'] not in title and 'All' not in title:
+		# 	continue
+		# if item['Posting Team'] != team and team != 'All':
+		# 	continue
 		# if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
 		#     continue
 		if item['Profile Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
