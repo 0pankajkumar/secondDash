@@ -256,7 +256,7 @@ def get_live_or_archived_dict():
 	anotherDict = dict()
 	for ro in rows:
 		if ro['Posting ID'] not in anotherDict:
-			t[ro['Posting ID']] = ro['Status']
+			anotherDict[ro['Posting ID']] = ro['Status']
 
 	return anotherDict
 
