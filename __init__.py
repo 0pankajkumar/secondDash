@@ -517,9 +517,9 @@ def getFromDB(title, companyName, team): # title, companyName, team, archiveStat
 	if team == 'All':
 		team = { '$regex': '.*'}
 		
-	# query['Posting Department'] = companyName
-	# query['Posting Title'] = title
-	# query['Posting Team'] = team
+	query['Posting Department'] = companyName
+	query['Posting Title'] = title
+	query['Posting Team'] = team
 		# query['Posting Archive Status'] = archiveStatus
 	return list(collection.find(query, cursor_type=CursorType.EXHAUST))
 
