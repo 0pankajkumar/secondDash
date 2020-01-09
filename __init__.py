@@ -251,6 +251,15 @@ def getEligiblePostingTitles(companyName, team):
 
 	return mySet
 
+def get_live_or_archived_dict():
+	rows = collection4.find({})
+	anotherDict = dict()
+	for ro in rows:
+		if ro['Posting ID'] not in anotherDict:
+			t[ro['Posting ID']] = ro['Status']
+
+	return anotherDict
+
 
 
 
@@ -324,7 +333,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 
 
 
-
+	live_or_archived_dict = get_live_or_archived_dict()
 
 
 
@@ -356,7 +365,13 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 				continue
 
 
-
+		if item['Posting ID'] in live_or_archived_dict:
+			if not (requestType == "live" and live_or_archived_dict[item['Posting ID']] == "active"):
+				continue
+			if not (requestType == "archived" and live_or_archived_dict[item['Posting ID']] == "closed"):
+				continue
+		else:
+			continue
 
 
 		# if "All" not in title:
