@@ -108,12 +108,12 @@
             {% endif %}
 
             {% if adminOptions == True %}
-            <div><a href="/upload">Upload</a></div>
-            <div><a href="/modifyUser">Users</a></div>
+            <div><a class="{{uploadHighlight}}" href="/upload">Upload</a></div>
+            <div><a class="{{modifyUserHighlight}}" href="/modifyUser">Users</a></div>
             {% endif %}
 
             {% if teamOptions == True %}
-            <div><a href="/team">Team</a></div>
+            <div><a class="{{teamHighlight}}" href="/team">Team</a></div>
             {% endif %}
             <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div>
             <div><a href="/logout" onclick="signOut();">Sign out</a></div> -->

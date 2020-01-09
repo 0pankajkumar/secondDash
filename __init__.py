@@ -131,7 +131,7 @@ def upload():
 			teamOptions = False
 			if checkTeamMembership(current_user.id):
 				teamOptions = True
-			return render_template('uploader2.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption, teamOptions = teamOptions)
+			return render_template('uploader2.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption, teamOptions = teamOptions, uploadHighlight="active")
 		else:
 			return render_template("unauthorized.html"), 403
 	elif request.method == 'POST':
@@ -883,7 +883,7 @@ def team():
 			
 			if checkAdmin(current_user.id):
 				adminOptions = True
-			return render_template('teamPage.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions)
+			return render_template('teamPage.html', lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, teamHighlight="active")
 		else:
 			return render_template("unauthorized.html"), 403
 
@@ -977,7 +977,7 @@ def modifyUser():
 			teamOptions = True
 
 		if checkAdmin(current_user.id):
-			return render_template("modifyUser.html",usersList = usersList,lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption, teamOptions= teamOptions)
+			return render_template("modifyUser.html",usersList = usersList,lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption, teamOptions= teamOptions, modifyUserHighlight="active")
 		else:
 			return render_template("unauthorized.html"), 403
 	
