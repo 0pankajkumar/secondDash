@@ -311,6 +311,9 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 	if title == "All":
 		eligiblePostingTitles = getEligiblePostingTitles(companyName, team)
 	
+	print(eligiblePostingTeams)
+	print("^^ ^^  ^^^  ^^^  ^^  ^^^   ^   ^   ^^  ^  ^^ ^^ ^")
+	print(eligiblePostingTitles)
 
 
 
