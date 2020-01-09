@@ -25,8 +25,8 @@ collection4 = database["jobPostingWiseDB"]
 
 
 companyName = "Flock"
-rows = collection4.find({"Posting Department": {"$in": companyName}})
+rows = collection4.find({"Posting Department": companyName})
 
 for ro in rows:
-	print(ro)
+	print(ro["Posting Department"])
 	
