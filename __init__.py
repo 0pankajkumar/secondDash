@@ -228,6 +228,30 @@ def generateMainPageDropdowns():
 # 	return render_template('funnel.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'])
 
 
+
+
+def getEligiblePostingTeams(companyName):
+	rows = collection4.find({"Posting Department": {"$in": companyName}})
+	mySet = set()
+	for row in rows:
+		if row['Posting Department'] == companyName:
+			mySet.add(row['Posting Team'])
+
+	return mySet
+
+def getEligiblePostingTitles(companyName, team):
+	rows = collection4.find({"Posting Department": {"$in": companyName}, "Posting Team": {"$in": team}})
+	mySet = set()
+	for row in rows:
+		if row['Posting Department'] == companyName and row['Posting Team'] == team:
+			mySet.add(row['Posting Title'])
+
+	return mySet
+
+
+
+
+
 @app.route('/getTable', methods=['POST'])
 @login_required
 def getTable():
@@ -261,7 +285,47 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 	print('db: ' + str(time.time() - ts))
 	res = []
 	counts = dict()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	# Maintaining a set of eligible posting types
+	# The need for this arised since we started using archived & live postings
+	if team == "All":
+		eligiblePostingTeams = getEligiblePostingTeams(companyName)
+	if title == "All":
+		eligiblePostingTitles = getEligiblePostingTitles(companyName, team)
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	# The restriction is there mark this flag
 	# We want to display only postings related to him/her if he/she is marked so
 	whichPositions = "all"
@@ -278,10 +342,27 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 			if not (item["Posting Owner Email"] == current_user.id or item["Posting Hiring Manager Email"] == current_user.id):
 				continue
 
-		if item['Posting Title'] not in title and 'All' not in title:
+
+
+
+
+
+
+
+		if item['Posting Team'] == "All" and item['Posting Team'] not in eligiblePostingTeams:
 			continue
-		if item['Posting Team'] != team and team != 'All':
+		elif item['Posting Team'] != team:
 			continue
+
+		if item['Posting Title'] == "All" and item['Posting Title'] not in eligiblePostingTitles:
+			continue
+		elif item['Posting Title'] not in title:
+			continue
+		
+		# if item['Posting Title'] not in title and 'All' not in title:
+		# 	continue
+		# if item['Posting Team'] != team and team != 'All':
+		# 	continue
 		# if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
 		#     continue
 		if item['Profile Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
