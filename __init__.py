@@ -330,6 +330,9 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 		else:
 			continue
 
+		if '(I)' in item['Posting Title']:
+			continue
+
 
 		# if "All" not in title:
 		# 	if item['Posting Title'] not in eligiblePostingTitles:
