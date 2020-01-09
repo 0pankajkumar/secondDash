@@ -310,7 +310,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 	eligiblePostingTitles = set()
 	if team == "All":
 		eligiblePostingTeams = getEligiblePostingTeams(companyName)
-	if title == "All":
+	if title[0] == "All":
 		eligiblePostingTitles = getEligiblePostingTitles(companyName, team)
 	
 	print(eligiblePostingTeams)
