@@ -309,13 +309,16 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 	eligiblePostingTeams = set()
 	eligiblePostingTitles = set()
 	if team == "All":
-		eligiblePostingTeams = getEligiblePostingTeams(companyName)
+		if title[0] == "All":
+			eligiblePostingTeams = getEligiblePostingTeams(companyName)
 	if title[0] == "All":
 		eligiblePostingTitles = getEligiblePostingTitles(companyName, team)
 	
+	print("\n")
 	print(eligiblePostingTeams)
 	print("^^ ^^  ^^^  ^^^  ^^  ^^^   ^   ^   ^^  ^  ^^ ^^ ^")
 	print(eligiblePostingTitles)
+	print("\n")
 
 
 
@@ -354,25 +357,25 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate)
 
 
 
-		if "All" not in title:
-			if item['Posting Title'] not in eligiblePostingTitles:
-				continue
-		elif item['Posting Title'] not in title:
-			continue
+		# if "All" not in title:
+		# 	if item['Posting Title'] not in eligiblePostingTitles:
+		# 		continue
+		# elif item['Posting Title'] not in title:
+		# 	continue
 
 
-		if team != "All":
-			if item['Posting Team'] not in eligiblePostingTeams:
-				continue
-		elif item['Posting Team'] != team:
-			continue
+		# if team != "All":
+		# 	if item['Posting Team'] not in eligiblePostingTeams:
+		# 		continue
+		# elif item['Posting Team'] != team:
+		# 	continue
 
 		
 		
-		# if item['Posting Title'] not in title and 'All' not in title:
-		# 	continue
-		# if item['Posting Team'] != team and team != 'All':
-		# 	continue
+		if item['Posting Title'] not in title and 'All' not in title:
+			continue
+		if item['Posting Team'] != team and team != 'All':
+			continue
 		# if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
 		#     continue
 		if item['Profile Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
