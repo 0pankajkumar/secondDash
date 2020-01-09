@@ -285,9 +285,6 @@ def getTable():
 
 
 def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate, requestType):
-	print(fromDate)
-	print(toDate)
-	print("Request type ::: ", requestType)
 	try:
 		fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
 		toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
@@ -302,50 +299,8 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	# Maintaining a set of eligible posting types
-	# The need for this arised since we started using archived & live postings
-	eligiblePostingTeams = set()
-	eligiblePostingTitles = set()
-	if team == "All":
-		if title[0] == "All":
-			eligiblePostingTeams = getEligiblePostingTeams(companyName)
-	if title[0] == "All":
-		eligiblePostingTitles = getEligiblePostingTitles(companyName, team)
-	
-	print("\n")
-	print(eligiblePostingTeams)
-	print("^^ ^^  ^^^  ^^^  ^^  ^^^   ^   ^   ^^  ^  ^^ ^^ ^")
-	print(eligiblePostingTitles)
-	print("\n")
-
-
-
+	# This variable will hold the live or archived status of all posting, yes all
 	live_or_archived_dict = get_live_or_archived_dict()
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	# The restriction is there mark this flag
@@ -366,17 +321,13 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 
 
 		if item['Posting ID'] in live_or_archived_dict:
-			print("if item['Posting ID'] in live_or_archived_dict passed")
 			if requestType == "live": 
 				if not (live_or_archived_dict[item['Posting ID']] == "active"):
-					print("Wasn't live")
 					continue
 			if requestType == "archived":
 				if not (live_or_archived_dict[item['Posting ID']] == "closed"):
-					print("Wasn't archived")
 					continue
 		else:
-			print("Passing it altogether")
 			continue
 
 
