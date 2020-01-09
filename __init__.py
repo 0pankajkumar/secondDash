@@ -263,20 +263,22 @@ def getTable():
 	postingTitle = request.form.getlist('postingTitle[]')
 	companyName = request.form.get('companyName')
 	postingTeam = request.form.get('postingTeam')
+	requestType = request.form.get('requestType')
 	print("PPPPosting title here ---- ", postingTitle)
 	# postingArchiveStatus = request.form.get('postingArchiveStatus')
 	profileArchiveStatus = request.form.get('profileArchiveStatus')
 	fromDate = request.form.get('from')
 	toDate = request.form.get('to')
 
-	results = getResults(postingTitle, companyName, postingTeam, profileArchiveStatus, fromDate, toDate)
+	results = getResults(postingTitle, companyName, postingTeam, profileArchiveStatus, fromDate, toDate, requestType)
 	# results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
 	return jsonify(results)
 
 
-def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate):
+def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate, requestType):
 	print(fromDate)
 	print(toDate)
+	print("Request type ::: ", requestType)
 	try:
 		fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
 		toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')

@@ -255,7 +255,7 @@
       cache: false,
       url: "/getTable",
       data: {
-        "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value,
+        "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, "requestType": "archived"
       }, // multiple data sent using ajax
       success: function (result) {
         console.log(result);
@@ -411,7 +411,7 @@
       type: "POST",
       cache: false,
       url: "/getTable",
-      data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, }, //ajax parameters
+      data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, "requestType": "archived"}, //ajax parameters
       success: function (result) {
 
 
