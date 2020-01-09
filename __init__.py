@@ -231,6 +231,7 @@ def generateMainPageDropdowns():
 
 
 def getEligiblePostingTeams(companyName):
+	print("companyName ", companyName)
 	rows = collection4.find({"Posting Department": companyName})
 	mySet = set()
 	for row in rows:
@@ -240,6 +241,8 @@ def getEligiblePostingTeams(companyName):
 	return mySet
 
 def getEligiblePostingTitles(companyName, team):
+	print("companyName ", companyName)
+	print("team ", team)
 	rows = collection4.find({"Posting Department": companyName, "Posting Team": team})
 	mySet = set()
 	for row in rows:
