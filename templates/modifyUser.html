@@ -339,22 +339,26 @@
             console.log('clicked button with whichPositions', whichPositionsData);
 
             // your PHP script expects GROUP_ID so we need to pass it one
-            var data = { users: id, actionType: "modifyUser" };
+            var data = { 
+                users: id,
+                typeData: typeData,
+                tatMemberData: tatMemberData,
+                whichPositionsData: whichPositionsData,
+                actionType: "modifyUser"
+            };
 
             
             
             console.log('sending request');
-            // delete record only once user has confirmed
-            /*
+            // modify record
             $.post('/modifyUser', data, function (res) {
                 console.log('received response', res);
                 // we want to delete the table row only we received a response back saying that it worked
                 if (res.status) {
-                    console.log('deleting TR');
-                    tr.remove();
+                    console.log("Data sent for modifying");
+                    console.log(data);
                 }
             }, 'json');
-            */
             
         });
     </script>
