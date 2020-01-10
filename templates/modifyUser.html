@@ -224,7 +224,21 @@
                 <th class="users">{{us['users']}}</th>
                 <th class="type">{{us['type']}}</th>
                 <th class="tatMember">{{us['tatMember']}}</th>
-                <th class="whichPositions">{{us['whichPositions']}}</th>
+
+                <!-- <th class="whichPositions">{{us['whichPositions']}}</th> -->
+                <select>
+                    {% if us['whichPositions'] =="all" %}
+                        <option value="all" selected>All Postings</option>
+                        <option value="respective">Only related</option>
+                    {% endif %}
+                    {% if us['whichPositions'] =="respective" %}
+                        <option value="all">All Postings</option>
+                        <option value="respective selected">Only related</option>
+                    {% endif %}
+                </select>
+
+
+
                 <th><input type="button" class="delete-button delete" id="delete" value="Delete"></th>
                 <th><input type="button" class="modify-button modify" id="modify" value="Update"></th>
             </tr>
