@@ -226,16 +226,18 @@
                 <th class="tatMember">{{us['tatMember']}}</th>
 
                 <!-- <th class="whichPositions">{{us['whichPositions']}}</th> -->
-                <select>
-                    {% if us['whichPositions'] =="all" %}
-                        <option value="all" selected>All Postings</option>
-                        <option value="respective">Only related</option>
-                    {% endif %}
-                    {% if us['whichPositions'] =="respective" %}
-                        <option value="all">All Postings</option>
-                        <option value="respective selected">Only related</option>
-                    {% endif %}
-                </select>
+                <th class="whichPositions">
+                    <select>
+                        {% if us['whichPositions'] =="all" %}
+                            <option value="all" selected>All Postings</option>
+                            <option value="respective">Only related</option>
+                        {% endif %}
+                        {% if us['whichPositions'] =="respective" %}
+                            <option value="all">All Postings</option>
+                            <option value="respective selected">Only related</option>
+                        {% endif %}
+                    </select>
+                </th>
 
 
 
