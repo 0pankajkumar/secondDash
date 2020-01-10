@@ -96,7 +96,7 @@
         background-color: white;
     }
 
-    .delete-button {
+    .delete-button .modify-button{
         /* background-color: white; */
         border-color: #d43f3a;
         color: white;
@@ -110,6 +110,9 @@
 
     .delete-button:hover {
         background-color: #d9534f;
+    }
+    .modify-button:hover {
+        background-color: #007bff;
     }
 </style>
 </head>
@@ -220,9 +223,10 @@
             <tr>
                 <th class="users">{{us['users']}}</th>
                 <th class="type">{{us['type']}}</th>
-                <th class="type">{{us['tatMember']}}</th>
-                <th class="type">{{us['whichPositions']}}</th>
+                <th class="tatMember">{{us['tatMember']}}</th>
+                <th class="whichPositions">{{us['whichPositions']}}</th>
                 <th><input type="button" class="delete-button delete" value="Delete"></th>
+                <th><input type="button" class="modify-button delete" value="Update"></th>
             </tr>
             {% endfor %}
         </table>
@@ -262,6 +266,44 @@
                     }
                 }, 'json');
             }
+        });
+
+
+        // Borrowed from https://stackoverflow.com/questions/42212964/delete-table-row-on-button-click-using-ajax
+        $('.modify').click(function () {
+            var button = $(this),
+                tr = button.closest('tr');
+            // find the ID stored in the .groupId cell
+            //var id = tr.find('td.users').text();
+            var id = $(this).closest('tr').find('.users').text();
+            var typeData = $(this).closest('tr').find('.type').text();
+            var tatMemberData = $(this).closest('tr').find('.tatMember').text();
+            var whichPositionsData = $(this).closest('tr').find('.whichPositions').text();
+
+
+            console.log('clicked button with id', id);
+            console.log('clicked button with type', typeData);
+            console.log('clicked button with tatMember', tatMemberData);
+            console.log('clicked button with whichPositions', whichPositionsData);
+
+            // your PHP script expects GROUP_ID so we need to pass it one
+            var data = { users: id, actionType: "modifyUser" };
+
+            
+            
+            console.log('sending request');
+            // delete record only once user has confirmed
+            /*
+            $.post('/modifyUser', data, function (res) {
+                console.log('received response', res);
+                // we want to delete the table row only we received a response back saying that it worked
+                if (res.status) {
+                    console.log('deleting TR');
+                    tr.remove();
+                }
+            }, 'json');
+            */
+            
         });
     </script>
 
