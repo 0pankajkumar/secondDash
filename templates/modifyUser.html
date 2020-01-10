@@ -223,7 +223,21 @@
             <tr>
                 <th class="users">{{us['users']}}</th>
                 <th class="type">{{us['type']}}</th>
-                <th class="tatMember">{{us['tatMember']}}</th>
+
+
+                <!-- <th class="tatMember">{{us['tatMember']}}</th> -->
+                <th class="tatMember">
+                    <select>
+                        {% if us['tatMember'] =="Yeah" %}
+                            <option value="Yeah" selected>Yeah</option>
+                            <option value="Nope">Nope</option>
+                        {% endif %}
+                        {% if us['tatMember'] =="Nope" %}
+                            <option value="Yeah">Yeah</option>
+                            <option value="Nope" selected>Nope</option>
+                        {% endif %}
+                    </select>
+                </th>
 
                 <!-- <th class="whichPositions">{{us['whichPositions']}}</th> -->
                 <th class="whichPositions">
