@@ -225,8 +225,8 @@
                 <th class="type">{{us['type']}}</th>
                 <th class="tatMember">{{us['tatMember']}}</th>
                 <th class="whichPositions">{{us['whichPositions']}}</th>
-                <th><input type="button" class="delete-button delete" value="Delete"></th>
-                <th><input type="button" class="modify-button delete" value="Update"></th>
+                <th><input type="button" class="delete-button delete" id="delete" value="Delete"></th>
+                <th><input type="button" class="modify-button delete" id="modify" value="Update"></th>
             </tr>
             {% endfor %}
         </table>
@@ -240,7 +240,7 @@
         document.title = "Modify Users";
 
         // Borrowed from https://stackoverflow.com/questions/42212964/delete-table-row-on-button-click-using-ajax
-        $('.delete').click(function () {
+        $('#delete').click(function () {
             var button = $(this),
                 tr = button.closest('tr');
             // find the ID stored in the .groupId cell
@@ -270,7 +270,7 @@
 
 
         // Borrowed from https://stackoverflow.com/questions/42212964/delete-table-row-on-button-click-using-ajax
-        $('.modify').click(function () {
+        $('#modify').click(function () {
             var button = $(this),
                 tr = button.closest('tr');
             // find the ID stored in the .groupId cell
