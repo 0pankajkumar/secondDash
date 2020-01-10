@@ -1111,6 +1111,10 @@ def updatePostingInfo():
 	database = client["local"]
 	collection = database["jobPostingWiseDB"]
 
+	collection.delete_many({})
+	print("Deleted everything in posting info DB")
+	print("Adding posting info records...")
+
 	script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
 	data_folder = Path("/var/www/FlaskApp/FlaskApp/uploaded_csv")
 
