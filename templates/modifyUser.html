@@ -327,10 +327,10 @@
                 tr = button.closest('tr');
             // find the ID stored in the .groupId cell
             //var id = tr.find('td.users').text();
-            var id = $(this).closest('tr').find('.users').text();
-            var typeData = $(this).closest('tr').find('.type').text();
-            var tatMemberData = $(this).closest('tr').find('.tatMember').text();
-            var whichPositionsData = $(this).closest('tr').find('.whichPositions').text();
+            var id = $(this).closest('tr').find('.users');
+            var typeData = $(this).closest('tr').find('.type').find(":selected").val();
+            var tatMemberData = $(this).closest('tr').find('.tatMember').find(":selected").val();
+            var whichPositionsData = $(this).closest('tr').find('.whichPositions').find(":selected").val();
 
 
             console.log('clicked button with id', id);
