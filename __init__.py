@@ -1022,10 +1022,11 @@ def modifyUser():
 			hisWhichPositions = request.form.get('whichPositionsData')
 
 
-			collection2.update({"users": modifyThisUser}, {"$set":
-				"type": hisType,
-				"tatMember": hisTatMember,
-				"whichPositions": hisWhichPositions
+			collection2.update({"users": modifyThisUser}, {"$set":{
+					"type": hisType,
+					"tatMember": hisTatMember,
+					"whichPositions": hisWhichPositions
+				}
 				})
 
 		return render_template("modifyUser.html",usersList = usersList, lastUpdated = getLastUpdatedTimestamp(), loginOption = loginOption)
