@@ -145,7 +145,7 @@ def upload():
 
 		f2 = request.files['file2']
 		print(f2.filename, secure_filename(f2.filename))
-		file2 = documents.save(request.files['file2'], name="postingInfo.csv")
+		file2 = documents.save(request.files['file2'], name="JobPostingDump.csv")
 
 		# f = request.files['file']
 		# f.save(secure_filename(f.filename))
@@ -1088,10 +1088,76 @@ def addPostingToPostingDict(ro, postingDict, currentStages, postingActualOwnersD
 			# postingDict[pst][prfl] = ro
 
 
-
-
-
 def updateMongo():
+	updateDump()
+	updatePostingInfo()
+
+def updatePostingInfo():
+	client = MongoClient("mongodb://localhost:27017")
+	database = client["local"]
+	collection = database["jobPostingWiseDB"]
+
+	script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
+	data_folder = Path("/var/www/FlaskApp/FlaskApp/uploaded_csv")
+
+	# data_folder = Path("C:\\Users\\pankaj.kum\\Desktop\\zetaDash")
+	file_to_open = data_folder / "JobPostingDump.csv"
+
+	with open(str(file_to_open), 'r', encoding="utf8" ) as csvfile:
+		myReader = csv.reader(csvfile, delimiter=',')
+
+		titlesWanted = ["Posting ID", "Posting Title", "Applications", "Date Created (GMT)", "Last Updated (GMT)", "Status", "Posting Team", "Posting Owner", "Posting Owner Email", "Posting Department", "State"]
+		titles = list()
+		titlesNumber = set()
+		finalBox = list()
+		i = 0
+		ty = [0]
+		for row in myReader:
+			if i > 0:
+				j = 0
+				tempDict = dict()
+				for r in row:
+					if j in titlesNumber:
+						# if titles[j] in ["Date Created (GMT)", "Last Updated (GMT)"]:
+						# 	r = getInDateFormat(r, ty)
+						tempDict[titles[j]] = r
+					j += 1
+				finalBox.append(tempDict)
+			else:
+				titles = row
+				for i in range(len(titles)):
+					if titles[i] in titlesWanted:
+						titlesNumber.add(i)
+
+			i += 1
+
+	collection.insert_many(finalBox)
+
+	os.remove(file_to_open)
+	print("File Deleted")
+
+	print(ty)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def updateDump():
 	client = MongoClient("mongodb://localhost:27017")
 	database = client["local"]
 	collection = database["dolphinDB"]
