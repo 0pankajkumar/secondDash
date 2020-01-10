@@ -232,7 +232,20 @@
 
             <tr>
                 <th class="users">{{us['users']}}</th>
-                <th class="type">{{us['type']}}</th>
+
+                <!-- <th class="type">{{us['type']}}</th> -->
+                <th class="type">
+                    <select class="type-member-column">
+                        {% if us['type'] =="admin" %}
+                            <option value="admin" selected>Admin</option>
+                            <option value="regular">Regular</option>
+                        {% endif %}
+                        {% if us['type'] =="regular" %}
+                            <option value="admin">Admin</option>
+                            <option value="regular" selected>Regular</option>
+                        {% endif %}
+                    </select>
+                </th>
 
 
                 <!-- <th class="tatMember">{{us['tatMember']}}</th> -->
@@ -258,7 +271,7 @@
                         {% endif %}
                         {% if us['whichPositions'] =="respective" %}
                             <option value="all">All Postings</option>
-                            <option value="respective selected">Only related</option>
+                            <option value="respective" selected>Only related</option>
                         {% endif %}
                     </select>
                 </th>
