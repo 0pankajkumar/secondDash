@@ -1015,6 +1015,19 @@ def modifyUser():
 			collection2.delete_many( { "users" : deleteThisUser } );
 			print(f"Deleted {deleteThisUser}")
 
+		if request.form.get('actionType') == "modifyUser":
+			modifyThisUser = request.form.get('users')
+			hisType = request.form.get('typeData')
+			hisTatMember = request.form.get('tatMemberData')
+			hisWhichPositions = request.form.get('whichPositionsData')
+
+
+			collection2.update({"users": modifyThisUser}, {"$set":
+				"type": hisType,
+				"tatMember": hisTatMember,
+				"whichPositions": hisWhichPositions
+				})
+
 		return render_template("modifyUser.html",usersList = usersList, lastUpdated = getLastUpdatedTimestamp(), loginOption = loginOption)
 
 
