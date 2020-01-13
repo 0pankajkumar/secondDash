@@ -556,6 +556,7 @@ def interpretAge(age):
 
 	return benchmark_date
 
+# Makaing a long list of dicts containing all the items required for dropdown
 def prepareDropdownOptionsSending(whale):
 	box = list()
 
@@ -610,6 +611,56 @@ def getDropdownOptionsLive():
 		makeDropdownOptions(liveBigDictPre, row['Posting Owner'], row['Posting Department'], row['Posting Team'], row['Posting Title'])
 		liveBigDict = prepareDropdownOptionsSending(liveBigDictPre)
 	return jsonify(liveBigDict)
+
+
+@app.route('/getDropdownOptionsArchived', methods=['GET'])
+@login_required
+def getBigDictArchived():
+	archivedBigDictPre = dict()
+
+	rows = collection2.find({"users": current_user.id})
+	for row in rows:
+		companiesAllowed = row["companiesActuallyAllowed"]
+
+	rows = collection4.find({"Posting Department": {"$in": companiesAllowed}, "Status": "closed"})
+
+	for row in rows:
+		if row['Posting Department'] not in companiesAllowed:
+			print("Continuing as Posting Department not in companiesAllowed")
+			continue
+		if row['Status'] != "closed":
+			continue
+		if '(I)' in row['Posting Title']:
+			continue
+
+		# Making a big data structure for all dropdowns in front end
+		makeBigDict(archivedBigDictPre, row['Posting Department'], row['Posting Team'], row['Posting Title'])
+		archivedBigDict = prepareDropdownOptionsSending(archivedBigDictPre)
+	return jsonify(archivedBigDict)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @app.route('/getBigDictLive', methods=['GET'])
