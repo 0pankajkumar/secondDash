@@ -556,6 +556,32 @@ def interpretAge(age):
 
 	return benchmark_date
 
+def makeDropdownOptions(liveBigDict, row['Posting Owner'], row['Posting Department'], row['Posting Team'], row['Posting Title'])
+
+@app.route('/getDropdownOptionsLive', methods=['GET'])
+@login_required
+def getBigDictLive():
+	liveBigDict = dict()
+
+	rows = collection2.find({"users": current_user.id})
+	for row in rows:
+		companiesAllowed = row["companiesActuallyAllowed"]
+
+	rows = collection4.find({"Posting Department": {"$in": companiesAllowed}, "Status": "active"})
+
+	for row in rows:
+		if row['Posting Department'] not in companiesAllowed:
+			print("Continuing as Posting Department not in companiesAllowed")
+			continue
+		if row['Status'] != "active":
+			continue
+		if '(I)' in row['Posting Title']:
+			continue
+
+		# Making a big data structure for all dropdowns in front end
+		makeBigDict(liveBigDict, row['Posting Owner'], row['Posting Department'], row['Posting Team'], row['Posting Title'])
+	return jsonify(liveBigDict)
+
 
 @app.route('/getBigDictLive', methods=['GET'])
 @login_required
