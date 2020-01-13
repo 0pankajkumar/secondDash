@@ -1,172 +1,311 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title></title>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <title></title>
+
+  <style>
+    .box-highlight-red {
+      border: 2px solid red;
+    }
+  </style>
 </head>
+
 <body>
-	<form>
-		  <select id="ddl0" onchange="popCompany(this, document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
-		    <option value="">All recruiters</option>
-		    <option value="Hema Negi">Hema Negi</option>
-		    <option value="Janushi shah">Janushi shah</option>
-		    <option value="Prerna gera">Prerna gera</option>
-		  </select>
-		  <br>
-		  <select id="ddl1" onchange="popDept(document.getElementById('ddl0'), this,document.getElementById('ddl2'), document.getElementById('ddl3'))">
-		    <option value="">Pick First Option</option>
-		    <option value="Flock">Flock</option>
-		    <option value="Radix">Radix</option>
-		    <option value="Codechef">Codechef</option>
-		  </select>
-		  <br>
-		  <select id="ddl2" onchange="popPost(document.getElementById('ddl0'),document.getElementById('ddl1'),  this, document.getElementById('ddl3'))">
-		  </select>
-		  <br>
-		  <select id="ddl3">
-		  </select>
-	</form>
+  <form>
+    <select class="box-highlight-red" id="ddl0"
+      onchange="popCompany(this, document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
+      <option value="">Choose</option>
+      <option value="All">All recruiters</option>
+      <option value="Hema Negi">Hema Negi</option>
+      <option value="Janushi shah">Janushi shah</option>
+      <option value="Prerna gera">Prerna gera</option>
+    </select>
+    <br>
+    <select id="ddl1"
+      onchange="popDept(document.getElementById('ddl0'), this,document.getElementById('ddl2'), document.getElementById('ddl3'))">
+    </select>
+    <br>
+    <select id="ddl2"
+      onchange="popPost(document.getElementById('ddl0'),document.getElementById('ddl1'),  this, document.getElementById('ddl3'))">
+    </select>
+    <br>
+    <select id="ddl3"
+      onchange="validateBeforeSubmit(document.getElementById('ddl0'), document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
+    </select>
+  </form>
+  <button
+    onclick="validateBeforeSubmit(document.getElementById('ddl0'), document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3')))">Submit</button>
 
-<script type="text/javascript">
-	var dataShit = [
-	  {
-	    'company': 'Flock',
-	    'dept': 'Software Engineering',
-	    'post': 'Backend developer',
-	    'recruiter': 'Hema Negi'
-	  },
-	  {
-	    'company': 'Flock',
-	    'dept': 'Product development',
-	    'post': 'Product engineer',
-	    'recruiter': 'Hema Negi'
-	  },
-	  {
-	    'company': 'Flock',
-	    'dept': 'Product development',
-	    'post': 'Assosiate product manager',
-	    'recruiter': 'Hema Negi'
-	  },
-	  {
-	    'company': 'Radix',
-	    'dept': 'Software Engineering',
-	    'post': 'Frontend engineer',
-	    'recruiter': 'Janushi shah'
-	  },
-	  {
-	    'company': 'Radix',
-	    'dept': 'Software Engineering',
-	    'post': 'Backend engineer',
-	    'recruiter': 'Janushi shah'
-	  },
-	  {
-	    'company': 'Codechef',
-	    'dept': 'Software Engineering',
-	    'post': 'Frontend engineer',
-	    'recruiter': 'Prerna gera'
-	  },
-	  {
-	    'company': 'Codechef',
-	    'dept': 'Marketing',
-	    'post': 'Sales engineer',
-	    'recruiter': 'Prerna gera'
-	  },
-	];
+  <script type="text/javascript">
+    var dataShit = [
+      {
+        'company': 'Flock',
+        'dept': 'Software Engineering',
+        'post': 'Backend developer',
+        'recruiter': 'Hema Negi'
+      },
+      {
+        'company': 'Flock',
+        'dept': 'Product development',
+        'post': 'Product engineer',
+        'recruiter': 'Hema Negi'
+      },
+      {
+        'company': 'Flock',
+        'dept': 'Product development',
+        'post': 'Assosiate product manager',
+        'recruiter': 'Hema Negi'
+      },
+      {
+        'company': 'Radix',
+        'dept': 'Software Engineering',
+        'post': 'Frontend engineer',
+        'recruiter': 'Janushi shah'
+      },
+      {
+        'company': 'Radix',
+        'dept': 'Software Engineering',
+        'post': 'Backend engineer',
+        'recruiter': 'Janushi shah'
+      },
+      {
+        'company': 'Codechef',
+        'dept': 'Software Engineering',
+        'post': 'Frontend engineer',
+        'recruiter': 'Prerna gera'
+      },
+      {
+        'company': 'Codechef',
+        'dept': 'Marketing',
+        'post': 'Sales engineer',
+        'recruiter': 'Prerna gera'
+      },
+    ];
 
-var myNestedVals = {
-        '1': {
-            '1.1': ['1.1.1', '1.1.2', '1.1.3'],
-            '1.2': ['1.2.1', '1.2.2', '1.2.3'],
-            '1.3': ['1.3.1', '1.3.2', '1.3.3']
-        },
-        '2': {
-            '2.1': ['2.1.1', '2.1.2', '2.1.3'],
-            '2.2': ['2.2.1', '2.2.2', '2.2.3'],
-            '2.3': ['2.3.1', '2.3.2', '2.3.3']
-        },
-        '3': {
-            '3.1': ['3.1.1', '3.1.2', '3.1.3'],
-            '3.2': ['3.2.1', '3.2.2', '3.2.3'],
-            '3.3': ['3.3.1', '3.3.2', '3.3.3']
-        }
+    var myNestedVals = {
+      '1': {
+        '1.1': ['1.1.1', '1.1.2', '1.1.3'],
+        '1.2': ['1.2.1', '1.2.2', '1.2.3'],
+        '1.3': ['1.3.1', '1.3.2', '1.3.3']
+      },
+      '2': {
+        '2.1': ['2.1.1', '2.1.2', '2.1.3'],
+        '2.2': ['2.2.1', '2.2.2', '2.2.3'],
+        '2.3': ['2.3.1', '2.3.2', '2.3.3']
+      },
+      '3': {
+        '3.1': ['3.1.1', '3.1.2', '3.1.3'],
+        '3.2': ['3.2.1', '3.2.2', '3.2.3'],
+        '3.3': ['3.3.1', '3.3.2', '3.3.3']
+      }
     }
 
     function createOption(ddl, text, value) {
-        var opt = document.createElement('option');
-        opt.value = value;
-        opt.text = text;
-        ddl.options.add(opt);
+      var opt = document.createElement('option');
+      opt.value = value;
+      opt.text = text;
+      ddl.options.add(opt);
     }
 
     function createOptions(optionsArray, ddl) {
-        for (i = 0; i < optionsArray.length; i++) {
-            createOption(ddl, optionsArray[i], optionsArray[i]);
-        }
+      for (i = 0; i < optionsArray.length; i++) {
+        createOption(ddl, optionsArray[i], optionsArray[i]);
+      }
     }
+
+
+
+
+
+
+
+    function validateBeforeSubmit(ddl0, ddl1, ddl2, ddl3) {
+      // Return true if all is well else false
+      if (ddl0.options[ddl0.selectedIndex].value == "" || ddl0.length == 0) {
+        ddl0.classList.add("box-highlight-red");
+      }
+      else {
+        ddl0.classList.remove("box-highlight-red");
+      }
+
+      if (ddl1.options[ddl1.selectedIndex].value == "" || ddl0.length == 0) {
+        ddl1.classList.add("box-highlight-red");
+      }
+      else {
+        ddl1.classList.remove("box-highlight-red");
+      }
+
+      if (ddl2.options[ddl2.selectedIndex].value == "" || ddl0.length == 0) {
+        ddl2.classList.add("box-highlight-red");
+      }
+      else {
+        ddl2.classList.remove("box-highlight-red");
+      }
+
+      if (ddl3.options[ddl3.selectedIndex].value == "" || ddl0.length == 0) {
+        ddl3.classList.add("box-highlight-red");
+      }
+      else {
+        ddl3.classList.remove("box-highlight-red");
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function popCompany(ddl0, ddl1, ddl2, ddl3) {
-    	ddl1.options.length = 0;
-        ddl2.options.length = 0;
-        ddl3.options.length = 0;
-        createOption(ddl1, "Choose", "");
-        
-        const setOne = new Set();
-        for(let i = 0; i < dataShit.length; i++) {
-          if(!setOne.has(dataShit[i]['company'])) {
-          	if(dataShit[i]['recruiter'] == ddl0.value) {
-          		setOne.add(dataShit[i]['company']);
-	            createOption(ddl1, dataShit[i]['company'], dataShit[i]['company']);
-	          }
+      ddl1.options.length = 0;
+      ddl2.options.length = 0;
+      ddl3.options.length = 0;
+      createOption(ddl1, "Choose", "");
+
+      console.log(ddl0.options[ddl0.selectedIndex].value);
+
+      const setOne = new Set();
+      for (let i = 0; i < dataShit.length; i++) {
+        if (!setOne.has(dataShit[i]['company'])) {
+          if (ddl0.value == "All") {
+            setOne.add(dataShit[i]['company']);
+            createOption(ddl1, dataShit[i]['company'], dataShit[i]['company']);
           }
-          
+          else if (dataShit[i]['recruiter'] == ddl0.value) {
+            setOne.add(dataShit[i]['company']);
+            createOption(ddl1, dataShit[i]['company'], dataShit[i]['company']);
+          }
         }
+
+      }
+      validateBeforeSubmit(ddl0, ddl1, ddl2, ddl3);
     }
+
+
+
 
     function popDept(ddl0, ddl1, ddl2, ddl3) {
-        ddl2.options.length = 0;
-        ddl3.options.length = 0;
-        createOption(ddl2, "Choose", "");
-        
-        const setTwo = new Set();
-        for(let i = 0; i < dataShit.length; i++) {
-          if(!setTwo.has(dataShit[i]['dept'])) {
-          	if(dataShit[i]['recruiter'] == ddl0.value && dataShit[i]['company'] == ddl1.value) {
-          		setTwo.add(dataShit[i]['dept']);
-            	createOption(ddl2, dataShit[i]['dept'], dataShit[i]['dept']);
-          }
+      ddl2.options.length = 0;
+      ddl3.options.length = 0;
+      // createOption(ddl2, "All", "All");
+
+      const setTwo = new Set();
+      let arr = new Array();
+      for (let i = 0; i < dataShit.length; i++) {
+        if (!setTwo.has(dataShit[i]['dept'])) {
+          if ((dataShit[i]['recruiter'] == ddl0.value || "All" == ddl0.value) && dataShit[i]['company'] == ddl1.value) {
+            setTwo.add(dataShit[i]['dept']);
+            arr.push(dataShit[i]['dept']);
+            // createOption(ddl2, dataShit[i]['dept'], dataShit[i]['dept']);
           }
         }
+      }
+
+      if (arr.length > 1) {
+        createOption(ddl2, "Choose", "");
+        createOption(ddl2, "All", "All");
+        for (let i = 0; i < arr.length; i++) {
+          createOption(ddl2, arr[i], arr[i]);
+        }
+        // for (let i=0;i<ddl2.length;  i++) {
+        //    if (ddl2.options[i].value=='All') {
+        //      ddl2.remove(i);
+        //      break;
+        //    }
+        // }
+      }
+      else {
+        createOption(ddl2, "Choose", "");
+        createOption(ddl2, arr[0], arr[0]);
+      }
+      validateBeforeSubmit(ddl0, ddl1, ddl2, ddl3);
     }
+
+
+
+
+
+
+
 
     function popPost(ddl0, ddl1, ddl2, ddl3) {
-        ddl3.options.length = 0;
-        createOption(ddl3, "Pick 3rd Option", "");
-        
-        const setThree = new Set();
-        for(let i = 0; i < dataShit.length; i++) {
-          if(!setThree.has(dataShit[i]['post'])) {
-          	if(dataShit[i]['recruiter'] == ddl0.value && dataShit[i]['company'] == ddl1.value && dataShit[i]['dept'] == ddl2.value) {
-          		setThree.add(dataShit[i]['post']);
-            	createOption(ddl3, dataShit[i]['post'], dataShit[i]['post']);
+      ddl3.options.length = 0;
+      // createOption(ddl3, "All", "All");
+
+      const setThree = new Set();
+      let arr = new Array();
+      for (let i = 0; i < dataShit.length; i++) {
+        if (!setThree.has(dataShit[i]['post'])) {
+          if ((dataShit[i]['recruiter'] == ddl0.value || "All" == ddl0.value) && dataShit[i]['company'] == ddl1.value && (dataShit[i]['dept'] == ddl2.value || "All" == ddl2.value)) {
+            setThree.add(dataShit[i]['post']);
+            arr.push(dataShit[i]['post']);
+            // createOption(ddl3, dataShit[i]['post'], dataShit[i]['post']);
           }
-          }
-          
         }
+      }
+      if (arr.length > 1) {
+        createOption(ddl3, "Choose", "");
+        createOption(ddl3, "All", "All");
+        for (let i = 0; i < arr.length; i++) {
+          createOption(ddl3, arr[i], arr[i]);
+        }
+        // for (let i=0;i<ddl3.length;  i++) {
+        //    if (ddl3.options[i].value=='All') {
+        //      ddl3.remove(i);
+        //      break;
+        //    }
+        // }
+      }
+      else {
+        createOption(ddl3, "Choose", "");
+        createOption(ddl3, arr[0], arr[0]);
+      }
+      validateBeforeSubmit(ddl0, ddl1, ddl2, ddl3);
     }
 
+    function afterPostSelect() {
+      validateBeforeSubmit(ddl0, ddl1, ddl2, ddl3);
+    }
+
+
+
+
+
     function configureDDL2(ddl1, ddl2, ddl3) {
-        ddl2.options.length = 0;
-        ddl3.options.length = 0;
-        createOption(ddl2, "Pick 2nd Option", "");
-        var ddl2keys = Object.keys(myNestedVals[ddl1.value]);
-        createOptions(ddl2keys, ddl2)
+      ddl2.options.length = 0;
+      ddl3.options.length = 0;
+      createOption(ddl2, "Pick 2nd Option", "");
+      var ddl2keys = Object.keys(myNestedVals[ddl1.value]);
+      createOptions(ddl2keys, ddl2)
     }
 
     function configureDDL3(ddl1, ddl2, ddl3) {
-        ddl3.options.length = 0;
-        createOption(ddl3, "Pick 3rd Option", "");
-        var ddl3keys = myNestedVals[ddl1.value][ddl2.value];
-        createOptions(ddl3keys, ddl3);
+      ddl3.options.length = 0;
+      createOption(ddl3, "Pick 3rd Option", "");
+      var ddl3keys = myNestedVals[ddl1.value][ddl2.value];
+      createOptions(ddl3keys, ddl3);
     }
-</script>
+  </script>
 </body>
+
 </html>
