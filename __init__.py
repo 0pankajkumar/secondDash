@@ -193,6 +193,38 @@ def trial4():
 	return "ss"
 
 
+def generateMainPageDropdowns2():
+	postingOwner = set()
+	postingArchiveStatus = set()
+	profileArchiveStatus = set()
+
+	# companiesAllowed = set()
+	# companiesAllowed = {'Campus', 'Codechef', 'Flock', 'Radix', 'Shared Services'}
+
+	rows = collection2.find({"users": current_user.id})
+	for row in rows:
+		companiesAllowed = row["companiesActuallyAllowed"]
+
+	rows = collection.find({"Posting Department": {"$in": companiesAllowed}},cursor_type=CursorType.EXHAUST)
+	for row in rows:
+		if row['Posting Department'] not in companiesAllowed:
+			continue
+		else:
+			postingOwner.add(row['Posting Owner Name'])
+		postingArchiveStatus.add(row['Posting Archive Status'])
+		profileArchiveStatus.add(row['Profile Archive Status'])
+
+	#Sorting the set alphabatically
+	postingOwner = sorted(postingOwner)
+
+	# Packing everything to return
+	returnList = {}
+	returnList['postingOwner'] = postingOwner
+	returnList['postingArchiveStatus'] = postingArchiveStatus
+	returnList['profileArchiveStatus'] = profileArchiveStatus
+
+	return returnList
+
 def generateMainPageDropdowns():
 	postingDepartment = set()
 	postingArchiveStatus = set()
@@ -205,7 +237,7 @@ def generateMainPageDropdowns():
 	for row in rows:
 		companiesAllowed = row["companiesActuallyAllowed"]
 
-	rows = collection.find({"Posting Department": {"$in": companiesAllowed}},cursor_type=CursorType.EXHAUST)
+	rows = collection.find({"Posting Department": {"$in": companiesAllowed}})
 	for row in rows:
 		if row['Posting Department'] not in companiesAllowed:
 			continue
@@ -1035,8 +1067,8 @@ def archivedPostings():
 		teamOptions = True
 	if checkAdmin(current_user.id):
 		adminOptions = True
-	returnedDict = generateMainPageDropdowns()
-	return render_template('archivedPostings.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, archivedPostingHighlight = "active")
+	returnedDict = generateMainPageDropdowns2()
+	return render_template('archivedPostings.html', postingOwner=returnedDict['postingOwner'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, archivedPostingHighlight = "active")
 
 
 
@@ -1051,7 +1083,7 @@ def table():
 		teamOptions = True
 	if checkAdmin(current_user.id):
 		adminOptions = True
-	returnedDict = generateMainPageDropdowns()
+	returnedDict = generateMainPageDropdowns2()
 	return render_template('livePostings.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, livePostingHighlight = "active")
 
 

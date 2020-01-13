@@ -23,7 +23,7 @@
         <select name="ddl1" id="ddl1" class="select2-dropdown" style="display: hidden"
           onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
           <option value="nothing" selected>Choose</option>
-          {% for p in postingDepartment %}
+          {% for p in postingOwner %}
           <option value="{{ p }}">{{ p }}</option>
           {% endfor %}
         </select>
