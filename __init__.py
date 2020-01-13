@@ -562,13 +562,13 @@ def makeDropdownOptions(bigDict, postOwn, postDept, postTeam, postTitle):
 		bigDict[str(postOwn)] = {}
 		
 	if postDept not in bigDict[postOwn]:
-		bigDict[str(postDept)] = {}
+		bigDict[postOwn][str(postDept)] = {}
 
 	if postTeam not in bigDict[postOwn][postDept]:
-		bigDict[str(postDept)][str(postTeam)] = {}
+		bigDict[postOwn][str(postDept)][str(postTeam)] = set()
 
 	if postTitle not in bigDict[postOwn][postDept][postTeam]:
-		bigDict[postOwn][postDept][postTeam].append(postTitle)
+		bigDict[postOwn][postDept][postTeam].add(postTitle)
 
 
 
