@@ -613,6 +613,11 @@ def getDropdownOptionsLive():
 	return jsonify(liveBigDict)
 
 
+
+
+
+
+
 @app.route('/getDropdownOptionsArchived', methods=['GET'])
 @login_required
 def getDropdownOptionsArchived():
