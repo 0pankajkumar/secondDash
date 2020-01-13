@@ -634,7 +634,7 @@ def getDropdownOptionsArchived():
 			continue
 
 		# Making a big data structure for all dropdowns in front end
-		makeBigDict(archivedBigDictPre, row['Posting Owner'], row['Posting Department'], row['Posting Team'], row['Posting Title'])
+		makeDropdownOptions(archivedBigDictPre, row['Posting Owner'], row['Posting Department'], row['Posting Team'], row['Posting Title'])
 		archivedBigDict = prepareDropdownOptionsSending(archivedBigDictPre)
 	return jsonify(archivedBigDict)
 
