@@ -615,7 +615,7 @@ def getDropdownOptionsLive():
 
 @app.route('/getDropdownOptionsArchived', methods=['GET'])
 @login_required
-def getBigDictArchived():
+def getDropdownOptionsArchived():
 	archivedBigDictPre = dict()
 
 	rows = collection2.find({"users": current_user.id})
