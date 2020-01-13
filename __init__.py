@@ -556,6 +556,20 @@ def interpretAge(age):
 
 	return benchmark_date
 
+def prepareDropdownOptionsSending(whale):
+	box = list()
+
+	for k,v in whale.items():
+		for kk,vv in whale[k].items():
+			for kkk,vvv in whale[k][kk].items():
+				for kkkk in whale[k][kk][kkk]:
+					t = dict()
+					t["company"] = k
+					t["dept"] = kk
+					t["post"] = kkk
+					t["recruiter"] = kkkk
+					box.append(t)
+	return box
 
 def makeDropdownOptions(bigDict, postOwn, postDept, postTeam, postTitle):
 	if postOwn not in bigDict:
@@ -575,7 +589,7 @@ def makeDropdownOptions(bigDict, postOwn, postDept, postTeam, postTitle):
 @app.route('/getDropdownOptionsLive', methods=['GET'])
 @login_required
 def getDropdownOptionsLive():
-	liveBigDict = dict()
+	liveBigDictPre = dict()
 
 	rows = collection2.find({"users": current_user.id})
 	for row in rows:
@@ -593,7 +607,8 @@ def getDropdownOptionsLive():
 			continue
 
 		# Making a big data structure for all dropdowns in front end
-		makeDropdownOptions(liveBigDict, row['Posting Owner'], row['Posting Department'], row['Posting Team'], row['Posting Title'])
+		makeDropdownOptions(liveBigDictPre, row['Posting Owner'], row['Posting Department'], row['Posting Team'], row['Posting Title'])
+		liveBigDict = prepareDropdownOptionsSending(liveBigDictPre)
 	return jsonify(liveBigDict)
 
 
