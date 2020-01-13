@@ -597,10 +597,10 @@ def prepareDropdownOptionsSending(whale):
 			for kkk,vvv in whale[k][kk].items():
 				for kkkk in whale[k][kk][kkk]:
 					t = dict()
-					t["company"] = k
-					t["dept"] = kk
-					t["post"] = kkk
-					t["recruiter"] = kkkk
+					t["recruiter"] = k
+					t["company"] = kk
+					t["dept"] = kkk
+					t["post"] = kkkk
 					box.append(t)
 	return box
 
