@@ -213,8 +213,7 @@ def generateMainPageDropdowns2(Status):
 			continue
 		else:
 			postingOwner.add(row['Posting Owner'])
-		postingArchiveStatus.add(row['Posting Archive Status'])
-		profileArchiveStatus.add(row['Profile Archive Status'])
+		
 
 	#Sorting the set alphabatically
 	postingOwner = sorted(postingOwner)
@@ -222,8 +221,6 @@ def generateMainPageDropdowns2(Status):
 	# Packing everything to return
 	returnList = {}
 	returnList['postingOwner'] = postingOwner
-	returnList['postingArchiveStatus'] = postingArchiveStatus
-	returnList['profileArchiveStatus'] = profileArchiveStatus
 
 	return returnList
 
@@ -1086,7 +1083,7 @@ def table():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns2('active')
-	return render_template('livePostings.html', postingOwner=returnedDict['postingOwner'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, livePostingHighlight = "active")
+	return render_template('livePostings.html', postingOwner=returnedDict['postingOwner'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, livePostingHighlight = "active")
 
 
 

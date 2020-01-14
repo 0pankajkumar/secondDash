@@ -67,14 +67,16 @@
         <label for="  ">Profile Status :</label><br>
         <select name="profileArchiveStatus" id="profileArchiveStatus" class="select2-dropdown" style="display: hidden">
           <option value="Both" selected>Both</option>
-          {% for p in profileArchiveStatus %}
+          <option value="false">Active</option>
+          <option value="true">Archived</option>
+          <!-- {% for p in profileArchiveStatus %}
           {% if p == 'false' %}
           <option value="{{ p }}">Active</option>
           {% elif p == 'true' %}
           <option value="{{ p }}">Archived</option>
 
           {% endif %}
-          {% endfor %}
+          {% endfor %} -->
         </select>
       </div>
     </li>
