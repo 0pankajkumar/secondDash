@@ -193,7 +193,7 @@ def trial4():
 	return "ss"
 
 
-def generateMainPageDropdowns2():
+def generateMainPageDropdowns2(Status):
 	postingOwner = set()
 	postingArchiveStatus = set()
 	profileArchiveStatus = set()
@@ -205,12 +205,14 @@ def generateMainPageDropdowns2():
 	for row in rows:
 		companiesAllowed = row["companiesActuallyAllowed"]
 
-	rows = collection.find({"Posting Department": {"$in": companiesAllowed}},cursor_type=CursorType.EXHAUST)
+	rows = collection4.find({"Posting Department": {"$in": companiesAllowed}},cursor_type=CursorType.EXHAUST)
 	for row in rows:
 		if row['Posting Department'] not in companiesAllowed:
 			continue
+		if row['Status'] != Status:
+			continue
 		else:
-			postingOwner.add(row['Posting Owner Name'])
+			postingOwner.add(row['Posting Owner'])
 		postingArchiveStatus.add(row['Posting Archive Status'])
 		profileArchiveStatus.add(row['Profile Archive Status'])
 
@@ -1067,7 +1069,7 @@ def archivedPostings():
 		teamOptions = True
 	if checkAdmin(current_user.id):
 		adminOptions = True
-	returnedDict = generateMainPageDropdowns2()
+	returnedDict = generateMainPageDropdowns2('closed')
 	return render_template('archivedPostings.html', postingOwner=returnedDict['postingOwner'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, archivedPostingHighlight = "active")
 
 
@@ -1083,7 +1085,7 @@ def table():
 		teamOptions = True
 	if checkAdmin(current_user.id):
 		adminOptions = True
-	returnedDict = generateMainPageDropdowns2()
+	returnedDict = generateMainPageDropdowns2('active')
 	return render_template('livePostings.html', postingOwner=returnedDict['postingOwner'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, livePostingHighlight = "active")
 
 
