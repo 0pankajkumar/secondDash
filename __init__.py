@@ -119,6 +119,9 @@ configure_uploads(app, documents)
 #         return f(*args, **kwargs)
 #     return decorated_function
 
+@app.route('/privacy', methods=['GET'])
+def privacy():
+	return render_template("privacyPolicy.html")
 
 
 
