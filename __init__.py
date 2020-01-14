@@ -1067,7 +1067,7 @@ def archivedPostings():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns2('closed')
-	return render_template('archivedPostings.html', postingOwner=returnedDict['postingOwner'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, archivedPostingHighlight = "active")
+	return render_template('archivedPostings.html', postingOwner=returnedDict['postingOwner'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, archivedPostingHighlight = "active")
 
 
 
