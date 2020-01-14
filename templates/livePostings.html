@@ -22,7 +22,7 @@
         <label for="recruiterName">Recruiter:</label><br>
         <select name="ddl0" id="ddl0" class="select2-dropdown" style="display: hidden"
           onchange="popCompany(this, document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
-          <option value="nothing" selected>Choose</option>
+          <option value="All" selected>All Recruiters</option>
           {% for p in postingOwner %}
           <option value="{{ p }}">{{ p }}</option>
           {% endfor %}
@@ -181,6 +181,7 @@
         $("#ddl2").select2();
         $("#ddl3").select2();
         $("#profileArchiveStatus").select2();
+        popCompany(this, document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'));
       }
     });
 
@@ -236,7 +237,6 @@
     ddl2.options.length = 0;
     ddl3.options.length = 0;
     createOption(ddl1, "Choose", "");
-    createOption(ddl1, "All", "All Recruiters");
 
 
     const setOne = new Set();
