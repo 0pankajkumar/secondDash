@@ -201,32 +201,38 @@
     let ddl1 = document.getElementById('ddl1');
     let ddl2 = document.getElementById('ddl2');
     let ddl3 = document.getElementById('ddl3');
+
+    let a = document.getElementById('s2id_ddl0');
+    let b = document.getElementById('s2id_ddl1');
+    let c = document.getElementById('s2id_ddl2');
+    let d = document.getElementById('s2id_ddl3');
+
     if (ddl0.value == "" || ddl0.length == 0) {
-      ddl0.classList.add("box-highlight-red");
+      a.classList.add("box-highlight-red");
     }
     else {
-      ddl0.classList.remove("box-highlight-red");
+      a.classList.remove("box-highlight-red");
     }
 
     if (ddl1.value == "" || ddl1.length == 0) {
-      ddl1.classList.add("box-highlight-red");
+      b.classList.add("box-highlight-red");
     }
     else {
-      ddl1.classList.remove("box-highlight-red");
+      b.classList.remove("box-highlight-red");
     }
 
     if (ddl2.value == "" || ddl2.length == 0) {
-      ddl2.classList.add("box-highlight-red");
+      c.classList.add("box-highlight-red");
     }
     else {
-      ddl2.classList.remove("box-highlight-red");
+      c.classList.remove("box-highlight-red");
     }
 
     if (ddl3.value == "" || ddl3.length == 0) {
-      ddl3.classList.add("box-highlight-red");
+      d.classList.add("box-highlight-red");
     }
     else {
-      ddl3.classList.remove("box-highlight-red");
+      d.classList.remove("box-highlight-red");
     }
   }
 
