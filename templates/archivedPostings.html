@@ -183,7 +183,6 @@
         popCompany(document.getElementById('ddl0'), document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'));
       }
     });
-
   });
 
   function createOption(ddl, text, value) {
@@ -193,7 +192,10 @@
     ddl.options.add(opt);
   }
 
+  function validateBeforeSubmit() {
 
+  }
+  /* This was made to highlight dropdown boxes when wrongly selected but currently its not working
   function validateBeforeSubmit() {
     // Return true if all is well else false
     let ddl0 = document.getElementById('ddl0');
@@ -234,7 +236,7 @@
       d.classList.remove("box-highlight-red");
     }
   }
-
+  */
 
 
   function popCompany(ddl0, ddl1, ddl2, ddl3) {
