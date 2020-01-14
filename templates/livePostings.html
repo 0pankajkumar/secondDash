@@ -56,7 +56,7 @@
       <div class="ui-widget flexItem">
         <label for="postingTitle">Title:</label><br>
         <select multiple name="ddl3" id="ddl3" class="select2-dropdown" style="display: hidden"
-          onchange="validateBeforeSubmit(document.getElementById('ddl0'), document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
+          onchange="validateBeforeSubmit()">
           <!-- <option value="All" selected>All</option> -->
         </select>
       </div>
@@ -195,7 +195,7 @@
   }
 
 
-  function validateBeforeSubmit(ddl0, ddl1, ddl2, ddl3) {
+  function validateBeforeSubmit() {
     // Return true if all is well else false
     let ddl0 = document.getElementById('ddl0');
     let ddl1 = document.getElementById('ddl1');
@@ -253,7 +253,7 @@
       }
 
     }
-    validateBeforeSubmit(ddl0, ddl1, ddl2, ddl3);
+    validateBeforeSubmit();
   }
 
 
@@ -293,7 +293,7 @@
       createOption(ddl2, "Choose", "");
       createOption(ddl2, arr[0], arr[0]);
     }
-    validateBeforeSubmit(ddl0, ddl1, ddl2, ddl3);
+    validateBeforeSubmit();
   }
 
 
@@ -335,7 +335,7 @@
       createOption(ddl3, "Choose", "");
       createOption(ddl3, arr[0], arr[0]);
     }
-    validateBeforeSubmit(ddl0, ddl1, ddl2, ddl3);
+    validateBeforeSubmit();
   }
 
 
