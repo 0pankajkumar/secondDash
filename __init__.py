@@ -208,7 +208,7 @@ def generateMainPageDropdowns2(Status):
 	for row in rows:
 		companiesAllowed = row["companiesActuallyAllowed"]
 
-	rows = collection4.find({"Posting Department": {"$in": companiesAllowed}},cursor_type=CursorType.EXHAUST)
+	rows = collection4.find({"Posting Department": {"$in": companiesAllowed}, "Posting Owner Email": current_user.id},cursor_type=CursorType.EXHAUST)
 	for row in rows:
 		if row['Posting Department'] not in companiesAllowed:
 			continue
