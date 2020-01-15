@@ -1057,6 +1057,36 @@ def team():
 
 		return returnedDict
 
+@app.route('/archivedPostings', methods=['GET'])
+@login_required
+def archivedPostings():
+	
+	adminOptions = False
+	loginOption = True
+	teamOptions = False
+	if checkTeamMembership(current_user.id):
+		teamOptions = True
+	if checkAdmin(current_user.id):
+		adminOptions = True
+	returnedDict = generateMainPageDropdowns()
+	return render_template('archivedPostings.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, archivedPostingHighlight = "active")
+
+
+
+@app.route('/livePostings', methods=['GET'])
+@login_required
+def livePostings():
+	adminOptions = False
+	loginOption = True
+	teamOptions = False
+	if checkTeamMembership(current_user.id):
+		teamOptions = True
+	if checkAdmin(current_user.id):
+		adminOptions = True
+	returnedDict = generateMainPageDropdowns()
+	return render_template('livePostings.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, livePostingHighlight = "active")
+
+
 
 @app.route('/recruiterArchivedPostings', methods=['GET'])
 @login_required
@@ -1070,7 +1100,7 @@ def archivedPostings():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns2('closed')
-	return render_template('archivedPostings.html', postingOwner=returnedDict['postingOwner'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, archivedPostingHighlight = "active")
+	return render_template('recruiterArchivedPostings.html', postingOwner=returnedDict['postingOwner'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, archivedPostingHighlight = "active")
 
 
 
@@ -1086,7 +1116,7 @@ def table():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns2('active')
-	return render_template('livePostings.html', postingOwner=returnedDict['postingOwner'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, livePostingHighlight = "active")
+	return render_template('recruiterLivePostings.html', postingOwner=returnedDict['postingOwner'], lastUpdated = getLastUpdatedTimestamp(), adminOptions = adminOptions, loginOption = loginOption, teamOptions = teamOptions, livePostingHighlight = "active")
 
 
 
