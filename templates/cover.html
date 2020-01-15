@@ -38,6 +38,31 @@
         }
 
 
+        /* dropdown in menus use this */
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1;
+        }
+        .dropdown-content a {
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+          text-align: left;
+        }
+
+        .dropdown-content a:hover {background-color: #f1f1f1;}
+
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
+        /* dropdown for menu ends here */
+
+
         /* For table */
         #example-table {
             /* max-height: 75vh;
@@ -113,7 +138,13 @@
             {% endif %}
 
             {% if teamOptions == True %}
-            <div><a class="{{teamHighlight}}" href="/team">Team</a></div>
+            <div>
+                <a class="{{teamHighlight}}" href="javascript:void(0)">Team</a>
+                <div class="dropdown-content">
+                    <a href="#">Reports</a>
+                    <a href="#">Narrow</a>
+                </div>
+            </div>
             {% endif %}
             <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div>
             <div><a href="/logout" onclick="signOut();">Sign out</a></div> -->
