@@ -1090,7 +1090,7 @@ def livePostings():
 
 @app.route('/recruiterArchivedPostings', methods=['GET'])
 @login_required
-def archivedPostings():
+def recruiterArchivedPostings():
 	
 	adminOptions = False
 	loginOption = True
@@ -1106,7 +1106,7 @@ def archivedPostings():
 
 @app.route('/recruiterLivePostings', methods=['GET'])
 @login_required
-def table():
+def recruiterLivePostings():
 	
 	adminOptions = False
 	loginOption = True
