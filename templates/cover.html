@@ -43,7 +43,6 @@
           display: none;
           position: absolute;
           background-color: #f9f9f9;
-          min-width: 160px;
           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
           z-index: 1;
         }
@@ -138,11 +137,15 @@
             {% endif %}
 
             {% if teamOptions == True %}
-            <div>
-                <a class="{{teamHighlight}}" href="javascript:void(0)">Team</a>
+            <div class="dropdown">
+                <a class="{{teamHighlight}}" href="javascript:void(0)">Options</a><br><br>
                 <div class="dropdown-content">
-                    <a href="#">Reports</a>
-                    <a href="#">Narrow</a>
+                    <a href="/team">Team Reports</a><br>
+                    <a href="/recruiterFilter">Recruiter Filter</a>
+		    <div>
+                    	<a href="/recruiterLivePostings">Live</a>
+                    	<a href="/recruiterArchivedPostings">Archived</a>
+		    </div>
                 </div>
             </div>
             {% endif %}
