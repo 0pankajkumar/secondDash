@@ -253,7 +253,7 @@
     for (let i = 0; i < myNestedVals.length; i++) {
       if (!setOne.has(myNestedVals[i]['company'])) {
         if (myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) {
-          setTwo.add(myNestedVals[i]['dept']);
+          setOne.add(myNestedVals[i]['dept']);
           arr.push(myNestedVals[i]['dept']);
           // createOption(ddl2, myNestedVals[i]['dept'], myNestedVals[i]['dept']);
         }
