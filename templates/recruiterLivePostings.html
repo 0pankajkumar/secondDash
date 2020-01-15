@@ -249,31 +249,27 @@
 
 
     const setOne = new Set();
+    let arr = new Array();
     for (let i = 0; i < myNestedVals.length; i++) {
       if (!setOne.has(myNestedVals[i]['company'])) {
-        if (ddl0.value == "All") {
-          setOne.add(myNestedVals[i]['company']);
-          createOption(ddl1, myNestedVals[i]['company'], myNestedVals[i]['company']);
-        }
-        else if (myNestedVals[i]['recruiter'] == ddl0.value) {
-          setOne.add(myNestedVals[i]['company']);
-          createOption(ddl1, myNestedVals[i]['company'], myNestedVals[i]['company']);
+        if (myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) {
+          setTwo.add(myNestedVals[i]['dept']);
+          arr.push(myNestedVals[i]['dept']);
+          // createOption(ddl2, myNestedVals[i]['dept'], myNestedVals[i]['dept']);
         }
       }
-
     }
-    $('#ddl1').select2({
-        placeholder: "Select a pill",
-        data: function() { return {results: NaN}; }
-    });
-    $('#ddl2').select2({
-        placeholder: "Select a pill",
-        data: function() { return {results: NaN}; }
-    });
-    $('#ddl3').select2({
-        placeholder: "Select a pill",
-        data: function() { return {results: NaN}; }
-    });
+    if (arr.length > 1) {
+      createOption(ddl1, "Choose", "");
+      createOption(ddl1, "All", "All");
+      for (let i = 0; i < arr.length; i++) {
+        createOption(ddl1, arr[i], arr[i]);
+      }
+    }
+    else {
+      createOption(ddl1, "Choose", "");
+      createOption(ddl1, arr[0], arr[0]);
+    }
     validateBeforeSubmit();
   }
 
@@ -517,8 +513,6 @@
 
           });
         }
-
-
       }
     });
 
