@@ -208,8 +208,16 @@ def generateMainPageDropdowns2(Status):
 	for row in rows:
 		companiesAllowed = row["companiesActuallyAllowed"]
 
-	rows = collection4.find({"Posting Department": {"$in": companiesAllowed}, "Posting Owner Email": current_user.id},cursor_type=CursorType.EXHAUST)
+	# Get all users registred TAT members from our user database
+	rows = collection2.find({"tatMember":"Yeah"})
+	allUsersSet = set()
 	for row in rows:
+		allUsersSet.add(row["users"])
+
+	rows = collection4.find({"Posting Department": {"$in": companiesAllowed}},cursor_type=CursorType.EXHAUST)
+	for row in rows:
+		if row['Posting Owner Email'] not in allUsersSet:
+			continue
 		if row['Posting Department'] not in companiesAllowed:
 			continue
 		if row['Status'] != Status:
