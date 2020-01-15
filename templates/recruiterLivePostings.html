@@ -284,7 +284,7 @@
     let arr = new Array();
     for (let i = 0; i < myNestedVals.length; i++) {
       if (!setTwo.has(myNestedVals[i]['dept'])) {
-        if ((myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) && myNestedVals[i]['company'] == ddl1.value) {
+        if ((myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) && (myNestedVals[i]['company'] == ddl1.value || "All" == ddl1.value)) {
           setTwo.add(myNestedVals[i]['dept']);
           arr.push(myNestedVals[i]['dept']);
           // createOption(ddl2, myNestedVals[i]['dept'], myNestedVals[i]['dept']);
@@ -327,7 +327,7 @@
     let arr = new Array();
     for (let i = 0; i < myNestedVals.length; i++) {
       if (!setThree.has(myNestedVals[i]['post'])) {
-        if ((myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) && myNestedVals[i]['company'] == ddl1.value && (myNestedVals[i]['dept'] == ddl2.value || "All" == ddl2.value)) {
+        if ((myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) && (myNestedVals[i]['company'] == ddl1.value || "All" == ddl1.value) && (myNestedVals[i]['dept'] == ddl2.value || "All" == ddl2.value)) {
           setThree.add(myNestedVals[i]['post']);
           arr.push(myNestedVals[i]['post']);
           // createOption(ddl3, myNestedVals[i]['post'], myNestedVals[i]['post']);
