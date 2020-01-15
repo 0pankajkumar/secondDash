@@ -1058,7 +1058,7 @@ def team():
 		return returnedDict
 
 
-@app.route('/archivedPostings', methods=['GET'])
+@app.route('/recruiterArchivedPostings', methods=['GET'])
 @login_required
 def archivedPostings():
 	
@@ -1074,7 +1074,7 @@ def archivedPostings():
 
 
 
-@app.route('/livePostings', methods=['GET'])
+@app.route('/recruiterLivePostings', methods=['GET'])
 @login_required
 def table():
 	
