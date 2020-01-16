@@ -513,8 +513,8 @@
               { title: "Offer", field: "offerCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerCount" } },
               //{ title: "Offer Approval/ed", field: "offerApprovalCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerApprovalCount" } },
               { title: "Hired", field: "hiredCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "hiredCount" } },
-              {title:"", field:"", width:0, formatter:function(cell, formatterParams){
-                if(cell.getData()['name'] == "Total") {
+              { title:"", field:"", width:0, formatter:function(cell, formatterParams){
+                if(cell.getData()['title'] == "Total") {
                 cell.getRow().getElement().style.fontWeight = "bold";
               }
               }},
