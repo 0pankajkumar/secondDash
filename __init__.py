@@ -531,6 +531,19 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 	print('total: ' + str(time.time() - ts))
 	return res
 
+def getTotalForEachPosting(res):
+	for i in range(len(res)):
+		holder = res[i]['_children']
+
+		monte = ["hiredCount", "newApplicantCount", "newLeadCount", "offerApprovalCount", "offerCount", "onsiteInterviewCount", "onsiteToOfferCount", "phoneInterviewCount", "phoneToOfferCount", "phoneToOnsiteCount", "reachedOutCount", "recruiterScreenCount"]
+		totalCountHolder = [0] * 12
+
+		for h in holder:
+			for q in range(len(monte)):
+				sawTooth = monte[q]
+				totalCountHolder[q] += h[sawTooth]
+		break
+
 
 def getFromDB(title, companyName, team, recruiter="specific"): # title, companyName, team, archiveStatus):
 	# collection.drop()
