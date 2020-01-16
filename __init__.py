@@ -1554,7 +1554,7 @@ def updateDump():
 
 	# Compound Indexing DB
 	# collection.create_index([("Posting Title", pymongo.DESCENDING)])
-	collection.create_index([("Posting Department",ASCENDING), ("Posting Team",ASCENDING), ("Posting Title",ASCENDING)])
+	collection.create_index([("Posting Department",ASCENDING), ("Posting Team",ASCENDING), ("Posting Title",ASCENDING), ("Actual Posting Owner Name",ASCENDING)])
 
 	os.remove(file_to_open)
 	print("File Deleted")
