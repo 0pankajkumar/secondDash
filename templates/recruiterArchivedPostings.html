@@ -394,9 +394,9 @@
       var calc = 0;
 
       data.forEach(function (row) {
-        row._children.forEach(function (child) {
-          calc += child[calcParams.field];
-        })
+        for(let i=0; i < row._children.length-1; i++) {
+          calc += row._children[i][calcParams.field];
+        }
       });
 
       return calc;
@@ -511,6 +511,11 @@
               { title: "Offer", field: "offerCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerCount" } },
               //{ title: "Offer Approval/ed", field: "offerApprovalCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerApprovalCount" } },
               { title: "Hired", field: "hiredCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "hiredCount" } },
+              { title:"", field:"", width:0, formatter:function(cell, formatterParams){
+                if(cell.getData()['title'] == "Total") {
+                cell.getRow().getElement().style.fontWeight = "bold";
+              }
+              }},
             ],
 
             footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
