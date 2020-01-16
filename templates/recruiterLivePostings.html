@@ -396,9 +396,9 @@
       var calc = 0;
 
       data.forEach(function (row) {
-        row._children.forEach(function (child) {
-          calc += child[calcParams.field];
-        })
+        for(let i=0; i < row._children.length-1; i++) {
+          calc += row._children[i][calcParams.field];
+        }
       });
 
       return calc;
