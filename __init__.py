@@ -1649,7 +1649,7 @@ def settings():
 @app.route("/")
 def index():
 	if current_user.is_authenticated:
-		return redirect(url_for('table'))
+		return redirect(url_for('livePostings'))
 
 
 	else:
