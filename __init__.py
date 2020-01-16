@@ -536,12 +536,13 @@ def getFromDB(title, companyName, team): # title, companyName, team, archiveStat
 
 	if title[0] == 'All':
 		title = { '$regex': '.*'}
-	else:#if isinstance(title, list):
+	else:
 		title = { "$in": title }
 	if team == 'All':
 		team = { '$regex': '.*'}
 	if companyName == 'All':
 		companyName = { '$regex': '.*'}
+	
 		
 	query['Posting Department'] = companyName
 	query['Posting Title'] = title
