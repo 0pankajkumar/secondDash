@@ -542,6 +542,10 @@ def getTotalForEachPosting(res):
 			for q in range(len(monte)):
 				sawTooth = monte[q]
 				totalCountHolder[q] += h[sawTooth]
+
+		rr = zip(monte, totalCountHolder)
+		for r in rr:
+			holder[r[0]] = r[1]
 		print(holder)
 		print("$$$$$$$$$$$$$$$$$$$$$$$$")
 		print(totalCountHolder)
