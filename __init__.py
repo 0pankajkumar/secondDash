@@ -540,6 +540,8 @@ def getFromDB(title, companyName, team): # title, companyName, team, archiveStat
 		title = { "$in": title }
 	if team == 'All':
 		team = { '$regex': '.*'}
+	if companyName == 'All':
+		companyName = { '$regex': '.*'}
 		
 	query['Posting Department'] = companyName
 	query['Posting Title'] = title
