@@ -524,6 +524,10 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 
 	for postId in counts:
 		res.append(actualPostId(postId, counts[postId]))
+
+	# Adding a total row for each posting so that we can utilize grand total
+	getTotalForEachPosting(res)
+
 	print('total: ' + str(time.time() - ts))
 	return res
 
