@@ -315,7 +315,7 @@ def get_live_or_archived_dict():
 @login_required
 def getTable():
 	# collection.createIndex('Posting Department')
-
+	recruiter = request.form.get('recruiter')
 	postingTitle = request.form.getlist('postingTitle[]')
 	companyName = request.form.get('companyName')
 	postingTeam = request.form.get('postingTeam')
@@ -326,12 +326,12 @@ def getTable():
 	fromDate = request.form.get('from')
 	toDate = request.form.get('to')
 
-	results = getResults(postingTitle, companyName, postingTeam, profileArchiveStatus, fromDate, toDate, requestType)
+	results = getResults(postingTitle, companyName, postingTeam, profileArchiveStatus, fromDate, toDate, requestType, recruiter)
 	# results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
 	return jsonify(results)
 
 
-def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate, requestType):
+def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate, requestType, recruiter=None):
 	try:
 		fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
 		toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
@@ -339,7 +339,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 		fromDate = datetime.datetime(2000,1,1)
 		toDate = datetime.datetime(2030,1,1)
 	ts = time.time()
-	rows = getFromDB(title, companyName, team)
+	rows = getFromDB(title, companyName, team, recruiter)
 	print('db: ' + str(time.time() - ts))
 	res = []
 	counts = dict()
@@ -528,7 +528,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 	return res
 
 
-def getFromDB(title, companyName, team): # title, companyName, team, archiveStatus):
+def getFromDB(title, companyName, team, recruiter="specific"): # title, companyName, team, archiveStatus):
 	# collection.drop()
 	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - New Lead' : '2019-01-01'})
 	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
@@ -542,11 +542,14 @@ def getFromDB(title, companyName, team): # title, companyName, team, archiveStat
 		team = { '$regex': '.*'}
 	if companyName == 'All':
 		companyName = { '$regex': '.*'}
+	if recruiter == "All" or recruiter == None:
+		recruiter = { '$regex': '.*'}
 	
 		
 	query['Posting Department'] = companyName
 	query['Posting Title'] = title
 	query['Posting Team'] = team
+	query['Posting Owner Name'] = recruiter
 		# query['Posting Archive Status'] = archiveStatus
 	return list(collection.find(query, cursor_type=CursorType.EXHAUST))
 

@@ -416,7 +416,7 @@
       cache: false,
       url: "/getTable",
       data: {
-        "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, "requestType": "live"
+        "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, "requestType": "live", "recruiter": document.getElementById('ddl0').value,
       }, // multiple data sent using ajax
       success: function (result) {
         console.log(result);
