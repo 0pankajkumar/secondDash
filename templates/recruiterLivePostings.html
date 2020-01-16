@@ -253,8 +253,8 @@
     for (let i = 0; i < myNestedVals.length; i++) {
       if (!setOne.has(myNestedVals[i]['company'])) {
         if (myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) {
-          setOne.add(myNestedVals[i]['dept']);
-          arr.push(myNestedVals[i]['dept']);
+          setOne.add(myNestedVals[i]['company']);
+          arr.push(myNestedVals[i]['company']);
           // createOption(ddl2, myNestedVals[i]['dept'], myNestedVals[i]['dept']);
         }
       }
@@ -266,7 +266,6 @@
       }
     }
     else {
-      createOption(ddl1, "Choose", "");
       createOption(ddl1, arr[0], arr[0]);
     }
     validateBeforeSubmit();
@@ -284,13 +283,21 @@
     let arr = new Array();
     for (let i = 0; i < myNestedVals.length; i++) {
       if (!setTwo.has(myNestedVals[i]['dept'])) {
+	//console.log(myNestedVals[i]['company']);
+	console.log(myNestedVals[i]['company'],  ddl1.value );
         if ((myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) && (myNestedVals[i]['company'] == ddl1.value || "All" == ddl1.value)) {
+	  //console.log("Inside if if");
           setTwo.add(myNestedVals[i]['dept']);
           arr.push(myNestedVals[i]['dept']);
           // createOption(ddl2, myNestedVals[i]['dept'], myNestedVals[i]['dept']);
         }
+	else {
+	    //console.log("elsing all");
+	}
       }
     }
+
+    console.log(arr);
 
     if (arr.length > 1) {
       createOption(ddl2, "Choose", "");
