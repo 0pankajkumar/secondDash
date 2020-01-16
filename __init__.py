@@ -549,7 +549,7 @@ def getFromDB(title, companyName, team, recruiter="specific"): # title, companyN
 	query['Posting Department'] = companyName
 	query['Posting Title'] = title
 	query['Posting Team'] = team
-	query['Posting Owner Name'] = recruiter
+	query['Actual Posting Owner Name'] = recruiter
 		# query['Posting Archive Status'] = archiveStatus
 	return list(collection.find(query, cursor_type=CursorType.EXHAUST))
 
