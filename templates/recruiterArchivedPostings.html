@@ -240,6 +240,7 @@
   */
 
 
+
   function popCompany(ddl0, ddl1, ddl2, ddl3) {
     ddl1.options.length = 0;
     ddl2.options.length = 0;
@@ -248,18 +249,24 @@
 
 
     const setOne = new Set();
+    let arr = new Array();
     for (let i = 0; i < myNestedVals.length; i++) {
       if (!setOne.has(myNestedVals[i]['company'])) {
-        if (ddl0.value == "All") {
+        if (myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) {
           setOne.add(myNestedVals[i]['company']);
-          createOption(ddl1, myNestedVals[i]['company'], myNestedVals[i]['company']);
-        }
-        else if (myNestedVals[i]['recruiter'] == ddl0.value) {
-          setOne.add(myNestedVals[i]['company']);
-          createOption(ddl1, myNestedVals[i]['company'], myNestedVals[i]['company']);
+          arr.push(myNestedVals[i]['company']);
+          // createOption(ddl2, myNestedVals[i]['dept'], myNestedVals[i]['dept']);
         }
       }
-
+    }
+    if (arr.length > 1) {
+      createOption(ddl1, "All", "All");
+      for (let i = 0; i < arr.length; i++) {
+        createOption(ddl1, arr[i], arr[i]);
+      }
+    }
+    else {
+      createOption(ddl1, arr[0], arr[0]);
     }
     validateBeforeSubmit();
   }
@@ -276,13 +283,21 @@
     let arr = new Array();
     for (let i = 0; i < myNestedVals.length; i++) {
       if (!setTwo.has(myNestedVals[i]['dept'])) {
-        if ((myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) && myNestedVals[i]['company'] == ddl1.value) {
+  //console.log(myNestedVals[i]['company']);
+  console.log(myNestedVals[i]['company'],  ddl1.value );
+        if ((myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) && (myNestedVals[i]['company'] == ddl1.value || "All" == ddl1.value)) {
+    //console.log("Inside if if");
           setTwo.add(myNestedVals[i]['dept']);
           arr.push(myNestedVals[i]['dept']);
           // createOption(ddl2, myNestedVals[i]['dept'], myNestedVals[i]['dept']);
         }
+  else {
+      //console.log("elsing all");
+  }
       }
     }
+
+    console.log(arr);
 
     if (arr.length > 1) {
       createOption(ddl2, "Choose", "");
@@ -319,7 +334,7 @@
     let arr = new Array();
     for (let i = 0; i < myNestedVals.length; i++) {
       if (!setThree.has(myNestedVals[i]['post'])) {
-        if ((myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) && myNestedVals[i]['company'] == ddl1.value && (myNestedVals[i]['dept'] == ddl2.value || "All" == ddl2.value)) {
+        if ((myNestedVals[i]['recruiter'] == ddl0.value || "All" == ddl0.value) && (myNestedVals[i]['company'] == ddl1.value || "All" == ddl1.value) && (myNestedVals[i]['dept'] == ddl2.value || "All" == ddl2.value)) {
           setThree.add(myNestedVals[i]['post']);
           arr.push(myNestedVals[i]['post']);
           // createOption(ddl3, myNestedVals[i]['post'], myNestedVals[i]['post']);
@@ -345,6 +360,7 @@
     }
     validateBeforeSubmit();
   }
+
 
 </script>
 
@@ -398,7 +414,7 @@
       cache: false,
       url: "/getTable",
       data: {
-        "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, "requestType": "archived"
+        "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, "requestType": "archived", "recruiter": document.getElementById('ddl0').value,
       }, // multiple data sent using ajax
       success: function (result) {
         console.log(result);
@@ -554,7 +570,7 @@
       type: "POST",
       cache: false,
       url: "/getTable",
-      data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, "requestType": "archived" }, //ajax parameters
+      data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, "requestType": "archived", "recruiter": document.getElementById('ddl0').value, }, //ajax parameters
       success: function (result) {
 
 
