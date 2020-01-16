@@ -544,13 +544,8 @@ def getTotalForEachPosting(res):
 				totalCountHolder[q] += h[sawTooth]
 
 		tempDict = dict(zip(monte, totalCountHolder))
-		tempDict['Title'] = 'Total'
+		tempDict['title'] = 'Total'
 		holder.append(tempDict)
-
-		print(holder)
-		print("$$$$$$$$$$$$$$$$$$$$$$$$")
-		print(totalCountHolder)
-		break
 
 
 def getFromDB(title, companyName, team, recruiter="specific"): # title, companyName, team, archiveStatus):
