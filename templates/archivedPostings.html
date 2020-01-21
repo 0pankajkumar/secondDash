@@ -190,6 +190,11 @@
     ddl2.options.length = 0;
     ddl3.options.length = 0;
     //createOption(ddl2, "All", "All");
+
+    // Refreshing dropdowns to flush old selections
+    $("#ddl2").select2().val(null).trigger("change");
+    $("#ddl3").select2().val(null).trigger("change");
+
     var ddl2keys = Object.keys(myNestedVals[ddl1.value]);
     createOptions(ddl2keys, ddl2);
 
@@ -198,6 +203,10 @@
   function configureDDL3(ddl1, ddl2, ddl3) {
     ddl3.options.length = 0;
     createOption(ddl3, "All", "All");
+
+    // Refreshing dropdowns to flush old selections
+    $("#ddl3").select2().val(null).trigger("change");
+
     var ddl3keys = myNestedVals[ddl1.value][ddl2.value];
     createOptions(ddl3keys, ddl3);
   }
