@@ -487,16 +487,16 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 
 
 
-		if item['Stage - New lead'] >= fromDate and item['Stage - New lead'] <= toDate:
+		if item['Stage - New lead'] >= fromDate and item['Stage - New lead'] <= toDate and item['Current Stage'] == "New lead":
 			originCounts['new_lead'] += 1
-		if item['Stage - Reached out'] >= fromDate and item['Stage - Reached out'] <= toDate:
+		if item['Stage - Reached out'] >= fromDate and item['Stage - Reached out'] <= toDate and item['Current Stage'] == "Reached out":
 			originCounts['reached_out'] += 1
-		if item['Stage - New applicant'] >= fromDate and item['Stage - New applicant'] <= toDate:
+		if item['Stage - New applicant'] >= fromDate and item['Stage - New applicant'] <= toDate and item['Current Stage'] == "New applicant":
 			originCounts['new_applicant'] += 1
-		if item['Stage - Recruiter screen'] >= fromDate and item['Stage - Recruiter screen'] <= toDate:
+		if item['Stage - Recruiter screen'] >= fromDate and item['Stage - Recruiter screen'] <= toDate and item['Current Stage'] == "Recruiter screen":
 			originCounts['recruiter_screen'] += 1
 
-		if item['Stage - Phone interview'] >= fromDate and item['Stage - Phone interview'] <= toDate:
+		if item['Stage - Phone interview'] >= fromDate and item['Stage - Phone interview'] <= toDate and item['Current Stage'] == "Phone interview":
 			originCounts['phone_interview'] += 1
 			# Counting for % conversion
 			if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
@@ -504,19 +504,19 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 			if 'Stage - Offer' in item and item['Stage - Offer'] != None:
 				originCounts['phone_To_Offer'] += 1
 
-		if item['Stage - On-site interview'] >= fromDate and item['Stage - On-site interview'] <= toDate:
+		if item['Stage - On-site interview'] >= fromDate and item['Stage - On-site interview'] <= toDate and item['Current Stage'] == "On-site interview":
 			originCounts['onsite_interview'] += 1
 			# Counting for % conversion
 			if 'Stage - Offer' in item and item['Stage - Offer'] != None:
 				originCounts['onsite_To_Offer'] += 1
 
-		if item['Stage - Offer'] >= fromDate and item['Stage - Offer'] <= toDate:
+		if item['Stage - Offer'] >= fromDate and item['Stage - Offer'] <= toDate and item['Current Stage'] == "Offer":
 			originCounts['offer'] += 1
 
-		if item['Stage - Offer Approval'] >= fromDate and item['Stage - Offer Approval'] <= toDate:
+		if item['Stage - Offer Approval'] >= fromDate and item['Stage - Offer Approval'] <= toDate and item['Current Stage'] == "Offer Approval":
 			originCounts['offerApproval'] += 1
 
-		if item['Stage - Offer Approved'] >= fromDate and item['Stage - Offer Approved'] <= toDate:
+		if item['Stage - Offer Approved'] >= fromDate and item['Stage - Offer Approved'] <= toDate and item['Current Stage'] == "Offer Approved":
 			originCounts['offerApproval'] += 1
 
 		if item['Hired'] >= fromDate and item['Hired'] <= toDate:
