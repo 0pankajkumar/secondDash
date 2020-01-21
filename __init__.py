@@ -487,16 +487,16 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 
 
 
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "New lead":
+		if item['Last Advanced At (GMT)'] >= fromDate and item['Last Advanced At (GMT)'] <= toDate and item['Current Stage'] == "New lead":
 			originCounts['new_lead'] += 1
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Reached out":
+		if item['Last Advanced At (GMT)'] >= fromDate and item['Last Advanced At (GMT)'] <= toDate and item['Current Stage'] == "Reached out":
 			originCounts['reached_out'] += 1
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "New applicant":
+		if item['Last Advanced At (GMT)'] >= fromDate and item['Last Advanced At (GMT)'] <= toDate and item['Current Stage'] == "New applicant":
 			originCounts['new_applicant'] += 1
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Recruiter screen":
+		if item['Last Advanced At (GMT)'] >= fromDate and item['Last Advanced At (GMT)'] <= toDate and item['Current Stage'] == "Recruiter screen":
 			originCounts['recruiter_screen'] += 1
 
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Phone interview":
+		if item['Last Advanced At (GMT)'] >= fromDate and item['Last Advanced At (GMT)'] <= toDate and item['Current Stage'] == "Phone interview":
 			originCounts['phone_interview'] += 1
 			# Counting for % conversion
 			if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
@@ -504,19 +504,19 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 			if 'Stage - Offer' in item and item['Stage - Offer'] != None:
 				originCounts['phone_To_Offer'] += 1
 
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "On-site interview":
+		if item['Last Advanced At (GMT)'] >= fromDate and item['Last Advanced At (GMT)'] <= toDate and item['Current Stage'] == "On-site interview":
 			originCounts['onsite_interview'] += 1
 			# Counting for % conversion
 			if 'Stage - Offer' in item and item['Stage - Offer'] != None:
 				originCounts['onsite_To_Offer'] += 1
 
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Offer":
+		if item['Last Advanced At (GMT)'] >= fromDate and item['Last Advanced At (GMT)'] <= toDate and item['Current Stage'] == "Offer":
 			originCounts['offer'] += 1
 
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Offer Approval":
+		if item['Last Advanced At (GMT)'] >= fromDate and item['Last Advanced At (GMT)'] <= toDate and item['Current Stage'] == "Offer Approval":
 			originCounts['offerApproval'] += 1
 
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Offer Approved":
+		if item['Last Advanced At (GMT)'] >= fromDate and item['Last Advanced At (GMT)'] <= toDate and item['Current Stage'] == "Offer Approved":
 			originCounts['offerApproval'] += 1
 
 		if item['Hired'] >= fromDate and item['Hired'] <= toDate:
