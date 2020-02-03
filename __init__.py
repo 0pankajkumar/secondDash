@@ -848,7 +848,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 		rows = collection.find(query, cursor_type=CursorType.EXHAUST)
 	else:
 		query = {"$and": [{"Applied At (GMT)":{"$gte":fromDate}}, {"Applied At (GMT)":{"$lte":toDate}}] }
-		row = list()
+		rows = list()
 		rows_temp = collection.find(query, cursor_type=CursorType.EXHAUST)
 		for row in rows_temp:
 			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
