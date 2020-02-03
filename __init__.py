@@ -853,7 +853,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 	monthList = ['*', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec' ]
 
 	for ro in rows:
-		if ro['Posting Archived At (GMT)'] != datetime.datetime(1990,1,1) and ro['Current Stage'] == 'New applicant':
+		if ro['Posting Archived At (GMT)'] == datetime.datetime(1990,1,1) and ro['Current Stage'] == 'New applicant':
 			tem = dict()
 			
 			tem['Profile ID'] = ro['Profile ID']
