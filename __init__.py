@@ -843,7 +843,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 		fromDate = datetime.datetime(2000,1,1)
 		toDate = datetime.datetime(2030,1,1)
 
-	query = {"Origin": originType, "$and": [{"Created At (GMT)":{"$gte":fromDate}}, {"Created At (GMT)":{"$lte":toDate}}] }
+	query = {"Origin": originType, "$and": [{"Applied At (GMT)":{"$gte":fromDate}}, {"Applied At (GMT)":{"$lte":toDate}}] }
 	# proj = {'_id':0, 'Profile ID':1, 'Candidate Name':1, 'Application ID':1, 'Posting ID':1, 'Posting Title':1, 'Created At (GMT)':1}
 	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
 
@@ -853,7 +853,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 	monthList = ['*', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec' ]
 
 	for ro in rows:
-		if isinstance(ro['Profile Archive Reason'], datetime.date) and ro['Current Stage'] == 'New applicant':
+		if ro['Posting Archived At (GMT)'] != datetime.datetime(1990,1,1) and ro['Current Stage'] == 'New applicant':
 			tem = dict()
 			
 			tem['Profile ID'] = ro['Profile ID']
@@ -861,10 +861,10 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 			tem['Application ID'] = ro['Application ID']
 			tem['Posting ID'] = ro['Posting ID']
 			tem['Posting Title'] = ro['Posting Title']
-			tem['Created At (GMT)'] = ro['Created At (GMT)']
+			tem['Created At (GMT)'] = ro['Applied At (GMT)']
 			tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
 			tem['CandidateName'] = ro['Candidate Name']
-			tem['Ageing'] = datetime.datetime.now() - tem['Created At (GMT)']
+			tem['Ageing'] = datetime.datetime.now() - tem['Applied At (GMT)']
 			tem['Ageing'] = tem['Ageing'].days
 			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
 
