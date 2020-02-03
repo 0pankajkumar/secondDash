@@ -17,6 +17,9 @@ All tables & funnels filter (as in /livePostings, /archivedPostings, /recruiterL
 #### Logic for calculating the table in /livePostings
 * "Posting Archive Status" is TRUE/FALSE. It doesn't shows whether a Posting is archived or not. Instead it tells about the "Profile Archive Status". Lever uses the names in weird ways.
 
+Origin > Referals are hard to find.
+Atleast just by referring the column "Origin" it can't be determined
+
 #### Removing Postings with Internal (I)
 
 ### Upload & Store
