@@ -402,7 +402,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 		# 	continue
 		# if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
 		#     continue
-		if item['Profile Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
+		if item['Posting Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
 			continue
 
 		
