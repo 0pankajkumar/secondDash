@@ -861,7 +861,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 			tem['Application ID'] = ro['Application ID']
 			tem['Posting ID'] = ro['Posting ID']
 			tem['Posting Title'] = ro['Posting Title']
-			tem['Created At (GMT)'] = ro['Applied At (GMT)']
+			tem['Applied At (GMT)'] = ro['Applied At (GMT)']
 			tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
 			tem['CandidateName'] = ro['Candidate Name']
 			tem['Ageing'] = datetime.datetime.now() - tem['Applied At (GMT)']
