@@ -514,10 +514,10 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 			originCounts['offer'] += 1
 
 		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Offer Approval":
-			originCounts['offerApproval'] += 1
+			originCounts['offer'] += 1
 
 		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Offer Approved":
-			originCounts['offerApproval'] += 1
+			originCounts['offer'] += 1
 
 		if item['Hired'] >= fromDate and item['Hired'] <= toDate:
 			originCounts['hired'] += 1
