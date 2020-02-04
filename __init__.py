@@ -943,16 +943,24 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 		fromDate = datetime.datetime(2000,1,1)
 		toDate = datetime.datetime(2030,1,1)
 
-	query = {"Origin": originType, "$and": [{"Created At (GMT)":{"$gte":fromDate}}, {"Created At (GMT)":{"$lte":toDate}}] }
-	# proj = {'_id':0, 'Profile ID':1, 'Candidate Name':1, 'Application ID':1, 'Posting ID':1, 'Posting Title':1, 'Created At (GMT)':1}
-	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
+	if originType != "referred":
+		query = {"Origin": originType, "$and": [{"Applied At (GMT)":{"$gte":fromDate}}, {"Applied At (GMT)":{"$lte":toDate}}] }
+		rows = collection.find(query, cursor_type=CursorType.EXHAUST)
+	else:
+		query = {"$and": [{"Applied At (GMT)":{"$gte":fromDate}}, {"Applied At (GMT)":{"$lte":toDate}}] }
+		rows = list()
+		rows_temp = collection.find(query, cursor_type=CursorType.EXHAUST)
+		for row in rows_temp:
+			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
+				rows.append(row)
+
 
 	upperPack = dict()
 	lowerPack = list()
 	upperPackForTabulator = []
 
 	for ro in rows:
-		if not isinstance(ro['Profile Archive Reason'], datetime.date) and not isinstance(ro['Posting Owner Name'], datetime.date):
+		if ro['Posting Archived At (GMT)'] != datetime.datetime(1990,1,1) and not isinstance(ro['Posting Owner Name'], datetime.date):
 			# Do things
 			tem = dict()
 			
@@ -961,11 +969,11 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 			tem['Application ID'] = ro['Application ID']
 			tem['Posting ID'] = ro['Posting ID']
 			tem['Posting Title'] = ro['Posting Title']
-			tem['Created At (GMT)'] = ro['Created At (GMT)']
+			tem['Applied At (GMT)'] = ro['Applied At (GMT)']
 			tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
 			tem['Posting Archived At (GMT)'] = ro['Posting Archived At (GMT)']
 			tem['CandidateName'] = ro['Candidate Name']
-			tem['Last Advanced At (GMT)'] = ro['Last Advanced At (GMT)']
+			tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
 
 			# tem['Ageing'] = tem['Posting Archived At (GMT)'] - tem['Created At (GMT)']
 			# tem['Ageing'] = tem['Ageing'].days
@@ -977,7 +985,7 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 			# 	tem['Ageing'] = tem['Last Advanced At (GMT)'] - tem['Created At (GMT)']
 			# 	tem['Ageing'] = tem['Ageing'].days
 
-			tem['Ageing'] = tem['Last Advanced At (GMT)'] - tem['Created At (GMT)']
+			tem['Ageing'] = tem['Last Story At (GMT)'] - tem['Applied At (GMT)']
 			tem['Ageing'] = tem['Ageing'].days
 
 			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
