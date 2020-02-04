@@ -1271,7 +1271,7 @@ def modifyUser():
 def docs():
 	if request.method == "GET":
 		if checkAdmin(current_user.id):
-			return render_template("documentation.html",usersList = usersList,lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption, teamOptions= teamOptions, modifyUserHighlight="active")
+			return render_template("documentation.html")
 		else:
 			return render_template("unauthorized.html"), 403
 
