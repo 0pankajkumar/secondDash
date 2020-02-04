@@ -1015,7 +1015,7 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 		fromDate = datetime.datetime(2000,1,1)
 		toDate = datetime.datetime(2030,1,1)
 
-	query = {"Origin": originType, "$and": [{"Created At (GMT)":{"$gte":fromDate}}, {"Created At (GMT)":{"$lte":toDate}}] }
+	query = {"Origin": originType, "$and": [{"Applied At (GMT)":{"$gte":fromDate}}, {"Applied At (GMT)":{"$lte":toDate}}] }
 	# proj = {'_id':0, 'Profile ID':1, 'Candidate Name':1, 'Application ID':1, 'Posting ID':1, 'Posting Title':1, 'Created At (GMT)':1}
 	rows = collection.find(query, cursor_type=CursorType.EXHAUST)
 
@@ -1024,7 +1024,7 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 	upperPackForTabulator = []
 
 	for ro in rows:
-		if ro['Profile Archive Reason'] == 'Hired' and not isinstance(ro['Posting Owner Name'], datetime.date):
+		if ro['Posting Archive Reason'] == 'Hired' and not isinstance(ro['Posting Owner Name'], datetime.date):
 			# Do things
 			tem = dict()
 			
@@ -1040,6 +1040,7 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 			tem['Stage - Offer Approval'] = ro['Stage - Offer Approval']
 			tem['Stage - Offer Approved'] = ro['Stage - Offer Approved']
 
+			# Picking up the Offer dates appropiately as Offer has sub stages
 			if tem['Stage - Offer'] == datetime.datetime(1990,1,1):
 				if tem['Stage - Offer Approval'] == datetime.datetime(1990,1,1):
 					if tem['Stage - Offer Approved'] == datetime.datetime(1990,1,1):
