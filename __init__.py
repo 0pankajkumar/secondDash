@@ -1266,6 +1266,15 @@ def modifyUser():
 		return render_template("modifyUser.html",usersList = usersList, lastUpdated = getLastUpdatedTimestamp(), loginOption = loginOption)
 
 
+@app.route("/docs", methods=['GET'])
+@login_required
+def docs():
+	if request.method == "GET":
+		if checkAdmin(current_user.id):
+			return render_template("documentation.html",usersList = usersList,lastUpdated = getLastUpdatedTimestamp(), adminOptions=True, loginOption = loginOption, teamOptions= teamOptions, modifyUserHighlight="active")
+		else:
+			return render_template("unauthorized.html"), 403
+
 def fetchUsers(usersList):
 	pa = collection2.find({})
 	for p in pa:
