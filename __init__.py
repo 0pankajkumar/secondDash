@@ -992,11 +992,11 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 
 			if tem['Posting Owner Name'] not in upperPack:
 				upperPack[tem['Posting Owner Name']] = [0] * 13
-				upperPack[tem['Posting Owner Name']][tem['Created At (GMT)'].month] = 1
+				upperPack[tem['Posting Owner Name']][tem['Applied At (GMT)'].month] = 1
 				# for i in range(1,len(monthList) + 1):
 				# 	upperPack[tem['Candidate Owner Name']][monthList[i]] = 0
 			else:
-				upperPack[tem['Posting Owner Name']][tem['Created At (GMT)'].month] += 1
+				upperPack[tem['Posting Owner Name']][tem['Applied At (GMT)'].month] += 1
 
 			lowerPack.append(tem)
 
