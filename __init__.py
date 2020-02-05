@@ -1031,7 +1031,7 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 	upperPackForTabulator = []
 
 	for ro in rows:
-		if ro['Posting Archive Reason'] == 'Hired' and not isinstance(ro['Posting Owner Name'], datetime.date):
+		if (ro['Current Stage'] == 'Offer' or ro['Current Stage'] == 'Offer Approval' or ro['Current Stage'] == 'Offer Approved') and not isinstance(ro['Posting Owner Name'], datetime.date):
 			# Do things
 			tem = dict()
 			
