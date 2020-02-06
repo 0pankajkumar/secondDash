@@ -1276,11 +1276,11 @@ def docs():
 			return render_template("unauthorized.html"), 403
 
 # Feedback & bug central
-@app.route('/filefeaturebugs')
+@app.route('/bugs')
 def filefeaturebugs():
     return redirect("https://docs.google.com/forms/d/e/1FAIpQLSetmFiudVkH9Ek60ZgiIpu06DCzSqqZaWcaKaFmPOyuz1OQKw/viewform", code=302)
 
-@app.route('/featurebugscentral')
+@app.route('/bugscentral')
 def featurebugscentral():
     return redirect("https://docs.google.com/spreadsheets/d/1L2Kmaq5r5YvzOErQqrefd60fJG3ko4CzpOXhUOU7Nns/edit#gid=1057096672", code=302)
 
