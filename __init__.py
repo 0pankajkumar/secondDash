@@ -1275,6 +1275,16 @@ def docs():
 		else:
 			return render_template("unauthorized.html"), 403
 
+# Feedback & bug central
+@app.route('/filefeaturebugs')
+def filefeaturebugs():
+    return redirect("https://docs.google.com/forms/d/e/1FAIpQLSetmFiudVkH9Ek60ZgiIpu06DCzSqqZaWcaKaFmPOyuz1OQKw/viewform", code=302)
+
+@app.route('/featurebugscentral')
+def featurebugscentral():
+    return redirect("https://docs.google.com/spreadsheets/d/1L2Kmaq5r5YvzOErQqrefd60fJG3ko4CzpOXhUOU7Nns/edit#gid=1057096672", code=302)
+
+
 def fetchUsers(usersList):
 	pa = collection2.find({})
 	for p in pa:
