@@ -960,7 +960,7 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 	upperPackForTabulator = []
 
 	for ro in rows:
-		if ro['Posting Archived At (GMT)'] != datetime.datetime(1990,1,1) and not isinstance(ro['Posting Owner Name'], datetime.date):
+		if ro['Posting Archive Status'] == "true" and not isinstance(ro['Posting Owner Name'], datetime.date):
 			# Do things
 			tem = dict()
 			
