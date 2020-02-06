@@ -985,7 +985,7 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 			# 	tem['Ageing'] = tem['Last Advanced At (GMT)'] - tem['Created At (GMT)']
 			# 	tem['Ageing'] = tem['Ageing'].days
 
-			tem['Ageing'] = tem['Last Story At (GMT)'] - tem['Applied At (GMT)']
+			tem['Ageing'] = tem['Posting Archived At (GMT)'] - tem['Applied At (GMT)']
 			tem['Ageing'] = tem['Ageing'].days
 
 			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + tem['Profile ID']
