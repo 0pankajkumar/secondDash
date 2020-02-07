@@ -548,7 +548,7 @@ def getTotalForEachPosting(res):
 		holder.append(tempDict)
 
 
-def getFromDB(title, companyName, team, recruiter="specific"): # title, companyName, team, archiveStatus):
+def getFromDB(title, companyName, team, recruiter=None): # title, companyName, team, archiveStatus):
 	# collection.drop()
 	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - New Lead' : '2019-01-01'})
 	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
