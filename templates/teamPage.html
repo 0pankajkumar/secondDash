@@ -599,7 +599,7 @@
                         { title: "Candidate Name", field: "ProfileLink", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return cell.getRow().getData().CandidateName } } },
                         // { title: "Application ID", field: "Application ID" },
                         // { title: "Posting ID", field: "Posting ID" },
-                        { title: "Posting Title", field: "Posting Title" },
+                        { title: "Posting Title", field: "Posting Title", headerFilter:"input" },
                         { title: "Applied", field: "Applied At (GMT)", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
                         { title: "Offered", field: "Stage - Offer", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
                         { title: "Ageing", field: "Ageing" },
