@@ -1282,7 +1282,7 @@ def filefeaturebugs():
 
 @app.route('/bugscentral')
 def featurebugscentral():
-    return redirect("https://docs.google.com/spreadsheets/d/1L2Kmaq5r5YvzOErQqrefd60fJG3ko4CzpOXhUOU7Nns/edit#gid=1057096672", code=302)
+    return redirect("https://docs.google.com/spreadsheets/d/1L2Kmaq5r5YvzOErQqrefd60fJG3ko4CzpOXhUOU7Nns/edit#gid=280194824", code=302)
 
 
 def fetchUsers(usersList):
