@@ -447,22 +447,11 @@
         }
 
         function isItAllZero(jso) {
-          let county = 0;
-
-          for (let i = 0; i < jso.length; i++) {
-            for (a in jso[0]['_children'][0]) {
-              if (Number.isInteger(jso[i]['_children'][0][a]) && jso[i]['_children'][0][a] != 0) {
-                // console.log(jso[i]['_children'][0][a]);
-                county++;
-              }
-            }
-          }
-
-          if (county == 0) {
-            return true;
+          if (jso.length <= 0){
+              return true;
           }
           else {
-            return false;
+              return false;
           }
         }
 
@@ -592,22 +581,11 @@
 
 
         function isItAllZero(jso) {
-          let county = 0;
-
-          for (let i = 0; i < jso.length; i++) {
-            for (a in jso[0]['_children'][0]) {
-              if (Number.isInteger(jso[i]['_children'][0][a]) && jso[i]['_children'][0][a] != 0) {
-                // console.log(jso[i]['_children'][0][a]);
-                county++;
-              }
-            }
-          }
-
-          if (county == 0) {
-            return true;
+          if (jso.length <= 0){
+              return true;
           }
           else {
-            return false;
+              return false;
           }
         }
 

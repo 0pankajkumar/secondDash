@@ -526,13 +526,19 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 		res.append(actualPostId(postId, counts[postId]))
 
 	# Adding a total row for each posting so that we can utilize grand total
-	getTotalForEachPosting(res)
+	wereTheyAllZeros = getTotalForEachPosting(res)
 
 	print('total: ' + str(time.time() - ts))
-	return res
+
+	# If they are all zeros return blank else return all the complete result
+	if wereTheyAllZeros:
+		return []
+	else:
+		return res
 
 def getTotalForEachPosting(res):
 	for i in range(len(res)):
+		holderForTotalCountHolder = 0
 		holder = res[i]['_children']
 
 		monte = ["hiredCount", "newApplicantCount", "newLeadCount", "offerApprovalCount", "offerCount", "onsiteInterviewCount", "onsiteToOfferCount", "phoneInterviewCount", "phoneToOfferCount", "phoneToOnsiteCount", "reachedOutCount", "recruiterScreenCount"]
@@ -543,9 +549,15 @@ def getTotalForEachPosting(res):
 				sawTooth = monte[q]
 				totalCountHolder[q] += h[sawTooth]
 
+		# counting grand total of all total counts
+		holderForTotalCountHolder += sum(totalCountHolder)
+		
 		tempDict = dict(zip(monte, totalCountHolder))
 		tempDict['title'] = 'Total'
 		holder.append(tempDict)
+
+	# Returning back with a signal that all counts were Zero, don't display table for this
+	return True if holderForTotalCountHolder == 0 else False
 
 
 def getFromDB(title, companyName, team, recruiter=None): # title, companyName, team, archiveStatus):
