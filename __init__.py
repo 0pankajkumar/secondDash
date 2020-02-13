@@ -537,7 +537,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 		return res
 
 def getTotalForEachPosting(res):
-	
+
 	holderForTotalCountHolder = 0
 
 	for i in range(len(res)):
@@ -1621,11 +1621,17 @@ def updateDump():
 
 
 	# Determining Actual Posting Owner Name before writing
-
+	# Now fetchingActual Posting Owner Name directly from jobPostingWiseDB, we don't have to detemine that now
+	jobPostingWiseDBCollection = database["jobPostingWiseDB"]
+	jobPostingWiseDBBox = jobPostingWiseDBCollection.find({})
+	postingActualOwnersDict2 = dict()
+	for jobPostingWise in jobPostingWiseDBBox:
+		if jobPostingWise["Posting ID"] not in postingActualOwnersDict2:
+			postingActualOwnersDict2[jobPostingWise["Posting ID"]] = jobPostingWise["Posting Owner"]
 
 	for x in postingDict.keys():
 		for y in postingDict[x].keys():
-			postingDict[x][y]["Actual Posting Owner Name"] = postingActualOwnersDict[x]["Actual Posting Owner Name"]
+			postingDict[x][y]["Actual Posting Owner Name"] = postingActualOwnersDict2[x]
 			collection.insert_one(postingDict[x][y])
 
 
