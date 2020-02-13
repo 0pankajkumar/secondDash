@@ -537,8 +537,10 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 		return res
 
 def getTotalForEachPosting(res):
+	
+	holderForTotalCountHolder = 0
+
 	for i in range(len(res)):
-		holderForTotalCountHolder = 0
 		holder = res[i]['_children']
 
 		monte = ["hiredCount", "newApplicantCount", "newLeadCount", "offerApprovalCount", "offerCount", "onsiteInterviewCount", "onsiteToOfferCount", "phoneInterviewCount", "phoneToOfferCount", "phoneToOnsiteCount", "reachedOutCount", "recruiterScreenCount"]
