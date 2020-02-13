@@ -1711,7 +1711,8 @@ login_manager.init_app(app)
 
 @login_manager.unauthorized_handler
 def unauthorized():
-	return render_template("unauthorized.html"), 403
+	# return render_template("unauthorized.html"), 403
+	return render_template("login.html", loginOption = False)
 
 
 # Naive database setup
