@@ -7,7 +7,7 @@ self.addEventListener('install', function(evt) {
         cache.addAll([
           './controlled.html',
           './asset',
-          './dist/css/tabulator.min.css'
+          '/var/www/FlaskApp/FlaskApp/static/dist/css/tabulator.min.css'
         ]);
       }));
     });
