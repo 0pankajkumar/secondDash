@@ -6,7 +6,8 @@ self.addEventListener('install', function(evt) {
     evt.waitUntil(caches.open(CACHE).then(function (cache) {
         cache.addAll([
           './controlled.html',
-          './asset'
+          './asset',
+          './dist/css/tabulator.min.css'
         ]);
       }));
     });
