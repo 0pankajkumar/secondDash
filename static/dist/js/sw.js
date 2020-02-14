@@ -7,7 +7,7 @@ self.addEventListener('install', function(evt) {
         cache.addAll([
           './controlled.html',
           './asset',
-          '/var/www/FlaskApp/FlaskApp/static/dist/css/tabulator.min.css'
+          'https://unpkg.com/tabulator-tables@4.5.3/dist/css/tabulator.min.css'
         ]);
       }));
     });
