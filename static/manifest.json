@@ -1,0 +1,17 @@
+{
+    "name": "TAT Dashboard",
+    "short_name": "tat",
+    "theme_color": "#ffcbe4",
+    "background_color": "#fa99ca",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "https://tatreports.directi.com/",
+    "description": "The dashboard cached",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "https://tatreports.directi.com/dist/img/directi_logo.png",
+            "sizes": "1024x1024"
+        }
+    ]
+}
