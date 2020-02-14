@@ -123,7 +123,9 @@ configure_uploads(app, documents)
 def privacy():
 	return render_template("privacyPolicy.html")
 
-
+@app.route('/sw.js', methods=['GET'])
+def sw():
+	return app.send_static_file('sw.js')
 
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
