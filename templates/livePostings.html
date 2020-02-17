@@ -21,7 +21,7 @@
       <div class="ui-widget flexItem">
         <label for="companyName">Company:</label><br>
         <select name="ddl1" id="ddl1" class="select2-dropdown" style="display: hidden"
-          onchange="configureDDL2(this, document.getElementById('ddl2'), document.getElementById('ddl3'))">
+          onchange="configureDDL2(document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
           <option value="nothing" selected>Choose</option>
           {% for p in postingDepartment %}
           <option value="{{ p }}">{{ p }}</option>
@@ -34,7 +34,7 @@
       <div class="ui-widget flexItem">
         <label for="postingTeam">Team:</label><br>
         <select name="ddl2" id="ddl2" class="select2-dropdown" style="display: hidden"
-          onchange="configureDDL3(document.getElementById('ddl1'), this, document.getElementById('ddl3'))">
+          onchange="configureDDL3(document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
           <option value="nothing" selected>Choose</option>
         </select>
       </div>
