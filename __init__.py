@@ -526,12 +526,20 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 		res.append(actualPostId(postId, counts[postId]))
 
 	# Adding a total row for each posting so that we can utilize grand total
-	getTotalForEachPosting(res)
+	wereTheyAllZeros = getTotalForEachPosting(res)
 
 	print('total: ' + str(time.time() - ts))
-	return res
+
+	# If they are all zeros return blank else return all the complete result
+	if wereTheyAllZeros:
+		return []
+	else:
+		return res
 
 def getTotalForEachPosting(res):
+
+	holderForTotalCountHolder = 0
+
 	for i in range(len(res)):
 		holder = res[i]['_children']
 
@@ -543,9 +551,15 @@ def getTotalForEachPosting(res):
 				sawTooth = monte[q]
 				totalCountHolder[q] += h[sawTooth]
 
+		# counting grand total of all total counts
+		holderForTotalCountHolder += sum(totalCountHolder)
+		
 		tempDict = dict(zip(monte, totalCountHolder))
 		tempDict['title'] = 'Total'
 		holder.append(tempDict)
+
+	# Returning back with a signal that all counts were Zero, don't display table for this
+	return True if holderForTotalCountHolder == 0 else False
 
 
 def getFromDB(title, companyName, team, recruiter=None): # title, companyName, team, archiveStatus):
@@ -1607,11 +1621,17 @@ def updateDump():
 
 
 	# Determining Actual Posting Owner Name before writing
-
+	# Now fetchingActual Posting Owner Name directly from jobPostingWiseDB, we don't have to detemine that now
+	jobPostingWiseDBCollection = database["jobPostingWiseDB"]
+	jobPostingWiseDBBox = jobPostingWiseDBCollection.find({})
+	postingActualOwnersDict2 = dict()
+	for jobPostingWise in jobPostingWiseDBBox:
+		if jobPostingWise["Posting ID"] not in postingActualOwnersDict2:
+			postingActualOwnersDict2[jobPostingWise["Posting ID"]] = jobPostingWise["Posting Owner"]
 
 	for x in postingDict.keys():
 		for y in postingDict[x].keys():
-			postingDict[x][y]["Actual Posting Owner Name"] = postingActualOwnersDict[x]["Actual Posting Owner Name"]
+			postingDict[x][y]["Actual Posting Owner Name"] = postingActualOwnersDict2[x]
 			collection.insert_one(postingDict[x][y])
 
 
@@ -1691,7 +1711,8 @@ login_manager.init_app(app)
 
 @login_manager.unauthorized_handler
 def unauthorized():
-	return render_template("unauthorized.html"), 403
+	# return render_template("unauthorized.html"), 403
+	return render_template("login.html", loginOption = False)
 
 
 # Naive database setup

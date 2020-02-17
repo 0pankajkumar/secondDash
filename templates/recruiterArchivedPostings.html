@@ -66,15 +66,14 @@
       <div class="ui-widget flexItem">
         <label for="">Profile Status :</label><br>
         <select name="profileArchiveStatus" id="profileArchiveStatus" class="select2-dropdown" style="display: hidden">
-          <option value="Both" selected>Both</option>
-          <option value="false">Active</option>
+          <option value="Both">Both</option>
+          <option value="false" selected>Active</option>
           <option value="true">Archived</option>
           <!-- {% for p in profileArchiveStatus %}
           {% if p == 'false' %}
           <option value="{{ p }}">Active</option>
           {% elif p == 'true' %}
           <option value="{{ p }}">Archived</option>
-
           {% endif %}
           {% endfor %} -->
         </select>
@@ -98,7 +97,7 @@
     <li>
       <div class="flexGroup2">
         <button id="sendForTable" class="btn btn-primary flexItem2">Table view</button>
-        <button id="sendForFunnel" class="btn btn-primary flexItem2">Funnel view</button>
+        <button id="sendForFunnel" class="btn btn-primary flexItem2"  style="display:none">Funnel view</button>
       </div>
     </li>
 
@@ -445,22 +444,11 @@
         }
 
         function isItAllZero(jso) {
-          let county = 0;
-
-          for (let i = 0; i < jso.length; i++) {
-            for (a in jso[0]['_children'][0]) {
-              if (Number.isInteger(jso[i]['_children'][0][a]) && jso[i]['_children'][0][a] != 0) {
-                // console.log(jso[i]['_children'][0][a]);
-                county++;
-              }
-            }
-          }
-
-          if (county == 0) {
-            return true;
+          if (jso.length <= 0){
+              return true;
           }
           else {
-            return false;
+              return false;
           }
         }
 
@@ -592,22 +580,11 @@
 
 
         function isItAllZero(jso) {
-          let county = 0;
-
-          for (let i = 0; i < jso.length; i++) {
-            for (a in jso[0]['_children'][0]) {
-              if (Number.isInteger(jso[i]['_children'][0][a]) && jso[i]['_children'][0][a] != 0) {
-                // console.log(jso[i]['_children'][0][a]);
-                county++;
-              }
-            }
-          }
-
-          if (county == 0) {
-            return true;
+          if (jso.length <= 0){
+              return true;
           }
           else {
-            return false;
+              return false;
           }
         }
 
