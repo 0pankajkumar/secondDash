@@ -195,6 +195,11 @@
 
     // Refreshing dropdowns to flush old selections
     // $("#ddl2").select2().val(null).trigger("change");
+
+    // Flushing out the selected option & recreating the select2 dropdown
+    $('#ddl2').select2('destroy');
+    $('#ddl2').select2();
+    
     $("#ddl3").select2().val(null).trigger("change");
 
     var ddl2keys = Object.keys(myNestedVals[ddl1.value]);
