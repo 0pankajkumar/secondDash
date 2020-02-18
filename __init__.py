@@ -1370,8 +1370,8 @@ def addPostingToPostingDict(ro, postingDict, currentStages, postingActualOwnersD
 
 
 def updateMongo():
+	updatePostingInfo()	
 	updateDump()
-	updatePostingInfo()
 
 def updatePostingInfo():
 	client = MongoClient("mongodb://localhost:27017")

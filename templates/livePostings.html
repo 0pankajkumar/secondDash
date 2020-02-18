@@ -215,6 +215,9 @@
 
     // Refreshing dropdowns to flush old selections
     $("#ddl3").select2().val(null).trigger("change");
+	
+	$("#ddl3").val('All');
+	$('#ddl3').trigger('change');
 
     var ddl3keys = myNestedVals[ddl1.value][ddl2.value];
     createOptions(ddl3keys, ddl3);

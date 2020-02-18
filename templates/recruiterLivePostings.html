@@ -340,6 +340,7 @@
 
     // Refreshing dropdowns to flush old selections
     $("#ddl3").select2().val(null).trigger("change");
+	
 
     const setThree = new Set();
     let arr = new Array();
@@ -369,6 +370,22 @@
       createOption(ddl3, "Choose", "");
       createOption(ddl3, arr[0], arr[0]);
     }
+
+	let firstOption = document.getElementById("#ddl3");
+	let fo1;
+	if (firstOption == null){
+		fo1 = "All";
+	}
+	else {
+		
+		fo1 = firstOption[1].value;
+		
+	}
+
+	console.log(document.getElementById("#ddl3")[1].value, "Yup !");	
+	$("#ddl3").val(fo1);
+    $('#ddl3').trigger('change');
+
     validateBeforeSubmit();
   }
 
