@@ -2,7 +2,7 @@
 .env
 
 # gres
-GRES_KEY=Quad2core@
+
 
 DEF_KEY=2349875
 DEBUG=True
@@ -18,3 +18,30 @@ lib/
 uploaded_csv/
 
 __pycache__/
+
+
+
+
+ 
+# dependencies 
+/node_modules 
+/.pnp 
+.pnp.js 
+ 
+# testing 
+/coverage 
+ 
+# production 
+/build 
+ 
+# misc 
+.DS_Store 
+.env.local 
+.env.development.local 
+.env.test.local 
+.env.production.local 
+ 
+npm-debug.log* 
+yarn-debug.log* 
+yarn-error.log* 
+
