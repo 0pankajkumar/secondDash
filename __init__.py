@@ -1,10 +1,8 @@
 from flask import Flask, render_template
 
-app = Flask(__name__, static_url_path='',
-            static_folder='static',
-            template_folder='templates')
+from signin.signin import signin_blueprint
 
+application = Flask(__name__, template_folder='templates',
+                    static_folder='static')
 
-@app.route("/")
-def hello():
-    return "It works"
+application.register_blueprint(signin_blueprint)
