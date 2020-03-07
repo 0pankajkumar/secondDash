@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 
-app = Flask(__name__, template_folder='templates',
-                    static_folder='static')
+app = Flask(__name__, template_folder='build',
+                    static_folder='build')
 
 @app.route("/signin")
 def signin():
