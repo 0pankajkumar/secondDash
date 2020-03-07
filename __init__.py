@@ -1,8 +1,10 @@
 from flask import Flask, render_template
 
-from signin import signin_blueprint
-
-application = Flask(__name__, template_folder='templates',
+app = Flask(__name__, template_folder='templates',
                     static_folder='static')
 
-application.register_blueprint(signin_blueprint)
+@app.route("/signin")
+def signin():
+    # return render_template("signin/index.html")
+    return "sign in churning"
+
