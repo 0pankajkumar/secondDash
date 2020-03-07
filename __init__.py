@@ -5,15 +5,6 @@ from flask_login import LoginManager, current_user, login_required, login_user, 
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-from FlaskApp.user import User
-# DB links for main collection
-client = MongoClient("mongodb://localhost:27017")
-database = client["local"]
-collection = database["dolphinDB"]
-# DB links for ApprovedUsers collection
-collection2 = database["ApprovedUsers"]
-# From new dup
-collection4 = database["jobPostingWiseDB"]
 
 import flask
 from flask import request, jsonify, render_template, url_for, redirect, session
@@ -40,18 +31,6 @@ from pathlib import Path
 # For google login
 from google.oauth2 import id_token
 from google.auth.transport import requests
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Python standard libraries
 import json
