@@ -9,7 +9,7 @@ def signin():
     # return "sign in churning"
 
 @app.route("/login")
-def signin():
+def login():
     # return render_template("signin/index.html")
     return "We have to make google login here"
 
