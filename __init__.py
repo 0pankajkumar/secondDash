@@ -119,6 +119,21 @@ configure_uploads(app, documents)
 #         return f(*args, **kwargs)
 #     return decorated_function
 
+
+@app.route("/pindex")
+@login_required
+def pindex():
+    # return render_template("loginPage.html")
+    return "successfully signin"
+
+
+@app.route("/psignin")
+def psignin():
+    return render_template("loginPage.html")
+    # return "sign in churning"
+
+
+
 @app.route('/privacy', methods=['GET'])
 def privacy():
 	return render_template("privacyPolicy.html")
@@ -1834,7 +1849,7 @@ def callback():
 @login_required
 def logout():
 	logout_user()
-	return redirect(url_for("index"))
+	return redirect(url_for("pindex"))
 
 
 def get_google_provider_cfg():
