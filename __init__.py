@@ -127,14 +127,14 @@ configure_uploads(app, documents)
 
 
 
-@app.route("/v3/index")
+@app.route("/pindex")
 @login_required
-def index():
+def pindex():
     # return render_template("loginPage.html")
     return "successfully signin"
 
 
-@app.route("/v3/signin")
+@app.route("/signin")
 def signin():
     return render_template("loginPage.html")
     # return "sign in churning"
@@ -1985,7 +1985,7 @@ def callback():
 	login_user(user)
 
 	# Send user back to homepage
-	return redirect(url_for("index"))
+	return redirect(url_for("pindex"))
 
 
 @app.route("/logout")
