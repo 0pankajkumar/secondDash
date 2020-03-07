@@ -5,7 +5,7 @@ from flask_login import LoginManager, current_user, login_required, login_user, 
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-from FlaskApp.old_secondDash.user import User
+from FlaskApp.user import User
 # DB links for main collection
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
