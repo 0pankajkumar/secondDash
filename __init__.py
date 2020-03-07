@@ -133,6 +133,11 @@ def psignin():
     # return "sign in churning"
 
 
+@app.route("/dash")
+def dash():
+    return render_template("index.html")
+
+
 
 @app.route('/privacy', methods=['GET'])
 def privacy():
@@ -1755,13 +1760,13 @@ def settings():
 @app.route("/")
 def index():
 	if current_user.is_authenticated:
-		return redirect(url_for('livePostings'))
+		return redirect(url_for('dash'))
 
 
 	else:
 		# return '<a class="button" href="/login">Google Login</a>'
 		loginOption = False
-		return render_template("login.html", loginOption = loginOption)
+		return render_template("loginPage.html", loginOption = loginOption)
 
 
 @app.route("/login")
