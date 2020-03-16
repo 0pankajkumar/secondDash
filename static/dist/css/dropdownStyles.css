@@ -46,7 +46,7 @@ button:hover {
 
 /* Inspired from https://www.w3schools.com/css/css_rwd_mediaqueries.asp */
 /* It is called select menu in the left */
-[class*="col-"] {
+.dropdown-column {
   float: left;
   padding: 15px;
 }

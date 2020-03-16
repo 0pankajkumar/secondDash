@@ -1,40 +1,51 @@
 <!-- Used to display the Posting which are LIVE  -->
 
-{% extends "cover.html" %}
+{% extends "cover.html" %} {% block main %}
 
+<script
+  type="text/javascript"
+  src="https://oss.sheetjs.com/js-xlsx/xlsx.full.min.js"
+></script>
 
-{% block main %}
-
-
-<script type="text/javascript" src="https://oss.sheetjs.com/js-xlsx/xlsx.full.min.js"></script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-<script type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"></script>
-
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"
+></script>
 
 <!-- <form style="text-align: center" id="bigForm"> -->
-<div class="menu col-3">
-
+<div class="menu dropdown-column">
   <ul>
     <li>
       <div class="ui-widget flexItem">
-        <label for="companyName">Company:</label><br>
-        <select name="ddl1" id="ddl1" class="select2-dropdown" style="display: hidden"
-          onchange="configureDDL2(document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
+        <label for="companyName">Company:</label><br />
+        <select
+          name="ddl1"
+          id="ddl1"
+          class="select2-dropdown"
+          style="display: hidden"
+          onchange="configureDDL2(document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))"
+        >
           <option value="nothing" selected>Choose</option>
           {% for p in postingDepartment %}
           <option value="{{ p }}">{{ p }}</option>
           {% endfor %}
         </select>
       </div>
-
     </li>
     <li>
       <div class="ui-widget flexItem">
-        <label for="postingTeam">Team:</label><br>
-        <select name="ddl2" id="ddl2" class="select2-dropdown" style="display: hidden"
-          onchange="configureDDL3(document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
+        <label for="postingTeam">Team:</label><br />
+        <select
+          name="ddl2"
+          id="ddl2"
+          class="select2-dropdown"
+          style="display: hidden"
+          onchange="configureDDL3(document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))"
+        >
           <option value="nothing" selected>Choose</option>
         </select>
       </div>
@@ -42,8 +53,14 @@
 
     <li>
       <div class="ui-widget flexItem">
-        <label for="postingTitle">Title:</label><br>
-        <select multiple name="ddl3" id="ddl3" class="select2-dropdown" style="display: hidden">
+        <label for="postingTitle">Title:</label><br />
+        <select
+          multiple
+          name="ddl3"
+          id="ddl3"
+          class="select2-dropdown"
+          style="display: hidden"
+        >
           <!-- <option value="All" selected>All</option> -->
         </select>
       </div>
@@ -51,8 +68,13 @@
 
     <li>
       <div class="ui-widget flexItem">
-        <label for="  ">Profile Status :</label><br>
-        <select name="profileArchiveStatus" id="profileArchiveStatus" class="select2-dropdown" style="display: hidden">
+        <label for="  ">Profile Status :</label><br />
+        <select
+          name="profileArchiveStatus"
+          id="profileArchiveStatus"
+          class="select2-dropdown"
+          style="display: hidden"
+        >
           <option value="Both">Both</option>
           <option value="false" selected>Active</option>
           <option value="true">Archived</option>
@@ -69,36 +91,43 @@
 
     <li>
       <div class="ui-widget flexItem">
-        <label for="">From:</label><br>
-        <input type="text" id="fromdatepicker" class="select2-dropdown" autocomplete="off">
+        <label for="">From:</label><br />
+        <input
+          type="text"
+          id="fromdatepicker"
+          class="select2-dropdown"
+          autocomplete="off"
+        />
       </div>
     </li>
 
     <li>
       <div class="ui-widget flexItem">
-        <label for="">To:</label><br>
-        <input type="text" id="todatepicker" class="select2-dropdown" autocomplete="off">
+        <label for="">To:</label><br />
+        <input
+          type="text"
+          id="todatepicker"
+          class="select2-dropdown"
+          autocomplete="off"
+        />
       </div>
     </li>
 
     <li>
       <div class="flexGroup2">
-        <button id="sendForTable" class="btn btn-primary flexItem2">Table view</button>
-        <button id="sendForFunnel" class="btn btn-primary flexItem2"  style="display:none">Funnel view</button>
+        <button id="sendForTable" class="btn btn-primary flexItem2">
+          Table view
+        </button>
+        <button
+          id="sendForFunnel"
+          class="btn btn-primary flexItem2"
+          style="display:none"
+        >
+          Funnel view
+        </button>
       </div>
     </li>
-
   </ul>
-
-
-
-
-
-
-
-
-
-
 
   <!-- <div class="ui-widget flexItem">
     <label for="  ">Posting Status :</label><br>
@@ -114,35 +143,24 @@
       {% endfor %}
     </select>
   </div> -->
-
-
-
-
-
-
-
-
 </div>
-
 
 <!-- </form> -->
 
 <script>
-
   // Modify title
   document.title = "Live Posts";
 
   //Date picker
-  $(function () {
-    $("#fromdatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+  $(function() {
+    $("#fromdatepicker").datepicker({ dateFormat: "dd-mm-yy" });
   });
-  $(function () {
-    $("#todatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+  $(function() {
+    $("#todatepicker").datepicker({ dateFormat: "dd-mm-yy" });
   });
 
   //Ajax call to load the bigDict
-  $(document).ready(function () {
-
+  $(document).ready(function() {
     // Hiding table &b funnel
     // $("example-table").hide();
     // $("chartdivs").hide();
@@ -152,8 +170,8 @@
       cache: true,
       url: "/getBigDictLive",
       data: "", //ajax parameters
-      success: function (result) {
-        console.log(result)
+      success: function(result) {
+        console.log(result);
         myNestedVals = result;
         // document.getElementById('ddl1').style.display = 'inline';
         // document.getElementById('ddl2').style.display = 'inline';
@@ -168,13 +186,11 @@
         $("#profileArchiveStatus").select2();
       }
     });
-
   });
-
 
   //Code inspired from http://benalexkeen.com/auto-updating-dropdown-fields-in-javascript/
   function createOption(ddl, text, value) {
-    var opt = document.createElement('option');
+    var opt = document.createElement("option");
     opt.value = value;
     opt.text = text;
     ddl.options.add(opt);
@@ -191,41 +207,42 @@
     ddl2.options.length = 0;
     ddl3.options.length = 0;
     createOption(ddl2, "Choose", "nothing");
-	// Refreshing dropdowns to flush old selections
+    // Refreshing dropdowns to flush old selections
     // $("#ddl2").select2().val(null).trigger("change");
 
     // Flushing out the selected option & recreating the select2 dropdown
-    $('#ddl2').select2('destroy');
-    $('#ddl2').select2();
+    $("#ddl2").select2("destroy");
+    $("#ddl2").select2();
 
-    $("#ddl3").select2().val(null).trigger("change");
+    $("#ddl3")
+      .select2()
+      .val(null)
+      .trigger("change");
 
     var ddl2keys = Object.keys(myNestedVals[ddl1.value]);
     createOptions(ddl2keys, ddl2);
-
   }
 
   function configureDDL3(ddl1, ddl2, ddl3) {
     ddl3.options.length = 0;
     createOption(ddl3, "All", "All");
 
-	let ee = ddl2;
-	//console.log("We selected ", ee.options[ee.selectedIndex].value);
-
+    let ee = ddl2;
+    //console.log("We selected ", ee.options[ee.selectedIndex].value);
 
     // Refreshing dropdowns to flush old selections
-    $("#ddl3").select2().val(null).trigger("change");
-	
-	$("#ddl3").val('All');
-	$('#ddl3').trigger('change');
+    $("#ddl3")
+      .select2()
+      .val(null)
+      .trigger("change");
+
+    $("#ddl3").val("All");
+    $("#ddl3").trigger("change");
 
     var ddl3keys = myNestedVals[ddl1.value][ddl2.value];
     createOptions(ddl3keys, ddl3);
   }
-
-
 </script>
-
 
 <div id="example-table" style="margin: 20px; display: none;"></div>
 <div id="chartdivs" style="display: none;"></div>
@@ -236,53 +253,53 @@
 <!-- So, this div holds a table which is created on the fly to enable PDF download -->
 <div style="display:none" id="tableDiv"></div>
 
-
-
 <script type="text/javascript">
-
-
-
-  $('#sendForTable').on('click', function (e) {
-
+  $("#sendForTable").on("click", function(e) {
     document.getElementById("example-table").style.display = "flex";
     document.getElementById("chartdivs").style.display = "none";
     document.getElementById("nobodyFound").style.display = "none";
     console.log("Go clicked");
     e.preventDefault();
-    var x = getFormData($('#bigForm'));
+    var x = getFormData($("#bigForm"));
 
     // Nested calculator of TOTAL for each posting
-    var nestedCalc = function (values, data, calcParams) {
+    var nestedCalc = function(values, data, calcParams) {
       var calc = 0;
 
-      data.forEach(function (row) {
-        for(let i=0; i < row._children.length-1; i++) {
+      data.forEach(function(row) {
+        for (let i = 0; i < row._children.length - 1; i++) {
           calc += row._children[i][calcParams.field];
         }
       });
 
       return calc;
-    }
+    };
 
     // Rewriting the heading of Posting name
-    var customGroupHeader = function (value, count, data, group) {
+    var customGroupHeader = function(value, count, data, group) {
       return value + "<span style='color:#d00; margin-left:10px;'></span>";
-    }
-
-
+    };
 
     $.ajax({
       type: "POST",
       cache: false,
       url: "/getTable",
       data: {
-        "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value,"requestType": "live"
+        companyName: document.getElementById("ddl1").value,
+        postingTeam: document.getElementById("ddl2").value,
+        postingTitle: $("#ddl3").val(),
+        postingArchiveStatus: "",
+        profileArchiveStatus: document.getElementById("profileArchiveStatus")
+          .value,
+        from: document.getElementById("fromdatepicker").value,
+        to: document.getElementById("todatepicker").value,
+        requestType: "live"
       }, // multiple data sent using ajax
-      success: function (result) {
+      success: function(result) {
         console.log(result);
 
-        $(document).on('click', "#download-xl", downXL);
-        $(document).on('click', "#download-PDF", downPDF);
+        $(document).on("click", "#download-xl", downXL);
+        $(document).on("click", "#download-PDF", downPDF);
 
         function downXL() {
           console.log("Inside downXL");
@@ -295,11 +312,10 @@
         }
 
         function isItAllZero(jso) {
-          if (jso.length <= 0){
-              return true;
-          }
-          else {
-              return false;
+          if (jso.length <= 0) {
+            return true;
+          } else {
+            return false;
           }
         }
 
@@ -307,8 +323,7 @@
           // Place a message
           document.getElementById("example-table").style.display = "none";
           document.getElementById("nobodyFound").style.display = "flex";
-        }
-        else {
+        } else {
           // Display the table
           // Creating a Tabulator object
 
@@ -325,7 +340,7 @@
             dataTreeStartExpanded: true,
             //groupBy: "title",
             groupHeader: customGroupHeader,
-            tooltips: function (cell) {
+            tooltips: function(cell) {
               //cell - cell component
               //function should return a string for the tooltip of false to hide the tooltip
               // let data = cell.getRow();
@@ -333,89 +348,124 @@
               //   return "Yeah!";
               // }
               // return cell.getRow(); //return cells "field - value";
-              const countOf_phoneToOnsiteCount = cell.getRow().getData().phoneToOnsiteCount;
-              const countOf_phoneToOfferCount = cell.getRow().getData().phoneToOfferCount;
-              const countOf_onsiteToOfferCount = cell.getRow().getData().onsiteToOfferCount;
+              const countOf_phoneToOnsiteCount = cell.getRow().getData()
+                .phoneToOnsiteCount;
+              const countOf_phoneToOfferCount = cell.getRow().getData()
+                .phoneToOfferCount;
+              const countOf_onsiteToOfferCount = cell.getRow().getData()
+                .onsiteToOfferCount;
 
               if (cell.getColumn().getField() == "onsiteInterviewCount") {
-                return countOf_phoneToOnsiteCount ? "Phone to Onsite: " + countOf_phoneToOnsiteCount : '';
+                return countOf_phoneToOnsiteCount
+                  ? "Phone to Onsite: " + countOf_phoneToOnsiteCount
+                  : "";
               }
-
-
 
               if (cell.getColumn().getField() == "offerCount") {
-                let temp = countOf_phoneToOfferCount ? "Phone to Offer: " + countOf_phoneToOfferCount : '';
-                temp = countOf_onsiteToOfferCount ? temp += ("\nOnsite to Offer: " + countOf_onsiteToOfferCount) : temp += '\n';
+                let temp = countOf_phoneToOfferCount
+                  ? "Phone to Offer: " + countOf_phoneToOfferCount
+                  : "";
+                temp = countOf_onsiteToOfferCount
+                  ? (temp += "\nOnsite to Offer: " + countOf_onsiteToOfferCount)
+                  : (temp += "\n");
                 return temp;
               }
-
             },
             columns: [
               { title: "Posting", field: "title", width: 200, responsive: 0 },
               // { title: "Origin", field: "origin", width: 150 },
-              { title: "New Lead", field: "newLeadCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "newLeadCount" } },
-              { title: "Reached Out", field: "reachedOutCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "reachedOutCount" } },
-              { title: "New applicant", field: "newApplicantCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "newApplicantCount" } },
-              { title: "Recruiter Screen", field: "recruiterScreenCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "recruiterScreenCount" } },
-              { title: "Phone Interview", field: "phoneInterviewCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "phoneInterviewCount" } },
-              { title: "On-site", field: "onsiteInterviewCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "onsiteInterviewCount" } },
-              { title: "Offer", field: "offerCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerCount" } },
+              {
+                title: "New Lead",
+                field: "newLeadCount",
+                bottomCalc: nestedCalc,
+                bottomCalcParams: { field: "newLeadCount" }
+              },
+              {
+                title: "Reached Out",
+                field: "reachedOutCount",
+                bottomCalc: nestedCalc,
+                bottomCalcParams: { field: "reachedOutCount" }
+              },
+              {
+                title: "New applicant",
+                field: "newApplicantCount",
+                bottomCalc: nestedCalc,
+                bottomCalcParams: { field: "newApplicantCount" }
+              },
+              {
+                title: "Recruiter Screen",
+                field: "recruiterScreenCount",
+                bottomCalc: nestedCalc,
+                bottomCalcParams: { field: "recruiterScreenCount" }
+              },
+              {
+                title: "Phone Interview",
+                field: "phoneInterviewCount",
+                bottomCalc: nestedCalc,
+                bottomCalcParams: { field: "phoneInterviewCount" }
+              },
+              {
+                title: "On-site",
+                field: "onsiteInterviewCount",
+                bottomCalc: nestedCalc,
+                bottomCalcParams: { field: "onsiteInterviewCount" }
+              },
+              {
+                title: "Offer",
+                field: "offerCount",
+                bottomCalc: nestedCalc,
+                bottomCalcParams: { field: "offerCount" }
+              },
               //{ title: "Offer Approval/ed", field: "offerApprovalCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerApprovalCount" } },
-              { title: "Hired", field: "hiredCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "hiredCount" } },
-			  //{formatter:"buttonCross", width:40, align:"center", cellClick:function(e, cell){
-			  //  cell.getRow().delete();
-			  //}},
-              { title:"", field:"", width:1, formatter:function(cell, formatterParams){
-                if(cell.getData()['title'] == "Total") {
-                cell.getRow().getElement().style.fontWeight = "bold";
+              {
+                title: "Hired",
+                field: "hiredCount",
+                bottomCalc: nestedCalc,
+                bottomCalcParams: { field: "hiredCount" }
+              },
+              //{formatter:"buttonCross", width:40, align:"center", cellClick:function(e, cell){
+              //  cell.getRow().delete();
+              //}},
+              {
+                title: "",
+                field: "",
+                width: 1,
+                formatter: function(cell, formatterParams) {
+                  if (cell.getData()["title"] == "Total") {
+                    cell.getRow().getElement().style.fontWeight = "bold";
+                  }
+                }
               }
-              }},
             ],
 
-            footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
-
+            footerElement:
+              "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>"
           });
         }
-
-
       }
     });
-
-
-
-
-
-
 
     function getFormData($form) {
       var unindexed_array = $form.serializeArray();
       var indexed_array = {};
 
-      $.map(unindexed_array, function (n, i) {
-        indexed_array[n['name']] = n['value'];
+      $.map(unindexed_array, function(n, i) {
+        indexed_array[n["name"]] = n["value"];
       });
 
       return indexed_array;
     }
-
-
-
   });
-
-
-
 </script>
-
 
 <script>
   // The funnel script here
-  $('#sendForFunnel').on('click', function (e) {
-
+  $("#sendForFunnel").on("click", function(e) {
     document.getElementById("example-table").style.display = "none";
     document.getElementById("chartdivs").style.display = "flex";
     document.getElementById("nobodyFound").style.display = "none";
     e.preventDefault();
-    var x = getFormData($('#bigForm'));
+    var x = getFormData($("#bigForm"));
     console.log("Go for funnel clicked");
 
     // Clearing all funnels drawn, if any. https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
@@ -424,21 +474,27 @@
       myNode.removeChild(myNode.firstChild);
     }
 
-
     $.ajax({
       type: "POST",
       cache: false,
       url: "/getTable",
-      data: { "companyName": document.getElementById('ddl1').value, "postingTeam": document.getElementById('ddl2').value, "postingTitle": $("#ddl3").val(), "postingArchiveStatus": '', "profileArchiveStatus": document.getElementById('profileArchiveStatus').value, "from": document.getElementById('fromdatepicker').value, "to": document.getElementById('todatepicker').value, "requestType": "live"}, //ajax parameters
-      success: function (result) {
-
-
+      data: {
+        companyName: document.getElementById("ddl1").value,
+        postingTeam: document.getElementById("ddl2").value,
+        postingTitle: $("#ddl3").val(),
+        postingArchiveStatus: "",
+        profileArchiveStatus: document.getElementById("profileArchiveStatus")
+          .value,
+        from: document.getElementById("fromdatepicker").value,
+        to: document.getElementById("todatepicker").value,
+        requestType: "live"
+      }, //ajax parameters
+      success: function(result) {
         function isItAllZero(jso) {
-          if (jso.length <= 0){
-              return true;
-          }
-          else {
-              return false;
+          if (jso.length <= 0) {
+            return true;
+          } else {
+            return false;
           }
         }
 
@@ -447,29 +503,37 @@
           document.getElementById("example-table").style.display = "none";
           document.getElementById("chartdivs").style.display = "none";
           document.getElementById("nobodyFound").style.display = "flex";
-        }
-        else {
+        } else {
           for (let i = 0; i < result.length; i++) {
             chartVar = "chartdiv";
             chartVar += i.toString();
-            $("#chartdivs").append(`<div style="text-align:center; margin:auto"><b>${result[i]['title']}</b><br><div  id=${chartVar}></div></div>`);
+            $("#chartdivs").append(
+              `<div style="text-align:center; margin:auto"><b>${result[i]["title"]}</b><br><div  id=${chartVar}></div></div>`
+            );
 
             console.log(i);
 
-            let var1 = 0, var2 = 0, var3 = 0, var4 = 0, var5 = 0, var6 = 0, var7 = 0, var8 = 0;
+            let var1 = 0,
+              var2 = 0,
+              var3 = 0,
+              var4 = 0,
+              var5 = 0,
+              var6 = 0,
+              var7 = 0,
+              var8 = 0;
 
-            for (let j = 0; j < result[i]['_children'].length; j++) {
-              if (result[i]['_children'][j]["title"] == "Total"){
+            for (let j = 0; j < result[i]["_children"].length; j++) {
+              if (result[i]["_children"][j]["title"] == "Total") {
                 continue;
               }
-              var1 += result[i]['_children'][j]["newLeadCount"];
-              var2 += result[i]['_children'][j]["reachedOutCount"];
-              var3 += result[i]['_children'][j]["newApplicantCount"];
-              var4 += result[i]['_children'][j]["recruiterScreenCount"];
-              var5 += result[i]['_children'][j]["phoneInterviewCount"];
-              var6 += result[i]['_children'][j]["onsiteInterviewCount"];
-              var7 += result[i]['_children'][j]["offerCount"];
-              var8 += result[i]['_children'][j]["hiredCount"];
+              var1 += result[i]["_children"][j]["newLeadCount"];
+              var2 += result[i]["_children"][j]["reachedOutCount"];
+              var3 += result[i]["_children"][j]["newApplicantCount"];
+              var4 += result[i]["_children"][j]["recruiterScreenCount"];
+              var5 += result[i]["_children"][j]["phoneInterviewCount"];
+              var6 += result[i]["_children"][j]["onsiteInterviewCount"];
+              var7 += result[i]["_children"][j]["offerCount"];
+              var8 += result[i]["_children"][j]["hiredCount"];
             }
 
             trigger(chartVar, var1, var2, var3, var4, var5, var6, var7, var8);
@@ -479,24 +543,17 @@
       }
     });
 
-
-
-
-
     function getFormData($form) {
       var unindexed_array = $form.serializeArray();
       var indexed_array = {};
 
-      $.map(unindexed_array, function (n, i) {
-        indexed_array[n['name']] = n['value'];
+      $.map(unindexed_array, function(n, i) {
+        indexed_array[n["name"]] = n["value"];
       });
 
       return indexed_array;
     }
   });
-
-
 </script>
-
 
 {% endblock %}
