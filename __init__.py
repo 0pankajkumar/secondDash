@@ -335,16 +335,15 @@ def whoAreTheseNPeople(postingId, origin, stage):
     query['Origin'] = origin
     query['Current Stage'] = stageBank[stage]
     result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+    return result
+    # packet = []
+    #    for res in result:
+    #         dic = dict()
+    #         dic["Candidate Name"] = res["Candidate Name"]
+    #         dic["Profile ID"] = res["Profile ID"]
+    #         packet.append(dic)
 
-    packet = []
-
-    for res in result:
-		dic = dict()
-		dic["Candidate Name"] = res["Candidate Name"]
-		dic["Profile ID"] = res["Profile ID"]
-		packet.append(dic)
-
-	return packet
+    #     return packet
 
 
 @app.route('/getTable', methods=['POST'])
