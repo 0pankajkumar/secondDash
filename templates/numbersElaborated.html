@@ -5,18 +5,22 @@
 <!-- New style for this table -->
 <link href="dist/css/tabulator_semantic-ui.min.css" rel="stylesheet">
 
-<div style="text-align:center">
+<div style="position:relative;text-align:center;">
   <table id="candidate-table">
     <thead>
       <tr>
+        <th></th>
         <th width="200">Candidate Name</th>
       </tr>
     </thead>
     <tbody>
+      {{ count = 1 }}
       {% for can in candidates %}
         <tr>
+          <th>{{ count }}</th>
           <td><a href="https://hire.lever.co/candidates/{{ can['Profile ID'] }}">{{ can["Candidate Name"]}}</a></td>
         </tr>
+        {{ count += 1}}
       {% endfor %}
     </tbody>
   </table>
