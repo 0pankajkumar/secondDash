@@ -312,7 +312,7 @@ def elaborate():
     stage = request.args.get('stage')
 
     # if (postingId is None) or (origin is None) or (stage = None):
-        # return "Thers is some problem with your URL"
+    # return "Thers is some problem with your URL"
 
     adminOptions = False
     loginOption = True
@@ -340,13 +340,20 @@ def whoAreTheseNPeople(postingId, origin, stage):
         "offerApproved": "Offer Approved"
     }
 
-    # Hired ???
-
     query = dict()
     query['Posting ID'] = postingId
     query['Origin'] = origin
-    query['Current Stage'] = stageBank[stage]
-    result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+
+    result = list()
+    if stage == "hired":
+        benchDate = datetime.datetime(2015, 1, 1)
+        outcome = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+        for out in outcome:
+            if out["Hired"] > benchDate:
+                result.append(out)
+    else:
+        query['Current Stage'] = stageBank[stage]
+        result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
 
     packet = []
     count = 1
