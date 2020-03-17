@@ -334,8 +334,15 @@ def whoAreTheseNPeople(postingId, origin, stage):
     query['Posting ID'] = postingId
     query['Origin'] = origin
     query['Current Stage'] = stageBank[stage]
-    result = jsonify(collection.find(query, cursor_type=CursorType.EXHAUST))
-    return result
+    result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+
+    packet = []
+    for res in result:
+        dic = dict()
+        dic["Candidate Name"] = res["Candidate Name"]
+        dic["Profile ID"] = res["Profile ID"]
+        packet.append(dic)
+    return packet
     # packet = []
     #    for res in result:
     #         dic = dict()
