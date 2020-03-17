@@ -310,6 +310,7 @@ def elaborate():
     postingId = request.args.get('postingId')
     origin = request.args.get('origin')
     stage = request.args.get('stage')
+    profileStatus = request.args.get('profileStatus')
 
     # if (postingId is None) or (origin is None) or (stage = None):
     # return "Thers is some problem with your URL"
@@ -322,12 +323,12 @@ def elaborate():
     if checkAdmin(current_user.id):
         adminOptions = True
 
-    results = whoAreTheseNPeople(postingId, origin, stage)
+    results = whoAreTheseNPeople(postingId, origin, stage, profileStatus)
     return render_template('numbersElaborated.html', candidates=results, lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active")
     # return jsonify(results)
 
 
-def whoAreTheseNPeople(postingId, origin, stage):
+def whoAreTheseNPeople(postingId, origin, stage, profileStatus):
     stageBank = {
         "newLead": "New lead",
         "reachedOut": "Reached out",
@@ -343,6 +344,7 @@ def whoAreTheseNPeople(postingId, origin, stage):
     query = dict()
     query['Posting ID'] = postingId
     query['Origin'] = origin
+    query['Posting Archive Status'] = profileStatus
 
     result = list()
     if stage == "hired":
