@@ -304,6 +304,13 @@ def get_live_or_archived_dict():
     return anotherDict
 
 
+@app.route('/elaborate', methods=['GET'])
+@login_required
+def elaborate():
+    operating_system = request.args.get('operatingSystem')
+    return "The OS will always be " + operating_system
+
+
 @app.route('/getTable', methods=['POST'])
 @login_required
 def getTable():
