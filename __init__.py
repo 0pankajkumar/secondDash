@@ -334,7 +334,7 @@ def whoAreTheseNPeople(postingId, origin, stage):
     query['Posting ID'] = postingId
     query['Origin'] = origin
     query['Current Stage'] = stageBank[stage]
-    result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+    result = jsonify(collection.find(query, cursor_type=CursorType.EXHAUST))
     return result
     # packet = []
     #    for res in result:
