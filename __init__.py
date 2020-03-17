@@ -411,6 +411,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
             dateForLabel += str(item['Actual Posting Owner Name'])
         postId = str(item['Posting Title']) + ", " + \
             str(item['Posting Location']) + ", " + dateForLabel
+        postIdHash = item['Posting ID']
 
         origin = item['Origin']
         if not postId in counts:
@@ -426,7 +427,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
             counts[postId][origin]['offer'] = 0
             counts[postId][origin]['offerApproval'] = 0
             counts[postId][origin]['hired'] = 0
-            counts[postId][origin]['posting_id'] = postId
+            counts[postId][origin]['posting_id'] = postIdHash
 
             # var for % counts
             counts[postId][origin]['phone_To_Onsite'] = 0
