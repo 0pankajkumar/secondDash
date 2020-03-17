@@ -15,7 +15,7 @@
     <tbody>
       {% for can in candidates %}
         <tr>
-          <td>{{ can }}</td>
+          <td><a href="https://hire.lever.co/candidates/{{ can['Profile ID'] }}">{{ can["Candidate Name"]}}</a></td>
         </tr>
       {% endfor %}
     </tbody>
