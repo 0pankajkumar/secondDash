@@ -311,7 +311,7 @@ def elaborate():
     origin = request.args.get('origin')
     stage = request.args.get('stage')
 
-    if postingId is None or origin is None or stage = None:
+    if (postingId is None) or (origin is None) or (stage = None):
         return "Thers is some problem with your URL"
 
     results = whoAreTheseNPeople(postingId, origin, stage)
