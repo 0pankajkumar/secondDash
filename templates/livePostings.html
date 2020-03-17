@@ -325,7 +325,7 @@
         	  return
           }
           else {
-          return "<a style='text-decoration:none; color:inherit;' target='_blank' href='https://tatreports.directi.com/elaborate?postingId=" + data['posting_id'] + "&origin=" + data['title'] + "&stage=" + formatterParams + "'>" + cell.getValue() + "</a>"
+          return "<a style='text-decoration:none; color:inherit;' target='_blank' href='https://tatreports.directi.com/elaborate?postingId=" + data['posting_id'] + "&origin=" + data['title'] + "&stage=" + formatterParams + "&profileStatus=" + document.getElementById("profileArchiveStatus") + "'>" + cell.getValue() + "</a>"
           }
         }
 
