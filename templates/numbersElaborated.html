@@ -6,7 +6,6 @@
 <style>
    #candidate-table {
   border-collapse: collapse;
-  width: 100%;
 }
   #candidate-table td  {
   border: 1px solid #ddd;
@@ -30,7 +29,7 @@
 }
 </style>
 
-<div style="padding:0% 50% 0% 50%">
+<div style="display:flex; justify-content:center;">
   <table id="candidate-table">
     <thead>
       <tr>
@@ -41,7 +40,7 @@
     <tbody>
       {% for can in candidates %}
         <tr>
-          <th>{{ can['count'] }}</th>
+          <td>{{ can['count'] }}</td>
           <td><a href="https://hire.lever.co/candidates/{{ can['Profile ID'] }}">{{ can["Candidate Name"]}}</a></td>
         </tr>
       {% endfor %}
