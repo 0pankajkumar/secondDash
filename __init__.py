@@ -307,8 +307,44 @@ def get_live_or_archived_dict():
 @app.route('/elaborate', methods=['GET'])
 @login_required
 def elaborate():
-    operating_system = request.args.get('operatingSystem')
-    return "The OS will always be " + operating_system
+    postingId = request.args.get('postingId')
+    origin = request.args.get('origin')
+    stage = request.args.get('stage')
+
+    results = whoAreTheseNPeople(postingId, origin, stage)
+    return jsonify(results)
+
+
+def whoAreTheseNPeople(postingId, origin, stage):
+    stageBank = {
+        "newLead": "New lead",
+        "reachedOut": "Reached out",
+        "newApplicant": "New applicant",
+        "recruiterScreen": "Recruiter screen",
+        "phoneInterview": "Phone interview",
+        "onsiteInterview": "On-site interview",
+        "offer": "Offer",
+        "offerApproval": "Offer Approval",
+        "offerApproved": "Offer Approved"
+    }
+
+    # Hired ???
+
+    query = dict()
+    query['Posting ID'] = postingId
+    query['Origin'] = origin
+    query['Current Stage'] = stageBank[stage]
+    result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+
+    packet = []
+
+    for res in result:
+		dic = dict()
+		dic["Candidate Name"] = res["Candidate Name"]
+		dic["Profile ID"] = res["Profile ID"]
+		packet.append(dic)
+
+	return packet
 
 
 @app.route('/getTable', methods=['POST'])
@@ -1627,8 +1663,8 @@ GOOGLE_CLIENT_ID = open('/etc/googleauth/googleauthid',
                         'r').readlines()[0].strip()
 GOOGLE_CLIENT_SECRET = open(
     '/etc/googleauth/googleauthsecret', 'r').readlines()[0].strip()
-#GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", None)
-#GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", None)
+# GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", None)
+# GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", None)
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
