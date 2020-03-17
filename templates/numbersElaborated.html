@@ -1,0 +1,45 @@
+<!-- Used to display the Candidates whose count was reported  -->
+
+{% extends "cover.html" %} {% block main %}
+
+<!-- New style for this table -->
+<link href="dist/css/tabulator_semantic-ui.min.css" rel="stylesheet">
+
+<div style="text-align:center">
+  <table id="candidate-table">
+    <thead>
+      <tr>
+        <th width="200">Candidate Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for can in candidates %}
+        <tr>
+          <td>{{ can }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <<script type="text/javascript">
+    var candidateTable = new Tabulator("#candidate-table", {});
+  </script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
