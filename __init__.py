@@ -311,12 +311,12 @@ def elaborate():
     origin = request.args.get('origin')
     stage = request.args.get('stage')
 
-    if (postingId is None) or (origin is None) or (stage = None):
-        return "Thers is some problem with your URL"
+    # if (postingId is None) or (origin is None) or (stage = None):
+        # return "Thers is some problem with your URL"
 
     results = whoAreTheseNPeople(postingId, origin, stage)
     return render_template('numbersElaborated.html', candidates=results, lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active")
-    return jsonify(results)
+    # return jsonify(results)
 
 
 def whoAreTheseNPeople(postingId, origin, stage):
