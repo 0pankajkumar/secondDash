@@ -14,13 +14,11 @@
       </tr>
     </thead>
     <tbody>
-      {% set count = 1 %}
       {% for can in candidates %}
         <tr>
-          <th>{{ count }}</th>
+          <th>{{ can['count'] }}</th>
           <td><a href="https://hire.lever.co/candidates/{{ can['Profile ID'] }}">{{ can["Candidate Name"]}}</a></td>
         </tr>
-        {% count += 1 %}
       {% endfor %}
     </tbody>
   </table>

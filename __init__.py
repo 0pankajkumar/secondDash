@@ -349,11 +349,14 @@ def whoAreTheseNPeople(postingId, origin, stage):
     result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
 
     packet = []
+    count = 1
     for res in result:
         dic = dict()
         dic["Candidate Name"] = res["Candidate Name"]
         dic["Profile ID"] = res["Profile ID"]
+        dic["count"] = count
         packet.append(dic)
+        count += 1
     return packet
 
 
