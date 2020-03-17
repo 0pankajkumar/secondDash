@@ -3,9 +3,34 @@
 {% extends "cover.html" %} {% block main %}
 
 <!-- New style for this table -->
-<link href="dist/css/tabulator_semantic-ui.min.css" rel="stylesheet">
+<style>
+   #candidate-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+  #candidate-table td  {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
 
-<div style="position:relative;text-align:center;">
+  #candidate-table tbody tr:nth-child(even){
+    background-color: #f2f2f2;
+  }
+
+  #candidate-table tbody tr:hover {
+    background-color: #ddd;
+  }
+  
+  #candidate-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
+<div style="padding:0% 50% 0% 50%">
   <table id="candidate-table">
     <thead>
       <tr>
