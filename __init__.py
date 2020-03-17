@@ -314,6 +314,14 @@ def elaborate():
     # if (postingId is None) or (origin is None) or (stage = None):
         # return "Thers is some problem with your URL"
 
+    adminOptions = False
+    loginOption = True
+    teamOptions = False
+    if checkTeamMembership(current_user.id):
+        teamOptions = True
+    if checkAdmin(current_user.id):
+        adminOptions = True
+
     results = whoAreTheseNPeople(postingId, origin, stage)
     return render_template('numbersElaborated.html', candidates=results, lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active")
     # return jsonify(results)
