@@ -381,7 +381,7 @@
               }
             },
             columns: [
-              { title: "Posting", field: "title", width: 200, responsive: 0 },
+              { title: "Posting", field: "title", width: 350, responsive: 0 },
               // { title: "Origin", field: "origin", width: 150 },
               {
                 title: "New Lead",
@@ -452,9 +452,9 @@
               //  cell.getRow().delete();
               //}},
               {
-                title: "sac",
+                title: "",
                 field: "",
-                width: 1,
+                width: 0.5,
                 formatter: function(cell, formatterParams) {
                   if (cell.getData()["title"] == "Total") {
                     cell.getRow().getElement().style.fontWeight = "bold";
@@ -466,7 +466,6 @@
             footerElement:
               "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>"
           });
-          table.hideColumn("sac")
         }
       }
     });
