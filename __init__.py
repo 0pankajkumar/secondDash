@@ -1670,6 +1670,9 @@ def updateDump():
     collection.create_index([("Posting Department", ASCENDING), ("Posting Team", ASCENDING), (
         "Posting Title", ASCENDING), ("Actual Posting Owner Name", ASCENDING)])
 
+    collection.create_index(
+        [("Origin", DESCENDING), ("Applied At (GMT)", DESCENDING)])
+
     os.remove(file_to_open)
     print("File Deleted")
 
