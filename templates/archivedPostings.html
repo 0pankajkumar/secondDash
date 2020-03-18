@@ -318,6 +318,18 @@
           }
         }
 
+        var whoAreTheseCandidates = (cell, formatterParams) => {
+          var data = cell.getData();
+          if (cell.getValue() === undefined) {
+        	  return
+          }
+          else {
+            let e = document.getElementById("profileArchiveStatus");
+            let profileSelection = e.options[e.selectedIndex].value;
+          return "<a style='text-decoration:none; color:inherit;' target='_blank' href='https://tatreports.directi.com/elaborate?postingId=" + data['posting_id'] + "&origin=" + data['title'] + "&stage=" + formatterParams + "&profileStatus=" + profileSelection + "'>" + cell.getValue() + "</a>"
+          }
+        }
+
         if (isItAllZero(result)) {
           // Place a message
           document.getElementById("example-table").style.display = "none";
@@ -377,50 +389,66 @@
                 title: "New Lead",
                 field: "newLeadCount",
                 bottomCalc: nestedCalc,
-                bottomCalcParams: { field: "newLeadCount" }
+                bottomCalcParams: { field: "newLeadCount" },
+                formatter: whoAreTheseCandidates,
+                formatterParams: "newLead"
               },
               {
                 title: "Reached Out",
                 field: "reachedOutCount",
                 bottomCalc: nestedCalc,
-                bottomCalcParams: { field: "reachedOutCount" }
+                bottomCalcParams: { field: "reachedOutCount" },
+                formatter: whoAreTheseCandidates,
+                formatterParams: "reachedOut"
               },
               {
                 title: "New applicant",
                 field: "newApplicantCount",
                 bottomCalc: nestedCalc,
-                bottomCalcParams: { field: "newApplicantCount" }
+                bottomCalcParams: { field: "newApplicantCount" },
+                formatter: whoAreTheseCandidates,
+                formatterParams: "newApplicant"
               },
               {
                 title: "Recruiter Screen",
                 field: "recruiterScreenCount",
                 bottomCalc: nestedCalc,
-                bottomCalcParams: { field: "recruiterScreenCount" }
+                bottomCalcParams: { field: "recruiterScreenCount" },
+                formatter: whoAreTheseCandidates,
+                formatterParams: "recruiterScreen"
               },
               {
                 title: "Phone Interview",
                 field: "phoneInterviewCount",
                 bottomCalc: nestedCalc,
-                bottomCalcParams: { field: "phoneInterviewCount" }
+                bottomCalcParams: { field: "phoneInterviewCount" },
+                formatter: whoAreTheseCandidates,
+                formatterParams: "phoneInterview"
               },
               {
                 title: "On-site",
                 field: "onsiteInterviewCount",
                 bottomCalc: nestedCalc,
-                bottomCalcParams: { field: "onsiteInterviewCount" }
+                bottomCalcParams: { field: "onsiteInterviewCount" },
+                formatter: whoAreTheseCandidates,
+                formatterParams: "onsiteInterview"
               },
               {
                 title: "Offer",
                 field: "offerCount",
                 bottomCalc: nestedCalc,
-                bottomCalcParams: { field: "offerCount" }
+                bottomCalcParams: { field: "offerCount" },
+                formatter: whoAreTheseCandidates,
+                formatterParams: "offer"
               },
               //{ title: "Offer Approval/ed", field: "offerApprovalCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerApprovalCount" } },
               {
                 title: "Hired",
                 field: "hiredCount",
                 bottomCalc: nestedCalc,
-                bottomCalcParams: { field: "hiredCount" }
+                bottomCalcParams: { field: "hiredCount" },
+                formatter: whoAreTheseCandidates,
+                formatterParams: "hired"
               },
               {
                 title: "",
