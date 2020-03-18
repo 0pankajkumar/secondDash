@@ -344,7 +344,10 @@ def whoAreTheseNPeople(postingId, origin, stage, profileStatus):
     query = dict()
     query['Posting ID'] = postingId
     query['Origin'] = origin
-    query['Posting Archive Status'] = profileStatus
+    if profileStatus == "Both":
+        query['$or'] = [{'Posting Archive Status' : 'false'}, {'Posting Archive Status' : 'true'}]
+    else:
+        query['Posting Archive Status'] = profileStatus
 
     result = list()
     if stage == "hired":
