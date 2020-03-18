@@ -610,6 +610,7 @@ def getTotalForEachPosting(res):
 
         tempDict = dict(zip(monte, totalCountHolder))
         tempDict['title'] = 'Total'
+        tempDict['posting_id'] = holder[0]['posting_id']
         holder.append(tempDict)
 
     # Returning back with a signal that all counts were Zero, don't display table for this
