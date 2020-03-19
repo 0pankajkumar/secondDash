@@ -352,8 +352,12 @@ def whoAreTheseNPeople(postingId, origin, stage, profileStatus):
     else:
         query['Posting Archive Status'] = profileStatus
 
+    # We have Offer, Offer Approved, Offer Approval all counted in offer, To encounter that
     result = list()
-    if stage == "hired":
+    if stage == "offer":
+        query['$or'] = [{'Current Stage': 'Offer Approval'}, {'Current Stage': 'Offer Approved'}]
+        result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+    elif stage == "hired":
         benchDate = datetime.datetime(2015, 1, 1)
         outcome = list(collection.find(query, cursor_type=CursorType.EXHAUST))
         for out in outcome:
