@@ -61,7 +61,7 @@
         .dropdown:hover .dropdown-content {
           display: block;
         }
-	
+
 	.dropdown-subcontent {
 		top: 0px;
 		left: 100%;
@@ -69,7 +69,7 @@
 		margin-left: -1px;
 		display: none;
 	}
-	
+
 	.dropdown-submenu:hover+.dropdown-subcontent {
 		display: block;
 		float: right;
@@ -77,18 +77,42 @@
         /* dropdown for menu ends here */
 
 
-        /* For table */
-        #example-table {
-            /* max-height: 75vh;
-            overflow: auto; */
-        }
 
-        /* #referal-low-table,
-        #referal-low-table2,
-        #referal-low-table3 {
-            max-height: 60vh;
-            overflow: auto;
-        } */
+  /* Icons here */
+  <script src="https://use.fontawesome.com/39a9c22f68.js"></script>
+
+<style>
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 80px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+
+
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+</style>
+
+  /* Icons end here */
     </style>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -115,15 +139,6 @@
         src="https://cdn.rawgit.com/simonbengtsson/jsPDF/requirejs-fix-dist/dist/jspdf.debug.js"></script>
     <script type="text/javascript" src="https://unpkg.com/jspdf-autotable@2.3.2"></script>
 
-    <!-- For Google signin -->
-    <!-- <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id"
-        content="409502799386-6r7ba3thnc8nl7c0fllp88mggvrgth8s.apps.googleusercontent.com">
-    <style>
-        .abcRioButton.abcRioButtonLightBlue {
-            margin: 0 auto;
-        }
-    </style> -->
 
 
 
@@ -143,22 +158,42 @@
         <div class="search-container">
 
             {% if loginOption == True %}
-            <div><a href="/logout">Sign out</a></div>
+            <div class="tooltip">
+              <a href="/logout" style="color:inherit;">
+                <i class="fa fa-sign-out fa-lg"></i>
+              </a>
+              <span class="tooltiptext">Log out</span>
+            </div>
+
             {% endif %}
 
             {% if adminOptions == True %}
-            <div><a class="{{uploadHighlight}}" href="/upload">Upload</a></div>
-            <div><a class="{{modifyUserHighlight}}" href="/modifyUser">Users</a></div>
+            <div class="tooltip">
+              <a href="/modifyUser" class="{{modifyUserHighlight}}" style="color:inherit;">
+                <i class="fa fa-users fa-lg"></i>
+              </a>
+              <span class="tooltiptext">Users</span>
+            </div>
+
+            <div class="tooltip">
+              <a href="/upload" class="{{uploadHighlight}}" style="color:inherit;">
+                <i class="fa fa-cloud-upload fa-lg"></i>
+              </a>
+              <span class="tooltiptext">Upload</span>
+            </div>
+
             {% endif %}
 
             {% if teamOptions == True %}
             <div class="dropdown">
-                <a class="{{teamHighlight}}" href="javascript:void(0)">Options</a><br><br>
+              <a class="{{teamHighlight}}" href="javascript:void(0)" style="color:inherit;">
+                <i class="fa fa-bars fa-lg"></i>
+              </a><br><br>
                 <div class="dropdown-content">
                     <a href="/team">Team Reports</a><br>
                     <a href="/recruiterLivePostings">Recruiter Filter Live</a><br>
                     <a href="/recruiterArchivedPostings">Recruiter Filter Archived</a>
-            
+
                 </div>
             </div>
             <!-- <div class="dropdown">
