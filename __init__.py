@@ -311,6 +311,15 @@ def elaborate():
     origin = request.args.get('origin')
     stage = request.args.get('stage')
     profileStatus = request.args.get('profileStatus')
+    fromDate = request.args.get('fromDate')
+    toDate = request.args.get('toDate')
+
+    try:
+        fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
+        toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
+    except:
+        fromDate = datetime.datetime(2000, 1, 1)
+        toDate = datetime.datetime(2030, 1, 1)
 
     # if (postingId is None) or (origin is None) or (stage = None):
     # return "Thers is some problem with your URL"
@@ -323,12 +332,12 @@ def elaborate():
     if checkAdmin(current_user.id):
         adminOptions = True
 
-    results = whoAreTheseNPeople(postingId, origin, stage, profileStatus)
+    results = whoAreTheseNPeople(postingId, origin, stage, profileStatus, fromDate, toDate)
     return render_template('numbersElaborated.html', candidates=results, lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active")
     # return jsonify(results)
 
 
-def whoAreTheseNPeople(postingId, origin, stage, profileStatus):
+def whoAreTheseNPeople(postingId, origin, stage, profileStatus, fromDate, toDate):
     stageBank = {
         "newLead": "New lead",
         "reachedOut": "Reached out",
@@ -370,12 +379,13 @@ def whoAreTheseNPeople(postingId, origin, stage, profileStatus):
     packet = []
     count = 1
     for res in result:
-        dic = dict()
-        dic["Candidate Name"] = res["Candidate Name"]
-        dic["Profile ID"] = res["Profile ID"]
-        dic["count"] = count
-        packet.append(dic)
-        count += 1
+        if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate:
+            dic = dict()
+            dic["Candidate Name"] = res["Candidate Name"]
+            dic["Profile ID"] = res["Profile ID"]
+            dic["count"] = count
+            packet.append(dic)
+            count += 1
     return packet
 
 

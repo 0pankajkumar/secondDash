@@ -330,7 +330,7 @@
           else {
             let e = document.getElementById("profileArchiveStatus");
             let profileSelection = e.options[e.selectedIndex].value;
-          return "<a style='text-decoration:none; color:inherit;' target='_blank' href='https://tatreports.directi.com/elaborate?postingId=" + data['posting_id'] + "&origin=" + data['title'] + "&stage=" + formatterParams + "&profileStatus=" + profileSelection + "'>" + cell.getValue() + "</a>"
+          return "<a style='text-decoration:none; color:inherit;' target='_blank' href='https://tatreports.directi.com/elaborate?postingId=" + data['posting_id'] + "&origin=" + data['title'] + "&stage=" + formatterParams + "&profileStatus=" + profileSelection + "&fromDate" + document.getElementById("fromdatepicker").value + "&toDate" + document.getElementById("todatepicker").value + "'>" + cell.getValue() + "</a>";
           }
         }
 
