@@ -321,6 +321,9 @@ def elaborate():
         fromDate = datetime.datetime(2000, 1, 1)
         toDate = datetime.datetime(2030, 1, 1)
 
+    print("fromDate is", fromDate)
+    print("toDate is", toDate)
+
     # if (postingId is None) or (origin is None) or (stage = None):
     # return "Thers is some problem with your URL"
 
