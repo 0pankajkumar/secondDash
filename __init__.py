@@ -379,7 +379,7 @@ def whoAreTheseNPeople(postingId, origin, stage, profileStatus, fromDate, toDate
     packet = []
     count = 1
     for res in result:
-        if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate:
+        if res['Last Story At (GMT)'] >= fromDate and res['Last Story At (GMT)'] <= toDate:
             dic = dict()
             dic["Candidate Name"] = res["Candidate Name"]
             dic["Profile ID"] = res["Profile ID"]
