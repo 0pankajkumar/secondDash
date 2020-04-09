@@ -640,6 +640,7 @@ def getFromDB(title, companyName, team, recruiter=None):
     if companyName == 'All':
         companyName = {'$regex': '.*'}
     if recruiter == "All" or recruiter == None:
+        print("recruiter is actually --- ", recruiter)
         recruiter = {'$regex': '.*'}
 
     query['Posting Department'] = companyName
@@ -651,7 +652,7 @@ def getFromDB(title, companyName, team, recruiter=None):
 
 
 def actualPostId(postId, postIdCounts):
-    children = []
+        children = []
     for origin in postIdCounts:
         children.append(actualResultForOrigin(origin, postIdCounts[origin]))
     return {
