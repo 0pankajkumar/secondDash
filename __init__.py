@@ -652,7 +652,7 @@ def getFromDB(title, companyName, team, recruiter=None):
 
 
 def actualPostId(postId, postIdCounts):
-        children = []
+    children = []
     for origin in postIdCounts:
         children.append(actualResultForOrigin(origin, postIdCounts[origin]))
     return {
