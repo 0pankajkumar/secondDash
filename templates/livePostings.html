@@ -293,7 +293,8 @@
           .value,
         from: document.getElementById("fromdatepicker").value,
         to: document.getElementById("todatepicker").value,
-        requestType: "live"
+        requestType: "live",
+        recruiter: "All"
       }, // multiple data sent using ajax
       success: function(result) {
         console.log(result);
@@ -523,7 +524,8 @@
           .value,
         from: document.getElementById("fromdatepicker").value,
         to: document.getElementById("todatepicker").value,
-        requestType: "live"
+        requestType: "live",
+        recruiter: "All"
       }, //ajax parameters
       success: function(result) {
         function isItAllZero(jso) {
