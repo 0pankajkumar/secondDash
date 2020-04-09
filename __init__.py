@@ -314,6 +314,8 @@ def elaborate():
     fromDate = request.args.get('fromDate')
     toDate = request.args.get('toDate')
 
+    print("fromDate before is", fromDate)
+    print("toDate before is", toDate)
     try:
         fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
         toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
