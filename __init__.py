@@ -631,6 +631,11 @@ def getTotalForEachPosting(res):
         holderForTotalCountHolder += sum(totalCountHolder)
 
         tempDict = dict(zip(monte, totalCountHolder))
+
+        # Writing total with the title row itself so that total will appear on the top of each posting 
+        for k,v in tempDict.items():
+            res[i][k] = v
+
         tempDict['title'] = 'Total'
         tempDict['posting_id'] = holder[0]['posting_id']
         holder.append(tempDict)
