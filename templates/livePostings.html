@@ -470,7 +470,9 @@
                 visible:false,
                 formatter: function(cell, formatterParams) {
                   if (cell.getData()["topTag"] == "true") {
-                    cell.getRow().getElement().style.fontWeight = "bold";
+                    //cell.getRow().getElement().style.fontWeight = "bold";
+                    cell.getRow().getElement().style.backgroundColor = "#808080";
+                    cell.getRow().getElement().style.color = "#FFFFFF";
                   }
                 }
               }
