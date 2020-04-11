@@ -241,6 +241,7 @@
   }
 </script>
 
+<div id='toggleCollapse' onclick='traverseRows(table, this);'>Expand</div>
 <div id="example-table" style="margin: 20px 10px 20px 20px; display: none;"></div>
 <div id="chartdivs" style="display: none;"></div>
 <div id="nobodyFound" style="display: none;">
@@ -491,7 +492,7 @@
             ],
 
             footerElement:
-              "<button id='toggleCollapse' type='button' onclick='traverseRows(table, this);'>Expand</button><button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>"
+              "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>"
           });
         }
       }

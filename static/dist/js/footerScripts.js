@@ -21,7 +21,7 @@ function traverseRows() {
     actionWord = actionWord=="Expand" ? "Collapse" : "Expand";
     document.getElementById('toggleCollapse').innerHTML = actionWord=="Expand" ? "Collapse" : "Expand";
     
-    console.log(elem.value);
+    
     var tblRows = table.getRows();
     console.log(tblRows);
     tblRows.forEach(function(row){
