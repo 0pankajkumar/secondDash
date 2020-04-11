@@ -350,7 +350,7 @@
           // Display the table
           // Creating a Tabulator object
 
-          var table = new Tabulator("#example-table", {
+          table = new Tabulator("#example-table", {
             data: result,
             // height: "auto",
             height: "75vh",
@@ -360,7 +360,7 @@
             placeholder: "No Data",
             // index: "id",
             dataTree: true,
-            dataTreeStartExpanded: true,
+            dataTreeStartExpanded: false,
             //groupBy: "title",
             groupHeader: customGroupHeader,
             tooltips: function(cell) {
