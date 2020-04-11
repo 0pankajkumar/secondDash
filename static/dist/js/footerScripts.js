@@ -17,13 +17,12 @@ function findChildren(row, action) {
     }
 }
 
-function traverseRows(tbl,e) {
+function traverseRows() {
     actionWord = actionWord=="Expand" ? "Collapse" : "Expand";
-    var elem = document.getElementById("toggleCollapse");
-    e.innerHTML = actionWord=="Expand" ? "Collapse" : "Expand";
+    document.getElementById('toggleCollapse').innerHTML = actionWord=="Expand" ? "Collapse" : "Expand";
     
     console.log(elem.value);
-    var tblRows = tbl.getRows();
+    var tblRows = table.getRows();
     console.log(tblRows);
     tblRows.forEach(function(row){
         if (row.getTreeChildren().length > 0){
