@@ -20,7 +20,7 @@ function findChildren(row, action) {
 
 function traverseRows() {
     actionWord = actionWord=="Expand all" ? "Collapse all" : "Expand all";
-    document.getElementById('toggleCollapse').innerHTML = actionWord=="Expand all" ? "Collapse ll" : "Expand all";
+    document.getElementById('toggleCollapse').innerHTML = actionWord=="Expand all" ? "Collapse all" : "Expand all";
     
     
     var tblRows = table.getRows();
