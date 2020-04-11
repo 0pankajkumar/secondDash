@@ -359,7 +359,8 @@ def whoAreTheseNPeople(postingId, origin, stage, profileStatus, fromDate, toDate
     query['Posting ID'] = postingId
 
     if origin != "Total":
-        query['Origin'] = origin
+        if len(origin) < 12:
+            query['Origin'] = origin
 
     if profileStatus == "Both":
         query['$or'] = [{'Posting Archive Status' : 'false'}, {'Posting Archive Status' : 'true'}]
@@ -636,6 +637,7 @@ def getTotalForEachPosting(res):
         for k,v in tempDict.items():
             res[i][k] = v
         res[i]['topTag'] = "true"   # Used to indicate at front-end about top tag
+        res[i]['posting_id'] = res[i]['_children'][0]['posting_id']
 
         # By commenting the below, we are not writing total field
         # tempDict['title'] = 'Total'
