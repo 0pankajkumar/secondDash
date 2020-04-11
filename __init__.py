@@ -635,10 +635,12 @@ def getTotalForEachPosting(res):
         # Writing total with the title row itself so that total will appear on the top of each posting 
         for k,v in tempDict.items():
             res[i][k] = v
+        res[i]['topTag'] = "true"   # Used to indicate at front-end about top tag
 
-        tempDict['title'] = 'Total'
-        tempDict['posting_id'] = holder[0]['posting_id']
-        holder.append(tempDict)
+        # By commenting the below, we are not writing total field
+        # tempDict['title'] = 'Total'
+        # tempDict['posting_id'] = holder[0]['posting_id']
+        # holder.append(tempDict)
 
     # Returning back with a signal that all counts were Zero, don't display table for this
     return True if holderForTotalCountHolder == 0 else False

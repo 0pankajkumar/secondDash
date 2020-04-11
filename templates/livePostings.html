@@ -350,7 +350,7 @@
             placeholder: "No Data",
             // index: "id",
             dataTree: true,
-            dataTreeStartExpanded: true,
+            dataTreeStartExpanded: false,
             //groupBy: "title",
             groupHeader: customGroupHeader,
             tooltips: function(cell) {
@@ -467,8 +467,9 @@
                 title: "",
                 field: "",
                 width: 0.5,
+                visible:false,
                 formatter: function(cell, formatterParams) {
-                  if (cell.getData()["title"] == "Total") {
+                  if (cell.getData()["topTag"] == "true") {
                     cell.getRow().getElement().style.fontWeight = "bold";
                   }
                 }
