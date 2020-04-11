@@ -1,3 +1,44 @@
+// Code to Expand & Collapse All the postings
+var actionWord = "Collapse";
+function findChildren(row, action) {
+    if (action == "Expand"){
+        row.treeExpand();
+    }else{
+        row.treeCollapse()};
+
+    var childRows = row.getTreeChildren();
+
+    if (childRows.length > 0){
+        childRows.forEach(function(child){
+            if (child.getTreeChildren().length > 0){
+                findChildren(child, action)
+            }
+        })
+    }
+}
+
+function traverseRows(tbl,e) {
+    actionWord = actionWord=="Expand" ? "Collapse" : "Expand";
+    var elem = document.getElementById("toggleCollapse");
+    e.innerHTML = actionWord=="Expand" ? "Collapse" : "Expand";
+    
+    console.log(elem.value);
+    var tblRows = tbl.getRows();
+    console.log(tblRows);
+    tblRows.forEach(function(row){
+        if (row.getTreeChildren().length > 0){
+            findChildren(row, actionWord)
+        }
+    });
+}
+
+
+
+
+
+
+
+
 function JSONToCSVConvertor(JSONData, ReportTitle) {
   //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
   var arrData = typeof JSONData != "object" ? JSON.parse(JSONData) : JSONData;
