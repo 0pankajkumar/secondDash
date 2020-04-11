@@ -1,5 +1,6 @@
 // Code to Expand & Collapse All the postings
 var actionWord = "Collapse";
+document.getElementById("toggleCollapse").addEventListener("click", traverseRows);
 function findChildren(row, action) {
     if (action == "Expand"){
         row.treeExpand();
