@@ -267,7 +267,7 @@
       var calc = 0;
 
       data.forEach(function(row) {
-        for (let i = 1; i < row._children.length; i++) {
+        for (let i = 0; i < row._children.length; i++) {
           calc += row._children[i][calcParams.field];
         }
       });
@@ -472,7 +472,7 @@
                   if (cell.getData()["topTag"] == "true") {
                     //cell.getRow().getElement().style.fontWeight = "bold";
                     cell.getRow().getElement().style.backgroundColor = "#C0C0C0";
-                    cell.getRow().getElement().style.color = "#FFFFFF";
+                    cell.getRow().getElement().style.color = "#000000";
                   }
                 }
               }
