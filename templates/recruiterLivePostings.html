@@ -481,6 +481,7 @@
 
         $(document).on("click", "#download-xl", downXL);
         $(document).on("click", "#download-PDF", downPDF);
+        $(document).on("click", "#toggleCollapse", collapseToggler);
 
         function downXL() {
           console.log("Inside downXL");
@@ -490,6 +491,10 @@
         function downPDF() {
           console.log("Inside downPDF");
           JSONToPDFConvertor(result, "TAT Report");
+        }
+        function collapseToggler(){
+          console.log("Inside Expand collapse toggler");
+          traverseRows();
         }
 
         function isItAllZero(jso) {
