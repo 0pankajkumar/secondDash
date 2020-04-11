@@ -643,10 +643,13 @@
               {
                 title: "",
                 field: "",
-                width: 0,
+                width: 0.5,
+                visible:false,
                 formatter: function(cell, formatterParams) {
-                  if (cell.getData()["title"] == "Total") {
-                    cell.getRow().getElement().style.fontWeight = "bold";
+                  if (cell.getData()["topTag"] == "true") {
+                    //cell.getRow().getElement().style.fontWeight = "bold";
+                    cell.getRow().getElement().style.backgroundColor = "#C0C0C0";
+                    cell.getRow().getElement().style.color = "#000000";
                   }
                 }
               }
