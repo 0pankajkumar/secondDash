@@ -1181,7 +1181,7 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 
 
 def checkDuplicateFilterPlease(filterName):
-    return False
+    # return False
     # Returns True if unique filter else false
     allFiltersOfThisUser = collection5.find({"users": current_user.id})
     for row in allFiltersOfThisUser:
