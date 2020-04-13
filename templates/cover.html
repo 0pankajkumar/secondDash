@@ -7,6 +7,7 @@
     <link href="dist/css/uploaderStyles.css" rel="stylesheet">
     <link href="dist/css/dropdownStyles.css" rel="stylesheet">
     <link href="dist/css/topNavbarStyles.css" rel="stylesheet">
+    <link href="dist/css/snackbar.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
 
 
@@ -236,16 +237,27 @@
     {% block main %}{% endblock %}
 
 
+    <!-- For snackbar -->
+    <div id="snackbar"></div>
+
     <div class="modal">
         <!-- For loading everytime some ajax is fired. Inspiration from https://stackoverflow.com/questions/1964839/how-can-i-create-a-please-wait-loading-animation-using-jquery -->
     </div>
     <script>
+        // Loading circle
         $body = $("body");
-
         $(document).on({
             ajaxStart: function () { $body.addClass("loading"); },
             ajaxStop: function () { $body.removeClass("loading"); }
         });
+
+        // Snackbar script
+        function triggerSnackbar() {
+          var x = document.getElementById("snackbar");
+          x.className = "show";
+          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+
     </script>
 
 </body>

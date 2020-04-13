@@ -118,6 +118,7 @@
         <button id="sendForTable" class="btn btn-primary flexItem2">
           Table view
         </button>
+        <span id="saveFilter">Save filter</span>
         <button
           id="sendForFunnel"
           class="btn btn-primary flexItem2"
@@ -129,20 +130,7 @@
     </li>
   </ul>
 
-  <!-- <div class="ui-widget flexItem">
-    <label for="  ">Posting Status :</label><br>
-    <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: hidden">
-      <option value="Both" selected>Both</option>
-      {% for p in postingArchiveStatus %}
-      {% if p == 'false' %}
-      <option value="{{ p }}">Live</option>
-      {% elif p == 'true' %}
-      <option value="{{ p }}">Archived</option>
-
-      {% endif %}
-      {% endfor %}
-    </select>
-  </div> -->
+  
 </div>
 
 <!-- </form> -->
@@ -150,6 +138,40 @@
 <script>
   // Modify title
   document.title = "Live Posts";
+
+
+
+
+  // Add event listner for saving the filter option
+  document.getElementById("saveFilter").addEventListener("click", () => {
+    // Send all filter options to backend
+    $.ajax({
+      type: "POST",
+      cache: false,
+      url: "/customFilters",
+      data: {
+        companyName: document.getElementById("ddl1").value,
+        postingTeam: document.getElementById("ddl2").value,
+        postingTitle: $("#ddl3").val(),
+        postingArchiveStatus: "",
+        profileArchiveStatus: document.getElementById("profileArchiveStatus")
+          .value,
+        from: document.getElementById("fromdatepicker").value,
+        to: document.getElementById("todatepicker").value,
+        requestType: "save",
+        recruiter: "All"
+      },
+      success: function(result) {
+        document.getElementById("snackbar").innerHTML = result;
+        triggerSnackbar();
+      }
+    });
+  });
+
+
+
+
+
 
   //Date picker
   $(function() {

@@ -1176,6 +1176,29 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
     return jsonify({'low': lowerPack, 'up': upperPackForTabulator})
 
 
+
+@app.route('/customFilters', methods=['POST'])
+@login_required
+def customFilters():
+    if request.method == "POST":
+        recruiter = request.form.get('recruiter')
+        postingTitle = request.form.getlist('postingTitle[]')
+        companyName = request.form.get('companyName')
+        postingTeam = request.form.get('postingTeam')
+        requestType = request.form.get('requestType')
+        # postingArchiveStatus = request.form.get('postingArchiveStatus')
+        profileArchiveStatus = request.form.get('profileArchiveStatus')
+        fromDate = request.form.get('from')
+        toDate = request.form.get('to')
+
+        print(recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+        return "Message Successfully received"
+
+
+
+
+
+
 @app.route('/team', methods=['GET', 'POST'])
 @login_required
 def team():
