@@ -59,6 +59,10 @@ collection2 = database["ApprovedUsers"]
 # From new dup
 collection4 = database["jobPostingWiseDB"]
 
+# For saving custom filters for each user
+collection5 = database["customFiltersDB"]
+
+
 # Clearing caches
 @app.after_request
 def after_request(response):
@@ -1176,11 +1180,21 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
     return jsonify({'low': lowerPack, 'up': upperPackForTabulator})
 
 
+def checkDuplicateFilterPlease(filterName):
+    return False
+    # Returns True if unique filter else false
+    allFiltersOfThisUser = collection5.find({"users": current_user.id})
+    for row in allFiltersOfThisUser:
+        if row["filterName"] == filterName:
+            return False
+    return True
+
 
 @app.route('/customFilters', methods=['POST'])
 @login_required
 def customFilters():
     if request.method == "POST":
+        filterName = request.form.get('recruiter') 
         recruiter = request.form.get('recruiter')
         postingTitle = request.form.getlist('postingTitle[]')
         companyName = request.form.get('companyName')
@@ -1190,6 +1204,16 @@ def customFilters():
         profileArchiveStatus = request.form.get('profileArchiveStatus')
         fromDate = request.form.get('from')
         toDate = request.form.get('to')
+
+        if requestType == "save":
+            saveCustomFilterPlease(recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+            return "Filter Saved Successfully"
+        if requestType == "checkDuplicate":
+            unique = checkDuplicateFilterPlease(filterName)
+            if unique:
+                return "unique"
+            else:
+                return "duplicate"
 
         print(recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
         return "Message Successfully received"
