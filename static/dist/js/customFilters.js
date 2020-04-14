@@ -38,3 +38,50 @@ document.getElementById("saveFilter").addEventListener("click", () => {
     }
 
 });
+
+
+
+
+
+
+
+
+
+// Apply custom filter to all the dropdowns below
+function applyCustomFilterWaterfall(selectedCustomFilter) {
+
+    // Fetch all data of selectedCustomFilter
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: "/customFilters",
+        data: {
+            filterName: selectedCustomFilter.value,
+            requestType: "getThoseOptions"
+        },
+        success: function(result) {
+            if(result.resultFound == "yes"){
+                // Selecting the Company name programatically
+                $('#ddl1').val(result.companyName);
+                
+            }
+            else {
+                document.getElementById("snackbar").innerHTML = "Filter not loaded\n Try selecting manually";
+                triggerSnackbar();
+            }
+            let dict = {
+                pageType: result.pageType,
+                companyName: result.companyName,
+                postingTeam: result.postingTeam,
+                postingTitle: result.postingTitle,
+                postingArchiveStatus: result.postingArchiveStatus,
+                profileArchiveStatus: result.profileArchiveStatus,
+                fromDate: result.fromDate,
+                toDate: result.toDate,
+                recruiter: result.recruiter
+            };
+        }
+    });
+
+
+}

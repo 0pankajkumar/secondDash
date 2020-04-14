@@ -8,8 +8,8 @@
     <ul>
         <li>
             <div class="ui-widget flexItem">
-                <label for="customFilters">Custom filters:</label><br />
-                <select name="ddl0" id="ddl0" class="select2-dropdown" style="display: hidden" onchange="">
+                <label for="customFilters">Custom Filters:</label><br />
+                <select name="ddl0" id="ddl0" class="select2-dropdown" style="display: hidden" onchange="applyCustomFilterWaterfall(document.getElementById('ddl0'))">
                     <option value="nothing" selected>Choose</option>
                     {% for fil in customFilterNames %}
                     <option value="{{ fil }}">{{ fil }}</option>

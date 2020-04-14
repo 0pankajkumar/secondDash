@@ -1232,6 +1232,36 @@ def saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, compan
 		# except:
 		#     return "Some error occured while saving filter"
 
+def getThoseParticularOptions(filterName):
+	dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+	dbData = None
+	for d in dbDataStarting:
+		dbData = d
+	if "customFilters" in dbData:
+		dbData = dbData["customFilters"]
+	else:
+		dbData = []
+
+	dictToBeReturned = dict()
+	dictToBeReturned["resultFound"] = "no"
+	for d in dbData:
+		if d["filterName"] == filterName:
+			dictToBeReturned["filterName"] = d["filterName"]
+			dictToBeReturned["pageType"] = d["pageType"]
+			dictToBeReturned["recruiter"] = d["recruiter"]
+			dictToBeReturned["postingTitle"] = d["postingTitle"]
+			dictToBeReturned["companyName"] = d["companyName"]
+			dictToBeReturned["postingTeam"] = d["postingTeam"]
+			dictToBeReturned["requestType"] = d["requestType"]
+			dictToBeReturned["profileArchiveStatus"] = d["profileArchiveStatus"]
+			dictToBeReturned["fromDate"] = d["fromDate"]
+			dictToBeReturned["toDate"] = d["toDate"]
+			dictToBeReturned["resultFound"] = "yes"
+			break
+
+	return jsonify(dictToBeReturned)
+
+
 
 @app.route('/customFilters', methods=['POST'])
 @login_required
@@ -1249,8 +1279,13 @@ def customFilters():
 		fromDate = request.form.get('from')
 		toDate = request.form.get('to')
 
-		msg = saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
-		return msg
+		if requestType == "save":
+			msg = saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+			return msg
+
+		if requestType == "getThoseOptions":
+			return getThoseParticularOptions(filterName)
+
 
 
 
