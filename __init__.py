@@ -1218,6 +1218,7 @@ def saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, compan
     else:
         filtersToBeSaved = getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
         dbData.append(filtersToBeSaved)
+        print("dbData before writing", dbData)
         # try:
         collection2.update(
                 {"users": current_user.id},
