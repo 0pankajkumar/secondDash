@@ -1201,7 +1201,7 @@ def getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, comp
     return temp 
 
 def saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
-    dbData = collection2.find_one({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+    dbData = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
     if "customFilters" in dbData:
         dbData = dbData["customFilters"]
     else:
