@@ -132,7 +132,7 @@ document.getElementById("deleteFilter").addEventListener("click", () => {
                 cache: false,
                 url: "/customFilters",
                 data: {
-                    filterName: filterNamePlease,
+                    filterName: filterName,
                     requestType: "delete"
                 },
                 success: function(result) {
