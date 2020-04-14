@@ -1261,7 +1261,27 @@ def getThoseParticularOptions(filterName):
 
 	return jsonify(dictToBeReturned)
 
+def deleteThisParticularFilter(filterName):
+	dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+	dbData = None
+	for d in dbDataStarting:
+		dbData = d
+	if "customFilters" in dbData:
+		dbData = dbData["customFilters"]
+	else:
+		dbData = []
 
+	dictToBeStoredAgain = list() # All data except for the filter which needs to be deleted will be stored again
+	for d in dbData:
+		if d["filterName"] != filterName:
+			dictToBeStoredAgain.append(d)
+
+	collection2.update(
+		{"users": current_user.id},
+		{"$set" : {"customFilters": dictToBeStoredAgain}}
+	)
+	return "Filter Deleted"
+	
 
 @app.route('/customFilters', methods=['POST'])
 @login_required
@@ -1285,6 +1305,9 @@ def customFilters():
 
 		if requestType == "getThoseOptions":
 			return getThoseParticularOptions(filterName)
+
+		if requestType == "delete":
+			return deleteThisParticularFilter(filterName)
 
 
 

@@ -112,3 +112,33 @@ function applyCustomFilterWaterfall(selectedCustomFilter) {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+// Delete filter defined below
+document.getElementById("deleteFilter").addEventListener("click", () => {
+    filterName = document.getElementById("ddl0").value;
+    if (filterName != null || filterName != "" ){
+        // Sending filterName to delete it from records
+        $.ajax({
+                type: "POST",
+                cache: false,
+                url: "/customFilters",
+                data: {
+                    filterName: filterNamePlease,
+                    requestType: "delete"
+                },
+                success: function(result) {
+                    document.getElementById("snackbar").innerHTML = result;
+                    triggerSnackbar();
+                }
+            });
+    }
+});
