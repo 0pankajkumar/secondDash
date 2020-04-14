@@ -101,22 +101,12 @@ function applyCustomFilterWaterfall(selectedCustomFilter) {
                     $('#todatepicker').datepicker("setDate", new Date(formatDatesPlease.toDateYear, formatDatesPlease.toDateMonth, formatDatesPlease.toDateDay));
                     $("#todatepicker").trigger("change");
                 }
+                document.getElementById("sendForTable").click();
 
             } else {
                 document.getElementById("snackbar").innerHTML = "Filter not loaded\n Try selecting manually";
                 triggerSnackbar();
             }
-            let dict = {
-                pageType: result.pageType,
-                companyName: result.companyName,
-                postingTeam: result.postingTeam,
-                postingTitle: result.postingTitle,
-                postingArchiveStatus: result.postingArchiveStatus,
-                profileArchiveStatus: result.profileArchiveStatus,
-                fromDate: result.fromDate,
-                toDate: result.toDate,
-                recruiter: result.recruiter
-            };
         }
     });
 
