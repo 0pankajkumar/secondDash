@@ -8,6 +8,17 @@
     <ul>
         <li>
             <div class="ui-widget flexItem">
+                <label for="customFilters">Custom filters:</label><br />
+                <select name="ddl0" id="ddl0" class="select2-dropdown" style="display: hidden" onchange="">
+                    <option value="nothing" selected>Choose</option>
+                    {% for fil in customFilterNames %}
+                    <option value="{{ fil }}">{{ fil }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </li>
+        <li>
+            <div class="ui-widget flexItem">
                 <label for="companyName">Company:</label><br />
                 <select name="ddl1" id="ddl1" class="select2-dropdown" style="display: hidden" onchange="configureDDL2(document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
                     <option value="nothing" selected>Choose</option>
