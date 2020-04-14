@@ -63,6 +63,7 @@ function applyCustomFilterWaterfall(selectedCustomFilter) {
             if(result.resultFound == "yes"){
                 // Selecting the Company name programatically
                 $('#ddl1').val(result.companyName);
+                $("#ddl1").trigger("change");
                 
             }
             else {
