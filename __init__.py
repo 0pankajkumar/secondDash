@@ -1179,22 +1179,58 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 
     return jsonify({'low': lowerPack, 'up': upperPackForTabulator})
 
+def getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
+    temp = dict()
+    temp["filterName"] = filterName
+    temp["pageType"] = pageType
+    temp["recruiter"] = recruiter
+    temp["postingTitle"] = postingTitle
+    temp["companyName"] = companyName
+    temp["postingTeam"] = postingTeam
+    temp["requestType"] = requestType
+    temp["profileArchiveStatus"] = profileArchiveStatus
+    try:
+        fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
+        toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
+    except:
+        fromDate = ""
+        toDate = ""
+    temp["fromDate"] = fromDate
+    temp["toDate"] = toDate
 
-def checkDuplicateFilterPlease(filterName):
-    # return False
-    # Returns True if unique filter else false
-    allFiltersOfThisUser = collection5.find({"users": current_user.id})
-    for row in allFiltersOfThisUser:
-        if row["filterName"] == filterName:
-            return False
-    return True
+    return temp 
+
+def saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
+    dbData = collection2.find_one({"users": current_user.id})
+    dbData = dbData["customFilters"]
+
+    duplicateFound = False
+    for dbD in dbData:
+        if dbD["filterName"] == filterName:
+            duplicateFound = True
+            break
+
+    if duplicateFound:
+        return "No two filters can have same name"
+    else:
+        filtersToBeSaved = getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+        dbData.append(filtersToBeSaved)
+        try:
+            collection2.findOneAndUpdate(
+                    {"users": current_user.id},
+                    {"$set" : {"customFilters": dbData}}
+                )
+            return "Filter saved Successfully"
+        except:
+            return "Some error occured while saving filter"
 
 
 @app.route('/customFilters', methods=['POST'])
 @login_required
 def customFilters():
     if request.method == "POST":
-        filterName = request.form.get('recruiter') 
+        filterName = request.form.get('filterName') 
+        pageType = request.form.get('pageType')
         recruiter = request.form.get('recruiter')
         postingTitle = request.form.getlist('postingTitle[]')
         companyName = request.form.get('companyName')
@@ -1205,18 +1241,8 @@ def customFilters():
         fromDate = request.form.get('from')
         toDate = request.form.get('to')
 
-        if requestType == "save":
-            saveCustomFilterPlease(recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
-            return "Filter Saved Successfully"
-        if requestType == "checkDuplicate":
-            unique = checkDuplicateFilterPlease(filterName)
-            if unique:
-                return "unique"
-            else:
-                return "duplicate"
-
-        print(recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
-        return "Message Successfully received"
+        msg = saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+        return msg
 
 
 
