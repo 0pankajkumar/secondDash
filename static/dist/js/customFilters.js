@@ -91,13 +91,13 @@ function applyCustomFilterWaterfall(selectedCustomFilter) {
                 $('#profileArchiveStatus').val(result.profileArchiveStatus);
                 $("#profileArchiveStatus").trigger("change");
 
-                let formatDatesPlease = dateIntify(fromDate, toDate)
+                let formatDatesPlease = dateIntify(result.fromDate, result.toDate)
 
-                if (fromDate.length > 8) {
+                if (result.fromDate.length > 8) {
                     $('#fromdatepicker').datepicker("setDate", new Date(formatDatesPlease.fromDateYear, formatDatesPlease.fromDateMonth, formatDatesPlease.fromDateDay));
                     $("#fromdatepicker").trigger("change");
                 }
-                if (toDate.length > 8) {
+                if (result.toDate.length > 8) {
                     $('#todatepicker').datepicker("setDate", new Date(formatDatesPlease.toDateYear, formatDatesPlease.toDateMonth, formatDatesPlease.toDateDay));
                     $("#todatepicker").trigger("change");
                 }
