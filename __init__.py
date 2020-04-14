@@ -1201,8 +1201,10 @@ def getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, comp
     return temp 
 
 def saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
-    dbData = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+    dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
     print("fetching dbData first", dbData)
+    for d in dbDataStarting:
+        dbData = d
     if "customFilters" in dbData:
         print("why is this one not running")
         dbData = dbData["customFilters"]
