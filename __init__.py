@@ -1254,8 +1254,8 @@ def getThoseParticularOptions(filterName):
 			dictToBeReturned["postingTeam"] = d["postingTeam"]
 			dictToBeReturned["requestType"] = d["requestType"]
 			dictToBeReturned["profileArchiveStatus"] = d["profileArchiveStatus"]
-			dictToBeReturned["fromDate"] = d["fromDate"]
-			dictToBeReturned["toDate"] = d["toDate"]
+			dictToBeReturned["fromDate"] = str(d["fromDate"])[:10]
+			dictToBeReturned["toDate"] = str(d["toDate"])[:10]
 			dictToBeReturned["resultFound"] = "yes"
 			break
 

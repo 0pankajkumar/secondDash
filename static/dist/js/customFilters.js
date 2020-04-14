@@ -43,7 +43,24 @@ document.getElementById("saveFilter").addEventListener("click", () => {
 
 
 
+function dateIntify(fromDate, toDate) {
+    let d = {};
+    if (fromDate.length > 8) {
 
+        d.fromDateYear = parseInt(fromDate.slice(0, 4));
+        d.fromDateMonth = parseInt(fromDate.slice(5, 7));
+        d.fromDateDay = parseInt(fromDate.slice(8, 10));
+    }
+
+    if (toDate.length > 8) {
+        d.toDateYear = parseInt(toDate.slice(0, 4));
+        d.toDateMonth = parseInt(toDate.slice(5, 7));
+        d.toDateDay = parseInt(toDate.slice(8, 10));
+    }
+
+    return d;
+
+}
 
 
 
@@ -60,7 +77,7 @@ function applyCustomFilterWaterfall(selectedCustomFilter) {
             requestType: "getThoseOptions"
         },
         success: function(result) {
-            if(result.resultFound == "yes"){
+            if (result.resultFound == "yes") {
                 // Selecting the Company name programatically
                 $('#ddl1').val(result.companyName);
                 $("#ddl1").trigger("change");
@@ -74,14 +91,18 @@ function applyCustomFilterWaterfall(selectedCustomFilter) {
                 $('#profileArchiveStatus').val(result.profileArchiveStatus);
                 $("#profileArchiveStatus").trigger("change");
 
-                $('#fromdatepicker').datepicker("setDate", new Date(2008,9,3) );
-                $("#fromdatepicker").trigger("change");
+                let formatDatesPlease = dateIntify(fromDate, toDate)
 
-                $('#todatepicker').datepicker("setDate", new Date(2008,9,3) );
-                $("#todatepicker").trigger("change");
-                
-            }
-            else {
+                if (fromDate.length > 8) {
+                    $('#fromdatepicker').datepicker("setDate", new Date(formatDatesPlease.fromDateYear, formatDatesPlease.fromDateMonth, formatDatesPlease.fromDateDay));
+                    $("#fromdatepicker").trigger("change");
+                }
+                if (toDate.length > 8) {
+                    $('#todatepicker').datepicker("setDate", new Date(formatDatesPlease.toDateYear, formatDatesPlease.toDateMonth, formatDatesPlease.toDateDay));
+                    $("#todatepicker").trigger("change");
+                }
+
+            } else {
                 document.getElementById("snackbar").innerHTML = "Filter not loaded\n Try selecting manually";
                 triggerSnackbar();
             }
