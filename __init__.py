@@ -1218,14 +1218,14 @@ def saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, compan
     else:
         filtersToBeSaved = getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
         dbData.append(filtersToBeSaved)
-        try:
-            collection2.findOneAndUpdate(
-                    {"users": current_user.id},
-                    {"$set" : {"customFilters": dbData}}
-                )
-            return "Filter saved Successfully"
-        except:
-            return "Some error occured while saving filter"
+        # try:
+        collection2.update(
+                {"users": current_user.id},
+                {"$set" : {"customFilters": dbData}}
+            )
+        return "Filter saved Successfully"
+        # except:
+        #     return "Some error occured while saving filter"
 
 
 @app.route('/customFilters', methods=['POST'])
