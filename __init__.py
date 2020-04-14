@@ -1202,7 +1202,10 @@ def getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, comp
 
 def saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
     dbData = collection2.find_one({"users": current_user.id})
-    dbData = dbData["customFilters"]
+    if "customFilters" in dbData:
+        dbData = dbData["customFilters"]
+    else:
+        dbData = []
 
     duplicateFound = False
     for dbD in dbData:
