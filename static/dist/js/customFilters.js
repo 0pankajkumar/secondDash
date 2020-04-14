@@ -64,6 +64,21 @@ function applyCustomFilterWaterfall(selectedCustomFilter) {
                 // Selecting the Company name programatically
                 $('#ddl1').val(result.companyName);
                 $("#ddl1").trigger("change");
+
+                $('#ddl2').val(result.postingTeam);
+                $("#ddl2").trigger("change");
+
+                $('#ddl3').val(result.postingTitle);
+                $("#ddl3").trigger("change");
+
+                $('#profileArchiveStatus').val(result.profileArchiveStatus);
+                $("#profileArchiveStatus").trigger("change");
+
+                $('#fromdatepicker').datepicker("setDate", new Date(2008,9,3) );
+                $("#fromdatepicker").trigger("change");
+
+                $('#todatepicker').datepicker("setDate", new Date(2008,9,3) );
+                $("#todatepicker").trigger("change");
                 
             }
             else {
