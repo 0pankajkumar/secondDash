@@ -1644,15 +1644,15 @@ def fetchUsers(usersList):
 	pa = collection2.find({}, cursor_type=CursorType.EXHAUST)
 	for p in pa:
 		print(p)
-		# usersDict = dict()
-		# usersDict['users'] = p['users']
-		# usersDict['type'] = p['type']
-		# usersDict['tatMember'] = p['tatMember']
-		# if 'whichPositions' in p:
-		# 	usersDict['whichPositions'] = p['whichPositions']
-		# else:
-		# 	usersDict['whichPositions'] = "Not defined"
-		# usersList.append(usersDict)
+		usersDict = dict()
+		usersDict['users'] = p['users']
+		usersDict['type'] = p['type']
+		usersDict['tatMember'] = p['tatMember']
+		if 'whichPositions' in p:
+			usersDict['whichPositions'] = p['whichPositions']
+		else:
+			usersDict['whichPositions'] = "Not defined"
+		usersList.append(usersDict)
 
 
 # Make that bigDict step by step
