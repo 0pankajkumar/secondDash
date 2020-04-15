@@ -1298,8 +1298,9 @@ def getAllUsernameForSharing():
 	return jsonify(sendDict)
 
 
-# def shareToThesePeople(usernamesToBeSharedWith):
-# 	return usernamesToBeSharedWith
+def shareToThesePeople(usernamesToBeSharedWith):
+	print(usernamesToBeSharedWith)
+	return "Successfully Shared !"
 
 @app.route('/customFilters', methods=['POST'])
 @login_required
