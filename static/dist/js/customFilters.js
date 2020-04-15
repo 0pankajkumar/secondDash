@@ -123,7 +123,7 @@ function applyCustomFilterWaterfall(selectedCustomFilter) {
 
 
 // Delete filter defined below
-document.getElementById("deleteFilter").addEventListener("click", () => {
+document.getElementById("deleteFilter"he said zeta 10 days ke lie stop karne).addEventListener("click", () => {
     filterName = document.getElementById("ddl0").value;
     if (filterName != null || filterName != "") {
         // Sending filterName to delete it from records
@@ -142,6 +142,11 @@ document.getElementById("deleteFilter").addEventListener("click", () => {
         });
     }
 });
+
+
+
+
+
 
 
 // Share filter opening & closing

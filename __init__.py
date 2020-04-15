@@ -60,7 +60,7 @@ collection2 = database["ApprovedUsers"]
 collection4 = database["jobPostingWiseDB"]
 
 # For saving custom filters for each user
-collection5 = database["customFiltersDB"]
+# collection5 = database["customFiltersDB"]
 
 
 # Clearing caches
@@ -1281,7 +1281,21 @@ def deleteThisParticularFilter(filterName):
 		{"$set" : {"customFilters": dictToBeStoredAgain}}
 	)
 	return "Filter Deleted"
-	
+
+def getAllUsernameForSharing():
+	dbDataStarting = collection2.find({}, cursor_type=CursorType.EXHAUST)
+	allUsernames = list()
+	for d in dbDataStarting:
+		allUsernames.append(d["users"])
+
+	sendDict = dict()
+	if len(allUsernames) > 0:
+		sendDict["foundUsernames"] = "yes"
+	else:
+		sendDict["foundUsernames"] = "no"
+
+	sendDict["usernames"] = allUsernames
+	return jsonify(sendDict)
 
 @app.route('/customFilters', methods=['POST'])
 @login_required
@@ -1298,6 +1312,7 @@ def customFilters():
 		profileArchiveStatus = request.form.get('profileArchiveStatus')
 		fromDate = request.form.get('from')
 		toDate = request.form.get('to')
+		usernamesToBeSharedWith = request.form.get('usernamesToBeSharedWith')
 
 		if requestType == "save":
 			msg = saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
@@ -1308,6 +1323,12 @@ def customFilters():
 
 		if requestType == "delete":
 			return deleteThisParticularFilter(filterName)
+
+		if requestType == "getAllUsernameForSharing":
+			return getAllUsernameForSharing()
+
+		if requestType == "shareToThesePeople":
+			return shareToThesePeople(usernamesToBeSharedWith)
 
 
 
