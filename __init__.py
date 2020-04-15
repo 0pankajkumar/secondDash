@@ -1201,6 +1201,17 @@ def getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, comp
 	return temp 
 
 def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
+	# Redeclaring these
+	filterName = filterName
+	pageType = pageType
+	recruiter = recruiter
+	postingTitle = postingTitle
+	companyName = companyName
+	postingTeam = postingTeam
+	requestType = requestType
+	profileArchiveStatus = profileArchiveStatus
+	fromDate = fromDate
+
 	dbDataStarting = collection2.find({"users": oneUser}, cursor_type=CursorType.EXHAUST)
 	dbData = None
 	for d in dbDataStarting:
