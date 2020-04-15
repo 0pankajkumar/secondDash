@@ -170,6 +170,9 @@ document.getElementById("shareFilter").addEventListener("click", () => {
         },
         success: function(result) {
             if (result.foundUsernames == "yes") {
+                // Refreshing dropdowns to flush old selections
+                $("#ddl3").select2().val(null).trigger("change");
+
                 // Create options & poplulate it in multiselect
                 let allUsernames = result.usernames;
                 let ddl = document.getElementById("shareSelect");

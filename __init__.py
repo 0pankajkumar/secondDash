@@ -1317,7 +1317,7 @@ def customFilters():
 		profileArchiveStatus = request.form.get('profileArchiveStatus')
 		fromDate = request.form.get('from')
 		toDate = request.form.get('to')
-		usernamesToBeSharedWith = request.form.get('usernamesToBeSharedWith')
+		usernamesToBeSharedWith = request.form.getlist('usernamesToBeSharedWith[]')
 
 		if requestType == "save":
 			msg = saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
