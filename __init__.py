@@ -1641,7 +1641,7 @@ def featurebugscentral():
 
 
 def fetchUsers(usersList):
-	pa = collection2.find({})
+	pa = collection2.find({}, cursor_type=CursorType.EXHAUST)
 	for p in pa:
 		usersDict = dict()
 		usersDict['users'] = p['users']
