@@ -155,45 +155,45 @@ function closeShareDialog() {
 
 document.getElementById("shareFilter").addEventListener("click", () => {
     openShareDialog();
-    // Get all user names
-    $.ajax({
-        type: "POST",
-        cache: false,
-        url: "/customFilters",
-        data: {
-            requestType: "getAllUsernameForSharing"
-        },
-        success: function(result) {
-            if (result.foundUsernames == "yes") {
-                // Create options & poplulate it in multiselect
-                let allUsernames = result.usernames;
-                let ddl = document.getElementById("shareSelect");
-                createOptions(allUsernames, ddl);
+    // // Get all user names
+    // $.ajax({
+    //     type: "POST",
+    //     cache: false,
+    //     url: "/customFilters",
+    //     data: {
+    //         requestType: "getAllUsernameForSharing"
+    //     },
+    //     success: function(result) {
+    //         if (result.foundUsernames == "yes") {
+    //             // Create options & poplulate it in multiselect
+    //             let allUsernames = result.usernames;
+    //             let ddl = document.getElementById("shareSelect");
+    //             createOptions(allUsernames, ddl);
 
-                $('.shareSelect').select2();
+    //             $('.shareSelect').select2();
 
-                // On click of send, send it to server & close
-                document.getElementById("shareFilter").addEventListener("shareTrigger", () => {
-                    // Sending to server
-                    $.ajax({
-                        type: "POST",
-                        cache: false,
-                        url: "/customFilters",
-                        data: {
-                            requestType: "shareToThesePeople",
-                            usernamesToBeSharedWith: $("#shareSelect").val()
-                        },
-                        success: function(result2) {
-                            // display response from server
-                            document.getElementById("snackbar").innerHTML = result2;
-                            triggerSnackbar();
-                            closeShareDialog();
-                        }
-                    });
-                });
-            }
+    //             // On click of send, send it to server & close
+    //             document.getElementById("shareFilter").addEventListener("shareTrigger", () => {
+    //                 // Sending to server
+    //                 $.ajax({
+    //                     type: "POST",
+    //                     cache: false,
+    //                     url: "/customFilters",
+    //                     data: {
+    //                         requestType: "shareToThesePeople",
+    //                         usernamesToBeSharedWith: $("#shareSelect").val()
+    //                     },
+    //                     success: function(result2) {
+    //                         // display response from server
+    //                         document.getElementById("snackbar").innerHTML = result2;
+    //                         triggerSnackbar();
+    //                         closeShareDialog();
+    //                     }
+    //                 });
+    //             });
+    //         }
 
-        }
-    });
+    //     }
+    // });
 
 });
