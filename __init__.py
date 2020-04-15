@@ -1200,13 +1200,12 @@ def getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, comp
 
 	return temp 
 
-def saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
-	dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
+	dbDataStarting = collection2.find({"users": oneUser}, cursor_type=CursorType.EXHAUST)
 	dbData = None
 	for d in dbDataStarting:
 		dbData = d
 	if "customFilters" in dbData:
-		print("why is this one not running")
 		dbData = dbData["customFilters"]
 	else:
 		dbData = []
@@ -1299,7 +1298,25 @@ def getAllUsernameForSharing():
 
 
 def shareToThesePeople(usernamesToBeSharedWith):
-	print(usernamesToBeSharedWith)
+	duplicateCount = 0
+	successCount = 0
+	for us in usernamesToBeSharedWith:
+		resp = saveCustomFilterPlease(us, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+		if resp == "No two filters can have same name":
+			duplicateCount += 1
+		if resp = "Filter saved Successfully":
+			successCount += 1
+
+	resp = f"Sent to {successCount} people"
+	if duplicateFound > 0:
+		resp += f"\n But, Sharing with {duplicateCount} people failed due to duplicate filter names"
+
+	return resp
+
+
+
+
+
 	return "Successfully Shared !"
 
 @app.route('/customFilters', methods=['POST'])
@@ -1320,7 +1337,8 @@ def customFilters():
 		usernamesToBeSharedWith = request.form.getlist('usernamesToBeSharedWith[]')
 
 		if requestType == "save":
-			msg = saveCustomFilterPlease(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+			oneUser = current_user.id
+			msg = saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
 			return msg
 
 		if requestType == "getThoseOptions":
