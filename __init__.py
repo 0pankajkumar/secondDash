@@ -1320,58 +1320,60 @@ def shareToThesePeople(usernamesToBeSharedWith, filterName, pageType, recruiter,
 	requestType = requestType
 	profileArchiveStatus = profileArchiveStatus
 	fromDate = fromDate
+	print(usernamesToBeSharedWith, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
 
-	duplicateCount = 0
-	successCount = 0
-	resp = ""
+
+	# # duplicateCount = 0
+	# # successCount = 0
+	# # resp = ""
 	
-	for us in usernamesToBeSharedWith:
+	# # for us in usernamesToBeSharedWith:
 
-		dbDataStarting = collection2.find({"users": us}, cursor_type=CursorType.EXHAUST)
-		dbData = None
-		for d in dbDataStarting:
-			dbData = d
-		if "customFilters" in dbData:
-			dbData = dbData["customFilters"]
-		else:
-			dbData = []
+	# # 	dbDataStarting = collection2.find({"users": us}, cursor_type=CursorType.EXHAUST)
+	# # 	dbData = None
+	# # 	for d in dbDataStarting:
+	# # 		dbData = d
+	# # 	if "customFilters" in dbData:
+	# # 		dbData = dbData["customFilters"]
+	# # 	else:
+	# # 		dbData = []
 
-		duplicateFound = False
-		for dbD in dbData:
-			print("This is duplicate filterName", filterName)
-			if dbD["filterName"] == filterName:
-				duplicateFound = True
-				break
+	# # 	duplicateFound = False
+	# # 	for dbD in dbData:
+	# # 		print("This is duplicate filterName", filterName)
+	# # 		if dbD["filterName"] == filterName:
+	# # 			duplicateFound = True
+	# # 			break
 
-		if duplicateFound:
-			resp = "No two filters can have same name"
-		else:
-			filtersToBeSaved = getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
-			dbData.append(filtersToBeSaved)
-			print("dbData before writing", dbData)
-			# try:
-			collection2.update(
-					{"users": us},
-					{"$set" : {"customFilters": dbData}}
-				)
-			resp = "Filter saved Successfully"
-			# except:
-			#     return "Some error occured while saving filter"
-
-
+	# # 	if duplicateFound:
+	# # 		resp = "No two filters can have same name"
+	# # 	else:
+	# # 		filtersToBeSaved = getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+	# # 		dbData.append(filtersToBeSaved)
+	# # 		print("dbData before writing", dbData)
+	# # 		# try:
+	# # 		collection2.update(
+	# # 				{"users": us},
+	# # 				{"$set" : {"customFilters": dbData}}
+	# # 			)
+	# # 		resp = "Filter saved Successfully"
+	# # 		# except:
+	# # 		#     return "Some error occured while saving filter"
 
 
 
-		if resp == "No two filters can have same name":
-			duplicateCount += 1
-		if resp == "Filter saved Successfully":
-			successCount += 1
 
-	resp = f"Sent to {successCount} people"
-	if duplicateCount > 0:
-		resp += f"\n But, Sharing with {duplicateCount} people failed due to duplicate filter names"
 
-	return resp
+	# 	if resp == "No two filters can have same name":
+	# 		duplicateCount += 1
+	# 	if resp == "Filter saved Successfully":
+	# 		successCount += 1
+
+	# resp = f"Sent to {successCount} people"
+	# if duplicateCount > 0:
+	# 	resp += f"\n But, Sharing with {duplicateCount} people failed due to duplicate filter names"
+
+	# return resp
 
 
 @app.route('/customFilters', methods=['POST'])
