@@ -1324,7 +1324,7 @@ def shareToThesePeople(usernamesToBeSharedWith, filterName, pageType, recruiter,
 	duplicateCount = 0
 	successCount = 0
 	resp = ""
-	
+
 	for us in usernamesToBeSharedWith:
 
 		dbDataStarting = collection2.find({"users": us}, cursor_type=CursorType.EXHAUST)
@@ -1643,15 +1643,16 @@ def featurebugscentral():
 def fetchUsers(usersList):
 	pa = collection2.find({}, cursor_type=CursorType.EXHAUST)
 	for p in pa:
-		usersDict = dict()
-		usersDict['users'] = p['users']
-		usersDict['type'] = p['type']
-		usersDict['tatMember'] = p['tatMember']
-		if 'whichPositions' in p:
-			usersDict['whichPositions'] = p['whichPositions']
-		else:
-			usersDict['whichPositions'] = "Not defined"
-		usersList.append(usersDict)
+		print(p)
+		# usersDict = dict()
+		# usersDict['users'] = p['users']
+		# usersDict['type'] = p['type']
+		# usersDict['tatMember'] = p['tatMember']
+		# if 'whichPositions' in p:
+		# 	usersDict['whichPositions'] = p['whichPositions']
+		# else:
+		# 	usersDict['whichPositions'] = "Not defined"
+		# usersList.append(usersDict)
 
 
 # Make that bigDict step by step
