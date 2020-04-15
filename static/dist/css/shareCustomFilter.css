@@ -10,8 +10,7 @@
 
 /* Add styles to the form container */
 .form-container {
-    width: 500px;
-    max-width: 700px;
+    width: auto;
     padding: 10px;
     background-color: #DCDCDC;
 
