@@ -175,7 +175,7 @@ document.getElementById("shareFilter").addEventListener("click", () => {
                 let ddl = document.getElementById("shareSelect");
                 createOptions(allUsernames, ddl);
 
-                $('.shareSelect').select2();
+                $('#shareSelect').select2();
 
                 // On click of send, send it to server & close
                 document.getElementById("shareFilter").addEventListener("shareTrigger", () => {
