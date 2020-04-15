@@ -1304,7 +1304,7 @@ def shareToThesePeople(usernamesToBeSharedWith):
 		resp = saveCustomFilterPlease(us, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
 		if resp == "No two filters can have same name":
 			duplicateCount += 1
-		if resp = "Filter saved Successfully":
+		if resp == "Filter saved Successfully":
 			successCount += 1
 
 	resp = f"Sent to {successCount} people"
