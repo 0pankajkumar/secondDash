@@ -1644,6 +1644,11 @@ def fetchUsers(usersList):
 	pa = collection2.find({}, cursor_type=CursorType.EXHAUST)
 	for p in pa:
 		print(p)
+		print(type(p))
+		if "users" in p:
+			print("Hai to, phir kyu nahi dikh raha")
+		else:
+			print("Kuch to gadbad hai daya")
 		usersDict = dict()
 		usersDict['users'] = p['users']
 		usersDict['type'] = p['type']
