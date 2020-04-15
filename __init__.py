@@ -1308,7 +1308,7 @@ def shareToThesePeople(usernamesToBeSharedWith, filterName, pageType, recruiter,
 			successCount += 1
 
 	resp = f"Sent to {successCount} people"
-	if duplicateFound > 0:
+	if duplicateCount > 0:
 		resp += f"\n But, Sharing with {duplicateCount} people failed due to duplicate filter names"
 
 	return resp
