@@ -1297,6 +1297,10 @@ def getAllUsernameForSharing():
 	sendDict["usernames"] = allUsernames
 	return jsonify(sendDict)
 
+
+# def shareToThesePeople(usernamesToBeSharedWith):
+# 	return usernamesToBeSharedWith
+
 @app.route('/customFilters', methods=['POST'])
 @login_required
 def customFilters():

@@ -201,6 +201,11 @@ document.getElementById("shareTrigger").addEventListener("click", () => {
             document.getElementById("snackbar").innerHTML = result2;
             triggerSnackbar();
             closeShareDialog();
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            document.getElementById("snackbar").innerHTML = "Its embarrasing. Some error from server";
+            triggerSnackbar();
         }
+
     });
 });
