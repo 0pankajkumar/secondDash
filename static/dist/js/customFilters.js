@@ -158,6 +158,14 @@ function closeShareDialog() {
     document.getElementById("shareDialog").style.display = "none";
 }
 
+function removeOptions(selectElement) {
+   var i, L = selectElement.options.length - 1;
+   for(i = L; i >= 0; i--) {
+      selectElement.remove(i);
+   }
+}
+
+
 document.getElementById("shareFilter").addEventListener("click", () => {
     openShareDialog();
     // Get all user names
@@ -171,6 +179,7 @@ document.getElementById("shareFilter").addEventListener("click", () => {
         success: function(result) {
             if (result.foundUsernames == "yes") {
                 // Refreshing dropdowns to flush old selections
+                removeOptions(document.getElementById('shareSelect'));
                 $("#shareSelect").select2().val(null).trigger("change");
 
                 // Create options & poplulate it in multiselect
