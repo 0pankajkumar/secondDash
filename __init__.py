@@ -1297,7 +1297,7 @@ def getAllUsernameForSharing():
 	return jsonify(sendDict)
 
 
-def shareToThesePeople(usernamesToBeSharedWith):
+def shareToThesePeople(usernamesToBeSharedWith, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
 	duplicateCount = 0
 	successCount = 0
 	for us in usernamesToBeSharedWith:
@@ -1313,11 +1313,6 @@ def shareToThesePeople(usernamesToBeSharedWith):
 
 	return resp
 
-
-
-
-
-	return "Successfully Shared !"
 
 @app.route('/customFilters', methods=['POST'])
 @login_required
@@ -1351,7 +1346,7 @@ def customFilters():
 			return getAllUsernameForSharing()
 
 		if requestType == "shareToThesePeople":
-			return shareToThesePeople(usernamesToBeSharedWith)
+			return shareToThesePeople(usernamesToBeSharedWith, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
 
 
 
