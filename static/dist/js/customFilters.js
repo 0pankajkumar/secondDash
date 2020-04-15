@@ -159,10 +159,10 @@ function closeShareDialog() {
 }
 
 function removeOptions(selectElement) {
-   var i, L = selectElement.options.length - 1;
-   for(i = L; i >= 0; i--) {
-      selectElement.remove(i);
-   }
+    var i, L = selectElement.options.length - 1;
+    for (i = L; i >= 0; i--) {
+        selectElement.remove(i);
+    }
 }
 
 
@@ -206,7 +206,17 @@ document.getElementById("shareTrigger").addEventListener("click", () => {
         url: "/customFilters",
         data: {
             requestType: "shareToThesePeople",
-            usernamesToBeSharedWith: $("#shareSelect").val()
+            usernamesToBeSharedWith: $("#shareSelect").val(),
+            filterName: filterNamePlease,
+            pageType: document.title,
+            companyName: document.getElementById("ddl1").value,
+            postingTeam: document.getElementById("ddl2").value,
+            postingTitle: $("#ddl3").val(),
+            postingArchiveStatus: "",
+            profileArchiveStatus: document.getElementById("profileArchiveStatus").value,
+            from: document.getElementById("fromdatepicker").value,
+            to: document.getElementById("todatepicker").value,
+            recruiter: "All"
         },
         success: function(result2) {
             // display response from server
