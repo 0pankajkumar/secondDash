@@ -207,7 +207,7 @@ document.getElementById("shareTrigger").addEventListener("click", () => {
         data: {
             requestType: "shareToThesePeople",
             usernamesToBeSharedWith: $("#shareSelect").val(),
-            filterName: filterNamePlease,
+            filterName: document.getElementById("ddl0").value,
             pageType: document.title,
             companyName: document.getElementById("ddl1").value,
             postingTeam: document.getElementById("ddl2").value,
