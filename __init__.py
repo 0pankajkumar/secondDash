@@ -1298,6 +1298,17 @@ def getAllUsernameForSharing():
 
 
 def shareToThesePeople(usernamesToBeSharedWith, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
+	# Redeclaring these
+	filterName = filterName
+	pageType = pageType
+	recruiter = recruiter
+	postingTitle = postingTitle
+	companyName = companyName
+	postingTeam = postingTeam
+	requestType = requestType
+	profileArchiveStatus = profileArchiveStatus
+	fromDate = fromDate
+
 	duplicateCount = 0
 	successCount = 0
 	for us in usernamesToBeSharedWith:
