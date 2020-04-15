@@ -4,24 +4,25 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"></script>
 <!-- <form style="text-align: center" id="bigForm"> -->
+  
+<!-- Share box for custom filter -->
+<div class="chat-popup" id="shareDialog">
+    <div class="form-container">
+        <h3 style="margin:10px 20% 0px 20%">Share Filter</h3>
+        <br>
+        <select multiple name="shareSelect" id="shareSelect" class="select2-dropdown" style="display: hidden">
+        </select>
+        <br>
+        <button type="button" class="btn" id="shareTrigger">Share</button>
+        <button type="button" class="btn cancel" id="shareDialogCloser" onclick="closeShareDialog()">Close</button>
+    </div>
+</div>
 <div class="menu dropdown-column">
     <div style="float: right">
         <i id="saveFilter" style="cursor: pointer" class="fa fa-bookmark" aria-hidden="true"></i>
         <i id="deleteFilter" style="cursor: pointer" class="fa fa-trash" aria-hidden="true"></i>
         <span>
             <i id="shareFilter" style="cursor: pointer" class="fa fa-share-alt" aria-hidden="true"></i>
-            <!-- Share box for custom filter -->
-            <div class="chat-popup" id="shareDialog">
-                <div class="form-container">
-                    <h3 style="margin:10px 20% 0px 20%">Share Filter</h3>
-                    <br>
-                    <select multiple name="shareSelect" id="shareSelect" class="select2-dropdown" style="display: hidden">
-                    </select>
-                    <br>
-                    <button type="button" class="btn" id="shareTrigger">Share</button>
-                    <button type="button" class="btn cancel" id="shareDialogCloser" onclick="closeShareDialog()">Close</button>
-                </div>
-            </div>
         </span>
     </div>
     <ul>
