@@ -1224,7 +1224,7 @@ def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitl
 		print("dbData before writing", dbData)
 		# try:
 		collection2.update(
-				{"users": current_user.id},
+				{"users": oneUser},
 				{"$set" : {"customFilters": dbData}}
 			)
 		return "Filter saved Successfully"
