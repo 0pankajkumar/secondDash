@@ -1652,8 +1652,10 @@ def fetchUsers(usersList):
 		usersDict = dict()
 		if 'users' in p:
 			usersDict['users'] = p['users']
-		usersDict['type'] = p['type']
-		usersDict['tatMember'] = p['tatMember']
+		if 'type' in p:
+			usersDict['type'] = p['type']
+		if 'tatmember' in p:
+			usersDict['tatMember'] = p['tatMember']
 		if 'whichPositions' in p:
 			usersDict['whichPositions'] = p['whichPositions']
 		else:
