@@ -177,28 +177,30 @@ document.getElementById("shareFilter").addEventListener("click", () => {
 
                 $('#shareSelect').select2();
 
-                // On click of send, send it to server & close
-                document.getElementById("shareFilter").addEventListener("shareTrigger", () => {
-                    // Sending to server
-                    $.ajax({
-                        type: "POST",
-                        cache: false,
-                        url: "/customFilters",
-                        data: {
-                            requestType: "shareToThesePeople",
-                            usernamesToBeSharedWith: $("#shareSelect").val()
-                        },
-                        success: function(result2) {
-                            // display response from server
-                            document.getElementById("snackbar").innerHTML = result2;
-                            triggerSnackbar();
-                            closeShareDialog();
-                        }
-                    });
-                });
             }
 
         }
     });
 
+});
+
+// Share
+// On click of send, send it to server to share & close
+document.getElementById("shareFilter").addEventListener("shareTrigger", () => {
+    // Sending to server
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: "/customFilters",
+        data: {
+            requestType: "shareToThesePeople",
+            usernamesToBeSharedWith: $("#shareSelect").val()
+        },
+        success: function(result2) {
+            // display response from server
+            document.getElementById("snackbar").innerHTML = result2;
+            triggerSnackbar();
+            closeShareDialog();
+        }
+    });
 });
