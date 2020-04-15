@@ -1223,6 +1223,7 @@ def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitl
 
 	duplicateFound = False
 	for dbD in dbData:
+		print("This is duplicate filterName", filterName)
 		if dbD["filterName"] == filterName:
 			duplicateFound = True
 			break
