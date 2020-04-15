@@ -186,7 +186,7 @@ document.getElementById("shareFilter").addEventListener("click", () => {
 
 // Share
 // On click of send, send it to server to share & close
-document.getElementById("shareFilter").addEventListener("shareTrigger", () => {
+document.getElementById("shareTrigger").addEventListener("click", () => {
     // Sending to server
     $.ajax({
         type: "POST",
