@@ -1455,7 +1455,7 @@ def recruiterArchivedPostings():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns2('closed')
-	return render_template('recruiterArchivedPostings.html', postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions)
+	return render_template('recruiterArchivedPostings.html', postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active")
 
 
 @app.route('/recruiterLivePostings', methods=['GET'])
@@ -1470,7 +1470,7 @@ def recruiterLivePostings():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns2('active')
-	return render_template('recruiterLivePostings.html', postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions)
+	return render_template('recruiterLivePostings.html', postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active")
 
 
 def checkAdmin(user):
