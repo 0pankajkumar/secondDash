@@ -29,7 +29,7 @@
         <li>
             <div class="ui-widget flexItem">
                 <label style="font-size: 12px;" for="customFilters">Custom Filters:</label><br />
-                <select name="ddl0" id="ddl0" class="select2-dropdown" style="display: hidden" onchange="applyCustomFilterWaterfall(document.getElementById('ddl0'))">
+                <select name="customFilterDD" id="customFilterDD" class="select2-dropdown" style="display: hidden" onchange="applyCustomFilterWaterfall(document.getElementById('customFilterDD'))">
                     <option value="nothing" selected>Choose</option>
                     {% for fil in customFilterNames %}
                     <option value="{{ fil }}">{{ fil }}</option>
@@ -156,6 +156,7 @@ $(document).ready(function() {
             $("#ddl2").select2();
             $("#ddl3").select2();
             $("#profileArchiveStatus").select2();
+            $("#customFilterDD").select2();
         }
     });
 });
