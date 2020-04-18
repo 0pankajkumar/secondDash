@@ -8,7 +8,7 @@
   display: block;
   color: black;
   text-align: center;
-  padding: 14px 16px;
+  padding: 4px 16px;
   text-decoration: none;
   font-size: 17px;
 }
@@ -25,6 +25,7 @@
 
 .topnav .search-container {
   float: right;
+  color: #484848;
 }
 
 .topnav input[type="text"] {
@@ -36,7 +37,6 @@
 
 .topnav .search-container div {
   float: right;
-
   border: none;
   cursor: pointer;
 }
