@@ -97,8 +97,16 @@ function applyCustomFilterWaterfall(selectedCustomFilter) {
                     $('#fromdatepicker').datepicker("setDate", new Date(formatDatesPlease.fromDateYear, formatDatesPlease.fromDateMonth, formatDatesPlease.fromDateDay));
                     $("#fromdatepicker").trigger("change");
                 }
+                else {
+                    $('#fromdatepicker').datepicker("setDate", "");
+                    $("#fromdatepicker").trigger("change");
+                }
                 if (result.toDate.length > 8) {
                     $('#todatepicker').datepicker("setDate", new Date(formatDatesPlease.toDateYear, formatDatesPlease.toDateMonth, formatDatesPlease.toDateDay));
+                    $("#todatepicker").trigger("change");
+                }
+                else{
+                    $('#todatepicker').datepicker("setDate", "");
                     $("#todatepicker").trigger("change");
                 }
                 document.getElementById("sendForTable").click();
@@ -124,7 +132,7 @@ function applyCustomFilterWaterfall(selectedCustomFilter) {
 
 // Delete filter defined below
 document.getElementById("deleteFilter").addEventListener("click", () => {
-    filterName = document.getElementById("ddl0").value;
+    filterName = document.getElementById("customFilterDD").value;
     if (filterName != null || filterName != "") {
         // Sending filterName to delete it from records
         $.ajax({
@@ -207,7 +215,7 @@ document.getElementById("shareTrigger").addEventListener("click", () => {
         data: {
             requestType: "shareToThesePeople",
             usernamesToBeSharedWith: $("#shareSelect").val(),
-            filterName: $("#ddl0").val(),
+            filterName: $("#customFilterDD").val(),
             pageType: document.title,
             companyName: document.getElementById("ddl1").value,
             postingTeam: document.getElementById("ddl2").value,
