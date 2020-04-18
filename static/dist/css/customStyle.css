@@ -81,3 +81,7 @@ body.loading .modal {
   display: flex;
   justify-content: center;
 }
+
+.ddLable {
+  font-size: 12px;
+}
