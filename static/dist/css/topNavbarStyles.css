@@ -14,13 +14,13 @@
 }
 
 .topnav a:hover {
-  background-color: ;
-  color: black;
+  color: #686868;
 }
 
 .topnav a.active {
-  background-color: #ddd;
-  color: white;
+  border-radius: 600px;
+  color: #686868;
+  border: 1px solid #580000;
 }
 
 .topnav .search-container {
