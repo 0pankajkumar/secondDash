@@ -238,20 +238,32 @@
             <li>
                 <div class="ui-widget flexItem">
                     <label style="font-size: 12px;" for="companyName">Company:</label><br />
+                    {% if activateRecruiterDropdown == "yes" %}
+                    <select name="ddl1" id="ddl1" class="select2-dropdown" style="display: hidden" onchange="popDept(document.getElementById('ddl0'), this,document.getElementById('ddl2'), document.getElementById('ddl3'))">
+                        <option value="nothing" selected>Choose</option>
+                    </select>
+                    {% else %}
                     <select name="ddl1" id="ddl1" class="select2-dropdown" style="display: hidden" onchange="configureDDL2(document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
                         <option value="nothing" selected>Choose</option>
                         {% for p in postingDepartment %}
                         <option value="{{ p }}">{{ p }}</option>
                         {% endfor %}
                     </select>
+                    {% endif %}
                 </div>
             </li>
             <li>
                 <div class="ui-widget flexItem">
                     <label style="font-size: 12px;" for="postingTeam">Team:</label><br />
+                    {% if activateRecruiterDropdown == "yes" %}
+                    <select name="ddl2" id="ddl2" class="select2-dropdown" style="display: hidden" onchange="popPost(document.getElementById('ddl0'), document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
+                        <option value="nothing" selected>Choose</option>
+                    </select>
+                    {% else %}
                     <select name="ddl2" id="ddl2" class="select2-dropdown" style="display: hidden" onchange="configureDDL3(document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
                         <option value="nothing" selected>Choose</option>
                     </select>
+                    {% endif %}
                 </div>
             </li>
             <li>
