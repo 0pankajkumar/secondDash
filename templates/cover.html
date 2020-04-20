@@ -188,8 +188,6 @@
             {% endif %}
         </div>
     </div>
-
-    
     <!-- All the dropdowns & tables only rendered when required -->
     {% if activateDropdownsAndTable == "yes" %}
     <!-- Share box for custom filter -->
@@ -224,6 +222,19 @@
                     </select>
                 </div>
             </li>
+            {% if postingOwner is not None %}
+            <li>
+                <div class="ui-widget flexItem">
+                    <label for="recruiterName">Recruiter:</label><br />
+                    <select name="ddl0" id="ddl0" class="select2-dropdown" style="display: hidden" onchange="popCompany(document.getElementById('ddl0'), document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
+                        <option value="All" selected>All Recruiters</option>
+                        {% for p in postingOwner %}
+                        <option value="{{ p }}">{{ p }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </li>
+            {% endif %}
             <li>
                 <div class="ui-widget flexItem">
                     <label style="font-size: 12px;" for="companyName">Company:</label><br />
