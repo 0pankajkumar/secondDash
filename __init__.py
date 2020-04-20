@@ -1410,7 +1410,7 @@ def archivedPostings():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns()
-	return render_template('archivedPostings.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active")
+	return render_template('archivedPostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active")
 
 def generateCustomFilterNames():
 	dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
@@ -1440,7 +1440,7 @@ def livePostings():
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns()
 	customFilterNames = generateCustomFilterNames()
-	return render_template('livePostings.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active", customFilterNames=customFilterNames)
+	return render_template('livePostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active", customFilterNames=customFilterNames)
 
 
 @app.route('/recruiterArchivedPostings', methods=['GET'])
