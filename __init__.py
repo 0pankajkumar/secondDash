@@ -1201,6 +1201,14 @@ def getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, comp
 	return temp 
 
 def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
+	# Saving pageType as Live or Archived
+	if pageType in ["Live Posts", "Live Posts - Recruiter Filter"]:
+		pageType = "live"
+	elif pageType in ["Archives", "Archives - Recruiter Filter"]:
+		pageType = "archive"
+	else:
+		pageType = "unknown"
+	print("pageType", pageType)
 	
 	dbDataStarting = collection2.find({"users": oneUser}, cursor_type=CursorType.EXHAUST)
 	dbData = None
