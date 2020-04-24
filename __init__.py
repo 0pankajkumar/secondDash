@@ -1408,6 +1408,22 @@ def team():
 
 		return returnedDict
 
+def generateCustomFilterNames(pageType):
+	dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+	dbData = None
+	for d in dbDataStarting:
+		dbData = d
+	if "customFilters" in dbData:
+		dbData = dbData["customFilters"]
+	else:
+		dbData = []
+
+	allNames = []
+	for d in dbData:
+		if d["pageType"] == pageType:
+			allNames.append(d["filterName"])
+	return allNames
+
 
 @app.route('/archivedPostings', methods=['GET'])
 @login_required
@@ -1421,22 +1437,9 @@ def archivedPostings():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns()
+	customFilterNames = generateCustomFilterNames("archive")
 	return render_template('archivedPostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active")
 
-def generateCustomFilterNames():
-	dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
-	dbData = None
-	for d in dbDataStarting:
-		dbData = d
-	if "customFilters" in dbData:
-		dbData = dbData["customFilters"]
-	else:
-		dbData = []
-
-	allNames = []
-	for d in dbData:
-		allNames.append(d["filterName"])
-	return allNames
 
 
 @app.route('/livePostings', methods=['GET'])
@@ -1450,7 +1453,7 @@ def livePostings():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns()
-	customFilterNames = generateCustomFilterNames()
+	customFilterNames = generateCustomFilterNames("live")
 	return render_template('livePostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active", customFilterNames=customFilterNames)
 
 
@@ -1466,6 +1469,7 @@ def recruiterArchivedPostings():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns2('closed')
+	customFilterNames = generateCustomFilterNames("archive")
 	return render_template('recruiterArchivedPostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active")
 
 
@@ -1481,6 +1485,7 @@ def recruiterLivePostings():
 	if checkAdmin(current_user.id):
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns2('active')
+	customFilterNames = generateCustomFilterNames("live")
 	return render_template('recruiterLivePostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active")
 
 
