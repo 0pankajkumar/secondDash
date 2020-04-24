@@ -74,6 +74,7 @@ function applyCustomFilterWaterfall(selectedCustomFilter) {
         url: "/customFilters",
         data: {
             filterName: selectedCustomFilter.value,
+            pageType: document.title,
             requestType: "getThoseOptions"
         },
         success: function(result) {

@@ -1200,7 +1200,7 @@ def getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, comp
 
 	return temp 
 
-def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
+def cleaningPageType(pageType):
 	# Saving pageType as Live or Archived
 	if pageType in ["Live Posts", "Live Posts - Recruiter Filter"]:
 		pageType = "live"
@@ -1208,8 +1208,11 @@ def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitl
 		pageType = "archive"
 	else:
 		pageType = "unknown"
-	print("pageType", pageType)
-	
+	return pageType
+
+def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
+	pageType = cleaningPageType(pageType)
+
 	dbDataStarting = collection2.find({"users": oneUser}, cursor_type=CursorType.EXHAUST)
 	dbData = None
 	for d in dbDataStarting:
@@ -1221,7 +1224,6 @@ def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitl
 
 	duplicateFound = False
 	for dbD in dbData:
-		print("This is duplicate filterName", filterName)
 		if dbD["filterName"] == filterName:
 			duplicateFound = True
 			break
@@ -1241,7 +1243,8 @@ def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitl
 		# except:
 		#     return "Some error occured while saving filter"
 
-def getThoseParticularOptions(filterName):
+def getThoseParticularOptions(filterName, pageType):
+	pageType = cleaningPageType(pageType)
 	dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
 	dbData = None
 	for d in dbDataStarting:
@@ -1254,7 +1257,7 @@ def getThoseParticularOptions(filterName):
 	dictToBeReturned = dict()
 	dictToBeReturned["resultFound"] = "no"
 	for d in dbData:
-		if d["filterName"] == filterName:
+		if d["filterName"] == filterName and d["pageType"] == pageType:
 			dictToBeReturned["filterName"] = d["filterName"]
 			dictToBeReturned["pageType"] = d["pageType"]
 			dictToBeReturned["recruiter"] = d["recruiter"]
@@ -1346,7 +1349,7 @@ def customFilters():
 			return msg
 
 		if requestType == "getThoseOptions":
-			return getThoseParticularOptions(filterName)
+			return getThoseParticularOptions(filterName, pageType)
 
 		if requestType == "delete":
 			return deleteThisParticularFilter(filterName)
