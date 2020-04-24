@@ -1438,7 +1438,7 @@ def archivedPostings():
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns()
 	customFilterNames = generateCustomFilterNames("archive")
-	return render_template('archivedPostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active")
+	return render_template('archivedPostings.html',customFilterNames=customFilterNames, activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active")
 
 
 
@@ -1454,7 +1454,7 @@ def livePostings():
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns()
 	customFilterNames = generateCustomFilterNames("live")
-	return render_template('livePostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active", customFilterNames=customFilterNames)
+	return render_template(customFilterNames=customFilterNames, 'livePostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active")
 
 
 @app.route('/recruiterArchivedPostings', methods=['GET'])
@@ -1470,7 +1470,7 @@ def recruiterArchivedPostings():
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns2('closed')
 	customFilterNames = generateCustomFilterNames("archive")
-	return render_template('recruiterArchivedPostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active")
+	return render_template(customFilterNames=customFilterNames, 'recruiterArchivedPostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active")
 
 
 @app.route('/recruiterLivePostings', methods=['GET'])
@@ -1486,7 +1486,7 @@ def recruiterLivePostings():
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns2('active')
 	customFilterNames = generateCustomFilterNames("live")
-	return render_template('recruiterLivePostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active")
+	return render_template(customFilterNames=customFilterNames, 'recruiterLivePostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active")
 
 
 def checkAdmin(user):
