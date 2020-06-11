@@ -1841,7 +1841,9 @@ def updateDump():
 	database = client["local"]
 	collection = database["dolphinDB"]
 
-	all_The_Stages = ['Posting Archived At (GMT)', 'Created At (GMT)', 'Last Story At (GMT)', 'Last Advanced At (GMT)', 'Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant',
+	all_The_Stages = ['Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant',
+					  'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer', 'Stage - Offer Approval', 'Stage - Offer Approved', 'Hired']
+	all_The_date_columns = ['Posting Archived At (GMT)', 'Created At (GMT)', 'Applied At (GMT)', 'Last Story At (GMT)', 'Last Advanced At (GMT)', 'Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant',
 					  'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer', 'Stage - Offer Approval', 'Stage - Offer Approved', 'Hired']
 	headers = tuple()
 	line_count = 0
@@ -1880,6 +1882,11 @@ def updateDump():
 
 				row = [r.strip() for r in row]
 
+				# First date at which candidate lifecycle started, its mostly the Applied At date
+				firstDate = None
+				# Second date is the date just after date of Applying. Used to know how fast recruiter acted upon the candidate
+				secondDate = None
+
 				for i in range(numberOfColumns):
 
 					# Adding column for % conversion calculation
@@ -1910,7 +1917,7 @@ def updateDump():
 					dict_to_be_written['onsiteToOffer'] = onsiteToOffer
 
 					# Converting date strings to datetime objects
-					if headers[i] in all_The_Stages and row[i] != '':
+					if headers[i] in all_The_date_columns and row[i] != '':
 						try:
 							row[i] = datetime.datetime.strptime(
 								row[i], '%Y-%m-%d %H:%M:%S')
@@ -1939,9 +1946,19 @@ def updateDump():
 											print(
 												f"{row[i]} is problematic -------*************-------------<<<<<")
 
+
+					# Properly determine firstDate and secondDate in candidates lifecycle
+					if firstDate is None and headers[i] in all_The_Stages and row[i] != '':
+						firstDate = row[i]
+
+					if firstDate and secondDate is None and headers[i] in all_The_Stages and row[i] != '':
+						secondDate = row[i]
+
+
 					if row[i] == "":
 						# row[i] = None
 						row[i] = datetime.datetime(1990, 1, 1)
+
 
 					# Deciding minimum Created date for posting
 					# Note that this is actually an approximation since it finds the first applied date for a posting
@@ -1966,6 +1983,14 @@ def updateDump():
 
 					# Making dict entry for each column
 					dict_to_be_written[headers[i]] = row[i]
+
+
+					# This will help in deciding number of days taken by recruiter in acting on an applied candidate
+					if firstDate and secondDate:
+						dict_to_be_written['Days to move from first stage'] = (secondDate-firstDate).days
+					else:
+						dict_to_be_written['Days to move from first stage'] = -1
+
 
 				if len(minDateCandidates) > 0:
 					dict_to_be_written['Min Date'] = min(minDateCandidates)
