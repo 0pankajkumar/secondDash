@@ -1843,6 +1843,8 @@ def updateDump():
 
 	all_The_Stages = ['Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant',
 					  'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer', 'Stage - Offer Approval', 'Stage - Offer Approved', 'Hired']
+	all_The_Stages_minus_hired = ['Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant',
+					  'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer', 'Stage - Offer Approval', 'Stage - Offer Approved']
 	all_The_date_columns = ['Posting Archived At (GMT)', 'Created At (GMT)', 'Applied At (GMT)', 'Last Story At (GMT)', 'Last Advanced At (GMT)', 'Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant',
 					  'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer', 'Stage - Offer Approval', 'Stage - Offer Approved', 'Hired']
 	headers = tuple()
@@ -1959,14 +1961,14 @@ def updateDump():
 
 					# Properly determine firstDate and secondDate in candidates lifecycle
 					if not flag1:
-						if firstDate is None and headers[i] in all_The_Stages and row[i] != datetime.datetime(1990, 1, 1):
+						if firstDate is None and headers[i] in all_The_Stages_minus_hired and row[i] != datetime.datetime(1990, 1, 1):
 							firstDate = row[i]
 							secondDate = row[i]
 							flag1 = True
 							continue
 
 					if row[i] != secondDate and not flag2:
-						if headers[i] in all_The_Stages and row[i] != datetime.datetime(1990, 1, 1):
+						if headers[i] in all_The_Stages_minus_hired and row[i] != datetime.datetime(1990, 1, 1):
 							secondDate = row[i]
 							flag2 = True
 
