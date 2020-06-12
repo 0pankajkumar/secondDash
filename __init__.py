@@ -1963,6 +1963,7 @@ def updateDump():
 							firstDate = row[i]
 							secondDate = row[i]
 							flag1 = True
+							continue
 
 					if row[i] != secondDate and not flag2:
 						if headers[i] in all_The_Stages and row[i] != datetime.datetime(1990, 1, 1):
