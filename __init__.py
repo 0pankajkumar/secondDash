@@ -1918,33 +1918,33 @@ def updateDump():
 
 					# Converting date strings to datetime objects
 					if headers[i] in all_The_date_columns and row[i] != '':
-						try:
-							row[i] = datetime.datetime.strptime(
-								row[i], '%Y-%m-%d %H:%M:%S')
-							minDateCandidates.append(row[i])
-						except:
-							try:
-								row[i] = datetime.datetime.strptime(
-									row[i], '%d-%m-%Y %H:%M')
-								minDateCandidates.append(row[i])
-							except:
-								try:
-									row[i] = datetime.datetime.strptime(
-										row[i], '%Y-%m-%d')
-									minDateCandidates.append(row[i])
-								except:
-									try:
-										row[i] = datetime.datetime.strptime(
-											row[i], '%m-%d-%y %H:%M')
-										minDateCandidates.append(row[i])
-									except:
-										try:
-											row[i] = datetime.datetime.strptime(
-												row[i], '%d-%m-%y %H:%M')
-											minDateCandidates.append(row[i])
-										except:
-											print(
-												f"{row[i]} is problematic -------*************-------------<<<<<")
+						# try:
+						row[i] = datetime.datetime.strptime(
+							row[i], '%Y-%m-%d %H:%M:%S')
+						minDateCandidates.append(row[i])
+						# except:
+						# 	try:
+						# 		row[i] = datetime.datetime.strptime(
+						# 			row[i], '%d-%m-%Y %H:%M')
+						# 		minDateCandidates.append(row[i])
+						# 	except:
+						# 		try:
+						# 			row[i] = datetime.datetime.strptime(
+						# 				row[i], '%Y-%m-%d')
+						# 			minDateCandidates.append(row[i])
+						# 		except:
+						# 			try:
+						# 				row[i] = datetime.datetime.strptime(
+						# 					row[i], '%m-%d-%y %H:%M')
+						# 				minDateCandidates.append(row[i])
+						# 			except:
+						# 				try:
+						# 					row[i] = datetime.datetime.strptime(
+						# 						row[i], '%d-%m-%y %H:%M')
+						# 					minDateCandidates.append(row[i])
+						# 				except:
+						# 					print(
+						# 						f"{row[i]} is problematic -------*************-------------<<<<<")
 
 
 					# Properly determine firstDate and secondDate in candidates lifecycle
