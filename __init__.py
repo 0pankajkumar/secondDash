@@ -1093,15 +1093,15 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 
 			lowerPack.append(tem)
 
-		else:
-			if ro['Posting Owner Name'] not in sidePack:
-				if ro['Days to move from first stage'] >= 0:
-					sidePack[ro['Posting Owner Name']] = [ro['Days to move from first stage']]
-				else:
-					sidePack[ro['Posting Owner Name']] = [0]
+		
+		if ro['Posting Owner Name'] not in sidePack:
+			if ro['Days to move from first stage'] >= 0:
+				sidePack[ro['Posting Owner Name']] = [ro['Days to move from first stage']]
 			else:
-				if ro['Days to move from first stage'] >= 0:
-					sidePack[ro['Posting Owner Name']].append(ro['Days to move from first stage'])
+				sidePack[ro['Posting Owner Name']] = [0]
+		else:
+			if ro['Days to move from first stage'] >= 0:
+				sidePack[ro['Posting Owner Name']].append(ro['Days to move from first stage'])
 
 	# Calculating average of all days in sidepack
 	# for k,v in sidePack.items():
