@@ -1101,9 +1101,9 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 					sidePack[ro['Posting Owner Name']].append(ro['Days to move from first stage'])
 
 	# Calculating average of all days in sidepack
-	for k,v in sidePack.items():
-		avg = sum(v) / len(v)
-		sidePack[k] = avg
+	# for k,v in sidePack.items():
+	# 	avg = sum(v) / len(v)
+	# 	sidePack[k] = avg
 
 
 	# print(upperPack)
