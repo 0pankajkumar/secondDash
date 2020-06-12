@@ -1950,17 +1950,17 @@ def updateDump():
 													f"{row[i]} is problematic -------*************-------------<<<<<")
 
 
-					# Properly determine firstDate and secondDate in candidates lifecycle
-					if firstDate is None and headers[i] in all_The_Stages and row[i] != '':
-						firstDate = row[i]
-
-					if firstDate and secondDate is None and headers[i] in all_The_Stages and row[i] != '':
-						secondDate = row[i]
-
-
 					if row[i] == "":
 						# row[i] = None
 						row[i] = datetime.datetime(1990, 1, 1)
+
+					# Properly determine firstDate and secondDate in candidates lifecycle
+					if firstDate is None and headers[i] in all_The_Stages and row[i] != datetime.datetime(1990, 1, 1):
+						firstDate = row[i]
+
+					if firstDate and secondDate is None and headers[i] in all_The_Stages and row[i] != datetime.datetime(1990, 1, 1):
+						secondDate = row[i]
+
 
 
 					# Deciding minimum Created date for posting
