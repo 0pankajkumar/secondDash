@@ -276,7 +276,7 @@ def uploadedSuccessfully():
 def updating():
 
 	# The database uploading method comes here
-	# res = 'starting'
+	res = 'starting'
 	updateMongo()
 	# try:
 	#   updateMongo()
