@@ -2005,7 +2005,7 @@ def updateDump():
 						# print(f"Difference in days{secondDate} - {firstDate}  = {(secondDate-firstDate).days}")
 					else:
 						dict_to_be_written['Days to move from first stage'] = -1
-					# dict_to_be_written['Days to move from first stage_decider'] = str(secondDate) + " - " + str(firstDate)
+					dict_to_be_written['Days to move from first stage_decider'] = str(secondDate) + " - " + str(firstDate)
 
 
 				if len(minDateCandidates) > 0:
