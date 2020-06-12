@@ -1886,6 +1886,9 @@ def updateDump():
 				firstDate = None
 				# Second date is the date just after date of Applying. Used to know how fast recruiter acted upon the candidate
 				secondDate = None
+				# Flags used for firstDate and secondDate
+				flag1 = False
+				flag2 = False
 
 				for i in range(numberOfColumns):
 
@@ -1955,8 +1958,6 @@ def updateDump():
 						row[i] = datetime.datetime(1990, 1, 1)
 
 					# Properly determine firstDate and secondDate in candidates lifecycle
-					flag1 = False
-					flag2 = False
 					if not flag1:
 						if firstDate is None and headers[i] in all_The_Stages and row[i] != datetime.datetime(1990, 1, 1):
 							firstDate = row[i]
