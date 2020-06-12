@@ -2015,6 +2015,8 @@ def updateDump():
 						dict_to_be_written['Days to move from first stage'] = -1
 					dict_to_be_written['Days to move from first stage_decider'] = str(secondDate) + " - " + str(firstDate)
 
+					print(f"Difference in days{firstSecondDates[1]} - {firstSecondDates[0]}  = {(firstSecondDates[1]-firstSecondDates[0]).days}")
+
 
 				if len(minDateCandidates) > 0:
 					dict_to_be_written['Min Date'] = min(minDateCandidates)
