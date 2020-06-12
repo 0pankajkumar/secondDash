@@ -1955,11 +1955,18 @@ def updateDump():
 						row[i] = datetime.datetime(1990, 1, 1)
 
 					# Properly determine firstDate and secondDate in candidates lifecycle
-					if firstDate is None and headers[i] in all_The_Stages and row[i] != datetime.datetime(1990, 1, 1):
-						firstDate = row[i]
+					flag1 = False
+					flag2 = False
+					if not flag1:
+						if firstDate is None and headers[i] in all_The_Stages and row[i] != datetime.datetime(1990, 1, 1):
+							firstDate = row[i]
+							secondDate = row[i]
+							flag1 = True
 
-					if firstDate and secondDate is None and headers[i] in all_The_Stages and row[i] != datetime.datetime(1990, 1, 1):
-						secondDate = row[i]
+					if row[i] != secondDate and not flag2:
+						if headers[i] in all_The_Stages and row[i] != datetime.datetime(1990, 1, 1):
+							secondDate = row[i]
+							flag2 = True
 
 
 
