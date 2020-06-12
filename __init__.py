@@ -2008,6 +2008,7 @@ def updateDump():
 					# This will help in deciding number of days taken by recruiter in acting on an applied candidate
 					if len(firstSecondDates) >= 2:
 						dict_to_be_written['Days to move from first stage'] = (firstSecondDates[1]-firstSecondDates[0]).days
+						print(f"Difference in days{firstSecondDates[1]} - {firstSecondDates[0]}  = {(firstSecondDates[1]-firstSecondDates[0]).days}")
 					# if firstDate and secondDate:
 					# 	dict_to_be_written['Days to move from first stage'] = (secondDate-firstDate).days
 					# 	# print(f"Difference in days{secondDate} - {firstDate}  = {(secondDate-firstDate).days}")
@@ -2015,7 +2016,7 @@ def updateDump():
 						dict_to_be_written['Days to move from first stage'] = -1
 					dict_to_be_written['Days to move from first stage_decider'] = str(secondDate) + " - " + str(firstDate)
 
-					print(f"Difference in days{firstSecondDates[1]} - {firstSecondDates[0]}  = {(firstSecondDates[1]-firstSecondDates[0]).days}")
+
 
 
 				if len(minDateCandidates) > 0:
