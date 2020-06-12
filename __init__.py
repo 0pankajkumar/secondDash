@@ -1095,7 +1095,10 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 
 		else:
 			if ro['Posting Owner Name'] not in sidePack:
-				sidePack[ro['Posting Owner Name']] = [ro['Days to move from first stage']]
+				if ro['Days to move from first stage'] >= 0:
+					sidePack[ro['Posting Owner Name']] = [ro['Days to move from first stage']]
+				else:
+					sidePack[ro['Posting Owner Name']] = [0]
 			else:
 				if ro['Days to move from first stage'] >= 0:
 					sidePack[ro['Posting Owner Name']].append(ro['Days to move from first stage'])
