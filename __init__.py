@@ -1891,6 +1891,7 @@ def updateDump():
 				# Flags used for firstDate and secondDate
 				flag1 = False
 				flag2 = False
+				firstSecondDates = list()
 
 				for i in range(numberOfColumns):
 
@@ -1959,19 +1960,7 @@ def updateDump():
 						# row[i] = None
 						row[i] = datetime.datetime(1990, 1, 1)
 
-					# Properly determine firstDate and secondDate in candidates lifecycle
-					if not flag1:
-						if firstDate is None and headers[i] in all_The_Stages_minus_hired and row[i] != datetime.datetime(1990, 1, 1):
-							firstDate = row[i]
-							secondDate = row[i]
-							flag1 = True
-							continue
-
-					if row[i] != secondDate and not flag2:
-						if headers[i] in all_The_Stages_minus_hired and row[i] != datetime.datetime(1990, 1, 1):
-							secondDate = row[i]
-							flag2 = True
-
+					
 
 
 					# Deciding minimum Created date for posting
@@ -1999,10 +1988,29 @@ def updateDump():
 					dict_to_be_written[headers[i]] = row[i]
 
 
+
+					# Properly determine firstDate and secondDate in candidates lifecycle
+					if headers[i] in all_The_Stages_minus_hired and row[i] != datetime.datetime(1990, 1, 1):
+						firstSecondDates.append(row[i])
+					# if not flag1:
+					# 	if firstDate is None and headers[i] in all_The_Stages_minus_hired and row[i] != datetime.datetime(1990, 1, 1):
+					# 		firstDate = row[i]
+					# 		secondDate = row[i]
+					# 		flag1 = True
+					# 		continue
+
+					# if row[i] != secondDate and not flag2:
+					# 	if headers[i] in all_The_Stages_minus_hired and row[i] != datetime.datetime(1990, 1, 1):
+					# 		secondDate = row[i]
+					# 		flag2 = True
+
+
 					# This will help in deciding number of days taken by recruiter in acting on an applied candidate
-					if firstDate and secondDate:
-						dict_to_be_written['Days to move from first stage'] = (secondDate-firstDate).days
-						# print(f"Difference in days{secondDate} - {firstDate}  = {(secondDate-firstDate).days}")
+					if len(firstSecondDates) >= 2:
+						dict_to_be_written['Days to move from first stage'] = (firstSecondDates[1]-firstSecondDates[0]).days
+					# if firstDate and secondDate:
+					# 	dict_to_be_written['Days to move from first stage'] = (secondDate-firstDate).days
+					# 	# print(f"Difference in days{secondDate} - {firstDate}  = {(secondDate-firstDate).days}")
 					else:
 						dict_to_be_written['Days to move from first stage'] = -1
 					dict_to_be_written['Days to move from first stage_decider'] = str(secondDate) + " - " + str(firstDate)
