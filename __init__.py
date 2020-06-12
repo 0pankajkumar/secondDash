@@ -1093,7 +1093,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 
 			lowerPack.append(tem)
 
-		elif ro['Posting Archived At (GMT)'] == datetime.datetime(1990, 1, 1):
+		else:
 			if ro['Posting Owner Name'] not in sidePack:
 				sidePack[ro['Posting Owner Name']] = [ro['Days to move from first stage']]
 			else:
@@ -1101,9 +1101,9 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 					sidePack[ro['Posting Owner Name']].append(ro['Days to move from first stage'])
 
 	# Calculating average of all days in sidepack
-	# for k,v in sidePack.items():
-	# 	avg = sum(v) / len(v)
-	# 	sidePack[k] = avg
+	for k,v in sidePack.items():
+		avg = sum(v) / len(v)
+		sidePack[k] = avg
 
 
 	# print(upperPack)
