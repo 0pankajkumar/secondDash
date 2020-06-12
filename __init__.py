@@ -1058,6 +1058,8 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 
 	upperPack = dict()
 	lowerPack = list()
+	# sidepack is for determing time to move to 2nd stage in candidate lifecycle
+	sidePack = dict()
 	tem2 = dict()
 	monthList = ['*', 'Jan', 'Feb', 'Mar', 'Apr', 'May',
 				 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
@@ -1090,6 +1092,19 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 						  ][tem['Applied At (GMT)'].month] += 1
 
 			lowerPack.append(tem)
+
+		elif ro['Posting Archived At (GMT)'] == datetime.datetime(1990, 1, 1):
+			if ro['Posting Owner Name'] not in sidePack:
+				sidePack[ro['Posting Owner Name']] = list()
+			else:
+				if ro['Days to move from first stage'] >= 0:
+					sidePack[ro['Posting Owner Name']].append(ro['Days to move from first stage'])
+
+	# Calculating average of all days in sidepack
+	for k,v in sidePack.items():
+		avg = sum(v) / len(v)
+		sidePack[k] = avg
+
 
 	# print(upperPack)
 
@@ -1129,7 +1144,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 
 	print(upperPackForTabulator)
 
-	return jsonify({'low': lowerPack, 'up': upperPackForTabulator})
+	return jsonify({'low': lowerPack, 'up': upperPackForTabulator, 'side': sidePack})
 
 
 def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
