@@ -4,7 +4,7 @@ from flask_session import Session
 from werkzeug import secure_filename
 from flask_uploads import UploadSet, IMAGES, configure_uploads, UploadNotAllowed
 from pymongo import MongoClient, CursorType, ASCENDING, DESCENDING
-import json
+import json, math
 from bson import json_util, ObjectId
 from bson.int64 import Int64
 import time
@@ -1104,9 +1104,9 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 				sidePack[ro['Posting Owner Name']].append(ro['Days to move from first stage'])
 
 	# Calculating average of all days in sidepack
-	# for k,v in sidePack.items():
-	# 	avg = sum(v) / len(v)
-	# 	sidePack[k] = avg
+	for k,v in sidePack.items():
+		avg = sum(v) / len(v)
+		sidePack[k] = math.ceil(avg)
 
 
 	# print(upperPack)
