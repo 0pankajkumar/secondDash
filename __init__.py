@@ -1104,32 +1104,21 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 				sidePack[ro['Posting Owner Name']].append(ro['Days to move from first stage'])
 
 	# Calculating average of all days in sidepack
+	sidePackFinal = list()
 	for k,v in sidePack.items():
 		avg = sum(v) / len(v)
-		sidePack[k] = math.ceil(avg)
+		t = dict()
+		t['Recruiter Name'] = k
+		t['Average Action Days'] = math.ceil(avg)
+		sidePackFinal.append(t)
 
-
-	# print(upperPack)
 
 	# Making a dict to be readable at Front end Tabulator
 	upperPackForTabulator = []
-	# for key,value in upperPack.items():
-	#   justLikeThat = {}
-	#   justLikeThat['Recruiter'] = key
-
-	#   justLikeThat['_children'] = {}
-
-	#   for i in range(len(value)):
-	#       justLikeThat['_children'][monthList[i]] = value[i]
-
-	#   upperPackForTabulator.append(justLikeThat)
-
-	# print(upperPackForTabulator)
 
 	for key, value in upperPack.items():
 		tempDict = {}
 		tempDict['Recruiter'] = key
-		# tempDict['monthValues'] = value
 
 		thatTotal = sum(value)
 		tempDict['Grand Total'] = thatTotal
@@ -1147,7 +1136,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 
 	print(upperPackForTabulator)
 
-	return jsonify({'low': lowerPack, 'up': upperPackForTabulator, 'side': sidePack})
+	return jsonify({'low': lowerPack, 'up': upperPackForTabulator, 'side': sidePackFinal})
 
 
 def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):

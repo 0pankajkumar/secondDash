@@ -163,9 +163,7 @@
 
     <div class="grid-container">
       <div class="grid-item">
-        <!-- <figure class="highcharts-figure">
-        <div id="container" style="height: 600px; width: 600px; margin: 0 auto"></div>
-        </figure> -->
+        <div id="referal-side-table"></div>
       </div>  
       <div class="grid-item">
         <div id="container2"></div>
@@ -346,6 +344,29 @@
 
                 document.getElementById("average-ageing-count").innerHTML = Math.round(ageingAvg);
                 console.log(ageingAvg);
+
+
+                tableSide = new Tabulator("#referal-side-table", {
+                    data: result.side,
+                    // height: "40vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    // dataTreeStartExpanded: true,
+                    // groupBy: "title",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        { title: "Recruiter Name", field: "Recruiter Name", responsive: 0 },
+                        { title: "Average Action Days", field: "Average Action Days" },
+
+                    ],
+
+                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+
 
 
                 // Creating a Tabulator object for lower table
