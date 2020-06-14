@@ -354,26 +354,26 @@
                 }
 
                 Highcharts.chart('referal-side-graph', {
-                    chart: {
-                        type: 'column',
-                        styledMode: true,
-                        options3d: {
-                            enabled: true,
-                            alpha: 15,
-                            beta: 15,
-                            depth: 50
-                        }
-                    },
-                    title: {
-                        text: 'Average time of first action'
-                    },
-                    plotOptions: {
-                        column: {
-                            depth: 25
-                        }
-                    },
-                    xAxis: {
-                        categories:  ['Bhavik Kaklotar',
+    chart: {
+        type: 'column',
+        styledMode: true,
+        options3d: {
+            enabled: true,
+            alpha: 15,
+            beta: 15,
+            depth: 50
+        }
+    },
+    title: {
+        text: 'Time to move to next stage : Recruiter Screen'
+    },
+    plotOptions: {
+        column: {
+            depth: 25
+        }
+    },
+    xAxis: {
+        categories: ['Bhavik Kaklotar',
             'Catherine Solomon',
             'Deepak Rathod',
             'Deepika Joshi',
@@ -383,22 +383,23 @@
             'Nishant Das',
             'Poppin Mathias',
             'Shwetha Quinita Dsouza']
-                    },
-                    yAxis: {
-                        title: {
-                        text: 'Days'
-                      }
-                    },
-                    series: [{
-                            name: 'Average days',
-                            data: [29, 71, 106, 129, 144, 176, 135,
+    },
+    yAxis: {
+        title: {
+        text: 'Days'
+      }
+    },
+    series: [{
+            name: 'Average days',
+        data: [29, 71, 106, 129, 144, 176, 135,
             148, 216, 194],
-                            /* colorByPoint: true */
-                    }],
-                    exporting: {
-                        showTable: false
-                    }
-                });
+        /* colorByPoint: true */
+    }],
+    exporting: {
+        showTable: true
+    }
+});
+
 
                 // Table for the seeing average time take by recruiter for first action
                 tableSide = new Tabulator("#referal-side-table", {
