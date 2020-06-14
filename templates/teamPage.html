@@ -348,16 +348,11 @@
 
                 tableSide = new Tabulator("#referal-side-table", {
                     data: result.side,
-                    // height: "40vh",
                     layout: "fitColumns",
                     placeholder: "No Data",
-                    // index: "id",
-                    // dataTreeStartExpanded: true,
-                    // groupBy: "title",
-                    // groupHeader: customGroupHeader,
                     initialSort:[
-                        {column:"Average Action Days", dir:"asc"}, //sort by this first
-                    ]
+                        {column:"Average Action Days", dir:"asc"} //sort by this first
+                    ],
 
                     columns: [
                         { title: "Recruiter Name", field: "Recruiter Name", responsive: 0 },
