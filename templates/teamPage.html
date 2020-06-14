@@ -166,7 +166,7 @@
         <div id="referal-side-table" style="width:375px;"></div>
       </div>  
       <div class="grid-item">
-        <div id="container2"></div>
+        <div id="referal-side-graph"></div>
       </div>
     </div>
 
@@ -343,9 +343,54 @@
                 }
 
                 document.getElementById("average-ageing-count").innerHTML = Math.round(ageingAvg);
-                console.log(ageingAvg);
+                // console.log(ageingAvg);
 
 
+                recuitersNames = [];
+                recuitersAverageDays = [];
+                for(r of result.side){
+                    recuitersNames.push(r['Recruiter Name']);
+                    recuitersAverageDays.push(r['Average Action Days']);
+                }
+
+                Highcharts.chart('referal-side-graph', {
+                    chart: {
+                        type: 'column',
+                        styledMode: true,
+                        options3d: {
+                            enabled: true,
+                            alpha: 15,
+                            beta: 15,
+                            depth: 50
+                        }
+                    },
+                    title: {
+                        text: 'Average time of first action'
+                    },
+                    plotOptions: {
+                        column: {
+                            depth: 25
+                        }
+                    },
+                    xAxis: {
+                        categories: recuitersNames
+                    },
+                    yAxis: {
+                        title: {
+                        text: 'Days'
+                      }
+                    },
+                    series: [{
+                            name: 'Average days',
+                            data: recuitersAverageDays,
+                            /* colorByPoint: true */
+                    }],
+                    exporting: {
+                        showTable: true
+                    }
+                });
+
+                // Table for the seeing average time take by recruiter for first action
                 tableSide = new Tabulator("#referal-side-table", {
                     data: result.side,
                     layout: "fitColumns",
@@ -727,5 +772,14 @@
 
     });
 </script>
+
+<!-- Getting the charting stuff -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
 
 {% endblock %}
