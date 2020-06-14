@@ -373,7 +373,16 @@
                         }
                     },
                     xAxis: {
-                        categories: recuitersNames
+                        categories:  ['Bhavik Kaklotar',
+            'Catherine Solomon',
+            'Deepak Rathod',
+            'Deepika Joshi',
+            'Hema Negi',
+            'Janushi Saumil Shah',
+            'Kelly Pinto',
+            'Nishant Das',
+            'Poppin Mathias',
+            'Shwetha Quinita Dsouza']
                     },
                     yAxis: {
                         title: {
@@ -382,11 +391,12 @@
                     },
                     series: [{
                             name: 'Average days',
-                            data: recuitersAverageDays,
+                            data: [29, 71, 106, 129, 144, 176, 135,
+            148, 216, 194],
                             /* colorByPoint: true */
                     }],
                     exporting: {
-                        showTable: true
+                        showTable: false
                     }
                 });
 
