@@ -171,6 +171,16 @@
     </div>
 
 
+    <div class="grid-container">
+      <div class="grid-item">
+        <div id="referal-side-graph00"></div>
+      </div>  
+      <div class="grid-item">
+        <div id="referal-side-table00" style="width:375px;"></div>
+      </div>
+    </div>
+
+
 
 
     <h3>Referrals in New Applicant stage</h3>
@@ -290,11 +300,6 @@
 
 
     // For refreshing table on origin dropdown change
-    // $(function refreshSerenity() {
-    //     console.log("In refresh");
-    //     document.getElementById("sendForTable").click();
-    // });
-
     $('#originChoices').on('selectmenuchange', function () {
         console.log("In refresh");
         document.getElementById("sendForTable1").click();
@@ -302,20 +307,13 @@
         document.getElementById("sendForTable3").click();
 
     });
-    // function refreshSerenity() {
-    //     console.log("In refresh");
-    //     document.getElementById("sendForTable").click();
-    // }
+    
 
 
 
 
     // Referrals still in New Applicant stage -- Script after hitting Go
     $('#sendForTable1').on('click', function (e) {
-
-        // document.getElementById("example-table").style.display = "flex";
-        // document.getElementById("chartdivs").style.display = "none";
-        // console.log("Go clicked");
 
         var eos = document.getElementById("originChoices");
         var originSelected = eos.options[eos.selectedIndex].value;
@@ -331,23 +329,23 @@
             }, // multiple data sent using ajax
             success: function (result) {
 
+                // Varible for ageing avg
                 let ageingAvg = 0;
 
                 for (let i = 0; i < result.low.length; i++) {
-                    console.log(result.low[i].Ageing);
-                    ageingAvg += result.low[i].Ageing;
 
+                    // average ageing calculations
+                    ageingAvg += result.low[i].Ageing;
                     if (i == result.low.length - 1) {
                         ageingAvg /= (i + 1);
                     }
                 }
 
                 document.getElementById("average-ageing-count").innerHTML = Math.round(ageingAvg);
-                // console.log(ageingAvg);
 
 
 
-                // Preparing data for graphs
+                // Preparing data for graph of Average first action days
                 var averageActionsDaysDataTable = [];
                 for(r of result.side){
                     let t = [];
@@ -356,7 +354,10 @@
                     averageActionsDaysDataTable.push(t);
                 }
 
+                 
 
+
+                // Making graph of Average first action days
                 // Load the Visualization API and the corechart package.
                   google.charts.load('current', {'packages':['corechart']});
 
@@ -407,7 +408,23 @@
 
                     ],
 
-                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+                });
+
+                // Table for the seeing average time take by recruiter for first action
+                tableSide00 = new Tabulator("#referal-side-table00", {
+                    data: result.side2_table,
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    initialSort:[
+                        {column:"gt_c", dir:"asc"} //sort by this first
+                    ],
+
+                    columns: [
+                        { title: "Recruiter Name", field: "Recruiter Name", responsive: 0 },
+                        { title: "lte_c", field: "lte_c" },
+                        { title: "gt_c", field: "gt_c" }
+
+                    ],
 
                 });
 

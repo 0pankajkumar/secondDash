@@ -1060,6 +1060,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 	lowerPack = list()
 	# sidepack is for determing time to move to 2nd stage in candidate lifecycle
 	sidePack = dict()
+	sidePack2 = dict()
 	tem2 = dict()
 	monthList = ['*', 'Jan', 'Feb', 'Mar', 'Apr', 'May',
 				 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
@@ -1085,12 +1086,25 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 				upperPack[tem['Posting Owner Name']] = [0] * 13
 				upperPack[tem['Posting Owner Name']
 						  ][tem['Applied At (GMT)'].month] = 1
-				# for i in range(1,len(monthList) + 1):
-				#   upperPack[tem['Candidate Owner Name']][monthList[i]] = 0
 			else:
 				upperPack[tem['Posting Owner Name']
 						  ][tem['Applied At (GMT)'].month] += 1
 
+
+
+			# Making sidePack2 data for counting cases which are older than c
+			c = 21
+			if tem['Posting Owner Name'] not in sidePack2:
+				sidePack2[tem['Posting Owner Name']] = dict()
+				sidePack2[tem['Posting Owner Name']]['lte_c'] = 0
+				sidePack2[tem['Posting Owner Name']]['gt_c'] = 0
+			if tem['Ageing'] <= c:
+				sidePack2[tem['Posting Owner Name']]['lte_c'] += 1
+			else:
+				sidePack2[tem['Posting Owner Name']]['gt_c'] += 1
+
+
+			# The regular lower pack packing
 			lowerPack.append(tem)
 
 		
@@ -1112,6 +1126,28 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 		t['Average Action Days'] = math.ceil(avg)
 		sidePackFinal.append(t)
 
+	
+	sidePack2Final = list() # Making sidePack2 suitable to be consumed by frontend graph
+
+	sidePack2Final2 = list() # Making sidePack2 suitable for consumption by frontend TABLE
+	for k,v in sidePack2.items():
+
+		# Making for graph
+		t = list()
+		t.append(k)
+		t.append(v['lte_c'])
+		t.append(v['gt_c'])
+		sidePack2Final.append(t)
+
+		# Making for table
+		t2 = dict()
+		t2['Recruiter Name'] = k
+		t2['lte_c'] = v['lte_c']
+		t2['gt_c'] = v['gt_c']
+		sidePack2Final2.append(t2)
+		
+
+
 
 	# Making a dict to be readable at Front end Tabulator
 	upperPackForTabulator = []
@@ -1122,6 +1158,8 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 
 		thatTotal = sum(value)
 		tempDict['Grand Total'] = thatTotal
+
+		# if value
 
 		i = 0
 		for mon in monthList:
@@ -1136,7 +1174,7 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 
 	print(upperPackForTabulator)
 
-	return jsonify({'low': lowerPack, 'up': upperPackForTabulator, 'side': sidePackFinal})
+	return jsonify({'low': lowerPack, 'up': upperPackForTabulator, 'side': sidePackFinal, "side2": sidePack2Final, "side2_table": sidePack2Final2})
 
 
 def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
