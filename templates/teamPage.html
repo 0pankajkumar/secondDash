@@ -357,30 +357,37 @@
                 }
 
 
-                // Loading google charts library variables
-                google.charts.load('current', {packages: ['corechart', 'bar']});
-                google.charts.setOnLoadCallback(drawMaterial);
+                // Load the Visualization API and the corechart package.
+                  google.charts.load('current', {'packages':['corechart']});
 
-                function drawMaterial() {
-                  var data = new google.visualization.DataTable();
-                  data.addColumn('string', 'Recruiter');
-                  data.addColumn('number', 'Average');
+                  // Set a callback to run when the Google Visualization API is loaded.
+                  google.charts.setOnLoadCallback(drawChart);
 
-                  data.addRows(averageActionsDaysDataTable);
+                  // Callback that creates and populates a data table,
+                  // instantiates the pie chart, passes in the data and
+                  // draws it.
+                  function drawChart() {
 
-                  var options = {
-                    title: 'Avergae days',
-                    bar: {groupWidth: "95%"},
-                    width: 600,
-                    height: 400,
-                    hAxis: {
-                        slantedText: true
-                    }
-                  };
+                    // Create the data table.
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Topping');
+                    data.addColumn('number', 'Slices');
+                    data.addRows(averageActionsDaysDataTable);
 
-                  var materialChart = new google.charts.Bar(document.getElementById('referal-side-graph'));
-                  materialChart.draw(data, options);
-                }
+                    // Set chart options
+                    var options = {'title':'How Much Pizza I Ate Last Night',
+                                   'width':400,
+                                   'height':300,
+                                   'hAxis': {
+                                    slantedText: true
+                                   }
+                                   };
+
+                    // Instantiate and draw our chart, passing in some options.
+                    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                    chart.draw(data, options);
+                  }
+
 
                 // Table for the seeing average time take by recruiter for first action
                 tableSide = new Tabulator("#referal-side-table", {
