@@ -419,11 +419,11 @@
 
                 function drawStacked2() {
                       var data2 = new google.visualization.DataTable();
-                      data.addColumn('string', 'Time of Day');
-                      data.addColumn('number', 'Approching Deadline');
-                      data.addColumn('number', 'Crossed Deadline');
+                      data2.addColumn('string', 'Time of Day');
+                      data2.addColumn('number', 'Approching Deadline');
+                      data2.addColumn('number', 'Crossed Deadline');
 
-                      data.addRows(result.side2);
+                      data2.addRows(result.side2);
 
                       var options2 = {
                         title: 'Candidates Approaching Deadline',
