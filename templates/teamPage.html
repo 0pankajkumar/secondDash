@@ -173,7 +173,7 @@
             </td>
 
             <td>
-                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                <i class="fa fa-bar-chart" aria-hidden="true" onclick="toggleDisplay('referal-side-graph')"></i>
             </td>
           </tr>
         </table>
@@ -181,21 +181,21 @@
         
       </div>  
       <div class="grid-item">
-        <div id="referal-side-graph" style="display: none"s></div>
+        <div id="referal-side-graph" style="visibility: hidden;"></div>
       </div>
     </div>
 
 
     <div class="grid-container">
       <div class="grid-item">
-        <div id="referal-side-graph00" style="display: none"></div>
+        <div id="referal-side-graph00" style="visibility: hidden;"></div>
       </div>  
       <div class="grid-item">
 
         <table>
           <tr>
             <td>
-                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                <i class="fa fa-bar-chart" aria-hidden="true" onclick="toggleDisplay('referal-side-graph00')"></i>
             </td>
             
             <td>
@@ -316,6 +316,17 @@
         document.getElementById("sendForTable2").click();
         document.getElementById("sendForTable3").click();
         document.getElementById("LondonBut").click();
+    }
+
+    // For toggling visibility of graphs on demand
+    function toggleDisplay(t){
+        stateNow = document.getElementById(t).style.visibility;
+      if (stateNow == "hidden"){
+        document.getElementById(t).style.visibility = "visible";
+      }
+      else{
+        document.getElementById(t).style.visibility = "hidden";
+      }
     }
 
     // for loading date picker
