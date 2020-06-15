@@ -389,7 +389,7 @@
                                    };
 
                     // Instantiate and draw our chart, passing in some options.
-                    var chart = new google.visualization.ColumnChart(document.getElementById('referal-side-graph'));
+                    var chart = new google.visualization.BarChart(document.getElementById('referal-side-graph'));
                     chart.draw(data, options);
                   }
 
@@ -428,6 +428,7 @@
 
                       var options2 = {
                         title: 'Candidates Approaching Deadline',
+                        colors: ['#9575cd', '#33ac71'],
                         width:500,
                         height:400,
                         isStacked: true,
