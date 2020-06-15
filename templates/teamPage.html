@@ -377,7 +377,7 @@
                     data.addRows(averageActionsDaysDataTable);
 
                     // Set chart options
-                    var options = {'title':'Average time of first action',
+                    var options = {'title':'Average Days for First Action',
                                     chartArea: {
                                         // width: "100%",
                                       height: "80%",
@@ -403,8 +403,9 @@
                     data: result.side,
                     layout: "fitColumns",
                     placeholder: "No Data",
+                    variableHeight: true,
                     initialSort:[
-                        {column:"Average Action Days", dir:"asc"} //sort by this first
+                        {column:"Average Days for First Action", dir:"asc"} //sort by this first
                     ],
 
                     columns: [
