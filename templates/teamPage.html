@@ -410,7 +410,41 @@
 
                 });
 
-                // Table for the seeing average time take by recruiter for first action
+
+
+
+
+                google.charts.load('current', {packages: ['corechart', 'bar']});
+                google.charts.setOnLoadCallback(drawStacked2);
+
+                function drawStacked2() {
+                      var data2 = new google.visualization.DataTable();
+                      data.addColumn('string', 'Time of Day');
+                      data.addColumn('number', 'Approching Deadline');
+                      data.addColumn('number', 'Crossed Deadline');
+
+                      data.addRows(result.side2);
+
+                      var options2 = {
+                        title: 'Candidates Approaching Deadline',
+                        width:500,
+                        height:700,
+                        isStacked: true,
+                        hAxis: {
+                          title: 'Recruiters',
+                          slantedTextAngle: 45,
+                          maxAlternation: 3
+                        },
+                        vAxis: {
+                          title: 'No. of Candidates'
+                        }
+                      };
+
+                      var chart2 = new google.visualization.ColumnChart(document.getElementById('referal-side-graph00'));
+                      chart2.draw(data2, options2);
+                    }
+
+                    // Table for the seeing number of candidates crossing c
                 tableSide00 = new Tabulator("#referal-side-table00", {
                     data: result.side2_table,
                     layout: "fitColumns",
@@ -421,8 +455,8 @@
 
                     columns: [
                         { title: "Recruiter Name", field: "Recruiter Name", responsive: 0 },
-                        { title: "lte_c", field: "lte_c" },
-                        { title: "gt_c", field: "gt_c" }
+                        { title: "Approching deadline", field: "lte_c" },
+                        { title: "Crossed deadline", field: "gt_c" }
 
                     ],
 

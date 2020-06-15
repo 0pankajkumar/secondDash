@@ -1172,8 +1172,6 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 
 		upperPackForTabulator.append(tempDict)
 
-	print(upperPackForTabulator)
-
 	return jsonify({'low': lowerPack, 'up': upperPackForTabulator, 'side': sidePackFinal, "side2": sidePack2Final, "side2_table": sidePack2Final2})
 
 
