@@ -183,14 +183,14 @@
         
       </div>  
       <div class="grid-item">
-        <div id="referal-side-graph" style="visibility: hidden;"></div>
+        <div id="referal-side-graph" style="display: none"></div>
       </div>
     </div>
 
 
     <div class="grid-container">
       <div class="grid-item">
-        <div id="referal-side-graph00" style="visibility: hidden;"></div>
+        <div id="referal-side-graph00" style="display: none"></div>
       </div>  
       <div class="grid-item">
 
@@ -325,11 +325,11 @@
     // For toggling visibility of graphs on demand
     function toggleDisplay(t){
         stateNow = document.getElementById(t).style.visibility;
-      if (stateNow == "hidden"){
-        document.getElementById(t).style.visibility = "visible";
+      if (stateNow == "none"){
+        document.getElementById(t).style.visibility = "block";
       }
       else{
-        document.getElementById(t).style.visibility = "hidden";
+        document.getElementById(t).style.visibility = "none";
       }
     }
 
