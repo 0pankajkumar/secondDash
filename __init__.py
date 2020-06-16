@@ -477,6 +477,14 @@ def elaborate2():
 					t['count'] = count
 					t['Candidate Name'] = ro['Candidate Name']
 					t['Profile ID'] = ro['Profile ID']
+					t['Ageing'] = (datetime.datetime.now() - ro['Applied At (GMT)']).days
+					ans.append(t)
+					count += 1
+				if subRequestType == "gt_c" and ro['Ageing'] > c:
+					t = dict()
+					t['count'] = count
+					t['Candidate Name'] = ro['Candidate Name']
+					t['Profile ID'] = ro['Profile ID']
 					t['Ageing'] = ro['Ageing']
 					ans.append(t)
 					count += 1
