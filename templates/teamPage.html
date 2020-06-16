@@ -438,6 +438,16 @@
                     chart.draw(data, options);
                   }
 
+                var whoAreTheseCandidates3 = (cell, formatterParams) => {
+                    var data = cell.getData();
+                    if (cell.getValue() === undefined) {
+                        return
+                    } else {
+                        // let e = document.getElementById("profileArchiveStatus");
+                        // let profileSelection = e.options[e.selectedIndex].value;
+                        return "<a style='text-decoration:none; color:inherit;' target='_blank' href='https://tatreports.directi.com/elaborate2?" + "origin=referred" + "&postingOwnerName=" + data['Recruiter Name'] + "&requestType=average" + "&fromDate=" + document.getElementById("fromdatepicker").value + "&toDate=" + document.getElementById("todatepicker").value + "'>" + cell.getValue() + "</a>";
+                    }
+                }
 
                 // Table for the seeing average time take by recruiter for first action
                 tableSide = new Tabulator("#referal-side-table", {
@@ -451,7 +461,11 @@
 
                     columns: [
                         { title: "Recruiter Name", field: "Recruiter Name", responsive: 0 },
-                        { title: "Average Days for First Action", field: "Average Action Days" },
+                        { 
+                            title: "Average Days for First Action", 
+                            field: "Average Action Days",
+                            formatter: whoAreTheseCandidates3, 
+                        },
                     ],
 
                 });
