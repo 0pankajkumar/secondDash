@@ -1220,6 +1220,8 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 		t['Average Action Days'] = math.ceil(avg)
 		sidePackFinal.append(t)
 
+	sidePack2Final.sort(key=lambda a:a['Average Action Days'], reverse=True)
+
 	
 	sidePack2Final = list() # Making sidePack2 suitable to be consumed by frontend graph
 
