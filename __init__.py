@@ -481,7 +481,7 @@ def elaborate2():
 					t['Ageing'] = ageing
 					ans.append(t)
 					count += 1
-				if subRequestType == "gt_c" and ro['Ageing'] > c:
+				if subRequestType == "gt_c" and ageing > c:
 					t = dict()
 					t['count'] = count
 					t['Candidate Name'] = ro['Candidate Name']
