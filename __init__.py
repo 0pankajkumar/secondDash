@@ -1239,6 +1239,9 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 		t2['lte_c'] = v['lte_c']
 		t2['gt_c'] = v['gt_c']
 		sidePack2Final2.append(t2)
+
+	# Sorting it based on gte_c in descinding order
+	sidePack2Final2.sort(key=lambda a: a[1], reverse=True)
 		
 
 
