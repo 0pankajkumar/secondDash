@@ -417,6 +417,83 @@ def get_live_or_archived_dict():
 
 	return anotherDict
 
+@app.route('/elaborate2', methods=['GET'])
+@login_required
+def elaborate2():
+
+	fromDate = request.args.get('fromDate')
+	toDate = request.args.get('toDate')
+	originType = request.args.get('origin')
+	postingOwnerName = request.args.get('postingOwnerName')
+	requestType = request.args.get('requestType')
+	subRequestType = request.args.get('subRequestType')
+	allowedOrigins = ["referred", "agency", "applied", "sourced"]
+
+	if originType not in allowedOrigins:
+		return jsonify([])
+
+	try:
+		fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
+		toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
+		toDate += datetime.timedelta(days=1)
+
+	except:
+		fromDate = datetime.datetime(2000, 1, 1)
+		toDate = datetime.datetime(2030, 1, 1)
+
+	if originType != "referred":
+		query = {"Origin": originType, "$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
+			"Applied At (GMT)": {"$lte": toDate}}]}
+		rows = collection.find(query, cursor_type=CursorType.EXHAUST)
+	else:
+		query = {"$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
+			"Applied At (GMT)": {"$lte": toDate}}]}
+		rows = list()
+		rows_temp = collection.find(query, cursor_type=CursorType.EXHAUST)
+		for row in rows_temp:
+			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
+				rows.append(row)
+
+	ans = list()
+
+	if requestType == "average":
+		count = 1
+		for ro in rows:
+			if ro['Posting Owner Name'] == postingOwnerName and ro['Days to move from first stage'] >= 0:
+				t = dict()
+				t['count'] = count
+				t['Candidate Name'] = ro['Candidate Name']
+				t['Profile ID'] = ro['Profile ID']
+				t['Days to move from first stage'] = ro['Days to move from first stage']
+				count += 1
+				ans.append(t)
+	elif requestType == "c":
+		count = 1
+		for ro in rows:
+			if ro['Posting Archived At (GMT)'] == datetime.datetime(1990, 1, 1) and ro['Current Stage'] == 'New applicant' and ro['Posting Owner Name'] == postingOwnerName:
+				c = 21
+				if subRequestType == "lte_c" and ro['Ageing'] <= c:
+					t = dict()
+					t['count'] = count
+					t['Candidate Name'] = ro['Candidate Name']
+					t['Profile ID'] = ro['Profile ID']
+					t['Ageing'] = ro['Ageing']
+					ans.append(t)
+					count += 1
+
+	adminOptions = False
+	loginOption = True
+	teamOptions = False
+	if checkTeamMembership(current_user.id):
+		teamOptions = True
+	if checkAdmin(current_user.id):
+		adminOptions = True
+
+	return render_template('numbersElaborated2.html', candidates=ans, tableType=requestType, lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active")
+
+
+
+
 
 @app.route('/elaborate', methods=['GET'])
 @login_required
@@ -1118,12 +1195,12 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 			if ro['Days to move from first stage'] >= 0:
 				sidePack[ro['Posting Owner Name']].append(ro['Days to move from first stage'])
 
-		if ro['Actual Posting Owner Name'] not in test:
+		if ro['Posting Owner Name'] not in test:
 			if ro['Days to move from first stage'] >= 0:
-				test[ro['Actual Posting Owner Name']] = [ro['Profile ID']]
+				test[ro['Posting Owner Name']] = [ro['Profile ID']]
 		else:
 			if ro['Days to move from first stage'] >= 0:
-				test[ro['Actual Posting Owner Name']].append('https://hire.lever.co/candidates/'+ro['Profile ID'])
+				test[ro['Posting Owner Name']].append('https://hire.lever.co/candidates/'+ro['Profile ID'])
 
 	# Calculating average of all days in sidepack
 	sidePackFinal = list()
