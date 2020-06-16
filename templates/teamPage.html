@@ -495,7 +495,19 @@
                       chart2.draw(data2, options2);
                     }
 
-                    // Table for the seeing number of candidates crossing c
+
+                var whoAreTheseCandidates2 = (cell, formatterParams) => {
+                    var data = cell.getData();
+                    if (cell.getValue() === undefined) {
+                        return
+                    } else {
+                        let e = document.getElementById("profileArchiveStatus");
+                        let profileSelection = e.options[e.selectedIndex].value;
+                        return "<a style='text-decoration:none; color:inherit;' target='_blank' href='https://tatreports.directi.com/elaborate2?" + "origin=referred" + "&postingOwnerName=" + data['Recruiter Name'] + "&requestType=c" + "&subRequestType=" + formatterParams + "&fromDate=" + document.getElementById("fromdatepicker").value + "&toDate=" + document.getElementById("todatepicker").value + "'>" + cell.getValue() + "</a>";
+                    }
+                }
+
+                // Table for the seeing number of candidates crossing c
                 tableSide00 = new Tabulator("#referal-side-table00", {
                     data: result.side2_table,
                     layout: "fitColumns",
@@ -506,8 +518,18 @@
 
                     columns: [
                         { title: "Recruiter Name", field: "Recruiter Name", responsive: 0 },
-                        { title: "Approching deadline", field: "lte_c" },
-                        { title: "Crossed deadline", field: "gt_c" }
+                        { 
+                            title: "Approching deadline", 
+                            field: "lte_c",
+                            formatter: whoAreTheseCandidates2,
+                            formatterParams: "lte_c" 
+                        },
+                        { 
+                            title: "Crossed deadline", 
+                            field: "gt_c",
+                            formatter: whoAreTheseCandidates2,
+                            formatterParams: "gt_c" 
+                        }
 
                     ],
 
