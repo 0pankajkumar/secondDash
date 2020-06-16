@@ -486,7 +486,7 @@ def elaborate2():
 					t['count'] = count
 					t['Candidate Name'] = ro['Candidate Name']
 					t['Profile ID'] = ro['Profile ID']
-					t['Ageing'] = ro['Ageing']
+					t['Ageing'] = ageing
 					ans.append(t)
 					count += 1
 
