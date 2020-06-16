@@ -472,12 +472,13 @@ def elaborate2():
 		for ro in rows:
 			if ro['Posting Archived At (GMT)'] == datetime.datetime(1990, 1, 1) and ro['Current Stage'] == 'New applicant' and ro['Posting Owner Name'] == postingOwnerName:
 				c = 21
-				if subRequestType == "lte_c" and ro['Ageing'] <= c:
+				ageing = (datetime.datetime.now() - ro['Applied At (GMT)']).days
+				if subRequestType == "lte_c" and ageing <= c:
 					t = dict()
 					t['count'] = count
 					t['Candidate Name'] = ro['Candidate Name']
 					t['Profile ID'] = ro['Profile ID']
-					t['Ageing'] = (datetime.datetime.now() - ro['Applied At (GMT)']).days
+					t['Ageing'] = ageing
 					ans.append(t)
 					count += 1
 				if subRequestType == "gt_c" and ro['Ageing'] > c:
