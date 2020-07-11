@@ -293,3 +293,39 @@ def updateDump():
 
 	os.remove(file_to_open)
 	print("File Deleted")
+
+def addPostingToPostingDict(ro, postingDict, currentStages, postingActualOwnersDict):
+	# if ro['Posting ID'] and ro['Profile ID'] is not None:
+	if not isinstance(ro['Posting ID'], datetime.datetime) and not isinstance(ro['Profile ID'], datetime.datetime):
+		pst = ro['Posting ID']
+		prfl = ro['Profile ID']
+	else:
+		return
+
+	if pst not in postingDict:
+		postingDict[pst] = {}
+		postingDict[pst][prfl] = ro
+
+		# Create a new posting entry in dict
+		postingActualOwnersDict[pst] = dict()
+		postingActualOwnersDict[pst]["Actual Posting Owner Name"] = ro["Posting Owner Name"]
+		postingActualOwnersDict[pst]["Applied At (GMT)"] = ro["Applied At (GMT)"]
+
+	else:
+
+		# Check posting date & if its earlier changing the Name
+		if postingActualOwnersDict[pst]["Applied At (GMT)"] < ro["Applied At (GMT)"]:
+			postingActualOwnersDict[pst]["Actual Posting Owner Name"] = ro["Posting Owner Name"]
+			postingActualOwnersDict[pst]["Applied At (GMT)"] = ro["Applied At (GMT)"]
+
+		if prfl not in postingDict[pst]:
+			postingDict[pst][prfl] = ro
+
+		else:
+			stg1 = postingDict[pst][prfl]['Current Stage']
+			stg2 = ro['Current Stage']
+
+			# if currentStages.index(stg2) > currentStages.index(stg1):
+			if ro['Max Date'] >= postingDict[pst][prfl]['Max Date']:
+				postingDict[pst][prfl] = ro
+			# postingDict[pst][prfl] = ro
