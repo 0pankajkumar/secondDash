@@ -1,5 +1,7 @@
 import os
-
+from pymongo import MongoClient, CursorType, ASCENDING, DESCENDING
+import csv
+from pathlib import Path
 
 def updateMongo():
 	updatePostingInfo()
