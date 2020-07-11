@@ -286,22 +286,6 @@ def updating():
 	return res
 
 
-@app.route('/test2', methods=['GET'])
-@login_required
-def test1():
-	return render_template('test2.html')
-
-
-@app.route('/trial3', methods=['GET'])
-# @login_required
-def trial3():
-	return render_template('trial3.html')
-
-
-@app.route('/trial4', methods=['GET'])
-@login_required
-def trial4():
-	return "ss"
 
 
 def generateMainPageDropdowns2(Status):
@@ -375,13 +359,6 @@ def generateMainPageDropdowns():
 	returnList['profileArchiveStatus'] = profileArchiveStatus
 
 	return returnList
-
-
-# @app.route('/funnel', methods=['GET'])
-# @login_required
-# def funnel():
-#   returnedDict = generateMainPageDropdowns()
-#   return render_template('funnel.html', postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus = returnedDict['postingArchiveStatus'], profileArchiveStatus = returnedDict['profileArchiveStatus'])
 
 
 def getEligiblePostingTeams(companyName):
@@ -660,38 +637,8 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 		if '(I)' in item['Posting Title']:
 			continue
 
-		# if "All" not in title:
-		#   if item['Posting Title'] not in eligiblePostingTitles:
-		#       continue
-		# elif item['Posting Title'] not in title:
-		#   continue
-
-		# if team != "All":
-		#   if item['Posting Team'] not in eligiblePostingTeams:
-		#       continue
-		# elif item['Posting Team'] != team:
-		#   continue
-
-		# if item['Posting Title'] not in title and 'All' not in title:
-		#   continue
-		# if item['Posting Team'] != team and team != 'All':
-		#   continue
-		# if item['Posting Archive Status'] != archiveStatus and archiveStatus != 'All' and archiveStatus != 'Both':
-		#     continue
 		if item['Posting Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
 			continue
-
-		# if item['Min Date'] < fromDate and item['Max Date'] > toDate:
-		#   # print(f"{item['Min Date']} < {benchmark_date}")
-		#   continue
-
-		# if item['Max Date'] > toDate:
-			# print(f"{item['Min Date']} < {benchmark_date}")
-			# continue
-
-		# Modified posting ID for display
-		# item['Created At (GMT)'] =  datetime.datetime.strptime(str(item['Created At (GMT)']), '%Y-%m-%d %H:%M:%S').strftime('%B %Y')
-		# postId = str(item['Posting ID']) + ", " + str(item['Posting Title']) + ", " + str(item['Posting Location']) + ", " + item['Created At (GMT)']
 
 		if 'postingCreatedDate' in item:
 			dateForLabel = f"{str(item['postingCreatedDate'].strftime('%b'))} {str(item['postingCreatedDate'].strftime('%Y'))}, "
@@ -726,41 +673,6 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 			counts[postId][origin]['onsite_To_Offer'] = 0
 
 		originCounts = counts[postId][origin]
-
-		# if 'Stage - New lead' in item and item['Stage - New lead'] != None:
-		#   originCounts['new_lead'] += 1
-		# if 'Stage - Reached out' in item and item['Stage - Reached out'] != None:
-		#   originCounts['reached_out'] += 1
-		# if 'Stage - New applicant' in item and item['Stage - New applicant'] != None:
-		#   originCounts['new_applicant'] += 1
-		# if 'Stage - Recruiter screen' in item and item['Stage - Recruiter screen'] != None:
-		#   originCounts['recruiter_screen'] += 1
-
-		# if 'Stage - Phone interview' in item and item['Stage - Phone interview'] != None:
-		#   originCounts['phone_interview'] += 1
-		#   # Counting for % conversion
-		#   if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
-		#       originCounts['phone_To_Onsite'] += 1
-		#   if 'Stage - Offer' in item and item['Stage - Offer'] != None:
-		#       originCounts['phone_To_Offer'] += 1
-
-		# if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
-		#   originCounts['onsite_interview'] += 1
-		#   # Counting for % conversion
-		#   if 'Stage - Offer' in item and item['Stage - Offer'] != None:
-		#       originCounts['onsite_To_Offer'] += 1
-
-		# if 'Stage - Offer' in item and item['Stage - Offer'] != None:
-		#   originCounts['offer'] += 1
-
-		# if 'Stage - Offer Approval' in item and item['Stage - Offer Approval'] != None:
-		#   originCounts['offerApproval'] += 1
-
-		# if 'Stage - Offer Approved' in item and item['Stage - Offer Approved'] != None:
-		#   originCounts['offerApproval'] += 1
-
-		# if 'Hired' in item and item['Hired'] != None:
-		#   originCounts['hired'] += 1
 
 		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "New lead":
 			originCounts['new_lead'] += 1
@@ -850,9 +762,6 @@ def getTotalForEachPosting(res):
 
 # title, companyName, team, archiveStatus):
 def getFromDB(title, companyName, team, recruiter=None):
-	# collection.drop()
-	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - New Lead' : '2019-01-01'})
-	# collection.insert_one({'posting_id' : randint(1,10), 'origin' : randint(1,3), 'Stage - Recruiter Screen': '2019-02-02'})
 	query = dict()
 
 	if title[0] == 'All':
@@ -1081,11 +990,6 @@ def getBigDict():
 
 	rows = collection.find({"Posting Department": {
 						   "$in": companiesAllowed}}, cursor_type=CursorType.EXHAUST)
-
-	# rows = collection.find(cursor_type=CursorType.EXHAUST)
-
-	# companiesAllowed = set()
-	# companiesAllowed = {'Campus', 'Codechef', 'Flock', 'Radix', 'Shared Services'}
 
 	for row in rows:
 		if row['Posting Department'] not in companiesAllowed:
@@ -1320,16 +1224,6 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 			tem['Posting Archived At (GMT)'] = ro['Posting Archived At (GMT)']
 			tem['CandidateName'] = ro['Candidate Name']
 			tem['Last Story At (GMT)'] = ro['Last Story At (GMT)']
-
-			# tem['Ageing'] = tem['Posting Archived At (GMT)'] - tem['Created At (GMT)']
-			# tem['Ageing'] = tem['Ageing'].days
-
-			# If Aging days is -ve it's sort of icorrect data captured
-			# To rectify that we use another column's date
-			# if tem['Ageing'] < 0:
-			#   # In fact we should always use 'Posting Archived At (GMT)'
-			#   tem['Ageing'] = tem['Last Advanced At (GMT)'] - tem['Created At (GMT)']
-			#   tem['Ageing'] = tem['Ageing'].days
 
 			tem['Ageing'] = tem['Posting Archived At (GMT)'] - \
 				tem['Applied At (GMT)']
@@ -2246,13 +2140,6 @@ def unauthorized():
 	# return render_template("unauthorized.html"), 403
 	return render_template("login.html", loginOption=False)
 
-
-# Naive database setup
-# try:
-#     init_db_command()
-# except sqlite3.OperationalError:
-#     # Assume it's already been created
-#     pass
 
 # OAuth2 client setup
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
