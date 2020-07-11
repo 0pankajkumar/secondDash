@@ -54,7 +54,7 @@ def updatePostingInfo():
 
 	collection.insert_many(finalBox)
 
-	os.remove(file_to_open)
+	# os.remove(file_to_open)
 	print("File Deleted")
 
 	print(ty)
@@ -291,8 +291,11 @@ def updateDump():
 	collection.create_index(
 		[("Origin", DESCENDING), ("Applied At (GMT)", DESCENDING)])
 
-	os.remove(file_to_open)
+	# os.remove(file_to_open)
 	print("File Deleted")
+
+
+
 
 def addPostingToPostingDict(ro, postingDict, currentStages, postingActualOwnersDict):
 	# if ro['Posting ID'] and ro['Profile ID'] is not None:
