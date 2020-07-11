@@ -1,6 +1,6 @@
 import os
 from pymongo import MongoClient, CursorType, ASCENDING, DESCENDING
-import csv
+import csv, datetime
 from pathlib import Path
 
 def updateMongo():
