@@ -42,6 +42,8 @@ import requests
 # from db import init_db_command
 from FlaskApp.user import User
 from FlaskApp.update import updateMongo
+from FlaskApp.generateMainPageDropdowns2 import generateMainPageDropdowns2, generateMainPageDropdowns
+from FlaskApp.flushUploadsFolder import flushUploadsFolder
 
 # For auto uploading from lever
 from selenium import webdriver
@@ -77,12 +79,6 @@ def after_request(response):
 	response.headers["Expires"] = 0
 	response.headers["Pragma"] = "no-cache"
 	return response
-
-# Configure session to use filesystem (instead of signed cookies)
-# app.config["SESSION_FILE_DIR"] = tempfile.mkdtemp()
-# app.config["SESSION_PERMANENT"] = False
-# app.config["SESSION_TYPE"] = "filesystem"
-# Session(app)
 
 
 
@@ -188,44 +184,11 @@ def autoUpload():
 
 
 
-
-
-# To delete /uploads folder at start of upload
-def flushUploadsFolder():
-	folder = '/var/www/FlaskApp/FlaskApp/uploaded_csv'
-	for the_file in os.listdir(folder):
-		file_path = os.path.join(folder, the_file)
-		try:
-			if os.path.isfile(file_path):
-				os.unlink(file_path)
-			# elif os.path.isdir(file_path): shutil.rmtree(file_path)
-		except Exception as e:
-			print(e)
-
-
 # configure flask_upload API
 documents = UploadSet("documents", ('csv'))
 app.config["UPLOADED_DOCUMENTS_DEST"] = "/var/www/FlaskApp/FlaskApp/uploaded_csv"
 configure_uploads(app, documents)
 
-
-# def login_required(f):
-#     """
-#     Decorate routes to require login.
-#     http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/
-#     """
-#     @wraps(f)
-#     def decorated_function(*args, **kwargs):
-#         # print("333333333333 Inside Decorators 33333333333")
-#         if session.get("user_id") is None:
-#             # print("Inside")
-#             # print(session)
-#             return redirect("/")
-#         # else:
-#         #   print("Outisde")
-#         #   print(session)
-#         return f(*args, **kwargs)
-#     return decorated_function
 
 @app.route('/privacy', methods=['GET'])
 def privacy():
@@ -287,79 +250,6 @@ def updating():
 	return res
 
 
-
-
-def generateMainPageDropdowns2(Status):
-	postingOwner = set()
-	postingArchiveStatus = set()
-	profileArchiveStatus = set()
-
-	# companiesAllowed = set()
-	# companiesAllowed = {'Campus', 'Codechef', 'Flock', 'Radix', 'Shared Services'}
-
-	rows = collection2.find({"users": current_user.id})
-	for row in rows:
-		companiesAllowed = row["companiesActuallyAllowed"]
-
-	# Get all users registred TAT members from our user database
-	rows = collection2.find({"tatMember": "Yeah"})
-	allUsersSet = set()
-	for row in rows:
-		allUsersSet.add(row["users"])
-
-	rows = collection4.find(
-		{"Posting Department": {"$in": companiesAllowed}}, cursor_type=CursorType.EXHAUST)
-	for row in rows:
-		if row['Posting Owner Email'] not in allUsersSet:
-			continue
-		if row['Posting Department'] not in companiesAllowed:
-			continue
-		if row['Status'] != Status:
-			continue
-		else:
-			postingOwner.add(row['Posting Owner'])
-
-	# Sorting the set alphabatically
-	postingOwner = sorted(postingOwner)
-
-	# Packing everything to return
-	returnList = {}
-	returnList['postingOwner'] = postingOwner
-
-	return returnList
-
-
-def generateMainPageDropdowns():
-	postingDepartment = set()
-	postingArchiveStatus = set()
-	profileArchiveStatus = set()
-
-	# companiesAllowed = set()
-	# companiesAllowed = {'Campus', 'Codechef', 'Flock', 'Radix', 'Shared Services'}
-
-	rows = collection2.find({"users": current_user.id})
-	for row in rows:
-		companiesAllowed = row["companiesActuallyAllowed"]
-
-	rows = collection.find({"Posting Department": {"$in": companiesAllowed}})
-	for row in rows:
-		if row['Posting Department'] not in companiesAllowed:
-			continue
-		else:
-			postingDepartment.add(row['Posting Department'])
-		postingArchiveStatus.add(row['Posting Archive Status'])
-		profileArchiveStatus.add(row['Profile Archive Status'])
-
-	# Sorting the set alphabatically
-	postingDepartment = sorted(postingDepartment)
-
-	# Packing everything to return
-	returnList = {}
-	returnList['postingDepartment'] = postingDepartment
-	returnList['postingArchiveStatus'] = postingArchiveStatus
-	returnList['profileArchiveStatus'] = profileArchiveStatus
-
-	return returnList
 
 
 def getEligiblePostingTeams(companyName):
