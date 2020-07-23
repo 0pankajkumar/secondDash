@@ -39,8 +39,6 @@ from flask_login import LoginManager, current_user, login_required, login_user, 
 from oauthlib.oauth2 import WebApplicationClient
 import requests
 
-# Importing views or routes
-from FlaskApp.FlaskApp import views
 
 # DB links for main collection
 client = MongoClient("mongodb://localhost:27017")
@@ -94,3 +92,8 @@ def load_user(user_id):
 
 def get_google_provider_cfg():
 	return requests.get(GOOGLE_DISCOVERY_URL).json()
+
+
+
+# Importing views or routes
+from FlaskApp.FlaskApp import views
