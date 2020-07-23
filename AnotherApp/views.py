@@ -1,4 +1,4 @@
 from FlaskApp import app
 @app.route("/another")
-def hello():
+def hellohello():
     return "Rocking another"
