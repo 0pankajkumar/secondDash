@@ -1,5 +1,5 @@
 from FlaskApp import app
-from FlaskApp.FlaskApp.modules import amodule
+from FlaskApp.FlaskApp.modules.amodule import insidemodule
 
 @app.route("/")
 def hello():
