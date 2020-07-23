@@ -6,5 +6,5 @@ def hello():
     return "Working fine hel O"
 
 @app.route("/amodule")
-def hello():
+def amodule():
     return amodule()
