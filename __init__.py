@@ -54,6 +54,10 @@ collection4 = database["jobPostingWiseDB"]
 collection5 = database["moreInfo"]
 
 
-app = Flask(__name__)
+# app = Flask(__name__)
+app = Flask(__name__, static_url_path='',
+				  static_folder='FlaskApp/FlaskApp/static',
+				  template_folder='FlaskApp/FlaskApp/templates')
+app.config["DEBUG"] = False
 
 from FlaskApp.FlaskApp import views
