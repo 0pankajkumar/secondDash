@@ -1,0 +1,33 @@
+{% extends "cover.html" %}
+
+{% block main %}
+
+<div style="text-align: center" id="centerMessage">
+
+  <h2>Uploaded Successfully</h2>
+  <h2>Now updating Database ... </h2>
+
+</div>
+
+<script type="text/javascript">
+
+  // Modify title
+  document.title = "Uploaded";
+
+  $(document).ready(function () {
+    $.ajax({
+      type: "POST",
+      cache: false,
+      url: "/updating",
+      data: {},
+      success: function (result) {
+        console.log(result);
+        document.getElementById('centerMessage').innerHTML = '<h2>' + result + '</h2><p><a href="/">Go back home</a></p>';
+      }
+    });
+  });
+
+</script>
+
+
+{% endblock %}

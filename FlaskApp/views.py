@@ -1,5 +1,21 @@
 from FlaskApp import app
-from FlaskApp.FlaskApp.modules.amodule import insidemodule
+
+# Imports modules
+from FlaskApp.FlaskApp.modules.user import User
+from FlaskApp.FlaskApp.modules.update import updateMongo
+
+# Clearing caches
+@app.after_request
+def after_request(response):
+	response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+	response.headers["Expires"] = 0
+	response.headers["Pragma"] = "no-cache"
+	return response
+
+@app.route('/privacy', methods=['GET'])
+def privacy():
+	return render_template("privacyPolicy.html")
+
 
 @app.route("/")
 def hello():
