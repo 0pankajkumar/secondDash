@@ -4,7 +4,7 @@
 # 				  static_folder='static',
 # 				  template_folder='templates')
 
-from FlaskApp import FlaskApp
-@FlaskApp.route("/")
+from FlaskApp import FlaskApp as app
+@app.route("/")
 def hello():
     return "Working fine hel O"
