@@ -3,3 +3,4 @@ from flask import Flask
 app = Flask(__name__)
 
 from FlaskApp.FlaskApp import views
+from FlaskApp.AnotherApp import views
