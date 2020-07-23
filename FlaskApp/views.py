@@ -1,4 +1,5 @@
 from FlaskApp import app
+from flask import render_template
 
 # Imports modules
 from FlaskApp.FlaskApp.modules.user import User
