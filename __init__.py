@@ -1,9 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask
 
-app = Flask(__name__, static_url_path='',
-				  static_folder='static',
-				  template_folder='templates')
+app = Flask(__name__)
 
-@app.route("/")
-def hello():
-    return "Working fine"
+from app import views
