@@ -4,7 +4,7 @@ from flask import Flask, render_template
 # 				  static_folder='static',
 # 				  template_folder='templates')
 
-from FlaskApp import FlaskApp as app
+from FlaskApp import app
 @app.route("/")
 def hello():
     return "Working fine hel O"
