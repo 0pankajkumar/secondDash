@@ -1,3 +1,5 @@
+from pymongo import MongoClient
+
 # DB links for main collection
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
