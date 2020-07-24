@@ -5,7 +5,7 @@ from flask_login import LoginManager, current_user, login_required, login_user, 
 # Imports modules
 from FlaskApp.FlaskApp.modules.user import User
 from FlaskApp.FlaskApp.modules.update import updateMongo
-# from FlaskApp.FlaskApp.modules.login import 
+from FlaskApp.FlaskApp.modules.loginTools import checkAdmin, checkTeamMembership
 
 # Clearing caches
 @app.after_request
