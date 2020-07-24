@@ -8,6 +8,20 @@ from FlaskApp.FlaskApp.modules.update import updateMongo
 from FlaskApp.FlaskApp.modules.loginTools import checkAdmin, checkTeamMembership
 from FlaskApp.FlaskApp.modules.utilities import getLastUpdatedTimestamp, generateMainPageDropdowns2, generateMainPageDropdowns, getEligiblePostingTeams, getEligiblePostingTitles, get_live_or_archived_dict, generateCustomFilterNames
 
+# DB links for main collection
+client = MongoClient("mongodb://localhost:27017")
+database = client["local"]
+
+# DB links for ApprovedUsers collection
+collection = database["dolphinDB"]
+
+# DB links for ApprovedUsers collection
+collection2 = database["ApprovedUsers"]
+
+# From new dup
+collection4 = database["jobPostingWiseDB"]
+
+
 # Clearing caches
 @app.after_request
 def after_request(response):
