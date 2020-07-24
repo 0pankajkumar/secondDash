@@ -1,4 +1,4 @@
-from pymongo import MongoClient
+from pymongo import MongoClient, CursorType
 from flask_login import current_user
 
 # DB links for main collection
@@ -135,3 +135,19 @@ def get_live_or_archived_dict():
 			anotherDict[ro['Posting ID']] = ro['Status']
 
 	return anotherDict
+
+def generateCustomFilterNames(pageType):
+	dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+	dbData = None
+	for d in dbDataStarting:
+		dbData = d
+	if "customFilters" in dbData:
+		dbData = dbData["customFilters"]
+	else:
+		dbData = []
+
+	allNames = []
+	for d in dbData:
+		if d["pageType"] == pageType:
+			allNames.append(d["filterName"])
+	return allNames

@@ -183,4 +183,4 @@ def logout():
 # Importing views or routes
 from FlaskApp.FlaskApp import views
 from FlaskApp.FlaskApp.modules.user import User
-from FlaskApp.FlaskApp.modules.utilities import generateMainPageDropdowns, generateCustomFilterNames, getLastUpdatedTimestamp
+from FlaskApp.FlaskApp.modules.utilities import getLastUpdatedTimestamp, generateMainPageDropdowns2, generateMainPageDropdowns, getEligiblePostingTeams, getEligiblePostingTitles, get_live_or_archived_dict, generateCustomFilterNames
