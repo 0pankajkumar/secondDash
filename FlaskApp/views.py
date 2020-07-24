@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect
-# from FlaskApp import app
+from FlaskApp import papp
 
-@app.route("/")
-@app.route("/home")
+@papp.route("/")
+@papp.route("/home")
 def home():
     return "Modularixation is not that bad, trust me"

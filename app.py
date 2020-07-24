@@ -1,4 +1,4 @@
-from FlaskApp.FlaskApp import app
+from FlaskApp.FlaskApp import papp
 
 # if __name__ == '__main__':
-app.run(debug=True)
+papp.run(debug=True)
