@@ -181,5 +181,5 @@ def logout():
 
 
 # Importing views or routes
-from FlaskApp import views
+from FlaskApp.FlaskApp import views
 from FlaskApp.FlaskApp.modules.user import User
