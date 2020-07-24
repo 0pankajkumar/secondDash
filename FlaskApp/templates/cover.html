@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="dist/css/customStyle.css" rel="stylesheet">
+    <link href="dist/css/funnelStyles.css" rel="stylesheet">
+    <link href="dist/css/uploaderStyles.css" rel="stylesheet">
+    <link href="dist/css/dropdownStyles.css" rel="stylesheet">
+    <link href="dist/css/topNavbarStyles.css" rel="stylesheet">
+    <link href="dist/css/snackbar.css" rel="stylesheet">
+    <link href="dist/css/shareCustomFilter.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+    <!-- Tabulator -->
+    <link href="dist/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="dist/js/tabulator.min.js"></script>
+    <!-- <link href="https://unpkg.com/tabulator-tables@4.5.3/dist/css/tabulator.min.css" rel="stylesheet"> -->
+    <!-- <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.5.3/dist/js/tabulator.min.js"></script> -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        /* For dropdown */
+        .custom-combobox {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-combobox-toggle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin-left: -1px;
+            padding: 0;
+        }
+
+        .custom-combobox-input {
+            margin: 0;
+            padding: 5px 10px;
+        }
+
+
+        /* dropdown in menus use this */
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1;
+        }
+        .dropdown-content a {
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+          text-align: left;
+        }
+
+        .dropdown-content a:hover {background-color: #f1f1f1;}
+
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
+
+  .dropdown-subcontent {
+    top: 0px;
+    left: 100%;
+    margin-top: -60px;
+    margin-left: -1px;
+    display: none;
+  }
+
+  .dropdown-submenu:hover+.dropdown-subcontent {
+    display: block;
+    float: right;
+  }
+  </style>
+    <!-- /* dropdown for menu ends here */ -->
+    <!-- /* Icons here */ -->
+    <script src="https://use.fontawesome.com/39a9c22f68.js"></script>
+    <style>
+        .tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  /*background-color: black;*/
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+
+
+}
+
+.tooltip .tooltiptextCustomFilter {
+  visibility: hidden;
+  width: 120px;
+  background-color: #808080;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+
+
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+.tooltip:hover .tooltiptextCustomFilter {
+  visibility: visible;
+}
+</style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- <script src="dist/js/dropdown.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> -->
+    <!-- For multi select dropdowns -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.min.js"></script>
+    <script type="text/javascript" src="dist/js/dropdownMultiselect.js"></script>
+    <!-- Resources for charts-->
+    <script type="text/javascript" src="dist/js/d3.js"></script>
+    <script type="text/javascript" src="dist/js/d3-funnel.js"></script>
+    <script type="text/javascript" src="dist/js/funnelScript2.js"></script>
+    <!-- <script type="text/javascript" src="dist/js/dropdown.js"></script> -->
+    <!-- For Downloading report -->
+    <script type="text/javascript" src="dist/js/footerScripts.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/simonbengtsson/jsPDF/requirejs-fix-dist/dist/jspdf.debug.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/jspdf-autotable@2.3.2"></script>
+</head>
+
+<body>
+    <div class="topnav">
+        <a class="navbar-brand" href="/"><img style="height:3em" src="/dist/img/directi_logo.png" alt="Directi">
+        </a>
+        <!-- <a href="/">Home</a> -->
+        <a class="{{livePostingHighlight}}" style="margin:0.9em 0.6em 0em 0.6em;" href="/livePostings">Live Postings</a>
+        <a class="{{archivedPostingHighlight}}" style="margin:0.9em 0.6em 0em 0.6em;" href="/archivedPostings">Archived Postings</a>
+        <div class="search-container">
+            {% if loginOption == True %}
+            <div class="tooltip">
+                <a href="/logout" style="color:inherit;">
+                    <i class="fa fa-sign-out fa-lg"></i>
+                </a>
+                <span class="tooltiptext">Log out</span>
+            </div>
+            {% endif %}
+            {% if adminOptions == True %}
+            <div class="tooltip">
+                <a href="/modifyUser" class="{{modifyUserHighlight}}" style="color:inherit;">
+                    <i class="fa fa-users fa-lg"></i>
+                </a>
+                <span class="tooltiptext">Users</span>
+            </div>
+            <div class="tooltip">
+                <a href="/upload" class="{{uploadHighlight}}" style="color:inherit;">
+                    <i class="fa fa-cloud-upload fa-lg"></i>
+                </a>
+                <span class="tooltiptext">Upload</span>
+            </div>
+            {% endif %}
+            {% if teamOptions == True %}
+            <div class="dropdown">
+                <a class="{{teamHighlight}}" href="javascript:void(0)" style="color:inherit;">
+                    <i class="fa fa-bars fa-lg"></i>
+                </a><br><br>
+                <div class="dropdown-content">
+                    <a href="/team">Team Reports</a><br>
+                    <a href="/recruiterLivePostings">Recruiter Filter Live</a><br>
+                    <a href="/recruiterArchivedPostings">Recruiter Filter Archived</a>
+                </div>
+            </div>
+            <!-- <div class="dropdown">
+                <a class="{{teamHighlight}}" href="javascript:void(0)">Options</a><br><br>
+                <div class="dropdown-content">
+                    <a href="/team">Team Reports</a><br>
+                    <a href="/recruiterFilter" class="dropdown-submenu">Recruiter Filter</a>
+        <div class="dropdown-subcontent">
+                      <a href="/recruiterLivePostings">Live</a><br>
+                      <a href="/recruiterArchivedPostings">Archived</a>
+        </div>
+                </div>
+            </div> -->
+            {% endif %}
+            <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div><a href="/logout" onclick="signOut();">Sign out</a></div> -->
+        </div>
+    </div>
+    <div class="topnav">
+        <div class="search-container" style="text-align: right; font-size: 11px;">
+            {% if loginOption == True %}
+            Last Updated:<br> {{lastUpdated}}
+            {% endif %}
+        </div>
+    </div>
+    <!-- All the dropdowns & tables only rendered when required -->
+    {% if activateDropdownsAndTable == "yes" %}
+    <!-- Share box for custom filter -->
+    <div class="chat-popup" id="shareDialog">
+        <div class="form-container">
+            <h3 style="margin:10px 20% 0px 20%">Share Filter</h3>
+            <br>
+            <select multiple name="shareSelect" id="shareSelect" class="select2-dropdown" style="display: hidden">
+            </select>
+            <br>
+            <button type="button" class="btn" id="shareTrigger">Share</button>
+            <button type="button" class="btn cancel" id="shareDialogCloser" onclick="closeShareDialog()">Close</button>
+        </div>
+    </div>
+    <div class="menu dropdown-column">
+        <div style="float: right; color:#808080">
+            <div class="tooltip">
+                <i id="saveFilter" style="cursor: pointer" class="fa fa-bookmark" aria-hidden="true"></i>
+                <span class="tooltiptextCustomFilter">Save filter</span>
+            </div>
+            <div class="tooltip">
+                <i id="deleteFilter" style="cursor: pointer" class="fa fa-trash" aria-hidden="true"></i>
+                <span class="tooltiptextCustomFilter">Delete filter</span>
+            </div>
+            <div class="tooltip">
+                <i id="shareFilter" style="cursor: pointer" class="fa fa-share-alt" aria-hidden="true"></i>
+                <span class="tooltiptextCustomFilter">Share filter</span>
+            </div>
+        </div>
+        <ul>
+            <li>
+                <div class="ui-widget flexItem">
+                    <label style="font-size: 12px;" for="customFilters">Custom Filters:</label><br />
+                    <select name="customFilterDD" id="customFilterDD" class="select2-dropdown" style="display: hidden" onchange="applyCustomFilterWaterfall(document.getElementById('customFilterDD'))">
+                        <option value="nothing" selected>Choose</option>
+                        {% for fil in customFilterNames %}
+                        <option value="{{ fil }}">{{ fil }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </li>
+            {% if activateRecruiterDropdown == "yes" %}
+            <li>
+                <div class="ui-widget flexItem">
+                    <label style="font-size: 12px;" for="recruiterName">Recruiter:</label><br />
+                    <select name="ddl0" id="ddl0" class="select2-dropdown" style="display: hidden" onchange="popCompany(document.getElementById('ddl0'), document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
+                        <option value="All" selected>All Recruiters</option>
+                        {% for p in postingOwner %}
+                        <option value="{{ p }}">{{ p }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </li>
+            {% endif %}
+            <li>
+                <div class="ui-widget flexItem">
+                    <label style="font-size: 12px;" for="companyName">Company:</label><br />
+                    {% if activateRecruiterDropdown == "yes" %}
+                    <select name="ddl1" id="ddl1" class="select2-dropdown" style="display: hidden" onchange="popDept(document.getElementById('ddl0'), this,document.getElementById('ddl2'), document.getElementById('ddl3'))">
+                        <option value="nothing" selected>Choose</option>
+                    </select>
+                    {% else %}
+                    <select name="ddl1" id="ddl1" class="select2-dropdown" style="display: hidden" onchange="configureDDL2(document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
+                        <option value="nothing" selected>Choose</option>
+                        {% for p in postingDepartment %}
+                        <option value="{{ p }}">{{ p }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                </div>
+            </li>
+            <li>
+                <div class="ui-widget flexItem">
+                    <label style="font-size: 12px;" for="postingTeam">Team:</label><br />
+                    {% if activateRecruiterDropdown == "yes" %}
+                    <select name="ddl2" id="ddl2" class="select2-dropdown" style="display: hidden" onchange="popPost(document.getElementById('ddl0'), document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
+                        <option value="nothing" selected>Choose</option>
+                    </select>
+                    {% else %}
+                    <select name="ddl2" id="ddl2" class="select2-dropdown" style="display: hidden" onchange="configureDDL3(document.getElementById('ddl1'), document.getElementById('ddl2'), document.getElementById('ddl3'))">
+                        <option value="nothing" selected>Choose</option>
+                    </select>
+                    {% endif %}
+                </div>
+            </li>
+            <li>
+                <div class="ui-widget flexItem">
+                    <label style="font-size: 12px;" for="postingTitle">Title:</label><br />
+                    <select multiple name="ddl3" id="ddl3" class="select2-dropdown" style="display: hidden">
+                        <!-- <option value="All" selected>All</option> -->
+                    </select>
+                </div>
+            </li>
+            <li>
+                <div class="ui-widget flexItem">
+                    <label style="font-size: 12px;" for="  ">Profile Status :</label><br />
+                    <select name="profileArchiveStatus" id="profileArchiveStatus" class="select2-dropdown" style="display: hidden">
+                        <option value="Both">Both</option>
+                        <option value="false" selected>Active</option>
+                        <option value="true">Archived</option>
+                        <!-- {% for p in profileArchiveStatus %}
+          {% if p == 'false' %}
+          <option value="{{ p }}">Active</option>
+          {% elif p == 'true' %}
+          <option value="{{ p }}">Archived</option> -->
+                        <!-- {% endif %}
+          {% endfor %} -->
+                    </select>
+                </div>
+            </li>
+            <li>
+                <div class="ui-widget flexItem">
+                    <label style="font-size: 12px;" for="">From:</label><br />
+                    <input type="text" id="fromdatepicker" class="select2-dropdown" autocomplete="off" />
+                </div>
+            </li>
+            <li>
+                <div class="ui-widget flexItem">
+                    <label style="font-size: 12px;" for="">To:</label><br />
+                    <input type="text" id="todatepicker" class="select2-dropdown" autocomplete="off" />
+                </div>
+            </li>
+            <li>
+                <div class="flexGroup2">
+                    <button id="sendForTable" class="btn btn-primary flexItem2">
+                        Table view
+                    </button>
+                    <button id="sendForFunnel" class="btn btn-primary flexItem2" style="display:none">
+                        Funnel view
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+    {% block main %}{% endblock %}
+    <!-- For snackbar -->
+    <div id="snackbar"></div>
+    <div class="modal">
+        <!-- For loading everytime some ajax is fired. Inspiration from https://stackoverflow.com/questions/1964839/how-can-i-create-a-please-wait-loading-animation-using-jquery -->
+    </div>
+    <script>
+    // Loading circle
+    $body = $("body");
+    $(document).on({
+        ajaxStart: function() { $body.addClass("loading"); },
+        ajaxStop: function() { $body.removeClass("loading"); }
+    });
+
+    // Snackbar script
+    function triggerSnackbar() {
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function() { x.className = x.className.replace("show", ""); }, 3000);
+    }
+    </script>
+</body>
+<!-- For Custom filters saving, viweing etc -->
+<script type="text/javascript" src="dist/js/customFilters.js"></script>
+
+</html>

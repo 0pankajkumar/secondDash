@@ -1,0 +1,85 @@
+{% extends "cover.html" %}
+
+
+{% block main %}
+<button onclick="changingFun()">Change it</button>
+<div id="example-table">Tbale </div>
+
+<script>
+
+  function changingFun() {
+
+
+    tableDataNested = [
+      {
+        top: "XOli Bob", _children: [
+          { name: "XMary May", location: "Germany", gender: "female", col: "blue", dob: "14/05/1982" },
+          { name: "XChristine Lobowski", location: "France", gender: "female", col: "green", dob: "22/05/1982" },
+          {
+            name: "XBrendon Philips", location: "USA", gender: "male", col: "orange", dob: "01/08/1980"
+          },
+        ]
+      },
+      { name: "XJamie Newhart", location: "India", gender: "male", col: "green", dob: "14/05/1985" },
+      {
+        name: "XGemma Jane", location: "China", gender: "female", col: "red", dob: "22/05/1982", _children: [
+          { name: "XEmily Sykes", location: "South Korea", gender: "female", col: "maroon", dob: "11/11/1970" },
+        ]
+      },
+      { name: "XJames Newman", location: "Japan", gender: "male", col: "red", dob: "22/03/1998" },
+    ];
+
+    // $("#example-table").tabulator("destroy");
+
+    //clear data (advisable if you have a lot of data in your table as it will speed up the column change)
+    // $("#example-table").tabulator("clearData");
+    table.clearData();
+
+    //set new columns
+    // $("#example-table").tabulator("setColumns", newColumns);
+    // table.setColumns(newColumns);
+
+    //set new data
+    // $("#example-table").tabulator("setData", newData);
+    table.setData(tableDataNested);
+
+    console.log("Button was clicked. That's all I wanted to say");
+  }
+
+  var tableDataNested = [
+    {
+      top: "Oli Bob", _children: [
+        { name: "Mary May", location: "Germany", gender: "female", col: "blue", dob: "14/05/1982" },
+        { name: "Christine Lobowski", location: "France", gender: "female", col: "green", dob: "22/05/1982" },
+        {
+          name: "Brendon Philips", location: "USA", gender: "male", col: "orange", dob: "01/08/1980"
+        },
+      ]
+    },
+    { name: "Jamie Newhart", location: "India", gender: "male", col: "green", dob: "14/05/1985" },
+    {
+      name: "Gemma Jane", location: "China", gender: "female", col: "red", dob: "22/05/1982", _children: [
+        { name: "Emily Sykes", location: "South Korea", gender: "female", col: "maroon", dob: "11/11/1970" },
+      ]
+    },
+    { name: "James Newman", location: "Japan", gender: "male", col: "red", dob: "22/03/1998" },
+  ];
+
+  var table = new Tabulator("#example-table", {
+    height: "311px",
+    data: tableDataNested,
+    dataTree: true,
+    dataTreeStartExpanded: true,
+    columns: [
+      { title: "Top level", field: "top", width: 200, responsive: 0 },
+      { title: "Name", field: "name", width: 200, responsive: 0 }, //never hide this column
+      { title: "Location", field: "location", width: 150 },
+      { title: "Gender", field: "gender", width: 150, responsive: 2 }, //hide this column first
+      { title: "Favourite Color", field: "col", width: 150 },
+      { title: "Date Of Birth", field: "dob", align: "center", sorter: "date", width: 150 },
+    ],
+  });
+</script>
+
+
+{% endblock %}

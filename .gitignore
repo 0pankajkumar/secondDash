@@ -1,0 +1,13 @@
+.env
+
+env/
+
+venv/
+
+flask_session/
+
+lib/
+
+uploaded_csv/
+
+__pycache__/

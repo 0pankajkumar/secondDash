@@ -1,0 +1,920 @@
+{% extends "cover.html" %}
+
+{% block main %}
+
+
+
+<style>
+    body {
+        font-family: Arial;
+    }
+
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+    /* Style the buttons inside the tab */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+        background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+
+    /*Style for new graphs*/
+    @import 'https://code.highcharts.com/css/highcharts.css';
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto;
+      align-items: center;
+      justify-items: center;
+      padding: 0px;
+    }
+    .grid-item {
+      padding: 0px;
+      /* font-size: 30px; */
+      text-align: center;
+    }
+
+
+    #container {
+        height: 600px;
+    }
+
+    #container2 {
+        height: 600px;
+        min-width: 300px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .highcharts-figure, .highcharts-data-table table {
+        min-width: 320px; 
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #EBEBEB;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        /* font-size: 1.2em; */
+        color: #555;
+    }
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+    .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+    .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    .ld-label {
+        width:200px;
+        display: inline-block;
+    }
+
+    .ld-url-input {
+        width: 500px; 
+    }
+
+    .ld-time-input {
+        width: 40px;
+    }
+
+
+</style>
+
+<!-- Origin selection dropdown -->
+<div style="margin: 0px 0px 10px 0px;">
+    <select name="originChoices" id="originChoices" onchange="refreshSerenity()">
+        <option selected="selected" value="referred">Referred</option>
+        <option value="agency">Agency</option>
+        <option value="applied">Applied</option>
+        <option value="sourced">Sourced</option>
+    </select>
+
+    <span class="ui-widget flexItem">
+        <label for="">From:</label>
+        <input type="text" id="fromdatepicker" autocomplete="off">
+    </span>
+
+    <span class="ui-widget flexItem">
+        <label for="">To:</label>
+        <input type="text" id="todatepicker" autocomplete="off">
+    </span>
+
+    <span><button id="sendForTable" class="btn btn-primary flexItem2" onclick="clickAllButs();">Go</button></span>
+
+    <button id="sendForTable1" style="visibility: hidden;"></button>
+    <button id="sendForTable2" style="visibility: hidden;"></button>
+    <button id="sendForTable3" style="visibility: hidden;"></button>
+
+</div>
+
+
+
+<!-- Tabs -->
+<div class="tab">
+    <button class="tablinks" id="LondonBut" onclick="openCity(event, 'London')">New applicant</button>
+    <button class="tablinks" id="ParisBut" onclick="openCity(event, 'Paris')">Archived</button>
+    <button class="tablinks" id="TokyoBut" onclick="openCity(event, 'Tokyo')">Offered</button>
+</div>
+
+<div id="London" class="tabcontent">
+
+    <div class="grid-container">
+      <div class="grid-item">
+
+        <table>
+          <tr>
+            <td>
+                <div id="referal-side-table" style="width:375px;"></div>
+            </td>
+
+            <td>
+                <a href="#" style="text-decoration:none; color:initial;">
+                  <i class="fa fa-bar-chart" aria-hidden="true" onclick="toggleDisplay('referal-side-graph')"></i>
+                </a>  
+            </td>
+          </tr>
+        </table>
+        
+        
+      </div>  
+      <div class="grid-item">
+        <div id="referal-side-graph" style="visibility: hidden;"></div>
+      </div>
+    </div>
+
+
+    <div class="grid-container">
+      <div class="grid-item">
+        <div id="referal-side-graph00" style="visibility: hidden;"></div>
+      </div>  
+      <div class="grid-item">
+
+        <table>
+          <tr>
+            <td>
+                <a href="#" style="text-decoration:none; color:initial;">
+                  <i class="fa fa-bar-chart" aria-hidden="true" onclick="toggleDisplay('referal-side-graph00')"></i>
+                </a>
+            </td>
+            
+            <td>
+                <div id="referal-side-table00" style="width:375px;"></div>
+            </td>
+          </tr>
+        </table>
+        
+      </div>
+    </div>
+
+
+
+
+    <h3>Referrals in New Applicant stage</h3>
+
+    <div class="ui-widget flexItem">
+        Ageing in New Applicant Stage: Average Overall - <span id="average-ageing-count"></span> days
+    </div>
+
+    <div id="referal-up-table"></div>
+    <div id="referal-low-table" style="margin: 20px;"></div>
+
+</div>
+
+
+
+
+<div id="Paris" class="tabcontent">
+    <h3>Response - Application to Archive</h3>
+
+    <div class="ui-widget flexItem">
+        Average Days (Response: Application stage to archive Stage) - <span id="average-ageing-count2"></span> days
+    </div>
+
+    <div id="referal-up-table2" style="width:375px;"></div>
+    <div id="referal-low-table2" style="margin: 20px;"></div>
+</div>
+
+
+
+
+<div id="Tokyo" class="tabcontent">
+    <h3>Response - Application to Offer</h3>
+
+
+    <div class="ui-widget flexItem">
+        Average Days (Response: Application stage to Offer Stage) - <span id="average-ageing-count3"></span> days
+    </div>
+
+    <div id="referal-up-table3" style="width:375px;"></div>
+    <div id="referal-low-table3" style="margin: 20px;"></div>
+</div>
+
+
+<script>
+
+    // Modify title
+    document.title = "Team";
+
+    var tableUp;
+    var tableLow;
+    var tableUp2;
+    var tableLow2;
+    var tableUp3;
+    var tableLow3;
+
+    // Just for top tabs
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+
+        // Redrawing tabulator tables as they look ugly when refreshed
+        if (cityName === "London") {
+            tableUp.redraw();
+            tableLow.redraw();
+
+            document.getElementById("#referal-low-table2").innerHTML = "";
+            document.getElementById("#referal-up-table2").innerHTML = "";
+
+            document.getElementById("#referal-low-table3").innerHTML = "";
+            document.getElementById("#referal-up-table3").innerHTML = "";
+
+        }
+        else if (cityName === "Paris") {
+            tableUp2.redraw();
+            tableLow2.redraw();
+
+            document.getElementById("#referal-low-table").innerHTML = "";
+            document.getElementById("#referal-up-table").innerHTML = "";
+
+            document.getElementById("#referal-low-table3").innerHTML = "";
+            document.getElementById("#referal-up-table3").innerHTML = "";
+        }
+        else if (cityName === "Tokyo") {
+            tableUp3.redraw();
+            tableLow3.redraw();
+
+            document.getElementById("#referal-low-table").innerHTML = "";
+            document.getElementById("#referal-up-table").innerHTML = "";
+
+            document.getElementById("#referal-low-table2").innerHTML = "";
+            document.getElementById("#referal-up-table2").innerHTML = "";
+        }
+    }
+
+    function clickAllButs() {
+        document.getElementById("sendForTable1").click();
+        document.getElementById("sendForTable2").click();
+        document.getElementById("sendForTable3").click();
+        document.getElementById("LondonBut").click();
+    }
+
+    // For toggling visibility of graphs on demand
+    function toggleDisplay(t){
+        stateNow = document.getElementById(t).style.visibility;
+      if (stateNow == "hidden"){
+        document.getElementById(t).style.visibility = "visible";
+      }
+      else{
+        document.getElementById(t).style.visibility = "hidden";
+      }
+    }
+
+    // for loading date picker
+    $(function () {
+        $("#fromdatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+        $("#todatepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+        $("#originChoices").selectmenu();
+    });
+
+
+    // For refreshing table on origin dropdown change
+    $('#originChoices').on('selectmenuchange', function () {
+        console.log("In refresh");
+        document.getElementById("sendForTable1").click();
+        document.getElementById("sendForTable2").click();
+        document.getElementById("sendForTable3").click();
+
+    });
+    
+
+
+
+
+    // Referrals still in New Applicant stage -- Script after hitting Go
+    $('#sendForTable1').on('click', function (e) {
+
+        var eos = document.getElementById("originChoices");
+        var originSelected = eos.options[eos.selectedIndex].value;
+
+
+
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/team",
+            data: {
+                "requestType": "InNewApplicantStage", "origin": originSelected, "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
+            }, // multiple data sent using ajax
+            success: function (result) {
+
+                // Varible for ageing avg
+                let ageingAvg = 0;
+
+                for (let i = 0; i < result.low.length; i++) {
+
+                    // average ageing calculations
+                    ageingAvg += result.low[i].Ageing;
+                    if (i == result.low.length - 1) {
+                        ageingAvg /= (i + 1);
+                    }
+                }
+
+                document.getElementById("average-ageing-count").innerHTML = Math.round(ageingAvg);
+
+
+
+                // Preparing data for graph of Average first action days
+                var averageActionsDaysDataTable = [];
+                for(r of result.side){
+                    let t = [];
+                    t.push(r['Recruiter Name']);
+                    t.push(r['Average Action Days']);
+                    averageActionsDaysDataTable.push(t);
+                }
+
+                 
+
+
+                // Making graph of Average first action days
+                // Load the Visualization API and the corechart package.
+                  google.charts.load('current', {'packages':['corechart']});
+
+                  // Set a callback to run when the Google Visualization API is loaded.
+                  google.charts.setOnLoadCallback(drawChart);
+
+                  // Callback that creates and populates a data table,
+                  // instantiates the pie chart, passes in the data and
+                  // draws it.
+                  function drawChart() {
+
+                    // Create the data table.
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Topping');
+                    data.addColumn('number', 'Slices');
+                    data.addRows(averageActionsDaysDataTable);
+
+                    // Set chart options
+                    var options = {'title':'Average Days for First Action',
+                                    chartArea: {
+                                        // width: "100%",
+                                      height: "80%",
+                                    },
+                                   'width':600,
+                                   'height':600,
+                                   'hAxis': {
+                                    // slantedText: true,
+                                    maxAlternation: 3,
+                                    // slantedTextAngle: 45
+                                   },
+                                    legend: { position: "none" },
+                                   };
+
+                    // Instantiate and draw our chart, passing in some options.
+                    var chart = new google.visualization.BarChart(document.getElementById('referal-side-graph'));
+                    chart.draw(data, options);
+                  }
+
+                var whoAreTheseCandidates3 = (cell, formatterParams) => {
+                    var data = cell.getData();
+                    if (cell.getValue() === undefined) {
+                        return
+                    } else {
+                        // let e = document.getElementById("profileArchiveStatus");
+                        // let profileSelection = e.options[e.selectedIndex].value;
+                        return "<a style='text-decoration:none; color:inherit;' target='_blank' href='https://tatreports.directi.com/elaborate2?" + "origin=referred" + "&postingOwnerName=" + data['Recruiter Name'] + "&requestType=average" + "&fromDate=" + document.getElementById("fromdatepicker").value + "&toDate=" + document.getElementById("todatepicker").value + "'>" + cell.getValue() + "</a>";
+                    }
+                }
+
+                // Table for the seeing average time take by recruiter for first action
+                tableSide = new Tabulator("#referal-side-table", {
+                    data: result.side,
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    variableHeight: true,
+                    // initialSort:[
+                    //     {column:"Average Action Days", dir:"desc"} //sort by this first
+                    // ],
+
+                    columns: [
+                        { title: "Recruiter Name", field: "Recruiter Name", responsive: 0 },
+                        { 
+                            title: "Average Days for First Action", 
+                            field: "Average Action Days",
+                            formatter: whoAreTheseCandidates3, 
+                        },
+                    ],
+
+                });
+
+
+
+
+
+                google.charts.load('current', {packages: ['corechart', 'bar']});
+                google.charts.setOnLoadCallback(drawStacked2);
+
+                function drawStacked2() {
+                      var data2 = new google.visualization.DataTable();
+                      data2.addColumn('string', 'Time of Day');
+                      data2.addColumn('number', 'Approching Deadline');
+                      data2.addColumn('number', 'Crossed Deadline');
+
+                      data2.addRows(result.side2);
+
+                      var options2 = {
+                        title: 'Candidates Approaching Deadline',
+                        colors: ['#33ac71', '#9575cd'],
+                        width:500,
+                        height:400,
+                        isStacked: true,
+                        legend: {
+                          position: "bottom",
+                          alingment: "center",
+                        },
+                        hAxis: {
+                          title: 'Recruiters',
+                          slantedTextAngle: 45,
+                          maxAlternation: 3
+                        },
+                        vAxis: {
+                          title: 'No. of Candidates'
+                        }
+                      };
+
+                      var chart2 = new google.visualization.ColumnChart(document.getElementById('referal-side-graph00'));
+                      chart2.draw(data2, options2);
+                    }
+
+
+                var whoAreTheseCandidates2 = (cell, formatterParams) => {
+                    var data = cell.getData();
+                    if (cell.getValue() === undefined) {
+                        return
+                    } else {
+                        // let e = document.getElementById("profileArchiveStatus");
+                        // let profileSelection = e.options[e.selectedIndex].value;
+                        return "<a style='text-decoration:none; color:inherit;' target='_blank' href='https://tatreports.directi.com/elaborate2?" + "origin=referred" + "&postingOwnerName=" + data['Recruiter Name'] + "&requestType=c" + "&subRequestType=" + formatterParams + "&fromDate=" + document.getElementById("fromdatepicker").value + "&toDate=" + document.getElementById("todatepicker").value + "'>" + cell.getValue() + "</a>";
+                    }
+                }
+
+                // Table for the seeing number of candidates crossing c
+                tableSide00 = new Tabulator("#referal-side-table00", {
+                    data: result.side2_table,
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // initialSort:[
+                    //     {column:"gt_c", dir:"asc"} //sort by this first
+                    // ],
+
+                    columns: [
+                        { title: "Recruiter Name", field: "Recruiter Name", responsive: 0 },
+                        { 
+                            title: "Approching deadline", 
+                            field: "lte_c",
+                            formatter: whoAreTheseCandidates2,
+                            formatterParams: "lte_c" 
+                        },
+                        { 
+                            title: "Crossed deadline", 
+                            field: "gt_c",
+                            formatter: whoAreTheseCandidates2,
+                            formatterParams: "gt_c" 
+                        }
+
+                    ],
+
+                });
+
+
+
+
+                // Creating a Tabulator object for lower table
+                tableUp = new Tabulator("#referal-up-table", {
+                    data: result.up,
+                    // height: "40vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    // dataTreeStartExpanded: true,
+                    // groupBy: "title",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        { title: "Recruiter", field: "Recruiter", width: 200, responsive: 0 },
+                        { title: "Jan", field: "Jan", bottomCalc: "sum" },
+                        { title: "Feb", field: "Feb", bottomCalc: "sum" },
+                        { title: "Mar", field: "Mar", bottomCalc: "sum" },
+                        { title: "Apr", field: "Apr", bottomCalc: "sum" },
+                        { title: "May", field: "May", bottomCalc: "sum" },
+                        { title: "Jun", field: "Jun", bottomCalc: "sum" },
+                        { title: "Jul", field: "Jul", bottomCalc: "sum" },
+                        { title: "Aug", field: "Aug", bottomCalc: "sum" },
+                        { title: "Sept", field: "Sept", bottomCalc: "sum" },
+                        { title: "Oct", field: "Oct", bottomCalc: "sum" },
+                        { title: "Nov", field: "Nov", bottomCalc: "sum" },
+                        { title: "Dec", field: "Dec", bottomCalc: "sum" },
+                        { title: "Grand Total", field: "Grand Total", bottomCalc: "sum" },
+                    ],
+
+                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+                // Creating a Tabulator object for lower table
+                tableLow = new Tabulator("#referal-low-table", {
+                    data: result.low,
+                    height: "60vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    // dataTree: true,
+                    // dataTreeStartExpanded: true,
+                    // groupBy: "title",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        // { title: "Profile ID", field: "Profile ID" },
+                        // { title: "Candidate Name", field: "CandidateName" },
+                        { title: "Candidate Name", field: "ProfileLink", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return cell.getRow().getData().CandidateName } } },
+                        // { title: "Application ID", field: "Application ID" },
+                        // { title: "Posting ID", field: "Posting ID" },
+                        { title: "Posting Title", field: "Posting Title" },
+                        { title: "Applied", field: "Applied At (GMT)", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
+                        { title: "Last Story", field: "Last Story At (GMT)", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
+                        { title: "Ageing", field: "Ageing" },
+                        { title: "Recruiter", field: "Posting Owner Name", width: 200, headerFilter:"input" },
+
+                    ],
+
+                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+    // For Response : Application to Archive -- Script after hitting 
+
+    $('#sendForTable2').on('click', function (e) {
+
+        // document.getElementById("example-table").style.display = "flex";
+        // document.getElementById("chartdivs").style.display = "none";
+        // console.log("Go clicked");
+
+        var eos2 = document.getElementById("originChoices");
+        var originSelected2 = eos2.options[eos2.selectedIndex].value;
+
+
+
+
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/team",
+            data: {
+                "requestType": "applicationToArchive", "origin": originSelected2, "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
+            }, // multiple data sent using ajax
+            success: function (result) {
+
+                console.log(result);
+
+                let leaderboradDict = new Object();
+                for (let i = 0; i < result.low.length; i++) {
+
+                    // console.log(result.low[i]['Posting Owner Name']);
+
+                    if (result.low[i]['Posting Owner Name'] in leaderboradDict) {
+                        leaderboradDict[result.low[i]['Posting Owner Name']].count += 1;
+                        leaderboradDict[result.low[i]['Posting Owner Name']].sum += result.low[i]['Ageing'];
+
+                    }
+                    else {
+                        leaderboradDict[result.low[i]['Posting Owner Name']] = { sum: 0, count: 0 };
+                        leaderboradDict[result.low[i]['Posting Owner Name']].count += 1;
+                        leaderboradDict[result.low[i]['Posting Owner Name']].sum += result.low[i]['Ageing'];
+                    }
+                }
+
+                console.log(leaderboradDict);
+
+                // Preparing leaderboardDict for tabulator
+
+                let leaderboradDict2 = [];
+                for (lea in leaderboradDict) {
+                    let tempObject = new Object();
+                    tempObject.name = lea;
+                    tempObject.average = Math.round(leaderboradDict[lea].sum / leaderboradDict[lea].count);
+
+                    leaderboradDict2.push(tempObject);
+
+                }
+
+                console.log(leaderboradDict2);
+
+
+
+
+
+
+
+                let ageingAvg = 0;
+
+                for (let i = 0; i < result.low.length; i++) {
+                    // console.log(result.low[i].Ageing);
+                    ageingAvg += result.low[i].Ageing;
+
+                    if (i == result.low.length - 1) {
+                        ageingAvg /= (i + 1);
+                    }
+                }
+
+                document.getElementById("average-ageing-count2").innerHTML = Math.round(ageingAvg);
+                // console.log(ageingAvg);
+
+
+                // Creating a Tabulator object for lower table
+                tableUp2 = new Tabulator("#referal-up-table2", {
+                    data: leaderboradDict2,
+                    // height: "40vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    // dataTreeStartExpanded: true,
+                    // groupBy: "title",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        { title: "Recruiter Name", field: "name", responsive: 0 },
+                        { title: "Average Closure Days", field: "average" },
+
+                    ],
+
+                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+                // Creating a Tabulator object for lower table
+                tableLow2 = new Tabulator("#referal-low-table2", {
+                    data: result.low,
+                    height: "60vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    // dataTree: true,
+                    // dataTreeStartExpanded: true,
+                    // groupBy: "title",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        // { title: "Profile ID", field: "Profile ID" },
+                        // { title: "Candidate Name", field: "CandidateName" },
+                        { title: "Candidate Name", field: "ProfileLink", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return cell.getRow().getData().CandidateName } } },
+                        // { title: "Application ID", field: "Application ID" },
+                        // { title: "Posting ID", field: "Posting ID" },
+                        { title: "Posting Title", field: "Posting Title" },
+                        { title: "Applied", field: "Applied At (GMT)", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
+                        { title: "Posting Archived At", field: "Posting Archived At (GMT)", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
+                        { title: "Ageing", field: "Ageing" },
+                        { title: "Recruiter", field: "Posting Owner Name", width: 200, headerFilter:"input" },
+
+                    ],
+
+                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+            }
+        });
+
+
+    });
+
+
+
+
+
+
+
+    $('#sendForTable3').on('click', function (e) {
+
+        // document.getElementById("example-table").style.display = "flex";
+        // document.getElementById("chartdivs").style.display = "none";
+        // console.log("Go clicked");
+
+        var eos3 = document.getElementById("originChoices");
+        var originSelected3 = eos3.options[eos3.selectedIndex].value;
+
+
+
+
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: "/team",
+            data: {
+                "requestType": "applicationToOffer", "origin": originSelected3, "fromDate": document.getElementById('fromdatepicker').value, "toDate": document.getElementById('todatepicker').value,
+            }, // multiple data sent using ajax
+            success: function (result) {
+
+                console.log(result);
+
+                let leaderboradDict = new Object();
+                for (let i = 0; i < result.low.length; i++) {
+
+                    // console.log(result.low[i]['Posting Owner Name']);
+
+                    if (result.low[i]['Posting Owner Name'] in leaderboradDict) {
+                        leaderboradDict[result.low[i]['Posting Owner Name']].count += 1;
+                        leaderboradDict[result.low[i]['Posting Owner Name']].sum += result.low[i]['Ageing'];
+
+                    }
+                    else {
+                        leaderboradDict[result.low[i]['Posting Owner Name']] = { sum: 0, count: 0 };
+                        leaderboradDict[result.low[i]['Posting Owner Name']].count += 1;
+                        leaderboradDict[result.low[i]['Posting Owner Name']].sum += result.low[i]['Ageing'];
+                    }
+                }
+
+                console.log(leaderboradDict);
+
+                // Preparing leaderboardDict for tabulator
+
+                let leaderboradDict2 = [];
+                for (lea in leaderboradDict) {
+                    let tempObject = new Object();
+                    tempObject.name = lea;
+                    tempObject.average = Math.round(leaderboradDict[lea].sum / leaderboradDict[lea].count);
+
+                    leaderboradDict2.push(tempObject);
+
+                }
+
+                console.log(leaderboradDict2);
+
+
+
+
+
+
+
+                let ageingAvg = 0;
+
+                for (let i = 0; i < result.low.length; i++) {
+                    // console.log(result.low[i].Ageing);
+                    ageingAvg += result.low[i].Ageing;
+
+                    if (i == result.low.length - 1) {
+                        ageingAvg /= (i + 1);
+                    }
+                }
+
+                document.getElementById("average-ageing-count3").innerHTML = Math.round(ageingAvg);
+                // console.log(ageingAvg);
+
+
+                // Creating a Tabulator object for lower table
+                tableUp3 = new Tabulator("#referal-up-table3", {
+                    data: leaderboradDict2,
+                    // height: "40vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    // dataTreeStartExpanded: true,
+                    // groupBy: "title",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        { title: "Recruiter Name", field: "name", responsive: 0 },
+                        { title: "Average Closure Days", field: "average" },
+
+                    ],
+
+                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+                // Creating a Tabulator object for lower table
+                tableLow3 = new Tabulator("#referal-low-table3", {
+                    data: result.low,
+                    height: "60vh",
+                    layout: "fitColumns",
+                    placeholder: "No Data",
+                    // index: "id",
+                    // dataTree: true,
+                    // dataTreeStartExpanded: true,
+                    // groupBy: "title",
+                    // groupHeader: customGroupHeader,
+
+                    columns: [
+                        // { title: "Profile ID", field: "Profile ID" },
+                        // { title: "Candidate Name", field: "CandidateName" },
+                        { title: "Candidate Name", field: "ProfileLink", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return cell.getRow().getData().CandidateName } } },
+                        // { title: "Application ID", field: "Application ID" },
+                        // { title: "Posting ID", field: "Posting ID" },
+                        { title: "Posting Title", field: "Posting Title", headerFilter:"input" },
+                        { title: "Applied", field: "Applied At (GMT)", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
+                        { title: "Offered", field: "Stage - Offer", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
+                        { title: "Ageing", field: "Ageing" },
+                        { title: "Recruiter", field: "Posting Owner Name", width: 200, headerFilter:"input" },
+
+                    ],
+
+                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
+
+                });
+
+            }
+        });
+
+
+    });
+</script>
+
+<!-- Getting the charting stuff -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+{% endblock %}
