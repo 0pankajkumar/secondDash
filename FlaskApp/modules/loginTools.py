@@ -1,3 +1,12 @@
+# DB links for main collection
+client = MongoClient("mongodb://localhost:27017")
+database = client["local"]
+
+# DB links for ApprovedUsers collection
+collection2 = database["ApprovedUsers"]
+
+
+
 def checkAdmin(user):
 	# Checking whether user is admin or not
 	pa = collection2.find({'users': current_user.id})
