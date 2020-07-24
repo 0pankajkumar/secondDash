@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from flask_login import current_user,
+from flask_login import current_user
 
 # DB links for main collection
 client = MongoClient("mongodb://localhost:27017")
