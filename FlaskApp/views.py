@@ -9,7 +9,7 @@ from FlaskApp.FlaskApp.modules.user import User
 from FlaskApp.FlaskApp.modules.update import updateMongo
 from FlaskApp.FlaskApp.modules.loginTools import checkAdmin, checkTeamMembership
 from FlaskApp.FlaskApp.modules.utilities import getLastUpdatedTimestamp, generateMainPageDropdowns2, generateMainPageDropdowns, getEligiblePostingTeams, getEligiblePostingTitles, get_live_or_archived_dict, generateCustomFilterNames, whoAreTheseNPeople
-
+from FlaskApp.FlaskApp.modules.utilities import makeBigDict
 # DB links for main collection
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
