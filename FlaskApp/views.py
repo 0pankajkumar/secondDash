@@ -5,10 +5,8 @@ from pymongo import MongoClient, CursorType
 import datetime, time
 
 # Imports modules
-
-from FlaskApp.FlaskApp.modules.update import updateMongo
-from FlaskApp.FlaskApp.modules.commonTools import checkAdmin, checkTeamMembership, getLastUpdatedTimestamp
-# from FlaskApp.FlaskApp.modules.utilities import getLastUpdatedTimestamp, generateMainPageDropdowns2, generateMainPageDropdowns, getEligiblePostingTeams, getEligiblePostingTitles, get_live_or_archived_dict, generateCustomFilterNames, whoAreTheseNPeople
+from FlaskApp.FlaskApp.modules.update import *
+from FlaskApp.FlaskApp.modules.commonTools import *
 from FlaskApp.FlaskApp.modules.customFiltersTools import *
 from FlaskApp.FlaskApp.modules.mainDataFetch import *
 from FlaskApp.FlaskApp.modules.mainDropdowns import *
