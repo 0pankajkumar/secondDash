@@ -1,10 +1,11 @@
 from flask_login import UserMixin
 
-# from db import get_db
-
 # Mongodb manadatory inclusions
 from pymongo import MongoClient, CursorType
 
+client = MongoClient("mongodb://localhost:27017")
+database = client["local"]
+collection2 = database["ApprovedUsers"]
 
 class User(UserMixin):
     def __init__(self, id_):
@@ -12,23 +13,13 @@ class User(UserMixin):
 
     @staticmethod
     def get(users_email):
-        client = MongoClient("mongodb://localhost:27017")
-        database = client["local"]
-        collection2 = database["ApprovedUsers"]
-        # db = get_db()
-        # user = db.execute(
-        #     "SELECT * FROM user WHERE id = ?", (user_id,)
-        # ).fetchone()
-        # if not user:
-        #     return None
-
-        print(f"\nIn get {users_email}\n")
+        print(f"\nReceiving {users_email}\n")
         pa = collection2.find({'users': users_email})
 
         if pa:
             for p in pa:
                 if p['users'] == users_email:
-                    print("\nYeah, found in mongoDB\n")
+                    print("\nYeah, found a member of the club\n")
                     user = User(
                         id_=users_email
                     )
@@ -39,11 +30,6 @@ class User(UserMixin):
         else:
             print("\nNot found in DB\n")
             return None
-        # if pa:
-        #     print("Yeah, found in mongoDB")
-        # else:
-        #     return None
-
 
 
     @staticmethod
@@ -58,3 +44,16 @@ class User(UserMixin):
         except:
             print("Could not get hold of this trespassing")
         print("Logged in unauthorized")
+
+def fetchUsers(usersList):
+    pa = collection2.find({})
+    for p in pa:
+        usersDict = dict()
+        usersDict['users'] = p['users']
+        usersDict['type'] = p['type']
+        usersDict['tatMember'] = p['tatMember']
+        if 'whichPositions' in p:
+            usersDict['whichPositions'] = p['whichPositions']
+        else:
+            usersDict['whichPositions'] = "Not defined"
+        usersList.append(usersDict)

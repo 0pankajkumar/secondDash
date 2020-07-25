@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from flask_login import current_user
+import time
 
 # DB links for main collection
 client = MongoClient("mongodb://localhost:27017")
@@ -8,6 +9,24 @@ database = client["local"]
 # DB links for ApprovedUsers collection
 collection2 = database["ApprovedUsers"]
 
+# DB links for ApprovedUsers collection
+collection = database["dolphinDB"]
+
+def getLastUpdatedTimestamp():
+	timestamp = None
+	try:
+		o = collection.find_one({})
+		timestamp = str(o['_id'])
+		timestamp = timestamp[0:8]
+		timestamp = int(timestamp, 16)
+
+		timestamp = time.strftime(
+			'%d-%m-%Y %H:%M:%S', time.localtime(timestamp))
+		print(timestamp)
+	except:
+		timestamp = "Coudn't get last updated date"
+		print(timestamp)
+	return timestamp
 
 
 def checkAdmin(user):
