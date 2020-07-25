@@ -5,11 +5,18 @@ from pymongo import MongoClient, CursorType
 import datetime, time
 
 # Imports modules
-from FlaskApp.FlaskApp.modules.user import User
+
 from FlaskApp.FlaskApp.modules.update import updateMongo
-from FlaskApp.FlaskApp.modules.loginTools import checkAdmin, checkTeamMembership
-from FlaskApp.FlaskApp.modules.utilities import getLastUpdatedTimestamp, generateMainPageDropdowns2, generateMainPageDropdowns, getEligiblePostingTeams, getEligiblePostingTitles, get_live_or_archived_dict, generateCustomFilterNames, whoAreTheseNPeople
-from FlaskApp.FlaskApp.modules.utilities import makeBigDict
+from FlaskApp.FlaskApp.modules.commonTools import checkAdmin, checkTeamMembership, getLastUpdatedTimestamp
+# from FlaskApp.FlaskApp.modules.utilities import getLastUpdatedTimestamp, generateMainPageDropdowns2, generateMainPageDropdowns, getEligiblePostingTeams, getEligiblePostingTitles, get_live_or_archived_dict, generateCustomFilterNames, whoAreTheseNPeople
+from FlaskApp.FlaskApp.modules.customFiltersTools import *
+from FlaskApp.FlaskApp.modules.mainDataFetch import *
+from FlaskApp.FlaskApp.modules.mainDropdowns import *
+from FlaskApp.FlaskApp.modules.specificDropdowns import *
+from FlaskApp.FlaskApp.modules.teamDataFetch import *
+from FlaskApp.FlaskApp.modules.update import *
+from FlaskApp.FlaskApp.modules.user import *
+
 # DB links for main collection
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]

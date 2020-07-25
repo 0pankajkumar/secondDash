@@ -28,7 +28,6 @@ def getLastUpdatedTimestamp():
 		print(timestamp)
 	return timestamp
 
-
 def checkAdmin(user):
 	# Checking whether user is admin or not
 	pa = collection2.find({'users': current_user.id})
@@ -37,7 +36,6 @@ def checkAdmin(user):
 			return True
 		else:
 			return False
-
 
 def checkTeamMembership(user):
 	# Checking whether user is admin or not
