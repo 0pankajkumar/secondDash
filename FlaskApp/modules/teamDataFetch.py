@@ -1,3 +1,13 @@
+from pymongo import MongoClient, CursorType
+import datetime, time
+from flask import jsonify
+
+# DB links for main collection
+client = MongoClient("mongodb://localhost:27017")
+database = client["local"]
+
+# DB links for ApprovedUsers collection
+collection = database["dolphinDB"]
 
 
 def whoAreTheseNPeople(postingId, origin, stage, profileStatus, fromDate, toDate):
@@ -51,7 +61,6 @@ def whoAreTheseNPeople(postingId, origin, stage, profileStatus, fromDate, toDate
 			packet.append(dic)
 			count += 1
 	return packet
-
 
 def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 

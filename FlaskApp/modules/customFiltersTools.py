@@ -1,3 +1,12 @@
+from pymongo import MongoClient, CursorType
+import datetime
+
+# DB links for main collection
+client = MongoClient("mongodb://localhost:27017")
+database = client["local"]
+
+# DB links for ApprovedUsers collection
+collection2 = database["ApprovedUsers"]
 
 
 def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
@@ -24,14 +33,14 @@ def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitl
 		filtersToBeSaved = getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
 		dbData.append(filtersToBeSaved)
 		print("dbData before writing", dbData)
-		# try:
-		collection2.update(
-				{"users": oneUser},
-				{"$set" : {"customFilters": dbData}}
-			)
-		return "Filter saved Successfully"
-		# except:
-		#     return "Some error occured while saving filter"
+		try:
+			collection2.update(
+					{"users": oneUser},
+					{"$set" : {"customFilters": dbData}}
+				)
+			return "Filter saved Successfully"
+		except:
+		    return "Some error occured while saving filter"
 
 def getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
 	temp = dict()

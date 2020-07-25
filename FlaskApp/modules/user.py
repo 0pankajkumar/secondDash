@@ -1,6 +1,4 @@
 from flask_login import UserMixin
-
-# Mongodb manadatory inclusions
 from pymongo import MongoClient, CursorType
 
 client = MongoClient("mongodb://localhost:27017")

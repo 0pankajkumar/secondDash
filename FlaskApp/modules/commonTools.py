@@ -7,10 +7,10 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
 # DB links for ApprovedUsers collection
-collection2 = database["ApprovedUsers"]
+collection = database["dolphinDB"]
 
 # DB links for ApprovedUsers collection
-collection = database["dolphinDB"]
+collection2 = database["ApprovedUsers"]
 
 def getLastUpdatedTimestamp():
 	timestamp = None

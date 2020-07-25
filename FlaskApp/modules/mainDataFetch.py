@@ -1,3 +1,15 @@
+from pymongo import MongoClient, CursorType
+import datetime, time
+
+# DB links for main collection
+client = MongoClient("mongodb://localhost:27017")
+database = client["local"]
+
+# DB links for ApprovedUsers collection
+collection = database["dolphinDB"]
+
+# From new dup
+collection4 = database["jobPostingWiseDB"]
 
 
 def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate, requestType, recruiter=None):
