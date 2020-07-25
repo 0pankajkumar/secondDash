@@ -3,6 +3,7 @@ from pymongo import MongoClient, CursorType, ASCENDING, DESCENDING
 import csv, datetime
 from pathlib import Path
 from flask_login import current_user
+from flask import jsonify
 
 # DB links for main collection
 client = MongoClient("mongodb://localhost:27017")

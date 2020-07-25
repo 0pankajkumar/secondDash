@@ -1,6 +1,7 @@
 from flask_login import UserMixin
 from pymongo import MongoClient, CursorType
 from flask_login import current_user
+from flask import jsonify
 
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
