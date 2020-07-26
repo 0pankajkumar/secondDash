@@ -24,9 +24,9 @@ def prepareDropdownOptionsSending(unprocessedDict):
 	box = list()
 
 	# Looping through the dict three levels deep
-	for recruiterKey, recruiterValue in unprocessedDict.items():
-		for companyKey, companyValue in unprocessedDict[recruiterKey].items():
-			for deptKey, deptValue in unprocessedDict[recruiterKey][companyKey].items():
+	for recruiterKey in unprocessedDict:
+		for companyKey in unprocessedDict[recruiterKey]:
+			for deptKey in unprocessedDict[recruiterKey][companyKey]:
 				for postKey in unprocessedDict[recruiterKey][companyKey][deptKey]:
 					temp = dict()
 					temp["recruiter"] = recruiterKey
