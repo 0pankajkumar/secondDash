@@ -40,21 +40,6 @@
     </div>
 
 
-    <!-- <div class="ui-widget flexItem">
-        <label for="  ">Posting Archived :</label><br>
-        <select name="postingArchiveStatus" id="postingArchiveStatus" style="display: hidden">
-            <option value="Both" selected>Both</option>
-            {% for p in postingArchiveStatus %}
-            {% if p == 'false' %}
-            <option value="{{ p }}">Live</option>
-            {% elif p == 'true' %}
-            <option value="{{ p }}">Archived</option>
-
-            {% endif %}
-            {% endfor %}
-        </select>
-    </div> -->
-
     <div class="ui-widget flexItem">
         <label for="  ">Profile Archived :</label><br>
         <select name="profileArchiveStatus" id="profileArchiveStatus" style="display: hidden">
@@ -88,13 +73,7 @@
             url: "/getBigDict",
             data: "", //ajax parameters
             success: function (result) {
-                console.log(result)
                 myNestedVals = result;
-                // document.getElementById('ddl1').style.display = 'inline';
-                // document.getElementById('ddl2').style.display = 'inline';
-                // document.getElementById('ddl3').style.display = 'inline';
-                // document.getElementById('postingArchiveStatus').style.display = 'inline';
-                // document.getElementById('age').style.display = 'inline';
             }
         });
 
@@ -156,8 +135,6 @@
                     chartVar += i.toString();
                     $("#chartdivs").append(`<div style="text-align:center; margin:auto"><b>${result[i]['Posting ID']}</b><br><div  id=${chartVar}></div></div>`);
 
-                    console.log(i);
-
                     let var1 = 0, var2 = 0, var3 = 0, var4 = 0, var5 = 0, var6 = 0, var7 = 0;
 
                     for (let j = 0; j < result[i]['_children'].length; j++) {
@@ -171,7 +148,6 @@
                     }
 
                     trigger(chartVar, var1, var2, var3, var4, var5, var6, var7);
-                    //trigger(chartVar, result[i]['_children'], 300, 200, 180, 50, 20, 10);
                 }
 
 

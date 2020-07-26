@@ -2,12 +2,6 @@
 
 {% extends "cover.html" %} {% block main %}
 
-<script
-  type="text/javascript"
-  src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.10/jspdf.plugin.autotable.min.js"
-></script>
-
-
 <script>
   // Modify title
   document.title = "Archives";
@@ -32,13 +26,7 @@
       url: "/getBigDictArchived",
       data: "", //ajax parameters
       success: function(result) {
-        console.log(result);
         myNestedVals = result;
-        // document.getElementById('ddl1').style.display = 'inline';
-        // document.getElementById('ddl2').style.display = 'inline';
-        // document.getElementById('ddl3').style.display = 'inline';
-        // document.getElementById('postingArchiveStatus').style.display = 'inline';
-        // document.getElementById('age').style.display = 'inline';
 
         // Generating multiselect pillbox of select2
         $("#ddl1").select2();
@@ -68,9 +56,6 @@
     ddl2.options.length = 0;
     ddl3.options.length = 0;
     createOption(ddl2, "Choose", "nothing");
-
-    // Refreshing dropdowns to flush old selections
-    // $("#ddl2").select2().val(null).trigger("change");
 
     // Flushing out the selected option & recreating the select2 dropdown
     $("#ddl2").select2("destroy");
@@ -122,7 +107,6 @@
     document.getElementById("chartdivs").style.display = "none";
     document.getElementById("nobodyFound").style.display = "none";
     document.getElementById("toggleCollapse").style.display = "flex";
-    console.log("Go clicked");
     e.preventDefault();
     var x = getFormData($("#bigForm"));
 
@@ -161,24 +145,20 @@
         recruiter: "All"
       }, // multiple data sent using ajax
       success: function(result) {
-        console.log(result);
 
         $(document).on("click", "#download-xl", downXL);
         $(document).on("click", "#download-PDF", downPDF);
         $(document).on("click", "#toggleCollapse", collapseToggler);
 
         function downXL() {
-          console.log("Inside downXL");
           JSONToCSVConvertor(result, "TAT Report");
         }
 
         function downPDF() {
-          console.log("Inside downPDF");
           JSONToPDFConvertor(result, "TAT Report");
         }
 
         function collapseToggler(){
-          console.log("Inside Expand collapse toggler");
           traverseRows();
         }
 
@@ -212,26 +192,14 @@
 
           table = new Tabulator("#example-table", {
             data: result,
-            // height: "auto",
             height: "75vh",
-            // height: "auto",
-            // maxHeight: "75vh",
             layout: "fitColumns",
             placeholder: "No Data",
-            // index: "id",
             dataTree: true,
             dataTreeStartExpanded: false,
-            //groupBy: "title",
             groupHeader: customGroupHeader,
             tooltips: function(cell) {
-              //cell - cell component
-              //function should return a string for the tooltip of false to hide the tooltip
-              // let data = cell.getRow();
-              // if (data.col == "offerCount") {
-              //   return "Yeah!";
-              // }
-              // return cell.getRow(); //return cells "field - value";
-              const countOf_phoneToOnsiteCount = cell.getRow().getData()
+            const countOf_phoneToOnsiteCount = cell.getRow().getData()
                 .phoneToOnsiteCount;
               const countOf_phoneToOfferCount = cell.getRow().getData()
                 .phoneToOfferCount;
@@ -256,7 +224,6 @@
             },
             columns: [
               { title: "Posting", field: "title", width: 290, responsive: 0 },
-              // { title: "Origin", field: "origin", width: 150 },
               {
                 title: "New Lead",
                 field: "newLeadCount",
@@ -320,7 +287,6 @@
                 formatter: whoAreTheseCandidates,
                 formatterParams: "offer"
               },
-              //{ title: "Offer Approval/ed", field: "offerApprovalCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerApprovalCount" } },
               {
                 title: "Hired",
                 field: "hiredCount",
@@ -373,7 +339,6 @@
     document.getElementById("nobodyFound").style.display = "none";
     e.preventDefault();
     var x = getFormData($("#bigForm"));
-    console.log("Go for funnel clicked");
 
     // Clearing all funnels drawn, if any. https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
     var myNode = document.getElementById("chartdivs");
@@ -419,8 +384,6 @@
               `<div style="text-align:center; margin:auto"><b>${result[i]["title"]}</b><br><div  id=${chartVar}></div></div>`
             );
 
-            console.log(i);
-
             let var1 = 0,
               var2 = 0,
               var3 = 0,
@@ -445,7 +408,6 @@
             }
 
             trigger(chartVar, var1, var2, var3, var4, var5, var6, var7, var8);
-            //trigger(chartVar, result[i]['_children'], 300, 200, 180, 50, 20, 10);
           }
         }
       }

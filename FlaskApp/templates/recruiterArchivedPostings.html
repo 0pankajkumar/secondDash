@@ -41,15 +41,7 @@
       url: "/getDropdownOptionsArchived",
       data: "", //ajax parameters
       success: function(result) {
-        console.log(result);
         myNestedVals = result;
-        // document.getElementById('ddl1').style.display = 'inline';
-        // document.getElementById('ddl2').style.display = 'inline';
-        // document.getElementById('ddl3').style.display = 'inline';
-        // document.getElementById('postingArchiveStatus').style.display = 'inline';
-        // document.getElementById('age').style.display = 'inline';
-
-        // Generating multiselect pillbox of select2
         $("#ddl0").select2();
         $("#ddl1").select2();
         $("#ddl2").select2();
@@ -143,7 +135,6 @@
         if (myNestedVals[i]["recruiter"] == ddl0.value || "All" == ddl0.value) {
           setOne.add(myNestedVals[i]["company"]);
           arr.push(myNestedVals[i]["company"]);
-          // createOption(ddl2, myNestedVals[i]['dept'], myNestedVals[i]['dept']);
         }
       }
     }
@@ -161,7 +152,6 @@
   function popDept(ddl0, ddl1, ddl2, ddl3) {
     ddl2.options.length = 0;
     ddl3.options.length = 0;
-    // createOption(ddl2, "All", "All");
 
     // Refreshing dropdowns to flush old selections
     $("#ddl2")
@@ -177,23 +167,15 @@
     let arr = new Array();
     for (let i = 0; i < myNestedVals.length; i++) {
       if (!setTwo.has(myNestedVals[i]["dept"])) {
-        //console.log(myNestedVals[i]['company']);
-        console.log(myNestedVals[i]["company"], ddl1.value);
         if (
           (myNestedVals[i]["recruiter"] == ddl0.value || "All" == ddl0.value) &&
           (myNestedVals[i]["company"] == ddl1.value || "All" == ddl1.value)
         ) {
-          //console.log("Inside if if");
           setTwo.add(myNestedVals[i]["dept"]);
           arr.push(myNestedVals[i]["dept"]);
-          // createOption(ddl2, myNestedVals[i]['dept'], myNestedVals[i]['dept']);
-        } else {
-          //console.log("elsing all");
         }
       }
     }
-
-    console.log(arr);
 
     if (arr.length > 1) {
       createOption(ddl2, "Choose", "");
@@ -201,12 +183,6 @@
       for (let i = 0; i < arr.length; i++) {
         createOption(ddl2, arr[i], arr[i]);
       }
-      // for (let i=0;i<ddl2.length;  i++) {
-      //    if (ddl2.options[i].value=='All') {
-      //      ddl2.remove(i);
-      //      break;
-      //    }
-      // }
     } else {
       createOption(ddl2, "Choose", "");
       createOption(ddl2, arr[0], arr[0]);
@@ -216,7 +192,6 @@
 
   function popPost(ddl0, ddl1, ddl2, ddl3) {
     ddl3.options.length = 0;
-    // createOption(ddl3, "All", "All");
 
     // Refreshing dropdowns to flush old selections
     $("#ddl3")
@@ -235,7 +210,6 @@
         ) {
           setThree.add(myNestedVals[i]["post"]);
           arr.push(myNestedVals[i]["post"]);
-          // createOption(ddl3, myNestedVals[i]['post'], myNestedVals[i]['post']);
         }
       }
     }
@@ -245,12 +219,6 @@
       for (let i = 0; i < arr.length; i++) {
         createOption(ddl3, arr[i], arr[i]);
       }
-      // for (let i=0;i<ddl3.length;  i++) {
-      //    if (ddl3.options[i].value=='All') {
-      //      ddl3.remove(i);
-      //      break;
-      //    }
-      // }
     } else {
       createOption(ddl3, "Choose", "");
       createOption(ddl3, arr[0], arr[0]);
@@ -278,7 +246,6 @@
     document.getElementById("chartdivs").style.display = "none";
     document.getElementById("nobodyFound").style.display = "none";
     document.getElementById("toggleCollapse").style.display = "flex";
-    console.log("Go clicked");
     e.preventDefault();
     var x = getFormData($("#bigForm"));
 
@@ -317,23 +284,19 @@
         recruiter: document.getElementById("ddl0").value
       }, // multiple data sent using ajax
       success: function(result) {
-        console.log(result);
 
         $(document).on("click", "#download-xl", downXL);
         $(document).on("click", "#download-PDF", downPDF);
         $(document).on("click", "#toggleCollapse", collapseToggler);
 
         function downXL() {
-          console.log("Inside downXL");
           JSONToCSVConvertor(result, "TAT Report");
         }
 
         function downPDF() {
-          console.log("Inside downPDF");
           JSONToPDFConvertor(result, "TAT Report");
         }
         function collapseToggler(){
-          console.log("Inside Expand collapse toggler");
           traverseRows();
         }
 
@@ -367,25 +330,13 @@
 
           table = new Tabulator("#example-table", {
             data: result,
-            // height: "auto",
             height: "75vh",
-            // height: "auto",
-            // maxHeight: "75vh",
             layout: "fitColumns",
             placeholder: "No Data",
-            // index: "id",
             dataTree: true,
             dataTreeStartExpanded: false,
-            //groupBy: "title",
             groupHeader: customGroupHeader,
             tooltips: function(cell) {
-              //cell - cell component
-              //function should return a string for the tooltip of false to hide the tooltip
-              // let data = cell.getRow();
-              // if (data.col == "offerCount") {
-              //   return "Yeah!";
-              // }
-              // return cell.getRow(); //return cells "field - value";
               const countOf_phoneToOnsiteCount = cell.getRow().getData()
                 .phoneToOnsiteCount;
               const countOf_phoneToOfferCount = cell.getRow().getData()
@@ -411,7 +362,6 @@
             },
             columns: [
               { title: "Posting", field: "title", width: 290, responsive: 0 },
-              // { title: "Origin", field: "origin", width: 150 },
               {
                 title: "New Lead",
                 field: "newLeadCount",
@@ -475,7 +425,6 @@
                 formatter: whoAreTheseCandidates,
                 formatterParams: "offer"
               },
-              //{ title: "Offer Approval/ed", field: "offerApprovalCount", bottomCalc: nestedCalc, bottomCalcParams: { field: "offerApprovalCount" } },
               {
                 title: "Hired",
                 field: "hiredCount",
@@ -492,7 +441,6 @@
                 visible:false,
                 formatter: function(cell, formatterParams) {
                   if (cell.getData()["topTag"] == "true") {
-                    //cell.getRow().getElement().style.fontWeight = "bold";
                     cell.getRow().getElement().style.backgroundColor = "#C0C0C0";
                     cell.getRow().getElement().style.color = "#000000";
                   }
@@ -528,7 +476,6 @@
     document.getElementById("nobodyFound").style.display = "none";
     e.preventDefault();
     var x = getFormData($("#bigForm"));
-    console.log("Go for funnel clicked");
 
     // Clearing all funnels drawn, if any. https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
     var myNode = document.getElementById("chartdivs");
@@ -574,8 +521,6 @@
               `<div style="text-align:center; margin:auto"><b>${result[i]["title"]}</b><br><div  id=${chartVar}></div></div>`
             );
 
-            console.log(i);
-
             let var1 = 0,
               var2 = 0,
               var3 = 0,
@@ -600,7 +545,6 @@
             }
 
             trigger(chartVar, var1, var2, var3, var4, var5, var6, var7, var8);
-            //trigger(chartVar, result[i]['_children'], 300, 200, 180, 50, 20, 10);
           }
         }
       }

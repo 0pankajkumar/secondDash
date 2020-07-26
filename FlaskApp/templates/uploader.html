@@ -2,13 +2,6 @@
 
 {% block main %}
 
-
-<!-- <form action="http://localhost:5000/upload" method="POST" enctype="multipart/form-data">
-    <input type="file" name="file" />
-    <input type="submit" />
-</form> -->
-
-
 <div class="form-wrap">
     <h3>Upload Data Dump from Lever</h3>
     <form action="/upload" method="post" enctype="multipart/form-data" id="upload_form">
@@ -30,7 +23,7 @@
     document.title = "Upload";
 
     //configuration
-    var max_file_size = 1048576 * 200; //allowed file size. (1 MB = 1048576)
+    var max_file_size = 1048576 * 500; //allowed file size. (1 MB = 1048576)
     var allowed_file_types = ['application/vnd.ms-excel']; //allowed file types
     var result_output = '#output'; //ID of an element for response output
     var my_form_id = '#upload_form'; //ID of an element for response output
@@ -63,7 +56,6 @@
             //iterate files in file input field
             $(this.elements['file'].files).each(function (i, ifile) {
                 if (ifile.value !== "") { //continue only if file(s) are selected
-                    console.log(ifile.type);
                     if (allowed_file_types.indexOf(ifile.type) === -1) { //check unsupported file
                         error.push("<b>" + ifile.name + "</b> is unsupported file type!"); //push error text
                         proceed = false; //set proceed flag to false
@@ -136,7 +128,6 @@
         // Hitting POST request
         data = null;
         $.post('/updating', data, function (res) {
-            console.log('received response', res);
             $(result_output).html("<br>" + res);
         }, 'json');
         //Update response

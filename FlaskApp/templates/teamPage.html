@@ -343,7 +343,6 @@
 
     // For refreshing table on origin dropdown change
     $('#originChoices').on('selectmenuchange', function () {
-        console.log("In refresh");
         document.getElementById("sendForTable1").click();
         document.getElementById("sendForTable2").click();
         document.getElementById("sendForTable3").click();
@@ -420,15 +419,12 @@
                     // Set chart options
                     var options = {'title':'Average Days for First Action',
                                     chartArea: {
-                                        // width: "100%",
                                       height: "80%",
                                     },
                                    'width':600,
                                    'height':600,
                                    'hAxis': {
-                                    // slantedText: true,
                                     maxAlternation: 3,
-                                    // slantedTextAngle: 45
                                    },
                                     legend: { position: "none" },
                                    };
@@ -443,8 +439,6 @@
                     if (cell.getValue() === undefined) {
                         return
                     } else {
-                        // let e = document.getElementById("profileArchiveStatus");
-                        // let profileSelection = e.options[e.selectedIndex].value;
                         return "<a style='text-decoration:none; color:inherit;' target='_blank' href='https://tatreports.directi.com/elaborate2?" + "origin=referred" + "&postingOwnerName=" + data['Recruiter Name'] + "&requestType=average" + "&fromDate=" + document.getElementById("fromdatepicker").value + "&toDate=" + document.getElementById("todatepicker").value + "'>" + cell.getValue() + "</a>";
                     }
                 }
@@ -455,10 +449,6 @@
                     layout: "fitColumns",
                     placeholder: "No Data",
                     variableHeight: true,
-                    // initialSort:[
-                    //     {column:"Average Action Days", dir:"desc"} //sort by this first
-                    // ],
-
                     columns: [
                         { title: "Recruiter Name", field: "Recruiter Name", responsive: 0 },
                         { 
@@ -515,8 +505,6 @@
                     if (cell.getValue() === undefined) {
                         return
                     } else {
-                        // let e = document.getElementById("profileArchiveStatus");
-                        // let profileSelection = e.options[e.selectedIndex].value;
                         return "<a style='text-decoration:none; color:inherit;' target='_blank' href='https://tatreports.directi.com/elaborate2?" + "origin=referred" + "&postingOwnerName=" + data['Recruiter Name'] + "&requestType=c" + "&subRequestType=" + formatterParams + "&fromDate=" + document.getElementById("fromdatepicker").value + "&toDate=" + document.getElementById("todatepicker").value + "'>" + cell.getValue() + "</a>";
                     }
                 }
@@ -526,10 +514,6 @@
                     data: result.side2_table,
                     layout: "fitColumns",
                     placeholder: "No Data",
-                    // initialSort:[
-                    //     {column:"gt_c", dir:"asc"} //sort by this first
-                    // ],
-
                     columns: [
                         { title: "Recruiter Name", field: "Recruiter Name", responsive: 0 },
                         { 
@@ -555,14 +539,8 @@
                 // Creating a Tabulator object for lower table
                 tableUp = new Tabulator("#referal-up-table", {
                     data: result.up,
-                    // height: "40vh",
                     layout: "fitColumns",
                     placeholder: "No Data",
-                    // index: "id",
-                    // dataTreeStartExpanded: true,
-                    // groupBy: "title",
-                    // groupHeader: customGroupHeader,
-
                     columns: [
                         { title: "Recruiter", field: "Recruiter", width: 200, responsive: 0 },
                         { title: "Jan", field: "Jan", bottomCalc: "sum" },
@@ -579,9 +557,6 @@
                         { title: "Dec", field: "Dec", bottomCalc: "sum" },
                         { title: "Grand Total", field: "Grand Total", bottomCalc: "sum" },
                     ],
-
-                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
-
                 });
 
                 // Creating a Tabulator object for lower table
@@ -590,43 +565,18 @@
                     height: "60vh",
                     layout: "fitColumns",
                     placeholder: "No Data",
-                    // index: "id",
-                    // dataTree: true,
-                    // dataTreeStartExpanded: true,
-                    // groupBy: "title",
-                    // groupHeader: customGroupHeader,
-
                     columns: [
-                        // { title: "Profile ID", field: "Profile ID" },
-                        // { title: "Candidate Name", field: "CandidateName" },
                         { title: "Candidate Name", field: "ProfileLink", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return cell.getRow().getData().CandidateName } } },
-                        // { title: "Application ID", field: "Application ID" },
-                        // { title: "Posting ID", field: "Posting ID" },
                         { title: "Posting Title", field: "Posting Title" },
                         { title: "Applied", field: "Applied At (GMT)", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
                         { title: "Last Story", field: "Last Story At (GMT)", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
                         { title: "Ageing", field: "Ageing" },
                         { title: "Recruiter", field: "Posting Owner Name", width: 200, headerFilter:"input" },
-
                     ],
-
-                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
-
                 });
 
             }
         });
-
-
-
-
-
-
-
-
-
-
-
     });
 
 
@@ -639,17 +589,8 @@
     // For Response : Application to Archive -- Script after hitting 
 
     $('#sendForTable2').on('click', function (e) {
-
-        // document.getElementById("example-table").style.display = "flex";
-        // document.getElementById("chartdivs").style.display = "none";
-        // console.log("Go clicked");
-
         var eos2 = document.getElementById("originChoices");
         var originSelected2 = eos2.options[eos2.selectedIndex].value;
-
-
-
-
         $.ajax({
             type: "POST",
             cache: false,
@@ -659,12 +600,8 @@
             }, // multiple data sent using ajax
             success: function (result) {
 
-                console.log(result);
-
                 let leaderboradDict = new Object();
                 for (let i = 0; i < result.low.length; i++) {
-
-                    // console.log(result.low[i]['Posting Owner Name']);
 
                     if (result.low[i]['Posting Owner Name'] in leaderboradDict) {
                         leaderboradDict[result.low[i]['Posting Owner Name']].count += 1;
@@ -678,8 +615,6 @@
                     }
                 }
 
-                console.log(leaderboradDict);
-
                 // Preparing leaderboardDict for tabulator
 
                 let leaderboradDict2 = [];
@@ -692,18 +627,9 @@
 
                 }
 
-                console.log(leaderboradDict2);
-
-
-
-
-
-
-
                 let ageingAvg = 0;
 
                 for (let i = 0; i < result.low.length; i++) {
-                    // console.log(result.low[i].Ageing);
                     ageingAvg += result.low[i].Ageing;
 
                     if (i == result.low.length - 1) {
@@ -712,7 +638,6 @@
                 }
 
                 document.getElementById("average-ageing-count2").innerHTML = Math.round(ageingAvg);
-                // console.log(ageingAvg);
 
 
                 // Creating a Tabulator object for lower table
@@ -721,19 +646,11 @@
                     // height: "40vh",
                     layout: "fitColumns",
                     placeholder: "No Data",
-                    // index: "id",
-                    // dataTreeStartExpanded: true,
-                    // groupBy: "title",
-                    // groupHeader: customGroupHeader,
-
                     columns: [
                         { title: "Recruiter Name", field: "name", responsive: 0 },
                         { title: "Average Closure Days", field: "average" },
 
                     ],
-
-                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
-
                 });
 
                 // Creating a Tabulator object for lower table
@@ -742,18 +659,8 @@
                     height: "60vh",
                     layout: "fitColumns",
                     placeholder: "No Data",
-                    // index: "id",
-                    // dataTree: true,
-                    // dataTreeStartExpanded: true,
-                    // groupBy: "title",
-                    // groupHeader: customGroupHeader,
-
                     columns: [
-                        // { title: "Profile ID", field: "Profile ID" },
-                        // { title: "Candidate Name", field: "CandidateName" },
                         { title: "Candidate Name", field: "ProfileLink", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return cell.getRow().getData().CandidateName } } },
-                        // { title: "Application ID", field: "Application ID" },
-                        // { title: "Posting ID", field: "Posting ID" },
                         { title: "Posting Title", field: "Posting Title" },
                         { title: "Applied", field: "Applied At (GMT)", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
                         { title: "Posting Archived At", field: "Posting Archived At (GMT)", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
@@ -761,34 +668,14 @@
                         { title: "Recruiter", field: "Posting Owner Name", width: 200, headerFilter:"input" },
 
                     ],
-
-                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
-
                 });
-
             }
         });
-
-
     });
 
-
-
-
-
-
-
     $('#sendForTable3').on('click', function (e) {
-
-        // document.getElementById("example-table").style.display = "flex";
-        // document.getElementById("chartdivs").style.display = "none";
-        // console.log("Go clicked");
-
         var eos3 = document.getElementById("originChoices");
         var originSelected3 = eos3.options[eos3.selectedIndex].value;
-
-
-
 
         $.ajax({
             type: "POST",
@@ -799,12 +686,8 @@
             }, // multiple data sent using ajax
             success: function (result) {
 
-                console.log(result);
-
                 let leaderboradDict = new Object();
                 for (let i = 0; i < result.low.length; i++) {
-
-                    // console.log(result.low[i]['Posting Owner Name']);
 
                     if (result.low[i]['Posting Owner Name'] in leaderboradDict) {
                         leaderboradDict[result.low[i]['Posting Owner Name']].count += 1;
@@ -818,8 +701,6 @@
                     }
                 }
 
-                console.log(leaderboradDict);
-
                 // Preparing leaderboardDict for tabulator
 
                 let leaderboradDict2 = [];
@@ -832,18 +713,9 @@
 
                 }
 
-                console.log(leaderboradDict2);
-
-
-
-
-
-
-
                 let ageingAvg = 0;
 
                 for (let i = 0; i < result.low.length; i++) {
-                    // console.log(result.low[i].Ageing);
                     ageingAvg += result.low[i].Ageing;
 
                     if (i == result.low.length - 1) {
@@ -852,28 +724,16 @@
                 }
 
                 document.getElementById("average-ageing-count3").innerHTML = Math.round(ageingAvg);
-                // console.log(ageingAvg);
-
-
+                
                 // Creating a Tabulator object for lower table
                 tableUp3 = new Tabulator("#referal-up-table3", {
                     data: leaderboradDict2,
-                    // height: "40vh",
                     layout: "fitColumns",
                     placeholder: "No Data",
-                    // index: "id",
-                    // dataTreeStartExpanded: true,
-                    // groupBy: "title",
-                    // groupHeader: customGroupHeader,
-
                     columns: [
                         { title: "Recruiter Name", field: "name", responsive: 0 },
                         { title: "Average Closure Days", field: "average" },
-
                     ],
-
-                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
-
                 });
 
                 // Creating a Tabulator object for lower table
@@ -882,34 +742,17 @@
                     height: "60vh",
                     layout: "fitColumns",
                     placeholder: "No Data",
-                    // index: "id",
-                    // dataTree: true,
-                    // dataTreeStartExpanded: true,
-                    // groupBy: "title",
-                    // groupHeader: customGroupHeader,
-
                     columns: [
-                        // { title: "Profile ID", field: "Profile ID" },
-                        // { title: "Candidate Name", field: "CandidateName" },
                         { title: "Candidate Name", field: "ProfileLink", align: "center", formatter: "link", formatterParams: { target: "_blank", label: function (cell) { return cell.getRow().getData().CandidateName } } },
-                        // { title: "Application ID", field: "Application ID" },
-                        // { title: "Posting ID", field: "Posting ID" },
                         { title: "Posting Title", field: "Posting Title", headerFilter:"input" },
                         { title: "Applied", field: "Applied At (GMT)", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
                         { title: "Offered", field: "Stage - Offer", sorter: "date", sorterParams: { format: "ddd, DD MMM YYYY hh:mm:ss" } },
                         { title: "Ageing", field: "Ageing" },
                         { title: "Recruiter", field: "Posting Owner Name", width: 200, headerFilter:"input" },
-
                     ],
-
-                    // footerElement: "<button id='download-xl'>Download Excel</button><button id='download-PDF'>Download PDF</button>",
-
                 });
-
             }
         });
-
-
     });
 </script>
 

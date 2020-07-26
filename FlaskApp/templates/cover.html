@@ -13,8 +13,6 @@
     <!-- Tabulator -->
     <link href="dist/css/tabulator.min.css" rel="stylesheet">
     <script type="text/javascript" src="dist/js/tabulator.min.js"></script>
-    <!-- <link href="https://unpkg.com/tabulator-tables@4.5.3/dist/css/tabulator.min.css" rel="stylesheet"> -->
-    <!-- <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.5.3/dist/js/tabulator.min.js"></script> -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
         /* For dropdown */
@@ -85,7 +83,6 @@
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 120px;
-  /*background-color: black;*/
   color: black;
   text-align: center;
   border-radius: 6px;
@@ -129,8 +126,6 @@
 </style>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <!-- <script src="dist/js/dropdown.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> -->
     <!-- For multi select dropdowns -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.css" rel="stylesheet">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.2/select2.min.js"></script>
@@ -187,20 +182,7 @@
                     <a href="/recruiterArchivedPostings">Recruiter Filter Archived</a>
                 </div>
             </div>
-            <!-- <div class="dropdown">
-                <a class="{{teamHighlight}}" href="javascript:void(0)">Options</a><br><br>
-                <div class="dropdown-content">
-                    <a href="/team">Team Reports</a><br>
-                    <a href="/recruiterFilter" class="dropdown-submenu">Recruiter Filter</a>
-        <div class="dropdown-subcontent">
-                      <a href="/recruiterLivePostings">Live</a><br>
-                      <a href="/recruiterArchivedPostings">Archived</a>
-        </div>
-                </div>
-            </div> -->
             {% endif %}
-            <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div>
-            <div><a href="/logout" onclick="signOut();">Sign out</a></div> -->
         </div>
     </div>
     <div class="topnav">
@@ -310,13 +292,6 @@
                         <option value="Both">Both</option>
                         <option value="false" selected>Active</option>
                         <option value="true">Archived</option>
-                        <!-- {% for p in profileArchiveStatus %}
-          {% if p == 'false' %}
-          <option value="{{ p }}">Active</option>
-          {% elif p == 'true' %}
-          <option value="{{ p }}">Archived</option> -->
-                        <!-- {% endif %}
-          {% endfor %} -->
                     </select>
                 </div>
             </li>

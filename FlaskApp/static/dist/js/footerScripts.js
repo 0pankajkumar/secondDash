@@ -24,7 +24,6 @@ function traverseRows() {
     
     
     var tblRows = table.getRows();
-    console.log(tblRows);
     tblRows.forEach(function(row){
         if (row.getTreeChildren().length > 0){
             findChildren(row, actionWord)

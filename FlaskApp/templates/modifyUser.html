@@ -128,10 +128,6 @@
 </head>
 
 <body>
-
-
-
-
     <div class="container">
         <div style="text-align: center;">
             <h2>Add People</h2>
@@ -298,7 +294,6 @@
             // find the ID stored in the .groupId cell
             //var id = tr.find('td.users').text();
             var id = $(this).closest('tr').find('.users').text();
-            console.log('clicked button with id', id);
 
             // your PHP script expects GROUP_ID so we need to pass it one
             var data = { users: id, actionType: "deleteUser" };
@@ -307,13 +302,12 @@
             if (confirm('Are you sure you want to delete this entry?')) {
                 // Deleting that row from website
                 $(this).closest('tr').remove();
-                console.log('sending request');
+                
                 // delete record only once user has confirmed
                 $.post('/modifyUser', data, function (res) {
-                    console.log('received response', res);
+                    
                     // we want to delete the table row only we received a response back saying that it worked
                     if (res.status) {
-                        console.log('deleting TR');
                         tr.remove();
                     }
                 }, 'json');
@@ -332,13 +326,6 @@
             var tatMemberData = $(this).closest('tr').find('.tatMember').find(":selected").val();
             var whichPositionsData = $(this).closest('tr').find('.whichPositions').find(":selected").val();
 
-
-            console.log('clicked button with id', id);
-            console.log('clicked button with type', typeData);
-            console.log('clicked button with tatMember', tatMemberData);
-            console.log('clicked button with whichPositions', whichPositionsData);
-
-            // your PHP script expects GROUP_ID so we need to pass it one
             var data = { 
                 users: id,
                 typeData: typeData,
@@ -347,16 +334,11 @@
                 actionType: "modifyUser"
             };
 
-            
-            
-            console.log('sending request');
+
             // modify record
             $.post('/modifyUser', data, function (res) {
-                console.log('received response', res);
                 // we want to delete the table row only we received a response back saying that it worked
                 if (res.status) {
-                    console.log("Data sent for modifying");
-                    console.log(data);
                 }
             }, 'json');
             
