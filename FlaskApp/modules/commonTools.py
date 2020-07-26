@@ -1,9 +1,15 @@
+"""Common tools for the App
+
+This has a few tools or functions which may be used
+by almost all of the routes happening in the App.
+"""
+
 from pymongo import MongoClient
 from flask_login import current_user
 from flask import jsonify
 import time
 
-# DB links for main collection
+# Making connection to DB
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
@@ -14,6 +20,12 @@ candidatesCollection = database["dolphinDB"]
 approvedUsersCollection = database["ApprovedUsers"]
 
 def getLastUpdatedTimestamp():
+	"""Fetches last updated time
+
+	It reverse calculates time of storage from unique serial
+	number given on each row entry by MongoDB
+	"""
+
 	timestamp = None
 	try:
 		o = candidatesCollection.find_one({})
@@ -23,26 +35,26 @@ def getLastUpdatedTimestamp():
 
 		timestamp = time.strftime(
 			'%d-%m-%Y %H:%M:%S', time.localtime(timestamp))
-		print(timestamp)
 	except:
 		timestamp = "Coudn't get last updated date"
-		print(timestamp)
 	return timestamp
 
 def checkAdmin(user):
-	# Checking whether user is admin or not
-	pa = approvedUsersCollection.find({'users': current_user.id})
-	for p in pa:
-		if p['type'] == 'admin':
+	"""Checking whether logged in user is admin or not"""
+
+	dbFetchResult = approvedUsersCollection.find({'users': current_user.id})
+	for d in dbFetchResult:
+		if d['type'] == 'admin':
 			return True
 		else:
 			return False
 
 def checkTeamMembership(user):
-	# Checking whether user is admin or not
-	pa = approvedUsersCollection.find({'users': user})
-	for p in pa:
-		if p['tatMember'] == 'Yeah':
+	"""Checking whether user is TA team member or not"""
+
+	dbFetchResult = approvedUsersCollection.find({'users': user})
+	for d in dbFetchResult:
+		if d['tatMember'] == 'Yeah':
 			return True
 		else:
 			return False

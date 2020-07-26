@@ -3,7 +3,7 @@ from flask_login import current_user
 from flask import jsonify
 import datetime, time
 
-# DB links for main collection
+# Making connection to DB
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
@@ -13,7 +13,7 @@ candidatesCollection = database["dolphinDB"]
 # DB links for ApprovedUsers collection
 approvedUsersCollection = database["ApprovedUsers"]
 
-# From new dup
+# DB link for Posting status collection
 postingStatusCollection = database["jobPostingWiseDB"]
 
 

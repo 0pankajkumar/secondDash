@@ -3,7 +3,7 @@ from flask_login import current_user
 import datetime, time, math
 from flask import jsonify
 
-# DB links for main collection
+# Making connection to DB
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
