@@ -40,22 +40,6 @@ from oauthlib.oauth2 import WebApplicationClient
 import requests
 
 
-# DB links for main collection
-client = MongoClient("mongodb://localhost:27017")
-database = client["local"]
-collection = database["dolphinDB"]
-
-# DB links for ApprovedUsers collection
-collection2 = database["ApprovedUsers"]
-
-# From new dup
-collection4 = database["jobPostingWiseDB"]
-
-# For saving custom filters for each user
-collection5 = database["moreInfo"]
-
-
-# app = Flask(__name__)
 app = Flask(__name__, static_url_path='',
 				  static_folder='/var/www/FlaskApp/FlaskApp/FlaskApp/static',
 				  template_folder='/var/www/FlaskApp/FlaskApp/FlaskApp/templates')

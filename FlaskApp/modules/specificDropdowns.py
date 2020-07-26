@@ -8,13 +8,13 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
 # DB links for ApprovedUsers collection
-collection = database["dolphinDB"]
+candidatesCollection = database["dolphinDB"]
 
 # DB links for ApprovedUsers collection
-collection2 = database["ApprovedUsers"]
+approvedUsersCollection = database["ApprovedUsers"]
 
 # From new dup
-collection4 = database["jobPostingWiseDB"]
+postingStatusCollection = database["jobPostingWiseDB"]
 
 
 # Makaing a long list of dicts containing all the items required for dropdown

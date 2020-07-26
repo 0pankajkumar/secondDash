@@ -8,13 +8,13 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
 # DB links for ApprovedUsers collection
-collection2 = database["ApprovedUsers"]
+approvedUsersCollection = database["ApprovedUsers"]
 
 
 def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
 	pageType = cleaningPageType(pageType)
 
-	dbDataStarting = collection2.find({"users": oneUser}, cursor_type=CursorType.EXHAUST)
+	dbDataStarting = approvedUsersCollection.find({"users": oneUser}, cursor_type=CursorType.EXHAUST)
 	dbData = None
 	for d in dbDataStarting:
 		dbData = d
@@ -36,7 +36,7 @@ def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitl
 		dbData.append(filtersToBeSaved)
 		print("dbData before writing", dbData)
 		try:
-			collection2.update(
+			approvedUsersCollection.update(
 					{"users": oneUser},
 					{"$set" : {"customFilters": dbData}}
 				)
@@ -77,7 +77,7 @@ def cleaningPageType(pageType):
 
 def getThoseParticularOptions(filterName, pageType):
 	pageType = cleaningPageType(pageType)
-	dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+	dbDataStarting = approvedUsersCollection.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
 	dbData = None
 	for d in dbDataStarting:
 		dbData = d
@@ -106,7 +106,7 @@ def getThoseParticularOptions(filterName, pageType):
 	return jsonify(dictToBeReturned)
 
 def deleteThisParticularFilter(filterName):
-	dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+	dbDataStarting = approvedUsersCollection.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
 	dbData = None
 	for d in dbDataStarting:
 		dbData = d
@@ -120,7 +120,7 @@ def deleteThisParticularFilter(filterName):
 		if d["filterName"] != filterName:
 			dictToBeStoredAgain.append(d)
 
-	collection2.update(
+	approvedUsersCollection.update(
 		{"users": current_user.id},
 		{"$set" : {"customFilters": dictToBeStoredAgain}}
 	)
@@ -143,7 +143,7 @@ def shareToThesePeople(usernamesToBeSharedWith, filterName, pageType, recruiter,
 	return resp
 
 def getAllUsernameForSharing():
-	dbDataStarting = collection2.find({}, cursor_type=CursorType.EXHAUST)
+	dbDataStarting = approvedUsersCollection.find({}, cursor_type=CursorType.EXHAUST)
 	allUsernames = list()
 	for d in dbDataStarting:
 		allUsernames.append(d["users"])
@@ -158,7 +158,7 @@ def getAllUsernameForSharing():
 	return jsonify(sendDict)
 
 def generateCustomFilterNames(pageType):
-	dbDataStarting = collection2.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+	dbDataStarting = approvedUsersCollection.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
 	dbData = None
 	for d in dbDataStarting:
 		dbData = d

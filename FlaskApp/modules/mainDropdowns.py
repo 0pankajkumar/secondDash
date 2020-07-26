@@ -8,13 +8,13 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
 # DB links for ApprovedUsers collection
-collection = database["dolphinDB"]
+candidatesCollection = database["dolphinDB"]
 
 # DB links for ApprovedUsers collection
-collection2 = database["ApprovedUsers"]
+approvedUsersCollection = database["ApprovedUsers"]
 
 # From new dup
-collection4 = database["jobPostingWiseDB"]
+postingStatusCollection = database["jobPostingWiseDB"]
 
 
 # Make that bigDict step by step
@@ -37,11 +37,11 @@ def generateMainPageDropdowns():
 	# companiesAllowed = set()
 	# companiesAllowed = {'Campus', 'Codechef', 'Flock', 'Radix', 'Shared Services'}
 
-	rows = collection2.find({"users": current_user.id})
+	rows = approvedUsersCollection.find({"users": current_user.id})
 	for row in rows:
 		companiesAllowed = row["companiesActuallyAllowed"]
 
-	rows = collection.find({"Posting Department": {"$in": companiesAllowed}})
+	rows = candidatesCollection.find({"Posting Department": {"$in": companiesAllowed}})
 	for row in rows:
 		if row['Posting Department'] not in companiesAllowed:
 			continue
@@ -66,17 +66,17 @@ def generateMainPageDropdowns2(Status):
 	postingArchiveStatus = set()
 	profileArchiveStatus = set()
 
-	rows = collection2.find({"users": current_user.id})
+	rows = approvedUsersCollection.find({"users": current_user.id})
 	for row in rows:
 		companiesAllowed = row["companiesActuallyAllowed"]
 
 	# Get all users registred TAT members from our user database
-	rows = collection2.find({"tatMember": "Yeah"})
+	rows = approvedUsersCollection.find({"tatMember": "Yeah"})
 	allUsersSet = set()
 	for row in rows:
 		allUsersSet.add(row["users"])
 
-	rows = collection4.find(
+	rows = postingStatusCollection.find(
 		{"Posting Department": {"$in": companiesAllowed}}, cursor_type=CursorType.EXHAUST)
 	for row in rows:
 		if row['Posting Owner Email'] not in allUsersSet:

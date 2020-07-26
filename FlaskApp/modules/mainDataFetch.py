@@ -8,10 +8,13 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
 # DB links for ApprovedUsers collection
-collection = database["dolphinDB"]
+candidatesCollection = database["dolphinDB"]
+
+# DB links for ApprovedUsers collection
+approvedUsersCollection = database["ApprovedUsers"]
 
 # From new dup
-collection4 = database["jobPostingWiseDB"]
+postingStatusCollection = database["jobPostingWiseDB"]
 
 
 def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate, requestType, recruiter=None):
@@ -33,7 +36,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 	# The restriction is there mark this flag
 	# We want to display only postings related to him/her if he/she is marked so
 	whichPositions = "all"
-	whichPositionsrows = collection2.find({"users": current_user.id})
+	whichPositionsrows = approvedUsersCollection.find({"users": current_user.id})
 	for row in whichPositionsrows:
 		whichPositions = row["whichPositions"]
 
@@ -199,7 +202,7 @@ def getFromDB(title, companyName, team, recruiter=None):
 	query['Posting Team'] = team
 	query['Actual Posting Owner Name'] = recruiter
 	# query['Posting Archive Status'] = archiveStatus
-	return list(collection.find(query, cursor_type=CursorType.EXHAUST))
+	return list(candidatesCollection.find(query, cursor_type=CursorType.EXHAUST))
 
 def actualPostId(postId, postIdCounts):
 	children = []
@@ -229,7 +232,7 @@ def actualResultForOrigin(origin, originCounts):
 	}
 
 def get_live_or_archived_dict():
-	rows = collection4.find({})
+	rows = postingStatusCollection.find({})
 	anotherDict = dict()
 	for ro in rows:
 		if ro['Posting ID'] not in anotherDict:

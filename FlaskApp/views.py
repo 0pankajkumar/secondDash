@@ -20,13 +20,13 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
 # DB links for ApprovedUsers collection
-collection = database["dolphinDB"]
+candidatesCollection = database["dolphinDB"]
 
 # DB links for ApprovedUsers collection
-collection2 = database["ApprovedUsers"]
+approvedUsersCollection = database["ApprovedUsers"]
 
 # From new dup
-collection4 = database["jobPostingWiseDB"]
+postingStatusCollection = database["jobPostingWiseDB"]
 
 
 # Clearing caches
@@ -124,12 +124,12 @@ def elaborate2():
 	if originType != "referred":
 		query = {"Origin": originType, "$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
 			"Applied At (GMT)": {"$lte": toDate}}]}
-		rows = collection.find(query, cursor_type=CursorType.EXHAUST)
+		rows = candidatesCollection.find(query, cursor_type=CursorType.EXHAUST)
 	else:
 		query = {"$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
 			"Applied At (GMT)": {"$lte": toDate}}]}
 		rows = list()
-		rows_temp = collection.find(query, cursor_type=CursorType.EXHAUST)
+		rows_temp = candidatesCollection.find(query, cursor_type=CursorType.EXHAUST)
 		for row in rows_temp:
 			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
 				rows.append(row)
@@ -251,16 +251,16 @@ def whoAreTheseNPeople(postingId, origin, stage, profileStatus, fromDate, toDate
 	result = list()
 	if stage == "offer":
 		query['$or'] = [{'Current Stage': 'Offer Approval'}, {'Current Stage': 'Offer Approved'}, {'Current Stage': 'Offer'}]
-		result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+		result = list(candidatesCollection.find(query, cursor_type=CursorType.EXHAUST))
 	elif stage == "hired":
 		benchDate = datetime.datetime(2015, 1, 1)
-		outcome = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+		outcome = list(candidatesCollection.find(query, cursor_type=CursorType.EXHAUST))
 		for out in outcome:
 			if out["Hired"] > benchDate:
 				result.append(out)
 	else:
 		query['Current Stage'] = stageBank[stage]
-		result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+		result = list(candidatesCollection.find(query, cursor_type=CursorType.EXHAUST))
 
 	packet = []
 	count = 1
@@ -315,7 +315,7 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 	# The restriction is there mark this flag
 	# We want to display only postings related to him/her if he/she is marked so
 	whichPositions = "all"
-	whichPositionsrows = collection2.find({"users": current_user.id})
+	whichPositionsrows = approvedUsersCollection.find({"users": current_user.id})
 	for row in whichPositionsrows:
 		whichPositions = row["whichPositions"]
 
@@ -433,11 +433,11 @@ def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate,
 def getDropdownOptionsLive():
 	liveBigDictPre = dict()
 
-	rows = collection2.find({"users": current_user.id})
+	rows = approvedUsersCollection.find({"users": current_user.id})
 	for row in rows:
 		companiesAllowed = row["companiesActuallyAllowed"]
 
-	rows = collection4.find(
+	rows = postingStatusCollection.find(
 		{"Posting Department": {"$in": companiesAllowed}, "Status": "active"})
 
 	for row in rows:
@@ -461,11 +461,11 @@ def getDropdownOptionsLive():
 def getDropdownOptionsArchived():
 	archivedBigDictPre = dict()
 
-	rows = collection2.find({"users": current_user.id})
+	rows = approvedUsersCollection.find({"users": current_user.id})
 	for row in rows:
 		companiesAllowed = row["companiesActuallyAllowed"]
 
-	rows = collection4.find(
+	rows = postingStatusCollection.find(
 		{"Posting Department": {"$in": companiesAllowed}, "Status": "closed"})
 
 	for row in rows:
@@ -489,11 +489,11 @@ def getDropdownOptionsArchived():
 def getBigDictLive():
 	liveBigDict = dict()
 
-	rows = collection2.find({"users": current_user.id})
+	rows = approvedUsersCollection.find({"users": current_user.id})
 	for row in rows:
 		companiesAllowed = row["companiesActuallyAllowed"]
 
-	rows = collection4.find(
+	rows = postingStatusCollection.find(
 		{"Posting Department": {"$in": companiesAllowed}, "Status": "active"})
 
 	for row in rows:
@@ -516,11 +516,11 @@ def getBigDictLive():
 def getBigDictArchived():
 	archivedBigDict = dict()
 
-	rows = collection2.find({"users": current_user.id})
+	rows = approvedUsersCollection.find({"users": current_user.id})
 	for row in rows:
 		companiesAllowed = row["companiesActuallyAllowed"]
 
-	rows = collection4.find(
+	rows = postingStatusCollection.find(
 		{"Posting Department": {"$in": companiesAllowed}, "Status": "closed"})
 
 	for row in rows:
@@ -543,11 +543,11 @@ def getBigDictArchived():
 def getBigDict():
 	bigDict = dict()
 
-	rows = collection2.find({"users": current_user.id})
+	rows = approvedUsersCollection.find({"users": current_user.id})
 	for row in rows:
 		companiesAllowed = row["companiesActuallyAllowed"]
 
-	rows = collection.find({"Posting Department": {
+	rows = candidatesCollection.find({"Posting Department": {
 						   "$in": companiesAllowed}}, cursor_type=CursorType.EXHAUST)
 
 	for row in rows:
@@ -741,23 +741,23 @@ def modifyUser():
 
 			if makeAdmin == "Admin":
 				if tatMember == "Nope":
-					collection2.insert_one({"users": addThisUser, "type": "admin", "tatMember": "Nope",
+					approvedUsersCollection.insert_one({"users": addThisUser, "type": "admin", "tatMember": "Nope",
 											"companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
 				elif tatMember == "Yeah":
-					collection2.insert_one({"users": addThisUser, "type": "admin", "tatMember": "Yeah",
+					approvedUsersCollection.insert_one({"users": addThisUser, "type": "admin", "tatMember": "Yeah",
 											"companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
 			else:
 				if tatMember == "Nope":
-					collection2.insert_one({"users": addThisUser, "type": "regular", "tatMember": "Nope",
+					approvedUsersCollection.insert_one({"users": addThisUser, "type": "regular", "tatMember": "Nope",
 											"companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
 				elif tatMember == "Yeah":
-					collection2.insert_one({"users": addThisUser, "type": "regular", "tatMember": "Yeah",
+					approvedUsersCollection.insert_one({"users": addThisUser, "type": "regular", "tatMember": "Yeah",
 											"companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
 			return redirect(url_for('modifyUser'))
 
 		if request.form.get('actionType') == "deleteUser":
 			deleteThisUser = request.form.get('users')
-			collection2.delete_many({"users": deleteThisUser})
+			approvedUsersCollection.delete_many({"users": deleteThisUser})
 			print(f"Deleted {deleteThisUser}")
 
 		if request.form.get('actionType') == "modifyUser":
@@ -766,7 +766,7 @@ def modifyUser():
 			hisTatMember = request.form.get('tatMemberData')
 			hisWhichPositions = request.form.get('whichPositionsData')
 
-			collection2.update({"users": modifyThisUser}, {"$set": {
+			approvedUsersCollection.update({"users": modifyThisUser}, {"$set": {
 				"type": hisType,
 				"tatMember": hisTatMember,
 				"whichPositions": hisWhichPositions

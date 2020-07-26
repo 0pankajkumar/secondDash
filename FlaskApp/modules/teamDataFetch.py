@@ -8,7 +8,7 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
 # DB links for ApprovedUsers collection
-collection = database["dolphinDB"]
+candidatesCollection = database["dolphinDB"]
 
 
 def whoAreTheseNPeople(postingId, origin, stage, profileStatus, fromDate, toDate):
@@ -40,16 +40,16 @@ def whoAreTheseNPeople(postingId, origin, stage, profileStatus, fromDate, toDate
 	result = list()
 	if stage == "offer":
 		query['$or'] = [{'Current Stage': 'Offer Approval'}, {'Current Stage': 'Offer Approved'}, {'Current Stage': 'Offer'}]
-		result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+		result = list(candidatesCollection.find(query, cursor_type=CursorType.EXHAUST))
 	elif stage == "hired":
 		benchDate = datetime.datetime(2015, 1, 1)
-		outcome = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+		outcome = list(candidatesCollection.find(query, cursor_type=CursorType.EXHAUST))
 		for out in outcome:
 			if out["Hired"] > benchDate:
 				result.append(out)
 	else:
 		query['Current Stage'] = stageBank[stage]
-		result = list(collection.find(query, cursor_type=CursorType.EXHAUST))
+		result = list(candidatesCollection.find(query, cursor_type=CursorType.EXHAUST))
 
 	packet = []
 	count = 1
@@ -80,12 +80,12 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 	if originType != "referred":
 		query = {"Origin": originType, "$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
 			"Applied At (GMT)": {"$lte": toDate}}]}
-		rows = collection.find(query, cursor_type=CursorType.EXHAUST)
+		rows = candidatesCollection.find(query, cursor_type=CursorType.EXHAUST)
 	else:
 		query = {"$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
 			"Applied At (GMT)": {"$lte": toDate}}]}
 		rows = list()
-		rows_temp = collection.find(query, cursor_type=CursorType.EXHAUST)
+		rows_temp = candidatesCollection.find(query, cursor_type=CursorType.EXHAUST)
 		for row in rows_temp:
 			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
 				rows.append(row)
@@ -238,12 +238,12 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 	if originType != "referred":
 		query = {"Origin": originType, "$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
 			"Applied At (GMT)": {"$lte": toDate}}]}
-		rows = collection.find(query, cursor_type=CursorType.EXHAUST)
+		rows = candidatesCollection.find(query, cursor_type=CursorType.EXHAUST)
 	else:
 		query = {"$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
 			"Applied At (GMT)": {"$lte": toDate}}]}
 		rows = list()
-		rows_temp = collection.find(query, cursor_type=CursorType.EXHAUST)
+		rows_temp = candidatesCollection.find(query, cursor_type=CursorType.EXHAUST)
 		for row in rows_temp:
 			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
 				rows.append(row)
@@ -305,12 +305,12 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 	if originType != "referred":
 		query = {"Origin": originType, "$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
 			"Applied At (GMT)": {"$lte": toDate}}]}
-		rows = collection.find(query, cursor_type=CursorType.EXHAUST)
+		rows = candidatesCollection.find(query, cursor_type=CursorType.EXHAUST)
 	else:
 		query = {"$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
 			"Applied At (GMT)": {"$lte": toDate}}]}
 		rows = list()
-		rows_temp = collection.find(query, cursor_type=CursorType.EXHAUST)
+		rows_temp = candidatesCollection.find(query, cursor_type=CursorType.EXHAUST)
 		for row in rows_temp:
 			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
 				rows.append(row)

@@ -10,13 +10,13 @@ client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
 # DB links for ApprovedUsers collection
-collection = database["dolphinDB"]
+candidatesCollection = database["dolphinDB"]
 
 # DB links for ApprovedUsers collection
-collection2 = database["ApprovedUsers"]
+approvedUsersCollection = database["ApprovedUsers"]
 
 # From new dup
-collection4 = database["jobPostingWiseDB"]
+postingStatusCollection = database["jobPostingWiseDB"]
 
 def updateMongo():
 	updatePostingInfo()
@@ -24,11 +24,8 @@ def updateMongo():
 
 
 def updatePostingInfo():
-	client = MongoClient("mongodb://localhost:27017")
-	database = client["local"]
-	collection = database["jobPostingWiseDB"]
 
-	collection.delete_many({})
+	postingStatusCollection.delete_many({})
 	print("Deleted everything in posting info DB")
 	print("Adding posting info records...")
 
@@ -67,18 +64,14 @@ def updatePostingInfo():
 
 			i += 1
 
-	collection.insert_many(finalBox)
+	postingStatusCollection.insert_many(finalBox)
 
-	# os.remove(file_to_open)
 	print("File Deleted")
 
 	print(ty)
 
 
 def updateDump():
-	client = MongoClient("mongodb://localhost:27017")
-	database = client["local"]
-	collection = database["dolphinDB"]
 
 	all_The_Stages = ['Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant',
 					  'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer', 'Stage - Offer Approval', 'Stage - Offer Approved', 'Hired']
@@ -92,7 +85,7 @@ def updateDump():
 	box = []
 	fileName = "uploaded_csv/dump.csv"
 
-	collection.delete_many({})
+	candidatesCollection.delete_many({})
 	print("Deleted everything")
 	print("Adding records...")
 
@@ -269,10 +262,6 @@ def updateDump():
 		if box[i]['Posting ID'] is not None:
 			box[i]["postingCreatedDate"] = dict_of_posting_creation_date[box[i]['Posting ID']]
 
-	# Inserting into MOngoDB
-	# for di in box:
-	#   collection.insert_one(di)
-
 	postingActualOwnersDict = dict()
 
 	# Removing duplicates & then adding to DB
@@ -285,8 +274,7 @@ def updateDump():
 
 	# Determining Actual Posting Owner Name before writing
 	# Now fetchingActual Posting Owner Name directly from jobPostingWiseDB, we don't have to detemine that now
-	jobPostingWiseDBCollection = database["jobPostingWiseDB"]
-	jobPostingWiseDBBox = jobPostingWiseDBCollection.find({})
+	jobPostingWiseDBBox = postingStatusCollection.find({})
 	postingActualOwnersDict2 = dict()
 	for jobPostingWise in jobPostingWiseDBBox:
 		if jobPostingWise["Posting ID"] not in postingActualOwnersDict2:
@@ -296,14 +284,13 @@ def updateDump():
 	for x in postingDict.keys():
 		for y in postingDict[x].keys():
 			postingDict[x][y]["Actual Posting Owner Name"] = postingActualOwnersDict2[x]
-			collection.insert_one(postingDict[x][y])
+			candidatesCollection.insert_one(postingDict[x][y])
 
 	# Compound Indexing DB
-	# collection.create_index([("Posting Title", pymongo.DESCENDING)])
-	collection.create_index([("Posting Department", ASCENDING), ("Posting Team", ASCENDING), (
+	candidatesCollection.create_index([("Posting Department", ASCENDING), ("Posting Team", ASCENDING), (
 		"Posting Title", ASCENDING), ("Actual Posting Owner Name", ASCENDING)])
 
-	collection.create_index(
+	candidatesCollection.create_index(
 		[("Origin", DESCENDING), ("Applied At (GMT)", DESCENDING)])
 
 	# os.remove(file_to_open)
