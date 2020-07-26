@@ -13,10 +13,10 @@ import time
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
-# DB links for candidate's collection
+# DB link for candidate's collection
 candidatesCollection = database["dolphinDB"]
 
-# DB links for ApprovedUsers collection
+# DB link for ApprovedUsers collection
 approvedUsersCollection = database["ApprovedUsers"]
 
 def getLastUpdatedTimestamp():

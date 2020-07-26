@@ -580,7 +580,7 @@ def customFilters():
 
 		if requestType == "save":
 			oneUser = current_user.id
-			msg = saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+			msg = saveCustomFilter(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
 			return msg
 
 		if requestType == "getThoseOptions":

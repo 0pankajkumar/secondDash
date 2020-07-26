@@ -3,20 +3,21 @@ from flask_login import current_user
 from flask import jsonify
 import datetime
 
-# DB links for main collection
+# Making connection to DB
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
-# DB links for ApprovedUsers collection
+# DB link for ApprovedUsers collection
 approvedUsersCollection = database["ApprovedUsers"]
 
+def saveCustomFilter(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
+	"""Saves Custom filter (with a unique name otherwise not)"""
 
-def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
-	pageType = cleaningPageType(pageType)
+	pageType = determinePageType(pageType)
 
-	dbDataStarting = approvedUsersCollection.find({"users": oneUser}, cursor_type=CursorType.EXHAUST)
+	dbDataResults = approvedUsersCollection.find({"users": oneUser}, cursor_type=CursorType.EXHAUST)
 	dbData = None
-	for d in dbDataStarting:
+	for d in dbDataResults:
 		dbData = d
 	if "customFilters" in dbData:
 		dbData = dbData["customFilters"]
@@ -29,6 +30,7 @@ def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitl
 			duplicateFound = True
 			break
 
+	# Saving only when it's unique name
 	if duplicateFound:
 		return "No two filters can have same name"
 	else:
@@ -45,6 +47,8 @@ def saveCustomFilterPlease(oneUser, filterName, pageType, recruiter, postingTitl
 		    return "Some error occured while saving filter"
 
 def getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
+	"""Prepares the filter in a dict format convenient for saving"""
+
 	temp = dict()
 	temp["filterName"] = filterName
 	temp["pageType"] = pageType
@@ -55,18 +59,17 @@ def getfiltersToBeSavedReady(filterName, pageType, recruiter, postingTitle, comp
 	temp["requestType"] = requestType
 	temp["profileArchiveStatus"] = profileArchiveStatus
 	try:
-		fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
-		toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
+		temp["fromDate"] = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
+		temp["toDate"] = datetime.datetime.strptime(toDate, '%d-%m-%Y')
 	except:
-		fromDate = ""
-		toDate = ""
-	temp["fromDate"] = fromDate
-	temp["toDate"] = toDate
+		temp["fromDate"] = ""
+		temp["toDate"] = ""
 
 	return temp 
 
-def cleaningPageType(pageType):
-	# Saving pageType as Live or Archived
+def determinePageType(pageType):
+	"""Determining type of page. Whether Live or Archived"""
+
 	if pageType in ["Live Posts", "Live Posts - Recruiter Filter"]:
 		pageType = "live"
 	elif pageType in ["Archives", "Archives - Recruiter Filter"]:
@@ -76,7 +79,9 @@ def cleaningPageType(pageType):
 	return pageType
 
 def getThoseParticularOptions(filterName, pageType):
-	pageType = cleaningPageType(pageType)
+	"""Fetches all the parameters of a matching filter name"""
+
+	pageType = determinePageType(pageType)
 	dbDataStarting = approvedUsersCollection.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
 	dbData = None
 	for d in dbDataStarting:
@@ -106,16 +111,19 @@ def getThoseParticularOptions(filterName, pageType):
 	return jsonify(dictToBeReturned)
 
 def deleteThisParticularFilter(filterName):
-	dbDataStarting = approvedUsersCollection.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+	"""Deletes all parameter of a matching filter"""
+
+	dbDataResults = approvedUsersCollection.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
 	dbData = None
-	for d in dbDataStarting:
+	for d in dbDataResults:
 		dbData = d
 	if "customFilters" in dbData:
 		dbData = dbData["customFilters"]
 	else:
 		dbData = []
 
-	dictToBeStoredAgain = list() # All data except for the filter which needs to be deleted will be stored again
+	dictToBeStoredAgain = list() 
+	# All data except for the filter which needs to be deleted will be stored again
 	for d in dbData:
 		if d["filterName"] != filterName:
 			dictToBeStoredAgain.append(d)
@@ -127,10 +135,13 @@ def deleteThisParticularFilter(filterName):
 	return "Filter Deleted"
 
 def shareToThesePeople(usernamesToBeSharedWith, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate):
+	"""Saves a filter for the usernames specified. This is sharing.
+	"""
+
 	duplicateCount = 0
 	successCount = 0
 	for us in usernamesToBeSharedWith:
-		resp = saveCustomFilterPlease(us, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+		resp = saveCustomFilter(us, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
 		if resp == "No two filters can have same name":
 			duplicateCount += 1
 		if resp == "Filter saved Successfully":
@@ -143,6 +154,8 @@ def shareToThesePeople(usernamesToBeSharedWith, filterName, pageType, recruiter,
 	return resp
 
 def getAllUsernameForSharing():
+	"""Sends usernames of all members of TA Reports club"""
+
 	dbDataStarting = approvedUsersCollection.find({}, cursor_type=CursorType.EXHAUST)
 	allUsernames = list()
 	for d in dbDataStarting:
@@ -158,9 +171,11 @@ def getAllUsernameForSharing():
 	return jsonify(sendDict)
 
 def generateCustomFilterNames(pageType):
-	dbDataStarting = approvedUsersCollection.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
+	"""Initialises the DB for the user to get stated with filters"""
+
+	dbDataResults = approvedUsersCollection.find({"users": current_user.id}, cursor_type=CursorType.EXHAUST)
 	dbData = None
-	for d in dbDataStarting:
+	for d in dbDataResults:
 		dbData = d
 	if "customFilters" in dbData:
 		dbData = dbData["customFilters"]
