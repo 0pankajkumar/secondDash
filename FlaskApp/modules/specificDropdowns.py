@@ -18,19 +18,22 @@ postingStatusCollection = database["jobPostingWiseDB"]
 
 
 # Makaing a long list of dicts containing all the items required for dropdown
-def prepareDropdownOptionsSending(whale):
+def prepareDropdownOptionsSending(unprocessedDict):
+
+	# to store processed data
 	box = list()
 
-	for k, v in whale.items():
-		for kk, vv in whale[k].items():
-			for kkk, vvv in whale[k][kk].items():
-				for kkkk in whale[k][kk][kkk]:
-					t = dict()
-					t["recruiter"] = k
-					t["company"] = kk
-					t["dept"] = kkk
-					t["post"] = kkkk
-					box.append(t)
+	# Looping through the dict three levels deep
+	for recruiterKey, recruiterValue in unprocessedDict.items():
+		for companyKey, companyValue in unprocessedDict[recruiterKey].items():
+			for deptKey, deptValue in unprocessedDict[recruiterKey][companyKey].items():
+				for postKey in unprocessedDict[recruiterKey][companyKey][deptKey]:
+					temp = dict()
+					temp["recruiter"] = recruiterKey
+					temp["company"] = companyKey
+					temp["dept"] = deptKey
+					temp["post"] = postKey
+					box.append(temp)
 	return box
 
 def makeDropdownOptions(bigDict, postOwn, postDept, postTeam, postTitle):
