@@ -1,3 +1,6 @@
+"""Makes data for the chain of dropdowns in the Home page
+"""
+
 from pymongo import MongoClient, CursorType
 from flask_login import current_user
 from flask import jsonify
@@ -7,18 +10,23 @@ import datetime, time
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
-# DB links for ApprovedUsers collection
+# DB link for ApprovedUsers collection
 candidatesCollection = database["dolphinDB"]
 
-# DB links for ApprovedUsers collection
+# DB link for ApprovedUsers collection
 approvedUsersCollection = database["ApprovedUsers"]
 
 # DB link for Posting status collection
 postingStatusCollection = database["jobPostingWiseDB"]
 
 
-# Make that bigDict step by step
 def makeBigDict(bigDict, postDept, postTeam, postTitle):
+	"""Making of bigDict
+	
+	bigDict : An object having info about posting
+	based on it's company and posting department
+	"""
+
 	if postDept not in bigDict:
 		bigDict[str(postDept)] = {}
 	if postTeam not in bigDict[str(postDept)]:
@@ -30,6 +38,11 @@ def makeBigDict(bigDict, postDept, postTeam, postTitle):
 		bigDict[str(postDept)]['All'].append(postTitle)
 
 def generateMainPageDropdowns():
+	"""
+	Generates main page dropdowns dict containing
+	posting department, posting team and posting title
+	"""
+
 	postingDepartment = set()
 	postingArchiveStatus = set()
 	profileArchiveStatus = set()
@@ -61,7 +74,7 @@ def generateMainPageDropdowns():
 
 	return returnList
 
-def generateMainPageDropdowns2(Status):
+def generateMainPageDropdownsRecruiter(Status):
 	postingOwner = set()
 	postingArchiveStatus = set()
 	profileArchiveStatus = set()

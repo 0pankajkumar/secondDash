@@ -688,7 +688,7 @@ def recruiterArchivedPostings():
 		teamOptions = True
 	if checkAdmin(current_user.id):
 		adminOptions = True
-	returnedDict = generateMainPageDropdowns2('closed')
+	returnedDict = generateMainPageDropdownsRecruiter('closed')
 	customFilterNames = generateCustomFilterNames("archive")
 	return render_template('recruiterArchivedPostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active", customFilterNames=customFilterNames)
 
@@ -704,7 +704,7 @@ def recruiterLivePostings():
 		teamOptions = True
 	if checkAdmin(current_user.id):
 		adminOptions = True
-	returnedDict = generateMainPageDropdowns2('active')
+	returnedDict = generateMainPageDropdownsRecruiter('active')
 	customFilterNames = generateCustomFilterNames("live")
 	return render_template('recruiterLivePostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active", customFilterNames=customFilterNames)
 
