@@ -1,3 +1,6 @@
+"""Makes data for the chain of dropdowns but specifically for live or achived
+"""
+
 from pymongo import MongoClient, CursorType
 from flask_login import current_user
 from flask import jsonify
@@ -7,18 +10,19 @@ import datetime, time
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
-# DB links for ApprovedUsers collection
+# DB link for ApprovedUsers collection
 candidatesCollection = database["dolphinDB"]
 
-# DB links for ApprovedUsers collection
+# DB link for ApprovedUsers collection
 approvedUsersCollection = database["ApprovedUsers"]
 
 # DB link for Posting status collection
 postingStatusCollection = database["jobPostingWiseDB"]
 
 
-# Makaing a long list of dicts containing all the items required for dropdown
 def prepareDropdownOptionsSending(unprocessedDict):
+	"""Making a long list of dicts containing all the items required for dropdown
+	"""
 
 	# to store processed data
 	box = list()
@@ -37,6 +41,7 @@ def prepareDropdownOptionsSending(unprocessedDict):
 	return box
 
 def makeDropdownOptions(bigDict, postOwn, postDept, postTeam, postTitle):
+	"""making the bigDict for viewing at frontend"""
 	if postOwn not in bigDict:
 		bigDict[str(postOwn)] = {}
 

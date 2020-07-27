@@ -1,3 +1,5 @@
+"""User management & validation"""
+
 from flask_login import UserMixin
 from pymongo import MongoClient, CursorType
 from flask_login import current_user
@@ -8,11 +10,15 @@ database = client["local"]
 approvedUsersCollection = database["ApprovedUsers"]
 
 class User(UserMixin):
+    """A user centric class which validates & reports suspicion"""
+
     def __init__(self, id_):
         self.id = id_
 
     @staticmethod
     def get(users_email):
+        """Returns user object for assimilation"""
+
         print(f"\nReceiving {users_email}\n")
         pa = approvedUsersCollection.find({'users': users_email})
 
@@ -34,7 +40,8 @@ class User(UserMixin):
 
     @staticmethod
     def suspicious(users_email):
-        #log unauthorized users
+        """log unauthorized users"""
+
         SuspiciousUsersCollection = database["SuspiciousUsers"]
 
         try:
@@ -44,6 +51,8 @@ class User(UserMixin):
         print("Logged in unauthorized")
 
 def fetchUsers(usersList):
+    """Packs all users & their details"""
+
     pa = approvedUsersCollection.find({})
     for p in pa:
         usersDict = dict()

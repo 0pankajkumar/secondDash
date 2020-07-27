@@ -630,15 +630,15 @@ def team():
 		allowedOrigins = ["referred", "agency", "applied", "sourced"]
 
 		if requestType == "InNewApplicantStage":
-			returnedDict = generateReferalDict(
+			returnedDict = generateNewApplicantDict(
 				fromDate, toDate, originType, allowedOrigins)
 
 		if requestType == "applicationToArchive":
-			returnedDict = generateReferalArchivedDict(
+			returnedDict = generateArchivedDict(
 				fromDate, toDate, originType, allowedOrigins)
 
 		if requestType == "applicationToOffer":
-			returnedDict = generateReferalOfferDict(
+			returnedDict = generateOfferedDict(
 				fromDate, toDate, originType, allowedOrigins)
 
 		return returnedDict

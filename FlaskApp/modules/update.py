@@ -1,3 +1,5 @@
+"""Updating the database with CSVs from lever"""
+
 import os
 from pymongo import MongoClient, CursorType, ASCENDING, DESCENDING
 import csv, datetime
@@ -9,21 +11,24 @@ from flask import jsonify
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
-# DB links for ApprovedUsers collection
+# DB link for ApprovedUsers collection
 candidatesCollection = database["dolphinDB"]
 
-# DB links for ApprovedUsers collection
+# DB link for ApprovedUsers collection
 approvedUsersCollection = database["ApprovedUsers"]
 
 # DB link for Posting status collection
 postingStatusCollection = database["jobPostingWiseDB"]
 
 def updateMongo():
+	"""Main handler of update module"""
+
 	updatePostingInfo()
 	updateDump()
 
 
 def updatePostingInfo():
+	"""Updates collection with posting status"""
 
 	postingStatusCollection.delete_many({})
 	print("Deleted everything in posting info DB")
@@ -72,6 +77,7 @@ def updatePostingInfo():
 
 
 def updateDump():
+	"""Updates collection with all candidate's info"""
 
 	all_The_Stages = ['Stage - New lead', 'Stage - Reached out', 'Stage - Responded', 'Stage - New applicant',
 					  'Stage - Recruiter screen', 'Stage - Profile review', 'Stage - Case study', 'Stage - Phone interview', 'Stage - On-site interview', 'Stage - Offer', 'Stage - Offer Approval', 'Stage - Offer Approved', 'Hired']
@@ -297,10 +303,15 @@ def updateDump():
 	print("File Deleted")
 
 
-
-
 def addPostingToPostingDict(ro, postingDict, currentStages, postingActualOwnersDict):
-	# if ro['Posting ID'] and ro['Profile ID'] is not None:
+	"""Removing duplicates & determinig actual posting owner
+
+	Determining unique Profiles for each posting
+	Finding the Actual Posting Owner as during a posting lifecycle
+	a several recruiters can be assigned as owners & this affects
+	accountabilitiy in the team reports.
+	"""
+
 	if not isinstance(ro['Posting ID'], datetime.datetime) and not isinstance(ro['Profile ID'], datetime.datetime):
 		pst = ro['Posting ID']
 		prfl = ro['Profile ID']
@@ -330,19 +341,17 @@ def addPostingToPostingDict(ro, postingDict, currentStages, postingActualOwnersD
 			stg1 = postingDict[pst][prfl]['Current Stage']
 			stg2 = ro['Current Stage']
 
-			# if currentStages.index(stg2) > currentStages.index(stg1):
 			if ro['Max Date'] >= postingDict[pst][prfl]['Max Date']:
 				postingDict[pst][prfl] = ro
-			# postingDict[pst][prfl] = ro
 
-# To delete /uploads folder at start of upload
 def flushUploadsFolder():
+	"""delete /uploads folder at start of upload tp avoid confusion & clear space"""
+
 	folder = '/var/www/FlaskApp/FlaskApp/uploaded_csv'
 	for the_file in os.listdir(folder):
 		file_path = os.path.join(folder, the_file)
 		try:
 			if os.path.isfile(file_path):
 				os.unlink(file_path)
-			# elif os.path.isdir(file_path): shutil.rmtree(file_path)
 		except Exception as e:
 			print(e)

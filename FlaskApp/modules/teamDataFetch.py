@@ -1,3 +1,6 @@
+"""Tools for calculating data at Team page (Marvel)
+"""
+
 from pymongo import MongoClient, CursorType
 from flask_login import current_user
 import datetime, time, math
@@ -7,11 +10,13 @@ from flask import jsonify
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
-# DB links for ApprovedUsers collection
+# DB link for ApprovedUsers collection
 candidatesCollection = database["dolphinDB"]
 
 
 def whoAreTheseNPeople(postingId, origin, stage, profileStatus, fromDate, toDate):
+	"""Determines the names of Candidates with profile id to their lever profile"""
+
 	stageBank = {
 		"newLead": "New lead",
 		"reachedOut": "Reached out",
@@ -63,7 +68,13 @@ def whoAreTheseNPeople(postingId, origin, stage, profileStatus, fromDate, toDate
 			count += 1
 	return packet
 
-def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
+def generateNewApplicantDict(fromDate, toDate, originType, allowedOrigins):
+	"""Makes data for the referal page
+
+	yearlyTable : The upper table
+	averageDaysPack : 
+	deadlineCasesPack : 
+	"""
 
 	if originType not in allowedOrigins:
 		return jsonify([])
@@ -90,11 +101,11 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
 				rows.append(row)
 
-	upperPack = dict()
-	lowerPack = list()
-	# sidepack is for determing time to move to 2nd stage in candidate lifecycle
-	sidePack = dict()
-	sidePack2 = dict()
+	yearlyTable = dict()
+	candidateRecruiterTable = list()
+	# averageDaysPack is for determing time to move to 2nd stage in candidate lifecycle
+	averageDaysPack = dict()
+	deadlineCasesPack = dict()
 	test = dict()
 	tem2 = dict()
 	monthList = ['*', 'Jan', 'Feb', 'Mar', 'Apr', 'May',
@@ -117,40 +128,40 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + \
 				tem['Profile ID']
 
-			if tem['Posting Owner Name'] not in upperPack:
-				upperPack[tem['Posting Owner Name']] = [0] * 13
-				upperPack[tem['Posting Owner Name']
+			if tem['Posting Owner Name'] not in yearlyTable:
+				yearlyTable[tem['Posting Owner Name']] = [0] * 13
+				yearlyTable[tem['Posting Owner Name']
 						  ][tem['Applied At (GMT)'].month] = 1
 			else:
-				upperPack[tem['Posting Owner Name']
+				yearlyTable[tem['Posting Owner Name']
 						  ][tem['Applied At (GMT)'].month] += 1
 
 
 
-			# Making sidePack2 data for counting cases which are older than c
+			# Making deadlineCasesPack data for counting cases which are older than c
 			c = 21
-			if tem['Posting Owner Name'] not in sidePack2:
-				sidePack2[tem['Posting Owner Name']] = dict()
-				sidePack2[tem['Posting Owner Name']]['lte_c'] = 0
-				sidePack2[tem['Posting Owner Name']]['gt_c'] = 0
+			if tem['Posting Owner Name'] not in deadlineCasesPack:
+				deadlineCasesPack[tem['Posting Owner Name']] = dict()
+				deadlineCasesPack[tem['Posting Owner Name']]['lte_c'] = 0
+				deadlineCasesPack[tem['Posting Owner Name']]['gt_c'] = 0
 			if tem['Ageing'] <= c:
-				sidePack2[tem['Posting Owner Name']]['lte_c'] += 1
+				deadlineCasesPack[tem['Posting Owner Name']]['lte_c'] += 1
 			else:
-				sidePack2[tem['Posting Owner Name']]['gt_c'] += 1
+				deadlineCasesPack[tem['Posting Owner Name']]['gt_c'] += 1
 
 
 			# The regular lower pack packing
-			lowerPack.append(tem)
+			candidateRecruiterTable.append(tem)
 
 		
-		if ro['Posting Owner Name'] not in sidePack:
+		if ro['Posting Owner Name'] not in averageDaysPack:
 			if ro['Days to move from first stage'] >= 0:
-				sidePack[ro['Posting Owner Name']] = [ro['Days to move from first stage']]
+				averageDaysPack[ro['Posting Owner Name']] = [ro['Days to move from first stage']]
 			else:
-				sidePack[ro['Posting Owner Name']] = [0]
+				averageDaysPack[ro['Posting Owner Name']] = [0]
 		else:
 			if ro['Days to move from first stage'] >= 0:
-				sidePack[ro['Posting Owner Name']].append(ro['Days to move from first stage'])
+				averageDaysPack[ro['Posting Owner Name']].append(ro['Days to move from first stage'])
 
 		if ro['Posting Owner Name'] not in test:
 			if ro['Days to move from first stage'] >= 0:
@@ -159,48 +170,48 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 			if ro['Days to move from first stage'] >= 0:
 				test[ro['Posting Owner Name']].append('https://hire.lever.co/candidates/'+ro['Profile ID'])
 
-	# Calculating average of all days in sidepack
-	sidePackFinal = list()
-	for k,v in sidePack.items():
+	# Calculating average of all days in averageDaysPack
+	averageDaysPackFinal = list()
+	for k,v in averageDaysPack.items():
 		avg = sum(v) / len(v)
 		t = dict()
 		t['Recruiter Name'] = k
 		t['Average Action Days'] = math.ceil(avg)
-		sidePackFinal.append(t)
+		averageDaysPackFinal.append(t)
 
-	sidePackFinal.sort(key=lambda a:a['Average Action Days'], reverse=True)
+	averageDaysPackFinal.sort(key=lambda a:a['Average Action Days'], reverse=True)
 
 	
-	sidePack2Final = list() # Making sidePack2 suitable to be consumed by frontend graph
+	deadlineCasesPackFinal = list() # Making deadlineCasesPack suitable to be consumed by frontend graph
 
-	sidePack2Final2 = list() # Making sidePack2 suitable for consumption by frontend TABLE
-	for k,v in sidePack2.items():
+	deadlineCasesPackFinalTable = list() # Making deadlineCasesPack suitable for consumption by frontend TABLE
+	for k,v in deadlineCasesPack.items():
 
 		# Making for graph
 		t = list()
 		t.append(k)
 		t.append(v['lte_c'])
 		t.append(v['gt_c'])
-		sidePack2Final.append(t)
+		deadlineCasesPackFinal.append(t)
 
 		# Making for table
 		t2 = dict()
 		t2['Recruiter Name'] = k
 		t2['lte_c'] = v['lte_c']
 		t2['gt_c'] = v['gt_c']
-		sidePack2Final2.append(t2)
+		deadlineCasesPackFinalTable.append(t2)
 
 	# Sorting it based on gt_c in descinding order
-	sidePack2Final2.sort(key=lambda a: a['gt_c'], reverse=True)
-	sidePack2Final.sort(key=lambda a: a[2], reverse=True)
+	deadlineCasesPackFinalTable.sort(key=lambda a: a['gt_c'], reverse=True)
+	deadlineCasesPackFinal.sort(key=lambda a: a[2], reverse=True)
 		
 
 
 
 	# Making a dict to be readable at Front end Tabulator
-	upperPackForTabulator = []
+	yearlyTableForTabulator = []
 
-	for key, value in upperPack.items():
+	for key, value in yearlyTable.items():
 		tempDict = {}
 		tempDict['Recruiter'] = key
 
@@ -218,11 +229,11 @@ def generateReferalDict(fromDate, toDate, originType, allowedOrigins):
 				tempDict[mon] = value[i]
 			i += 1
 
-		upperPackForTabulator.append(tempDict)
+		yearlyTableForTabulator.append(tempDict)
 
-	return jsonify({'low': lowerPack, 'up': upperPackForTabulator, 'side': sidePackFinal, "side2": sidePack2Final, "side2_table": sidePack2Final2, "test":test})
+	return jsonify({'low': candidateRecruiterTable, 'up': yearlyTableForTabulator, 'side': averageDaysPackFinal, "side2": deadlineCasesPackFinal, "side2_table": deadlineCasesPackFinalTable, "test":test})
 
-def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
+def generateArchivedDict(fromDate, toDate, originType, allowedOrigins):
 
 	if originType not in allowedOrigins:
 		return jsonify([])
@@ -248,9 +259,9 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
 				rows.append(row)
 
-	upperPack = dict()
-	lowerPack = list()
-	upperPackForTabulator = []
+	averageDaysPack = dict()
+	candidateRecruiterTable = list()
+	averageDaysPackForTabulator = []
 
 	for ro in rows:
 		if ro['Posting Archive Status'] == "true" and not isinstance(ro['Posting Owner Name'], datetime.date):
@@ -275,21 +286,19 @@ def generateReferalArchivedDict(fromDate, toDate, originType, allowedOrigins):
 			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + \
 				tem['Profile ID']
 
-			if tem['Posting Owner Name'] not in upperPack:
-				upperPack[tem['Posting Owner Name']] = [0] * 13
-				upperPack[tem['Posting Owner Name']
+			if tem['Posting Owner Name'] not in averageDaysPack:
+				averageDaysPack[tem['Posting Owner Name']] = [0] * 13
+				averageDaysPack[tem['Posting Owner Name']
 						  ][tem['Applied At (GMT)'].month] = 1
-				# for i in range(1,len(monthList) + 1):
-				#   upperPack[tem['Candidate Owner Name']][monthList[i]] = 0
 			else:
-				upperPack[tem['Posting Owner Name']
+				averageDaysPack[tem['Posting Owner Name']
 						  ][tem['Applied At (GMT)'].month] += 1
 
-			lowerPack.append(tem)
+			candidateRecruiterTable.append(tem)
 
-	return jsonify({'low': lowerPack, 'up': upperPackForTabulator})
+	return jsonify({'low': candidateRecruiterTable, 'up': averageDaysPackForTabulator})
 
-def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
+def generateOfferedDict(fromDate, toDate, originType, allowedOrigins):
 
 	if originType not in allowedOrigins:
 		return jsonify([])
@@ -315,9 +324,9 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
 				rows.append(row)
 
-	upperPack = dict()
-	lowerPack = list()
-	upperPackForTabulator = []
+	averageDaysPack = dict()
+	candidateRecruiterTable = list()
+	averageDaysPackForTabulator = []
 
 	for ro in rows:
 		if (ro['Current Stage'] == 'Offer' or ro['Current Stage'] == 'Offer Approval' or ro['Current Stage'] == 'Offer Approved') and not isinstance(ro['Posting Owner Name'], datetime.date):
@@ -354,17 +363,15 @@ def generateReferalOfferDict(fromDate, toDate, originType, allowedOrigins):
 			tem['ProfileLink'] = 'https://hire.lever.co/candidates/' + \
 				tem['Profile ID']
 
-			if tem['Posting Owner Name'] not in upperPack:
-				upperPack[tem['Posting Owner Name']] = [0] * 13
-				upperPack[tem['Posting Owner Name']
+			if tem['Posting Owner Name'] not in averageDaysPack:
+				averageDaysPack[tem['Posting Owner Name']] = [0] * 13
+				averageDaysPack[tem['Posting Owner Name']
 						  ][tem['Applied At (GMT)'].month] = 1
-				# for i in range(1,len(monthList) + 1):
-				#   upperPack[tem['Candidate Owner Name']][monthList[i]] = 0
 			else:
-				upperPack[tem['Posting Owner Name']
+				averageDaysPack[tem['Posting Owner Name']
 						  ][tem['Applied At (GMT)'].month] += 1
 
-			lowerPack.append(tem)
+			candidateRecruiterTable.append(tem)
 
-	return jsonify({'low': lowerPack, 'up': upperPackForTabulator})
+	return jsonify({'low': candidateRecruiterTable, 'up': averageDaysPackForTabulator})
 
