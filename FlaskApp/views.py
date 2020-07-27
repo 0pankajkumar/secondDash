@@ -60,11 +60,9 @@ def upload():
 		flushUploadsFolder()
 
 		f = request.files['file']
-		print(f.filename, secure_filename(f.filename))
 		file = documents.save(request.files['file'], name="dump.csv")
 
 		f2 = request.files['file2']
-		print(f2.filename, secure_filename(f2.filename))
 		file2 = documents.save(
 			request.files['file2'], name="JobPostingDump.csv")
 
