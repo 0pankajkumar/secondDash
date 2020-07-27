@@ -3,7 +3,6 @@ import flask
 from flask import request, jsonify, render_template, url_for, redirect, session
 from flask_session import Session
 from werkzeug import secure_filename
-from flask_uploads import UploadSet, IMAGES, configure_uploads, UploadNotAllowed
 from pymongo import MongoClient, CursorType, ASCENDING, DESCENDING
 import json, math
 from bson import json_util, ObjectId
@@ -45,12 +44,6 @@ app = Flask(__name__, static_url_path='',
 				  template_folder='/var/www/FlaskApp/FlaskApp/FlaskApp/templates')
 app.config["DEBUG"] = False
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
-
-
-# configure flask_upload API
-documents = UploadSet("documents", ('csv'))
-app.config["UPLOADED_DOCUMENTS_DEST"] = "/var/www/FlaskApp/FlaskApp/uploaded_csv"
-configure_uploads(app, documents)
 
 
 # Login stuffs

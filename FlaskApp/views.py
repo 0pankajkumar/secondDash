@@ -1,7 +1,7 @@
 from FlaskApp.FlaskApp import app
 from flask import request, jsonify, render_template, url_for, redirect, session
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
-from flask_uploads import UploadSet
+from flask_uploads import UploadSet, IMAGES, configure_uploads, UploadNotAllowed
 from pymongo import MongoClient, CursorType
 import datetime, time
 
@@ -28,6 +28,11 @@ approvedUsersCollection = database["ApprovedUsers"]
 
 # From new dup
 postingStatusCollection = database["jobPostingWiseDB"]
+
+# configure flask_upload API
+documents = UploadSet("documents", ('csv'))
+app.config["UPLOADED_DOCUMENTS_DEST"] = "/var/www/FlaskApp/FlaskApp/uploaded_csv"
+configure_uploads(app, documents)
 
 
 # Clearing caches
