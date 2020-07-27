@@ -68,9 +68,6 @@ def upload():
 		file2 = documents.save(
 			request.files['file2'], name="JobPostingDump.csv")
 
-		# f = request.files['file']
-		# f.save(secure_filename(f.filename))
-		# os.remove(app.config["UPLOADED_DOCUMENTS_DEST"] + "/" + str())
 		return redirect(url_for('uploadedSuccessfully'))
 
 
@@ -88,12 +85,12 @@ def updating():
 
 	# The database uploading method comes here
 	res = 'starting'
-	updateMongo()
-	# try:
-	#   updateMongo()
-	#   res = 'Database Successfully Updated'
-	# except:
-	#   res = 'Database update failed. Please contact admin'
+	# updateMongo()
+	try:
+	  updateMongo()
+	  res = 'Database Successfully Updated'
+	except:
+	  res = 'Database update failed. Please contact admin'
 	return res
 
 
