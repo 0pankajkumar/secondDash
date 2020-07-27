@@ -47,6 +47,11 @@ app.config["DEBUG"] = False
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
 
+# configure flask_upload API
+documents = UploadSet("documents", ('csv'))
+app.config["UPLOADED_DOCUMENTS_DEST"] = "/var/www/FlaskApp/FlaskApp/uploaded_csv"
+configure_uploads(app, documents)
+
 
 # Login stuffs
 
