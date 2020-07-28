@@ -190,7 +190,7 @@ def getPipelineTable():
 def getDropdownOptionsLiveRecruiter():
 	"""Returns dropdowns options as JSON for Live postings"""
 
-	liveBigDictPre = getDropdownOptionsLiveRecruiterHelper()
+	liveBigDict = getDropdownOptionsLiveRecruiterHelper()
 	return jsonify(liveBigDict)
 
 
@@ -199,7 +199,7 @@ def getDropdownOptionsLiveRecruiter():
 def getDropdownOptionsArchivedRecruiter():
 	"""Returns dropdowns options as JSON for Archived postings"""
 
-	archivedBigDictPre = getDropdownOptionsArchivedRecruiterHelper()
+	archivedBigDict = getDropdownOptionsArchivedRecruiterHelper()
 	return jsonify(archivedBigDict)
 
 
