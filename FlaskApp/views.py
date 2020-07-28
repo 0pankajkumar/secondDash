@@ -1,3 +1,5 @@
+"""All routes of the web app are here"""
+
 from FlaskApp.FlaskApp import app
 from flask import request, jsonify, render_template, url_for, redirect, session
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
@@ -5,7 +7,7 @@ from flask_uploads import UploadSet, IMAGES, configure_uploads, UploadNotAllowed
 from pymongo import MongoClient, CursorType
 import datetime, time
 
-# Imports modules
+# Importing modules
 from FlaskApp.FlaskApp.modules.update import *
 from FlaskApp.FlaskApp.modules.commonTools import *
 from FlaskApp.FlaskApp.modules.customFiltersTools import *
@@ -20,13 +22,13 @@ from FlaskApp.FlaskApp.modules.user import *
 client = MongoClient("mongodb://localhost:27017")
 database = client["local"]
 
-# DB links for ApprovedUsers collection
+# DB link for ApprovedUsers collection
 candidatesCollection = database["dolphinDB"]
 
-# DB links for ApprovedUsers collection
+# DB link for ApprovedUsers collection
 approvedUsersCollection = database["ApprovedUsers"]
 
-# From new dup
+# DB link for Posting status collection
 postingStatusCollection = database["jobPostingWiseDB"]
 
 # configure flask_upload API
@@ -35,9 +37,10 @@ app.config["UPLOADED_DOCUMENTS_DEST"] = "/var/www/FlaskApp/FlaskApp/uploaded_csv
 configure_uploads(app, documents)
 
 
-# Clearing caches
 @app.after_request
 def after_request(response):
+	"""Clearing caches"""
+
 	response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
 	response.headers["Expires"] = 0
 	response.headers["Pragma"] = "no-cache"
@@ -45,34 +48,38 @@ def after_request(response):
 
 @app.route('/privacy', methods=['GET'])
 def privacy():
+	"""privacy policy of web app usage"""
+
 	return render_template("privacyPolicy.html")
 
-
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/getUploadPage', methods=['GET'])
 @login_required
-def upload():
-	if request.method == 'GET':
-		if checkAdmin(current_user.id):
-			loginOption = True
-			teamOptions = False
-			if checkTeamMembership(current_user.id):
-				teamOptions = True
-			return render_template('uploader2.html', lastUpdated=getLastUpdatedTimestamp(), adminOptions=True, loginOption=loginOption, teamOptions=teamOptions, uploadHighlight="active")
-		else:
-			return render_template("unauthorized.html"), 403
-	elif request.method == 'POST':
+def getUploadPage():
+	if checkAdmin(current_user.id):
+		loginOption = True
+		teamOptions = False
+		if checkTeamMembership(current_user.id):
+			teamOptions = True
+		return render_template('uploader.html', lastUpdated=getLastUpdatedTimestamp(), adminOptions=True, loginOption=loginOption, teamOptions=teamOptions, uploadHighlight="active")
+	else:
+		return render_template("unauthorized.html"), 403
 
-		# Deleting everything in uploads folder
-		flushUploadsFolder()
 
-		f = request.files['file']
-		file = documents.save(request.files['file'], name="dump.csv")
+@app.route('/receiveUploadingData', methods=['POST'])
+@login_required
+def receiveUploadingData():
+	
+	# Deleting everything in uploads folder
+	flushUploadsFolder()
 
-		f2 = request.files['file2']
-		file2 = documents.save(
-			request.files['file2'], name="JobPostingDump.csv")
+	f = request.files['file']
+	file = documents.save(request.files['file'], name="dump.csv")
 
-		return redirect(url_for('uploadedSuccessfully'))
+	f2 = request.files['file2']
+	file2 = documents.save(
+		request.files['file2'], name="JobPostingDump.csv")
+
+	return redirect(url_for('uploadedSuccessfully'))
 
 
 @app.route('/uploadedSuccessfully', methods=['GET', 'POST'])
@@ -83,9 +90,9 @@ def uploadedSuccessfully():
 
 
 # This route gives status when it's uploading
-@app.route('/updating', methods=['GET', 'POST'])
+@app.route('/triggerUpdateOfDB', methods=['GET', 'POST'])
 @login_required
-def updating():
+def triggerUpdateOfDB():
 
 	# The database uploading method comes here
 	res = 'starting'
