@@ -1,5 +1,7 @@
 # The Talent Aquisition Team dashboard
 
+Documentation [is here](https://tatreports.directi.com/docs) 
+
 ## Views
 |Page|URL|Access|Purpose in life|
 |---|---|---|---|
