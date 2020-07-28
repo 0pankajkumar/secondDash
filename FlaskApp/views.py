@@ -233,6 +233,7 @@ def getDropdownOptionsLive():
 @app.route('/getDropdownOptionsArchived', methods=['GET'])
 @login_required
 def getDropdownOptionsArchived():
+	return []
 	archivedBigDict = dict()
 
 	rows = approvedUsersCollection.find({"users": current_user.id})
