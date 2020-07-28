@@ -354,7 +354,7 @@ def archivedPostings():
 		adminOptions = True
 	returnedDict = generateMainPageDropdowns()
 	customFilterNames = generateCustomFilterNames("archive")
-	return render_template('archivedPostings.html', activateDropdownsAndTable="yes", postingDepartment=[], postingArchiveStatus=[], profileArchiveStatus=[], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active", customFilterNames=customFilterNames)
+	return render_template('archivedPostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active", customFilterNames=customFilterNames)
 
 
 
