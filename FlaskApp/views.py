@@ -56,6 +56,8 @@ def privacy():
 @app.route('/getUploadPage', methods=['GET'])
 @login_required
 def getUploadPage():
+	"""Renders the upload page for the admin"""
+
 	if checkAdmin(current_user.id):
 		loginOption = True
 		teamOptions = False
@@ -69,6 +71,7 @@ def getUploadPage():
 @app.route('/receiveUploadingData', methods=['POST'])
 @login_required
 def receiveUploadingData():
+	"""Receives both files & stores in uploaded_csv folder"""
 	
 	# Deleting everything in uploads folder
 	flushUploadsFolder()
@@ -86,6 +89,8 @@ def receiveUploadingData():
 @app.route('/uploadedSuccessfully', methods=['GET', 'POST'])
 @login_required
 def uploadedSuccessfully():
+	"""Page rendered after upload files are provided by user"""
+
 	loginOption = True
 	return render_template("uploadedSuccessfully.html", lastUpdated=getLastUpdatedTimestamp(), loginOption=loginOption)
 
@@ -94,8 +99,8 @@ def uploadedSuccessfully():
 @app.route('/triggerUpdateOfDB', methods=['GET', 'POST'])
 @login_required
 def triggerUpdateOfDB():
+	"""The database updating process begins here"""
 
-	# The database uploading method comes here
 	res = 'starting'
 	# updateMongo()
 	try:
@@ -163,217 +168,44 @@ def elaborateHomepageCandidates():
 	return render_template('numbersElaboratedHomepageCandidates.html', candidates=candidateNames, lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active")
 
 
-@app.route('/getTable', methods=['POST'])
+@app.route('/getPipelineTable', methods=['POST'])
 @login_required
-def getTable():
+def getPipelineTable():
 	recruiter = request.form.get('recruiter')
 	postingTitle = request.form.getlist('postingTitle[]')
 	companyName = request.form.get('companyName')
 	postingTeam = request.form.get('postingTeam')
 	requestType = request.form.get('requestType')
-	print("PPPPosting title here ---- ", postingTitle)
-	# postingArchiveStatus = request.form.get('postingArchiveStatus')
 	profileArchiveStatus = request.form.get('profileArchiveStatus')
 	fromDate = request.form.get('from')
 	toDate = request.form.get('to')
 
-	results = getResults(postingTitle, companyName, postingTeam,
+	results = getPipelineTableData(postingTitle, companyName, postingTeam,
 						 profileArchiveStatus, fromDate, toDate, requestType, recruiter)
-	# results = getResults("Backend Engineer", "Flock", "Software Engineering", "All")
 	return jsonify(results)
 
 
-def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate, requestType, recruiter=None):
-	try:
-		fromDate = datetime.datetime.strptime(fromDate, '%d-%m-%Y')
-		toDate = datetime.datetime.strptime(toDate, '%d-%m-%Y')
-	except:
-		fromDate = datetime.datetime(2000, 1, 1)
-		toDate = datetime.datetime(2030, 1, 1)
-	ts = time.time()
-	rows = getFromDB(title, companyName, team, recruiter)
-	print('db: ' + str(time.time() - ts))
-	res = []
-	counts = dict()
+@app.route('/getDropdownOptionsLiveRecruiter', methods=['GET'])
+@login_required
+def getDropdownOptionsLiveRecruiter():
+	"""Returns dropdowns options as JSON for Live postings"""
 
-	# This variable will hold the live or archived status of all posting, yes all
-	live_or_archived_dict = get_live_or_archived_dict()
+	liveBigDictPre = getDropdownOptionsLiveRecruiterHelper()
+	return jsonify(liveBigDict)
 
-	# The restriction is there mark this flag
-	# We want to display only postings related to him/her if he/she is marked so
-	whichPositions = "all"
-	whichPositionsrows = approvedUsersCollection.find({"users": current_user.id})
-	for row in whichPositionsrows:
-		whichPositions = row["whichPositions"]
 
-	for item in rows:
-		# If that flag was marked check whether the email of
-		# ... signed in user is in "Posting Owners email id" or "Hiring mangers email id"
-		# ... if yes then only display otherwise skip (continue) the loop
-		if whichPositions == "respective":
-			if not (item["Posting Owner Email"] == current_user.id or item["Posting Hiring Manager Email"] == current_user.id):
-				continue
+@app.route('/getDropdownOptionsArchivedRecruiter', methods=['GET'])
+@login_required
+def getDropdownOptionsArchivedRecruiter():
+	"""Returns dropdowns options as JSON for Archived postings"""
 
-		if item['Posting ID'] in live_or_archived_dict:
-			if requestType == "live":
-				if not (live_or_archived_dict[item['Posting ID']] == "active"):
-					continue
-			if requestType == "archived":
-				if not (live_or_archived_dict[item['Posting ID']] == "closed"):
-					continue
-		else:
-			continue
-
-		if '(I)' in item['Posting Title']:
-			continue
-
-		if item['Posting Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
-			continue
-
-		if 'postingCreatedDate' in item:
-			dateForLabel = f"{str(item['postingCreatedDate'].strftime('%b'))} {str(item['postingCreatedDate'].strftime('%Y'))}, "
-			# dateForLabel = str(item['postingCreatedDate'].strftime('%b')) + " " + str(item['postingCreatedDate'].strftime('%Y'))
-			dateForLabel += str(item['Actual Posting Owner Name'])
-		else:
-			dateForLabel = f" $ "
-			dateForLabel += str(item['Actual Posting Owner Name'])
-		postId = str(item['Posting Title']) + ", " + \
-			str(item['Posting Location']) + ", " + dateForLabel
-		postIdHash = item['Posting ID']
-
-		origin = item['Origin']
-		if not postId in counts:
-			counts[postId] = dict()
-		if not origin in counts[postId]:
-			counts[postId][origin] = dict()
-			counts[postId][origin]['new_lead'] = 0
-			counts[postId][origin]['reached_out'] = 0
-			counts[postId][origin]['new_applicant'] = 0
-			counts[postId][origin]['recruiter_screen'] = 0
-			counts[postId][origin]['phone_interview'] = 0
-			counts[postId][origin]['onsite_interview'] = 0
-			counts[postId][origin]['offer'] = 0
-			counts[postId][origin]['offerApproval'] = 0
-			counts[postId][origin]['hired'] = 0
-			counts[postId][origin]['posting_id'] = postIdHash
-
-			# var for % counts
-			counts[postId][origin]['phone_To_Onsite'] = 0
-			counts[postId][origin]['phone_To_Offer'] = 0
-			counts[postId][origin]['onsite_To_Offer'] = 0
-
-		originCounts = counts[postId][origin]
-
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "New lead":
-			originCounts['new_lead'] += 1
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Reached out":
-			originCounts['reached_out'] += 1
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "New applicant":
-			originCounts['new_applicant'] += 1
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Recruiter screen":
-			originCounts['recruiter_screen'] += 1
-
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Phone interview":
-			originCounts['phone_interview'] += 1
-			# Counting for % conversion
-			if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
-				originCounts['phone_To_Onsite'] += 1
-			if 'Stage - Offer' in item and item['Stage - Offer'] != None:
-				originCounts['phone_To_Offer'] += 1
-
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "On-site interview":
-			originCounts['onsite_interview'] += 1
-			# Counting for % conversion
-			if 'Stage - Offer' in item and item['Stage - Offer'] != None:
-				originCounts['onsite_To_Offer'] += 1
-
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Offer":
-			originCounts['offer'] += 1
-
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Offer Approval":
-			originCounts['offer'] += 1
-
-		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Offer Approved":
-			originCounts['offer'] += 1
-
-		if item['Hired'] >= fromDate and item['Hired'] <= toDate:
-			originCounts['hired'] += 1
-
-	for postId in counts:
-		res.append(actualPostId(postId, counts[postId]))
-
-	# Adding a total row for each posting so that we can utilize grand total
-	wereTheyAllZeros = getTotalForEachPosting(res)
-
-	print('total: ' + str(time.time() - ts))
-
-	# If they are all zeros return blank else return all the complete result
-	if wereTheyAllZeros:
-		return []
-	else:
-		return res
-
+	archivedBigDictPre = getDropdownOptionsArchivedRecruiterHelper()
+	return jsonify(archivedBigDict)
 
 
 @app.route('/getDropdownOptionsLive', methods=['GET'])
 @login_required
 def getDropdownOptionsLive():
-	liveBigDictPre = dict()
-
-	rows = approvedUsersCollection.find({"users": current_user.id})
-	for row in rows:
-		companiesAllowed = row["companiesActuallyAllowed"]
-
-	rows = postingStatusCollection.find(
-		{"Posting Department": {"$in": companiesAllowed}, "Status": "active"})
-
-	for row in rows:
-		if row['Posting Department'] not in companiesAllowed:
-			print("Continuing as Posting Department not in companiesAllowed")
-			continue
-		if row['Status'] != "active":
-			continue
-		if '(I)' in row['Posting Title']:
-			continue
-
-		# Making a big data structure for all dropdowns in front end
-		makeDropdownOptions(
-			liveBigDictPre, row['Posting Owner'], row['Posting Department'], row['Posting Team'], row['Posting Title'])
-		liveBigDict = prepareDropdownOptionsSending(liveBigDictPre)
-	return jsonify(liveBigDict)
-
-
-@app.route('/getDropdownOptionsArchived', methods=['GET'])
-@login_required
-def getDropdownOptionsArchived():
-	archivedBigDictPre = dict()
-
-	rows = approvedUsersCollection.find({"users": current_user.id})
-	for row in rows:
-		companiesAllowed = row["companiesActuallyAllowed"]
-
-	rows = postingStatusCollection.find(
-		{"Posting Department": {"$in": companiesAllowed}, "Status": "closed"})
-
-	for row in rows:
-		if row['Posting Department'] not in companiesAllowed:
-			print("Continuing as Posting Department not in companiesAllowed")
-			continue
-		if row['Status'] != "closed":
-			continue
-		if '(I)' in row['Posting Title']:
-			continue
-
-		# Making a big data structure for all dropdowns in front end
-		makeDropdownOptions(archivedBigDictPre, row['Posting Owner'],
-							row['Posting Department'], row['Posting Team'], row['Posting Title'])
-		archivedBigDict = prepareDropdownOptionsSending(archivedBigDictPre)
-	return jsonify(archivedBigDict)
-
-
-@app.route('/getBigDictLive', methods=['GET'])
-@login_required
-def getBigDictLive():
 	liveBigDict = dict()
 
 	rows = approvedUsersCollection.find({"users": current_user.id})
@@ -398,9 +230,9 @@ def getBigDictLive():
 	return jsonify(liveBigDict)
 
 
-@app.route('/getBigDictArchived', methods=['GET'])
+@app.route('/getDropdownOptionsArchived', methods=['GET'])
 @login_required
-def getBigDictArchived():
+def getDropdownOptionsArchived():
 	archivedBigDict = dict()
 
 	rows = approvedUsersCollection.find({"users": current_user.id})
@@ -423,29 +255,6 @@ def getBigDictArchived():
 		makeBigDict(archivedBigDict, row['Posting Department'],
 					row['Posting Team'], row['Posting Title'])
 	return jsonify(archivedBigDict)
-
-
-@app.route('/getBigDict', methods=['GET'])
-@login_required
-def getBigDict():
-	bigDict = dict()
-
-	rows = approvedUsersCollection.find({"users": current_user.id})
-	for row in rows:
-		companiesAllowed = row["companiesActuallyAllowed"]
-
-	rows = candidatesCollection.find({"Posting Department": {
-						   "$in": companiesAllowed}}, cursor_type=CursorType.EXHAUST)
-
-	for row in rows:
-		if row['Posting Department'] not in companiesAllowed:
-			continue
-
-		# Making a big data structure for all dropdowns in front end
-		makeBigDict(bigDict, row['Posting Department'],
-					row['Posting Team'], row['Posting Title'])
-	return jsonify(bigDict)
-
 
 
 @app.route('/customFilters', methods=['POST'])

@@ -22,7 +22,7 @@ $(document).ready(function() {
     $.ajax({
         type: "GET",
         cache: true,
-        url: "/getBigDictLive",
+        url: "/getDropdownOptionsLive",
         data: "", //ajax parameters
         success: function(result) {
             myNestedVals = result;
@@ -129,7 +129,7 @@ $("#sendForTable").on("click", function(e) {
     $.ajax({
         type: "POST",
         cache: false,
-        url: "/getTable",
+        url: "/getPipelineTable",
         data: {
             companyName: document.getElementById("ddl1").value,
             postingTeam: document.getElementById("ddl2").value,
@@ -347,7 +347,7 @@ $("#sendForFunnel").on("click", function(e) {
     $.ajax({
         type: "POST",
         cache: false,
-        url: "/getTable",
+        url: "/getPipelineTable",
         data: {
             companyName: document.getElementById("ddl1").value,
             postingTeam: document.getElementById("ddl2").value,

@@ -20,7 +20,7 @@ approvedUsersCollection = database["ApprovedUsers"]
 postingStatusCollection = database["jobPostingWiseDB"]
 
 
-def getResults(title, companyName, team, profileArchiveStatus, fromDate, toDate, requestType, recruiter=None):
+def getPipelineTableData(title, companyName, team, profileArchiveStatus, fromDate, toDate, requestType, recruiter=None):
 	"""
 	Generates the number of candidates in each Posting 
 	classified further into Origin & various Stages

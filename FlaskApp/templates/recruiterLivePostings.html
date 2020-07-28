@@ -34,7 +34,7 @@
     $.ajax({
       type: "GET",
       cache: true,
-      url: "/getDropdownOptionsLive",
+      url: "/getDropdownOptionsLiveRecruiter",
       data: "", //ajax parameters
       success: function(result) {
         myNestedVals = result;
@@ -279,7 +279,7 @@
     $.ajax({
       type: "POST",
       cache: false,
-      url: "/getTable",
+      url: "/getPipelineTable",
       data: {
         companyName: document.getElementById("ddl1").value,
         postingTeam: document.getElementById("ddl2").value,
@@ -496,7 +496,7 @@
     $.ajax({
       type: "POST",
       cache: false,
-      url: "/getTable",
+      url: "/getPipelineTable",
       data: {
         companyName: document.getElementById("ddl1").value,
         postingTeam: document.getElementById("ddl2").value,
