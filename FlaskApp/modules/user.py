@@ -64,3 +64,37 @@ def fetchUsers(usersList):
         else:
             usersDict['whichPositions'] = "Not defined"
         usersList.append(usersDict)
+
+def addUserHelper(addThisUser, makeAdmin, positionFilter, tatmember, companiesToBeAllowed):
+    """Helps in adding user to the club"""
+
+    if makeAdmin == "Admin":
+        if tatMember == "Nope":
+            approvedUsersCollection.insert_one({"users": addThisUser, "type": "admin", "tatMember": "Nope",
+                                    "companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
+        elif tatMember == "Yeah":
+            approvedUsersCollection.insert_one({"users": addThisUser, "type": "admin", "tatMember": "Yeah",
+                                    "companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
+    else:
+        if tatMember == "Nope":
+            approvedUsersCollection.insert_one({"users": addThisUser, "type": "regular", "tatMember": "Nope",
+                                    "companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
+        elif tatMember == "Yeah":
+            approvedUsersCollection.insert_one({"users": addThisUser, "type": "regular", "tatMember": "Yeah",
+                                    "companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
+
+def deleteUserHelper(deleteThisUser):
+    """Helps in deleting user from the club"""
+
+    approvedUsersCollection.delete_many({"users": deleteThisUser})
+    print(f"Deleted {deleteThisUser}")
+
+def modifyUserHelper(modifyThisUser, hisType, hisTatMember, hisWhichPositions):
+    """Helps in modifying user details in the club"""
+
+    approvedUsersCollection.update({"users": modifyThisUser}, {"$set": {
+        "type": hisType,
+        "tatMember": hisTatMember,
+        "whichPositions": hisWhichPositions
+    }
+    })

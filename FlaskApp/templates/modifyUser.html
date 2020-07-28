@@ -133,7 +133,7 @@
             <h2>Add People</h2>
             <p>Include people inside the club</p>
         </div>
-        <form action="/modifyUser" method="post">
+        <form action="/addDeleteModifyUser" method="post">
             <div class="row">
                 <div class="col-25">
                     <label for="fname">Email ID</label>
@@ -304,7 +304,7 @@
                 $(this).closest('tr').remove();
                 
                 // delete record only once user has confirmed
-                $.post('/modifyUser', data, function (res) {
+                $.post('/addDeleteModifyUser', data, function (res) {
                     
                     // we want to delete the table row only we received a response back saying that it worked
                     if (res.status) {
@@ -336,7 +336,7 @@
 
 
             // modify record
-            $.post('/modifyUser', data, function (res) {
+            $.post('/addDeleteModifyUser', data, function (res) {
                 // we want to delete the table row only we received a response back saying that it worked
                 if (res.status) {
                 }

@@ -142,6 +142,9 @@ def elaborateTeamReportsNewApplicants():
 @app.route('/elaborateHomepageCandidates', methods=['GET'])
 @login_required
 def elaborateHomepageCandidates():
+	"""Gives the name & profile link of candidate in pages like /livePostings /archivePostings
+	"""
+
 	postingId = request.args.get('postingId')
 	origin = request.args.get('origin')
 	stage = request.args.get('stage')
@@ -171,6 +174,8 @@ def elaborateHomepageCandidates():
 @app.route('/getPipelineTable', methods=['POST'])
 @login_required
 def getPipelineTable():
+	"""Gives JSON for displaying data in tables of /livePostings /archivePostings etc"""
+
 	recruiter = request.form.get('recruiter')
 	postingTitle = request.form.getlist('postingTitle[]')
 	companyName = request.form.get('companyName')
@@ -206,6 +211,8 @@ def getDropdownOptionsArchivedRecruiter():
 @app.route('/getDropdownOptionsLive', methods=['GET'])
 @login_required
 def getDropdownOptionsLive():
+	"""Gives all postings which are live for dropdowns"""
+
 	liveBigDict = dict()
 
 	rows = approvedUsersCollection.find({"users": current_user.id})
@@ -233,6 +240,8 @@ def getDropdownOptionsLive():
 @app.route('/getDropdownOptionsArchived', methods=['GET'])
 @login_required
 def getDropdownOptionsArchived():
+	"""Gives all postings which are archived for dropdowns"""
+
 	archivedBigDict = dict()
 
 	rows = approvedUsersCollection.find({"users": current_user.id})
@@ -259,6 +268,7 @@ def getDropdownOptionsArchived():
 @app.route('/archivedPostings', methods=['GET'])
 @login_required
 def archivedPostings():
+	"""Renders the archive posting page"""
 
 	adminOptions = False
 	loginOption = True
@@ -276,6 +286,8 @@ def archivedPostings():
 @app.route('/livePostings', methods=['GET'])
 @login_required
 def livePostings():
+	"""Renders the live posting page"""
+
 	adminOptions = False
 	loginOption = True
 	teamOptions = False
@@ -291,6 +303,7 @@ def livePostings():
 @app.route('/recruiterArchivedPostings', methods=['GET'])
 @login_required
 def recruiterArchivedPostings():
+	"""Renders the archive posting page with recruiter filter option"""
 
 	adminOptions = False
 	loginOption = True
@@ -307,6 +320,7 @@ def recruiterArchivedPostings():
 @app.route('/recruiterLivePostings', methods=['GET'])
 @login_required
 def recruiterLivePostings():
+	"""Renders the live posting page with recruiter filter option"""
 
 	adminOptions = False
 	loginOption = True
@@ -323,154 +337,146 @@ def recruiterLivePostings():
 @app.route('/customFilters', methods=['POST'])
 @login_required
 def customFilters():
-	if request.method == "POST":
-		filterName = request.form.get('filterName') 
-		pageType = request.form.get('pageType')
-		recruiter = request.form.get('recruiter')
-		postingTitle = request.form.getlist('postingTitle[]')
-		companyName = request.form.get('companyName')
-		postingTeam = request.form.get('postingTeam')
-		requestType = request.form.get('requestType')
-		# postingArchiveStatus = request.form.get('postingArchiveStatus')
-		profileArchiveStatus = request.form.get('profileArchiveStatus')
-		fromDate = request.form.get('from')
-		toDate = request.form.get('to')
-		usernamesToBeSharedWith = request.form.getlist('usernamesToBeSharedWith[]')
+	"""Manages custom filters for faster dropdown option selection"""
 
-		if requestType == "save":
-			oneUser = current_user.id
-			msg = saveCustomFilter(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
-			return msg
+	filterName = request.form.get('filterName') 
+	pageType = request.form.get('pageType')
+	recruiter = request.form.get('recruiter')
+	postingTitle = request.form.getlist('postingTitle[]')
+	companyName = request.form.get('companyName')
+	postingTeam = request.form.get('postingTeam')
+	requestType = request.form.get('requestType')
+	# postingArchiveStatus = request.form.get('postingArchiveStatus')
+	profileArchiveStatus = request.form.get('profileArchiveStatus')
+	fromDate = request.form.get('from')
+	toDate = request.form.get('to')
+	usernamesToBeSharedWith = request.form.getlist('usernamesToBeSharedWith[]')
 
-		if requestType == "getThoseOptions":
-			return getThoseParticularOptions(filterName, pageType)
+	if requestType == "save":
+		oneUser = current_user.id
+		msg = saveCustomFilter(oneUser, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+		return msg
 
-		if requestType == "delete":
-			return deleteThisParticularFilter(filterName)
+	if requestType == "getThoseOptions":
+		return getThoseParticularOptions(filterName, pageType)
 
-		if requestType == "getAllUsernameForSharing":
-			return getAllUsernameForSharing()
+	if requestType == "delete":
+		return deleteThisParticularFilter(filterName)
 
-		if requestType == "shareToThesePeople":
-			return shareToThesePeople(usernamesToBeSharedWith, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
+	if requestType == "getAllUsernameForSharing":
+		return getAllUsernameForSharing()
 
-
-
+	if requestType == "shareToThesePeople":
+		return shareToThesePeople(usernamesToBeSharedWith, filterName, pageType, recruiter, postingTitle, companyName, postingTeam, requestType, profileArchiveStatus, fromDate, toDate)
 
 
+@app.route('/getTeamReportsPage', methods=['GET', 'POST'])
+@login_required
+def getTeamReportsPage():
+	"""Renders Team reports page (project MARVEL)"""
+
+	teamOptions = False
+
+	if checkTeamMembership(current_user.id):
+		# Do all
+		adminOptions = False
+		loginOption = True
+		teamOptions = True
+
+		if checkAdmin(current_user.id):
+			adminOptions = True
+		return render_template('teamPage.html', lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, teamHighlight="active")
+	else:
+		return render_template("unauthorized.html"), 403
 
 
-@app.route('/team', methods=['GET', 'POST'])
+@app.route('/team', methods=['POST'])
 @login_required
 def team():
-	if request.method == "GET":
+	"""Returns JSON data to show various tabs in team reports page (project MARVEL)"""
 
-		teamOptions = False
+	fromDate = request.form.get('fromDate')
+	toDate = request.form.get('toDate')
+	requestType = request.form.get('requestType')
+	originType = request.form.get('origin')
 
-		if checkTeamMembership(current_user.id):
-			# Do all
-			adminOptions = False
-			loginOption = True
-			teamOptions = True
+	allowedOrigins = ["referred", "agency", "applied", "sourced"]
 
-			if checkAdmin(current_user.id):
-				adminOptions = True
-			return render_template('teamPage.html', lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, teamHighlight="active")
-		else:
-			return render_template("unauthorized.html"), 403
+	if requestType == "InNewApplicantStage":
+		returnedDict = generateNewApplicantDict(
+			fromDate, toDate, originType, allowedOrigins)
 
-	# Return json data
-	if request.method == "POST":
-		fromDate = request.form.get('fromDate')
-		toDate = request.form.get('toDate')
-		requestType = request.form.get('requestType')
-		originType = request.form.get('origin')
+	if requestType == "applicationToArchive":
+		returnedDict = generateArchivedDict(
+			fromDate, toDate, originType, allowedOrigins)
 
-		allowedOrigins = ["referred", "agency", "applied", "sourced"]
+	if requestType == "applicationToOffer":
+		returnedDict = generateOfferedDict(
+			fromDate, toDate, originType, allowedOrigins)
 
-		if requestType == "InNewApplicantStage":
-			returnedDict = generateNewApplicantDict(
-				fromDate, toDate, originType, allowedOrigins)
-
-		if requestType == "applicationToArchive":
-			returnedDict = generateArchivedDict(
-				fromDate, toDate, originType, allowedOrigins)
-
-		if requestType == "applicationToOffer":
-			returnedDict = generateOfferedDict(
-				fromDate, toDate, originType, allowedOrigins)
-
-		return returnedDict
+	return returnedDict
 
 
 
-
-
-@app.route("/modifyUser", methods=['GET', 'POST'])
+@app.route("/getUserManagementPanel", methods=['GET'])
 @login_required
-def modifyUser():
+def getUserManagementPanel():
+	"""Renders the User management panel"""
 
 	# Fetch users
 	usersList = list()
 	fetchUsers(usersList)
 
-	print(f"Got current user iD , yeahhh!!! {current_user.id}")
+	print(f"Got current user iD for saving >> {current_user.id}")
 	loginOption = True
 	teamOptions = False
 
-	if request.method == "GET":
-		if checkTeamMembership(current_user.id):
-			teamOptions = True
+	if checkTeamMembership(current_user.id):
+		teamOptions = True
 
-		if checkAdmin(current_user.id):
-			return render_template("modifyUser.html", usersList=usersList, lastUpdated=getLastUpdatedTimestamp(), adminOptions=True, loginOption=loginOption, teamOptions=teamOptions, modifyUserHighlight="active")
-		else:
-			return render_template("unauthorized.html"), 403
+	if checkAdmin(current_user.id):
+		return render_template("modifyUser.html", usersList=usersList, lastUpdated=getLastUpdatedTimestamp(), adminOptions=True, loginOption=loginOption, teamOptions=teamOptions, modifyUserHighlight="active")
+	else:
+		return render_template("unauthorized.html"), 403
 
-	if request.method == "POST":
-		# Do the insertion stuff
-		if request.form.get('actionType') == "addUser":
-			addThisUser = request.form.get('emailID')
-			makeAdmin = request.form.get('typeOfUser')
-			positionFilter = request.form.get('positionFilter')
-			tatMember = request.form.get('tatmember')
-			companiesToBeAllowed = request.form.getlist('companiesToBeAllowed')
 
-			if makeAdmin == "Admin":
-				if tatMember == "Nope":
-					approvedUsersCollection.insert_one({"users": addThisUser, "type": "admin", "tatMember": "Nope",
-											"companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
-				elif tatMember == "Yeah":
-					approvedUsersCollection.insert_one({"users": addThisUser, "type": "admin", "tatMember": "Yeah",
-											"companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
-			else:
-				if tatMember == "Nope":
-					approvedUsersCollection.insert_one({"users": addThisUser, "type": "regular", "tatMember": "Nope",
-											"companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
-				elif tatMember == "Yeah":
-					approvedUsersCollection.insert_one({"users": addThisUser, "type": "regular", "tatMember": "Yeah",
-											"companiesActuallyAllowed": companiesToBeAllowed, "whichPositions": positionFilter})
-			return redirect(url_for('modifyUser'))
+@app.route("/addDeleteModifyUser", methods=['POST'])
+@login_required
+def addDeleteModifyUser():
+	"""Supports add, delete & modify operation in the User DB from User Management panel"""
 
-		if request.form.get('actionType') == "deleteUser":
-			deleteThisUser = request.form.get('users')
-			approvedUsersCollection.delete_many({"users": deleteThisUser})
-			print(f"Deleted {deleteThisUser}")
+	# Fetch users
+	usersList = list()
+	fetchUsers(usersList)
 
-		if request.form.get('actionType') == "modifyUser":
-			modifyThisUser = request.form.get('users')
-			hisType = request.form.get('typeData')
-			hisTatMember = request.form.get('tatMemberData')
-			hisWhichPositions = request.form.get('whichPositionsData')
+	print(f"Got current user iD for saving >> {current_user.id}")
+	loginOption = True
+	teamOptions = False
 
-			approvedUsersCollection.update({"users": modifyThisUser}, {"$set": {
-				"type": hisType,
-				"tatMember": hisTatMember,
-				"whichPositions": hisWhichPositions
-			}
-			})
+	# Do the insertion stuff
+	if request.form.get('actionType') == "addUser":
+		addThisUser = request.form.get('emailID')
+		makeAdmin = request.form.get('typeOfUser')
+		positionFilter = request.form.get('positionFilter')
+		tatMember = request.form.get('tatmember')
+		companiesToBeAllowed = request.form.getlist('companiesToBeAllowed')
 
-		return render_template("modifyUser.html", usersList=usersList, lastUpdated=getLastUpdatedTimestamp(), loginOption=loginOption)
+		addUserHelper(addThisUser, makeAdmin, positionFilter, tatmember, companiesToBeAllowed)
+		return redirect(url_for('modifyUser'))
+
+	if request.form.get('actionType') == "deleteUser":
+		deleteThisUser = request.form.get('users')
+		deleteUserHelper(deleteThisUser)
+
+	if request.form.get('actionType') == "modifyUser":
+		modifyThisUser = request.form.get('users')
+		hisType = request.form.get('typeData')
+		hisTatMember = request.form.get('tatMemberData')
+		hisWhichPositions = request.form.get('whichPositionsData')
+
+		modifyUserHelper(modifyThisUser, hisType, hisTatMember, hisWhichPositions)
+
+	return render_template("modifyUser.html", usersList=usersList, lastUpdated=getLastUpdatedTimestamp(), loginOption=loginOption)
 
 
 @app.route("/docs", methods=['GET'])
@@ -482,30 +488,40 @@ def docs():
 		else:
 			return render_template("unauthorized.html"), 403
 
-# Feedback & bug central
+
 @app.route('/bugs')
 def filefeaturebugs():
+	"""Capturing Feedback"""
+
 	return redirect("https://docs.google.com/forms/d/e/1FAIpQLSetmFiudVkH9Ek60ZgiIpu06DCzSqqZaWcaKaFmPOyuz1OQKw/viewform", code=302)
 
 
 @app.route('/bugscentral')
 def featurebugscentral():
+	"""Reporting bugs"""
+
 	return redirect("https://docs.google.com/spreadsheets/d/1L2Kmaq5r5YvzOErQqrefd60fJG3ko4CzpOXhUOU7Nns/edit#gid=280194824", code=302)
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-	# note that we set the 404 status explicitly
+	"""Setting the 404 page explicitly"""
+
 	return render_template('404.html'), 404
 
 
 @app.route("/")
 def index():
+	"""Home page route
+
+	By default shows /livePostings route if user is already logged in
+	Otherwise takes him to login page
+	"""
+
 	if current_user.is_authenticated:
 		return redirect(url_for('livePostings'))
 
 	else:
-		# return '<a class="button" href="/login">Google Login</a>'
 		loginOption = False
 		return render_template("login.html", loginOption=loginOption)
 
