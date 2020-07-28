@@ -233,7 +233,6 @@ def getDropdownOptionsLive():
 @app.route('/getDropdownOptionsArchived', methods=['GET'])
 @login_required
 def getDropdownOptionsArchived():
-	return []
 	archivedBigDict = dict()
 
 	rows = approvedUsersCollection.find({"users": current_user.id})
@@ -256,6 +255,69 @@ def getDropdownOptionsArchived():
 		makeBigDict(archivedBigDict, row['Posting Department'],
 					row['Posting Team'], row['Posting Title'])
 	return jsonify(archivedBigDict)
+
+@app.route('/archivedPostings', methods=['GET'])
+@login_required
+def archivedPostings():
+
+	adminOptions = False
+	loginOption = True
+	teamOptions = False
+	if checkTeamMembership(current_user.id):
+		teamOptions = True
+	if checkAdmin(current_user.id):
+		adminOptions = True
+	returnedDict = generateMainPageDropdowns()
+	customFilterNames = generateCustomFilterNames("archive")
+	return render_template('archivedPostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active", customFilterNames=customFilterNames)
+
+
+
+@app.route('/livePostings', methods=['GET'])
+@login_required
+def livePostings():
+	adminOptions = False
+	loginOption = True
+	teamOptions = False
+	if checkTeamMembership(current_user.id):
+		teamOptions = True
+	if checkAdmin(current_user.id):
+		adminOptions = True
+	returnedDict = generateMainPageDropdowns()
+	customFilterNames = generateCustomFilterNames("live")
+	return render_template('livePostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active", customFilterNames=customFilterNames)
+
+
+@app.route('/recruiterArchivedPostings', methods=['GET'])
+@login_required
+def recruiterArchivedPostings():
+
+	adminOptions = False
+	loginOption = True
+	teamOptions = False
+	if checkTeamMembership(current_user.id):
+		teamOptions = True
+	if checkAdmin(current_user.id):
+		adminOptions = True
+	returnedDict = generateMainPageDropdownsRecruiter('closed')
+	customFilterNames = generateCustomFilterNames("archive")
+	return render_template('recruiterArchivedPostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active", customFilterNames=customFilterNames)
+
+
+@app.route('/recruiterLivePostings', methods=['GET'])
+@login_required
+def recruiterLivePostings():
+
+	adminOptions = False
+	loginOption = True
+	teamOptions = False
+	if checkTeamMembership(current_user.id):
+		teamOptions = True
+	if checkAdmin(current_user.id):
+		adminOptions = True
+	returnedDict = generateMainPageDropdownsRecruiter('active')
+	customFilterNames = generateCustomFilterNames("live")
+	return render_template('recruiterLivePostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active", customFilterNames=customFilterNames)
 
 
 @app.route('/customFilters', methods=['POST'])
@@ -342,68 +404,6 @@ def team():
 
 
 
-@app.route('/archivedPostings', methods=['GET'])
-@login_required
-def archivedPostings():
-
-	adminOptions = False
-	loginOption = True
-	teamOptions = False
-	if checkTeamMembership(current_user.id):
-		teamOptions = True
-	if checkAdmin(current_user.id):
-		adminOptions = True
-	returnedDict = generateMainPageDropdowns()
-	customFilterNames = generateCustomFilterNames("archive")
-	return render_template('archivedPostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active", customFilterNames=customFilterNames)
-
-
-
-@app.route('/livePostings', methods=['GET'])
-@login_required
-def livePostings():
-	adminOptions = False
-	loginOption = True
-	teamOptions = False
-	if checkTeamMembership(current_user.id):
-		teamOptions = True
-	if checkAdmin(current_user.id):
-		adminOptions = True
-	returnedDict = generateMainPageDropdowns()
-	customFilterNames = generateCustomFilterNames("live")
-	return render_template('livePostings.html', activateDropdownsAndTable="yes", postingDepartment=returnedDict['postingDepartment'], postingArchiveStatus=returnedDict['postingArchiveStatus'], profileArchiveStatus=returnedDict['profileArchiveStatus'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active", customFilterNames=customFilterNames)
-
-
-@app.route('/recruiterArchivedPostings', methods=['GET'])
-@login_required
-def recruiterArchivedPostings():
-
-	adminOptions = False
-	loginOption = True
-	teamOptions = False
-	if checkTeamMembership(current_user.id):
-		teamOptions = True
-	if checkAdmin(current_user.id):
-		adminOptions = True
-	returnedDict = generateMainPageDropdownsRecruiter('closed')
-	customFilterNames = generateCustomFilterNames("archive")
-	return render_template('recruiterArchivedPostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, archivedPostingHighlight="active", customFilterNames=customFilterNames)
-
-
-@app.route('/recruiterLivePostings', methods=['GET'])
-@login_required
-def recruiterLivePostings():
-
-	adminOptions = False
-	loginOption = True
-	teamOptions = False
-	if checkTeamMembership(current_user.id):
-		teamOptions = True
-	if checkAdmin(current_user.id):
-		adminOptions = True
-	returnedDict = generateMainPageDropdownsRecruiter('active')
-	customFilterNames = generateCustomFilterNames("live")
-	return render_template('recruiterLivePostings.html', activateDropdownsAndTable="yes", activateRecruiterDropdown="yes", postingOwner=returnedDict['postingOwner'], lastUpdated=getLastUpdatedTimestamp(), adminOptions=adminOptions, loginOption=loginOption, teamOptions=teamOptions, livePostingHighlight="active", customFilterNames=customFilterNames)
 
 
 @app.route("/modifyUser", methods=['GET', 'POST'])
