@@ -1,0 +1,108 @@
+        /* For dropdown */
+        .custom-combobox {
+            position: relative;
+            display: inline-block;
+        }
+
+        .custom-combobox-toggle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin-left: -1px;
+            padding: 0;
+        }
+
+        .custom-combobox-input {
+            margin: 0;
+            padding: 5px 10px;
+        }
+
+
+        /* dropdown in menus use this */
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          z-index: 1;
+        }
+        .dropdown-content a {
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+          text-align: left;
+        }
+
+        .dropdown-content a:hover {background-color: #f1f1f1;}
+
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
+
+  .dropdown-subcontent {
+    top: 0px;
+    left: 100%;
+    margin-top: -60px;
+    margin-left: -1px;
+    display: none;
+  }
+
+  .dropdown-submenu:hover+.dropdown-subcontent {
+    display: block;
+    float: right;
+  }
+  </style>
+    <!-- /* dropdown for menu ends here */ -->
+    <!-- /* Icons here */ -->
+    <script src="https://use.fontawesome.com/39a9c22f68.js"></script>
+    <style>
+        .tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+
+
+}
+
+.tooltip .tooltiptextCustomFilter {
+  visibility: hidden;
+  width: 120px;
+  background-color: #808080;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+
+
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+.tooltip:hover .tooltiptextCustomFilter {
+  visibility: visible;
+}
