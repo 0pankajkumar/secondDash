@@ -70,6 +70,7 @@ def getPipelineTableData(title, companyName, team, profileArchiveStatus, fromDat
 		if item['Posting Archive Status'] != profileArchiveStatus and profileArchiveStatus != 'All' and profileArchiveStatus != 'Both':
 			continue
 
+		# Making custom string for Posting title 
 		if 'postingCreatedDate' in item:
 			dateForLabel = f"{str(item['postingCreatedDate'].strftime('%b'))} {str(item['postingCreatedDate'].strftime('%Y'))}, "
 			dateForLabel += str(item['Actual Posting Owner Name'])
@@ -84,6 +85,8 @@ def getPipelineTableData(title, companyName, team, profileArchiveStatus, fromDat
 		if not postId in counts:
 			counts[postId] = dict()
 		if not origin in counts[postId]:
+
+			# Initilizing the counts
 			counts[postId][origin] = dict()
 			counts[postId][origin]['new_lead'] = 0
 			counts[postId][origin]['reached_out'] = 0
@@ -96,7 +99,7 @@ def getPipelineTableData(title, companyName, team, profileArchiveStatus, fromDat
 			counts[postId][origin]['hired'] = 0
 			counts[postId][origin]['posting_id'] = postIdHash
 
-			# variable for % counts
+			# variable for % counts :: Work in Progress
 			counts[postId][origin]['phone_To_Onsite'] = 0
 			counts[postId][origin]['phone_To_Offer'] = 0
 			counts[postId][origin]['onsite_To_Offer'] = 0
@@ -114,7 +117,7 @@ def getPipelineTableData(title, companyName, team, profileArchiveStatus, fromDat
 
 		if item['Last Story At (GMT)'] >= fromDate and item['Last Story At (GMT)'] <= toDate and item['Current Stage'] == "Phone interview":
 			originCounts['phone_interview'] += 1
-			# Counting for % conversion
+			# Counting for % conversion :: Work in progress
 			if 'Stage - On-site interview' in item and item['Stage - On-site interview'] != None:
 				originCounts['phone_To_Onsite'] += 1
 			if 'Stage - Offer' in item and item['Stage - Offer'] != None:
