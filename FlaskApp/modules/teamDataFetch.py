@@ -88,6 +88,7 @@ def generateNewApplicantDict(fromDate, toDate, originType, allowedOrigins):
 		fromDate = datetime.datetime(2000, 1, 1)
 		toDate = datetime.datetime(2030, 1, 1)
 
+	t1 = time.time()
 	if originType != "referred":
 		query = {"Origin": originType, "$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
 			"Applied At (GMT)": {"$lte": toDate}}]}
@@ -100,6 +101,8 @@ def generateNewApplicantDict(fromDate, toDate, originType, allowedOrigins):
 		for row in rows_temp:
 			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
 				rows.append(row)
+	t2 = time.time()
+	print(f"Took {t2 - t1}s in DB NewApplicant transaction")
 
 
 	yearlyTable = dict()
@@ -112,6 +115,7 @@ def generateNewApplicantDict(fromDate, toDate, originType, allowedOrigins):
 	monthList = ['*', 'Jan', 'Feb', 'Mar', 'Apr', 'May',
 				 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
 
+	t3 = time.time()
 	for ro in rows:
 		if ro['Posting Archived At (GMT)'] == datetime.datetime(1990, 1, 1) and ro['Current Stage'] == 'New applicant':
 			tem = dict()
@@ -231,6 +235,8 @@ def generateNewApplicantDict(fromDate, toDate, originType, allowedOrigins):
 			i += 1
 
 		yearlyTableForTabulator.append(tempDict)
+	t4 = time.time()
+	print(f"Took {t4 - t3}s in DB NewApplicant transaction")
 
 	return jsonify({'low': candidateRecruiterTable, 'up': yearlyTableForTabulator, 'side': averageDaysPackFinal, "side2": deadlineCasesPackFinal, "side2_table": deadlineCasesPackFinalTable, "test":test})
 
@@ -261,7 +267,7 @@ def generateArchivedDict(fromDate, toDate, originType, allowedOrigins):
 			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
 				rows.append(row)
 	t2 = time.time()
-	print(f"Took {t2 - t1}s in DB transaction")
+	print(f"Took {t2 - t1}s in DB Archived transaction")
 
 	averageDaysPack = dict()
 	candidateRecruiterTable = list()
@@ -301,7 +307,7 @@ def generateArchivedDict(fromDate, toDate, originType, allowedOrigins):
 
 			candidateRecruiterTable.append(tem)
 	t4 = time.time()
-	print(f"Took {t4 - t3}s in Calculations")
+	print(f"Took {t4 - t3}s in Archived Calculations")
 
 	return jsonify({'low': candidateRecruiterTable, 'up': averageDaysPackForTabulator})
 
@@ -318,6 +324,7 @@ def generateOfferedDict(fromDate, toDate, originType, allowedOrigins):
 		fromDate = datetime.datetime(2000, 1, 1)
 		toDate = datetime.datetime(2030, 1, 1)
 
+	t1 = time.time()
 	if originType != "referred":
 		query = {"Origin": originType, "$and": [{"Applied At (GMT)": {"$gte": fromDate}}, {
 			"Applied At (GMT)": {"$lte": toDate}}]}
@@ -330,11 +337,14 @@ def generateOfferedDict(fromDate, toDate, originType, allowedOrigins):
 		for row in rows_temp:
 			if row["Referred"] == "true" or row["Is Social Referral"] == "true" or row["Is Employee Referral"] == "true" or row["Is Manual Referral"] == "true":
 				rows.append(row)
+	t2 = time.time()
+	print(f"Took {t2 - t1}s in DB Offer transaction")
 
 	averageDaysPack = dict()
 	candidateRecruiterTable = list()
 	averageDaysPackForTabulator = []
 
+	t3 = time.time()
 	for ro in rows:
 		if (ro['Current Stage'] == 'Offer' or ro['Current Stage'] == 'Offer Approval' or ro['Current Stage'] == 'Offer Approved') and not isinstance(ro['Posting Owner Name'], datetime.date):
 			# Do things
@@ -379,6 +389,8 @@ def generateOfferedDict(fromDate, toDate, originType, allowedOrigins):
 						  ][tem['Applied At (GMT)'].month] += 1
 
 			candidateRecruiterTable.append(tem)
+	t4 = time.time()
+	print(f"Took {t4 - t3}s in DB Offered transaction")
 
 	return jsonify({'low': candidateRecruiterTable, 'up': averageDaysPackForTabulator})
 
