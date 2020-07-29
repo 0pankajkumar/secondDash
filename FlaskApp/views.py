@@ -461,7 +461,7 @@ def addDeleteModifyUser():
 		tatMember = request.form.get('tatmember')
 		companiesToBeAllowed = request.form.getlist('companiesToBeAllowed')
 
-		addUserHelper(addThisUser, makeAdmin, positionFilter, tatmember, companiesToBeAllowed)
+		addUserHelper(addThisUser, makeAdmin, positionFilter, tatMember, companiesToBeAllowed)
 		return redirect(url_for('modifyUser'))
 
 	if request.form.get('actionType') == "deleteUser":
