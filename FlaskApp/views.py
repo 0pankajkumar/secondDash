@@ -462,7 +462,7 @@ def addDeleteModifyUser():
 		companiesToBeAllowed = request.form.getlist('companiesToBeAllowed')
 
 		addUserHelper(addThisUser, makeAdmin, positionFilter, tatMember, companiesToBeAllowed)
-		return redirect(url_for('addDeleteModifyUser'))
+		return redirect(url_for('getUserManagementPanel'))
 
 	if request.form.get('actionType') == "deleteUser":
 		deleteThisUser = request.form.get('users')
