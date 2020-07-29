@@ -52,3 +52,5 @@ There are three tabs:
 |Offered|Days elapsed on candidates from *Application* till they are been *Offered*, filtered recruiter wise.|
 
 They all are triggered to render the reports upon hitting the **GO** button. All of them are governed by origin & Date filters which may be altered to get respective cuts.
+
+becandid@directi.com is used to configure Google logins
