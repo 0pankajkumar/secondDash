@@ -65,7 +65,7 @@ def fetchUsers(usersList):
             usersDict['whichPositions'] = "Not defined"
         usersList.append(usersDict)
 
-def addUserHelper(addThisUser, makeAdmin, positionFilter, tatmember, companiesToBeAllowed):
+def addUserHelper(addThisUser, makeAdmin, positionFilter, tatMember, companiesToBeAllowed):
     """Helps in adding user to the club"""
 
     if makeAdmin == "Admin":
