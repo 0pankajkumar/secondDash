@@ -236,7 +236,7 @@ def generateNewApplicantDict(fromDate, toDate, originType, allowedOrigins):
 
 		yearlyTableForTabulator.append(tempDict)
 	t4 = time.time()
-	print(f"Took {t4 - t3}s in DB NewApplicant transaction")
+	print(f"Took {t4 - t3}s in DB NewApplicant calculations")
 
 	return jsonify({'low': candidateRecruiterTable, 'up': yearlyTableForTabulator, 'side': averageDaysPackFinal, "side2": deadlineCasesPackFinal, "side2_table": deadlineCasesPackFinalTable, "test":test})
 
@@ -390,7 +390,7 @@ def generateOfferedDict(fromDate, toDate, originType, allowedOrigins):
 
 			candidateRecruiterTable.append(tem)
 	t4 = time.time()
-	print(f"Took {t4 - t3}s in DB Offered transaction")
+	print(f"Took {t4 - t3}s in offer calculations")
 
 	return jsonify({'low': candidateRecruiterTable, 'up': averageDaysPackForTabulator})
 
