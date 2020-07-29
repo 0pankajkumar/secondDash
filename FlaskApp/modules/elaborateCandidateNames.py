@@ -1,7 +1,7 @@
 """This has all helper modules for enumerating & elaborating about candidates"""
 
 import datetime
-from pymongo import MongoClient
+from pymongo import MongoClient, CursorType
 
 # Making connection to DB
 client = MongoClient("mongodb://localhost:27017")
